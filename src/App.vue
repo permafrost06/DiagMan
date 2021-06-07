@@ -1,26 +1,46 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <recordsTable />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import recordsTable from "./components/recordsTable.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    recordsTable,
+  },
+};
 </script>
 
 <style>
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Ubuntu", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+h1 {
+  color: #17768d;
+  margin-bottom: 1rem;
+}
+
+h5 {
+  color: #17768d;
+  font-weight: Bold;
+  font-size: 1rem;
+}
+
+small {
+  color: #a2a2a2;
+  font-size: 0.8rem;
 }
 </style>
