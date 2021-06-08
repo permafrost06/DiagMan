@@ -114,9 +114,7 @@ export default {
     },
     onModify(data) {
       this.modified = true;
-      console.log(data);
       this.updatedRecord[data.fieldName] = data.value;
-      console.log(this.updatedRecord);
     },
     updateRecord() {
       this.$emit("record-updated", this.updatedRecord);
