@@ -62,7 +62,7 @@
     <button @click="updateRecord">Save</button>
   </tableField>
   <tableField v-else>
-    <button @click="toggleEdit">Edit</button>
+    <button @click="enterEdit">Edit</button>
   </tableField>
   <tableField>
     <button>Finalize</button>
@@ -109,17 +109,21 @@ export default {
     },
   },
   methods: {
-    toggleEdit() {
-      this.edit = !this.edit;
+    enterEdit() {
+      this.edit = true;
     },
     onModify(data) {
       this.modified = true;
       this.updatedRecord[data.fieldName] = data.value;
     },
     updateRecord() {
-      this.$emit("record-updated", this.updatedRecord);
-      this.edit = false;
-      this.modified = false;
+      if (this.modified) {
+        this.$emit("record-updated", this.updatedRecord);
+        this.modified = false;
+        this.edit = false;
+      } else {
+        this.edit = false;
+      }
     },
   },
 };
