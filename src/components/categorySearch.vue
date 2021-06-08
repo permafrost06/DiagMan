@@ -1,6 +1,6 @@
 <template>
   <div class="category-search">
-    <input type="text" placeholder="" />
+    <input type="text" placeholder=" " />
   </div>
 </template>
 
