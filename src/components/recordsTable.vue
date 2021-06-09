@@ -6,31 +6,31 @@
           <input type="checkbox" class="check" />
         </tableHeader>
         <tableHeader>
-          <div>Patient Name/ID</div>
-          <categorySearch />
+          <div>Patient Name</div>
+          <categorySearch catName="patientName" @cat-search="search" />
         </tableHeader>
         <tableHeader>
           <div>Date</div>
-          <categorySearch />
+          <categorySearch catName="date" @cat-search="search" />
         </tableHeader>
         <tableHeader>
           <div>Age</div>
-          <categorySearch />
+          <categorySearch catName="age" @cat-search="search" />
         </tableHeader>
         <tableHeader>
           <div>Specimen</div>
-          <categorySearch />
+          <categorySearch catName="specimen" @cat-search="search" />
         </tableHeader>
         <tableHeader>
-          <div>Referrer</div>
-          <categorySearch />
+          <div>Referer</div>
+          <categorySearch catName="referer" @cat-search="search" />
         </tableHeader>
         <tableHeader />
         <tableHeader />
       </tableRow>
     </thead>
     <tbody>
-      <tableRow v-for="record in records" :key="record.id">
+      <tableRow v-for="record in filteredRecords" :key="record.id">
         <recordRow v-bind="record" @record-updated="updateRecord" />
       </tableRow>
     </tbody>
@@ -42,7 +42,6 @@ import tableRow from "./tableRow.vue";
 import tableHeader from "./tableHeader.vue";
 import categorySearch from "./categorySearch.vue";
 import recordRow from "./recordRow.vue";
-// import tableField from "./tableField.vue";
 
 export default {
   name: "recordsTable",
@@ -51,7 +50,6 @@ export default {
     categorySearch,
     tableRow,
     recordRow,
-    // tableField,
   },
   methods: {
     updateRecord(data) {
@@ -61,9 +59,65 @@ export default {
 
       this.records.splice(index, 1, data);
     },
+    search(data) {
+      const cat = data.cat;
+      const value = data.value;
+
+      switch (cat) {
+        case "patientName":
+          this.patientNameFilter = value;
+          break;
+
+        case "date":
+          this.dateFilter = value;
+          break;
+
+        case "age":
+          this.ageFilter = value;
+          break;
+
+        case "specimen":
+          this.specimenFilter = value;
+          break;
+
+        case "referer":
+          this.refererFilter = value;
+          break;
+
+        default:
+          break;
+      }
+    },
+  },
+  computed: {
+    filteredRecords() {
+      return this.records
+        .filter((record) => {
+          return record.patientName
+            .toLowerCase()
+            .includes(this.patientNameFilter);
+        })
+        .filter((record) => {
+          return record.date.toLowerCase().includes(this.dateFilter);
+        })
+        .filter((record) => {
+          return record.age.toLowerCase().includes(this.ageFilter);
+        })
+        .filter((record) => {
+          return record.specimen.toLowerCase().includes(this.specimenFilter);
+        })
+        .filter((record) => {
+          return record.referer.toLowerCase().includes(this.refererFilter);
+        });
+    },
   },
   data() {
     return {
+      patientNameFilter: "",
+      dateFilter: "",
+      ageFilter: "",
+      specimenFilter: "",
+      refererFilter: "",
       records: [
         {
           id: "10001",

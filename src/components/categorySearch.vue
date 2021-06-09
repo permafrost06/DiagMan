@@ -1,8 +1,29 @@
 <template>
   <div class="category-search">
-    <input type="text" placeholder=" " />
+    <input type="text" placeholder=" " v-model="searchValue" />
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    catName: String,
+  },
+  computed: {
+    searchValue: {
+      get() {
+        return "";
+      },
+      set(searchValue) {
+        this.$emit("cat-search", {
+          cat: this.catName,
+          value: searchValue,
+        });
+      },
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 .category-search {
