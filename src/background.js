@@ -18,7 +18,7 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on("second-instance", (event, commandLine, workingDirectory) => {
+  app.on("second-instance", () => {
     if (win) {
       if (win.isMinimized()) win.restore();
       win.focus();
@@ -41,6 +41,7 @@ if (!gotTheLock) {
       }
     }
     createWindow();
+    win.maximize();
   });
 }
 
@@ -75,9 +76,6 @@ async function createWindow() {
       submenu: [
         {
           label: "About",
-          click() {
-            console.log(process.env.ELECTRON_NODE_INTEGRATION);
-          },
         },
       ],
     },
