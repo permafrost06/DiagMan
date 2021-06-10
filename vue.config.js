@@ -7,6 +7,7 @@ module.exports = {
         appId: "com.finalconcept.caseDB",
         nsis: {
           oneClick: false,
+          createDesktopShortcut: true,
           perMachine: true,
         },
       },
