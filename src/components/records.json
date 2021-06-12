@@ -1,0 +1,5570 @@
+[
+  {
+    "id": "00002",
+    "date": "01-01-2020",
+    "patientName": "Mr Laxmiban Chakma",
+    "age": "44 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left parotid swelling"
+  },
+  {
+    "id": "00003",
+    "date": "01-01-2020",
+    "patientName": "Humayra",
+    "age": "06 years",
+    "referer": "Prof. / Dr: Md Salim, MBBS,MCPS, MS(Surgery)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00004",
+    "date": "02-01-2020",
+    "patientName": "Mrs Lucky",
+    "age": "40 years",
+    "referer": "Prof. / Dr: CGH",
+    "specimen": "Right forearm swellinlling"
+  },
+  {
+    "id": "00005",
+    "date": "02-01-2020",
+    "patientName": "Ishrat Jahan",
+    "age": "14 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00006",
+    "date": "02-01-2020",
+    "patientName": "Mrs Baby Dey",
+    "age": "34 years",
+    "referer": "Prof. / Dr: Supran  Biswas, MBBS,  FCPS",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00007",
+    "date": "02-01-2020",
+    "patientName": "Mr Borhan Uddin",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Swelling over dorsum of the tongue"
+  },
+  {
+    "id": "00009",
+    "date": "05-01-2020",
+    "patientName": "Mr Arun Kanti Nath",
+    "age": "88 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00010",
+    "date": "05-01-2020",
+    "patientName": "Ms Jannatul Naim",
+    "age": "13 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Submental lymph node"
+  },
+  {
+    "id": "00011",
+    "date": "05-01-2020",
+    "patientName": "Mrs Protima Das",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Left supra-clavicular lymph node"
+  },
+  {
+    "id": "00012",
+    "date": "05-01-2020",
+    "patientName": "Mrs Shahnaz Begum",
+    "age": "32 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Left breast lump (USG guided FNA)USG guide: Dr. Subash Mazumder, MBBS,BCS, MD : Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00013",
+    "date": "06-01-2020",
+    "patientName": "Iftekhar Uddin",
+    "age": "13 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00014",
+    "date": "06-01-2020",
+    "patientName": "Mrs Kajol",
+    "age": "18 years",
+    "referer": "Prof. / Dr: Himadri Barua, MBBS, D.Ortho,",
+    "specimen": "Swelling of the left humerous (CT guided FNAC)"
+  },
+  {
+    "id": "00015",
+    "date": "06-01-2020",
+    "patientName": "Mrs Sumi Begum",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00016",
+    "date": "07-01-2020",
+    "patientName": "Mr Kalu Shah",
+    "age": "26 years",
+    "referer": "Prof. / Dr: CGH",
+    "specimen": "Left arm swelling"
+  },
+  {
+    "id": "00017",
+    "date": "08-01-2020",
+    "patientName": "Mr Anisur Rahman",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00018",
+    "date": "08-01-2020",
+    "patientName": "Mr Sujit Sinha",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00019",
+    "date": "08-01-2020",
+    "patientName": "Md Rashed",
+    "age": "31 years",
+    "referer": "Prof. / Dr: Pratik Chowdhury, MBBS, FCPS",
+    "specimen": "Right axillary swelling (USG guided FNA)USG guide: Professor Dr. Subash Mazumder, MBBS, BCS, MD : Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00020",
+    "date": "08-01-2020",
+    "patientName": "Mr Tobiullah Mollah",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Md Jashim Uddin, MBBS, FCPS(Medicine)",
+    "specimen": "Hepatic mass (USG guided)USG guide: Professor Dr. Subash Mazumder, MBBS, BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00021",
+    "date": "09-01-2020",
+    "patientName": "Mrs Minu",
+    "age": "29 years",
+    "referer": "Prof. / Dr: CGH",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00022",
+    "date": "11-01-2020",
+    "patientName": "Mr Md Mainuddin",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00023",
+    "date": "11-01-2020",
+    "patientName": "Parvin Akhter",
+    "age": "19 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Swelling over right side of the neck"
+  },
+  {
+    "id": "00024",
+    "date": "12-01-2020",
+    "patientName": "Mrs Akhi Akhter",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00026",
+    "date": "12-01-2020",
+    "patientName": "Mr Md Nurul Islam",
+    "age": "72 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS, DLO(DU)",
+    "specimen": "Left cervical and supra-clavicular lymph node"
+  },
+  {
+    "id": "00027",
+    "date": "12-01-2020",
+    "patientName": "Ms Murshida",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Supran Biswas,MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00028",
+    "date": "13-01-2020",
+    "patientName": "Mrs Tumpa Mohazon",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00029",
+    "date": "15-01-2020",
+    "patientName": "Mr Nikhil Chakrobarty",
+    "age": "44 years",
+    "referer": "Prof. / Dr: Sudhangsu  Chakrabarty, MBBS, DLO(C), PGT",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00030",
+    "date": "15-01-2020",
+    "patientName": "Mrs Farida Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Anterior midline neck swelling"
+  },
+  {
+    "id": "00031",
+    "date": "15-01-2020",
+    "patientName": "Mrs Shamima",
+    "age": "23 years",
+    "referer": "Prof. / Dr: Md Iftekhar Uddin ,MBBS, BCS, MD",
+    "specimen": "Left thyroid swelling USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00032",
+    "date": "15-01-2020",
+    "patientName": "Ms Nishat Tasnim",
+    "age": "23 years",
+    "referer": "Prof. / Dr: Bidhan Roy Chowdhury, MBBS, MD(Cardiology)",
+    "specimen": "Swelling over right forearm"
+  },
+  {
+    "id": "00033",
+    "date": "16-01-2020",
+    "patientName": "Ms Salma Akhter",
+    "age": "19 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00034",
+    "date": "18-01-2020",
+    "patientName": "Mrs Sheli Akhter",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00035",
+    "date": "18-01-2020",
+    "patientName": "Mrs Rima Akhter",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Sudhangsu  Chakrabarty, MBBS, DLO(C), PGT",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00036",
+    "date": "19-01-2020",
+    "patientName": "Mr Syed Azizul Islam",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Swelling over back of the chest"
+  },
+  {
+    "id": "00037",
+    "date": "19-01-2020",
+    "patientName": "Mrs Shingu Marma",
+    "age": "73 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left submandibular and sub-mental lymph nodes"
+  },
+  {
+    "id": "00038",
+    "date": "19-01-2020",
+    "patientName": "Mrs Kaosar Akhter",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Right cervical lymph nodes(H/O taking Anti TB regimen for two times)"
+  },
+  {
+    "id": "00039",
+    "date": "19-01-2020",
+    "patientName": "Mr Md Anowar",
+    "age": "28 years",
+    "referer": "Prof. / Dr: W-13, CMCH",
+    "specimen": "Hepatic mass (USG guided)USG guide: Professor Dr. Subash Mazumder, MBBS, BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00040",
+    "date": "20-01-2020",
+    "patientName": "Ms Umme Kulsum",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Sheikh Shawkat Kamal,MBBS, FCPS(ENT)",
+    "specimen": "Left thyroid swelling USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00041",
+    "date": "21-01-2020",
+    "patientName": "Mis Saima Jannat",
+    "age": "17 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00042",
+    "date": "21-01-2020",
+    "patientName": "Mrs Shahnaz Begum",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00044",
+    "date": "21-01-2020",
+    "patientName": "Md Faizullah",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Submental lymph node"
+  },
+  {
+    "id": "00045",
+    "date": "21-01-2020",
+    "patientName": "Md Saleh Ahmed",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00046",
+    "date": "21-01-2020",
+    "patientName": "Mrs Shahanaz Parvin",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Left parotid swelling"
+  },
+  {
+    "id": "00048",
+    "date": "22-01-2020",
+    "patientName": "Mrs Shathi",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Ranotosh Biswas, MBBS, DLO",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00049",
+    "date": "22-01-2020",
+    "patientName": "Md Nurul Alam",
+    "age": "19 years",
+    "referer": "Prof. / Dr: RGH",
+    "specimen": "Submental lymph node"
+  },
+  {
+    "id": "00051",
+    "date": "23-01-2020",
+    "patientName": "Mrs Ranu Begum",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Ranotosh Biswas, MBBS, DLO",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00052",
+    "date": "23-01-2020",
+    "patientName": "Mrs Nazma Akhter",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Beauty Paul(Nandy), MBBS, DGO, MCPS",
+    "specimen": "Left breast (H/O Pain, lactating)"
+  },
+  {
+    "id": "00053",
+    "date": "25-01-2020",
+    "patientName": "Mrs Mohinur Akhter",
+    "age": "49 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00054",
+    "date": "27-01-2020",
+    "patientName": "Mr Humayun Kabir Sumon",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00055",
+    "date": "28-01-2020",
+    "patientName": "Mrs Rusha Akhter",
+    "age": "33 years",
+    "referer": "Prof. / Dr: Alif Diagnostic Centre 51",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00056",
+    "date": "06-01-2020",
+    "patientName": "Mrs Johura Khatun",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Himadri Barua, MBBS, D.Ortho,",
+    "specimen": "Swelling over left side of the back of the chest"
+  },
+  {
+    "id": "00057",
+    "date": "29-01-2020",
+    "patientName": "Mrs Tofa Akhter",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Md Salim, MBBS,MCPS, MS(Surgery)",
+    "specimen": "Left axillary lymph node"
+  },
+  {
+    "id": "00058",
+    "date": "29-01-2020",
+    "patientName": "Ms Jannatul Adna",
+    "age": "31 years",
+    "referer": "Prof. / Dr: Kazi Md Abrar Hassan, MBBS, FCPS",
+    "specimen": "Thyroid swelling USG guide: Professor Dr. Subash Mazumder, MBBS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00059",
+    "date": "30-01-2020",
+    "patientName": "Niloy Barua",
+    "age": "13 years",
+    "referer": "Prof. / Dr: Himadri Barua, MBBS, D.Ortho,",
+    "specimen": "Swelling over lateral border of left small finger"
+  },
+  {
+    "id": "00062",
+    "date": "01-02-2020",
+    "patientName": "Mrs Shafiya Khatun",
+    "age": "40 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00063",
+    "date": "01-02-2020",
+    "patientName": "Mr Abul Bashar",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00064",
+    "date": "01-02-2020",
+    "patientName": "Ms Maymun Akhter",
+    "age": "15 years",
+    "referer": "Prof. / Dr: Moharram Ali, MBBS, BCS, FCPS",
+    "specimen": "Left submandibular lymph node"
+  },
+  {
+    "id": "00065",
+    "date": "02-02-2020",
+    "patientName": "Ms Akhi Akhter",
+    "age": "18 years",
+    "referer": "Prof. / Dr: Atanu Saha, MBBS,DLO(C), PGT",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00066",
+    "date": "03-02-2020",
+    "patientName": "Mrs Nur Banu",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "A)Left axillary lymph node & B) Left breast lump"
+  },
+  {
+    "id": "00068",
+    "date": "04-02-2020",
+    "patientName": "Mrs Shamsun Nahar",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00069",
+    "date": "04-02-2020",
+    "patientName": "Mrs Nazmun Nahar",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Kamal Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00070",
+    "date": "04-02-2020",
+    "patientName": "Mrs Tahmina",
+    "age": "21 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right axillary lymph node"
+  },
+  {
+    "id": "00071",
+    "date": "04-02-2020",
+    "patientName": "Mrs Jamila Begum",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Md Salim, MBBS,MCPS, MS(Surgery)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00072",
+    "date": "05-02-2020",
+    "patientName": "Mr Osman Gani",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Mafruha Khanam Porag, MBBS, MCPS, MS,",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00073",
+    "date": "06-02-2020",
+    "patientName": "Mrs Khadiza Begum",
+    "age": "47 years",
+    "referer": "Prof. / Dr: W-34, CMCH",
+    "specimen": "Epigastric mass (USG guided)USG guide: Professor Dr. Subash Mazumder, MBBS, BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00074",
+    "date": "06-02-2020",
+    "patientName": "Mrs Shirin  Akhter",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00076",
+    "date": "06-02-2020",
+    "patientName": "Mrs Jahanara Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS, DLO(DU)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00077",
+    "date": "07-02-2020",
+    "patientName": "Mrs Hormuja Khatun",
+    "age": "80 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Left post auricular mass"
+  },
+  {
+    "id": "00078",
+    "date": "07-02-2020",
+    "patientName": "Mrs Julekha Khatun",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Thyroid swelling (Right and Left)"
+  },
+  {
+    "id": "00079",
+    "date": "07-02-2020",
+    "patientName": "Mr Md Munir",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS,MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00080",
+    "date": "07-02-2020",
+    "patientName": "Mr Jafrul Islam",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00081",
+    "date": "08-02-2020",
+    "patientName": "Mr Nafiz",
+    "age": "23 years",
+    "referer": "Prof. / Dr: Sumon Talukder, MBBS, DLO",
+    "specimen": "Anterior midline neck swelling"
+  },
+  {
+    "id": "00084",
+    "date": "09-02-2020",
+    "patientName": "Mr Md Mainuddin",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00085",
+    "date": "09-02-2020",
+    "patientName": "Mrs Farah",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump (Cystic lesion)"
+  },
+  {
+    "id": "00086",
+    "date": "09-02-2020",
+    "patientName": "Mr Md Khokon",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00087",
+    "date": "09-02-2020",
+    "patientName": "Mr Jafar Ahmed",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00088",
+    "date": "10-02-2020",
+    "patientName": "Mrs Halima Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Najma Mahboob,MBBS, FCPS (Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00089",
+    "date": "10-02-2020",
+    "patientName": "Mrs Lily Kar",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump (USG guided FNA)USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD : Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00090",
+    "date": "12-02-2020",
+    "patientName": "Mrs Rezia Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00091",
+    "date": "12-02-2020",
+    "patientName": "Mrs Senowara Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00092",
+    "date": "11-02-2020",
+    "patientName": "Mrs Laxmi Das",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump (USG guided FNA)USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD : Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00093",
+    "date": "12-02-2020",
+    "patientName": "Md Abdullah Al Dihan",
+    "age": "15 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00094",
+    "date": "29-01-2020",
+    "patientName": "Ms Shamsun Nahar",
+    "age": "44 years",
+    "referer": "Prof. / Dr: H S Mubarak Hossain, MBBS, FCPS(ENT)",
+    "specimen": "Thyroid swelling USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00095",
+    "date": "13-02-2020",
+    "patientName": "Mr Nazir Hossain",
+    "age": "73 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Left submandibular lymph node"
+  },
+  {
+    "id": "00096",
+    "date": "13-02-2020",
+    "patientName": "Mr Nazir Hossain",
+    "age": "73 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Left submandibular swelling (With a stone in the duct)"
+  },
+  {
+    "id": "00097",
+    "date": "13-02-2020",
+    "patientName": "Mrs Ambia Khatun",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00098",
+    "date": "13-02-2020",
+    "patientName": "Mrs Delwara Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Md Abu Tayub,MBBS, PGT, CCD",
+    "specimen": "Left parotid swelling"
+  },
+  {
+    "id": "00099",
+    "date": "15-02-2020",
+    "patientName": "Mr Sk Farhad Hossain",
+    "age": "82 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Medicine)",
+    "specimen": "Hepatic mass (USG guided)USG guide: Professor Dr. Subash Mazumder, MBBS, BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00100",
+    "date": "15-02-2020",
+    "patientName": "Mrs Monowara Begum",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00101",
+    "date": "15-02-2020",
+    "patientName": "Mrs Khursheda Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Md Abu Faisal, MBBS, MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (USG guided)"
+  },
+  {
+    "id": "00102",
+    "date": "15-02-2020",
+    "patientName": "Mrs Khursheda Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Md Abu Faisal, MBBS, MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (USG guided)"
+  },
+  {
+    "id": "00103",
+    "date": "16-02-2020",
+    "patientName": "Mr Nazmul Huda",
+    "age": "43 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00104",
+    "date": "16-02-2020",
+    "patientName": "Mr Md Nurul Islam",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00105",
+    "date": "16-02-2020",
+    "patientName": "Azmel",
+    "age": "09 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right auricular swelling"
+  },
+  {
+    "id": "00106",
+    "date": "16-02-2020",
+    "patientName": "Mrs Shamima Akhter",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid"
+  },
+  {
+    "id": "00107",
+    "date": "16-02-2020",
+    "patientName": "Mrs Daisy",
+    "age": "26 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00108",
+    "date": "17-02-2020",
+    "patientName": "Mr Putul Majumdar",
+    "age": "50 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Right and left cervical lymph node"
+  },
+  {
+    "id": "00109",
+    "date": "17-02-2020",
+    "patientName": "Mr Dahanonjoy Sengupta",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00110",
+    "date": "17-02-2020",
+    "patientName": "Mr Murad Md Hasan",
+    "age": "34 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00111",
+    "date": "18-02-2020",
+    "patientName": "Miss Jannatul Naima",
+    "age": "15 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS,DLO(ENT)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00112",
+    "date": "02-01-2020",
+    "patientName": "Mrs Yesmin Akhter",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Hachina Akhter, MBBS,BCS,FCPS(Gynae & Obs)",
+    "specimen": "Left axillary lymph node"
+  },
+  {
+    "id": "00113",
+    "date": "18-02-2020",
+    "patientName": "Mrs Harimukhi Chakma",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS, DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00114",
+    "date": "19-02-2020",
+    "patientName": "Mr Atiqul Islam",
+    "age": "34 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00115",
+    "date": "19-02-2020",
+    "patientName": "Mr Abdus Salam",
+    "age": "61 years",
+    "referer": "Prof. / Dr: W-13, CMCH",
+    "specimen": "Right lung lesion (USG guided FNA)"
+  },
+  {
+    "id": "00116",
+    "date": "19-02-2020",
+    "patientName": "Mr Pradip Kumar Mallick",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Fazlee Kibria Chowdhury,MBBS. MD(Chest)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00117",
+    "date": "20-02-2020",
+    "patientName": "Mrs Sulati Barua",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Supran  Biswas, MBBS,  FCPS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00118",
+    "date": "20-02-2020",
+    "patientName": "Mrs Sania Afsar",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS",
+    "specimen": "Right and left supra-clavicular lymph nodes"
+  },
+  {
+    "id": "00119",
+    "date": "20-02-2020",
+    "patientName": "Mrs Amatun Nur Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00120",
+    "date": "22-02-2020",
+    "patientName": "Mrs Nur Bahar",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Mamun Ibn Amin, MBBS, BCS, DLO",
+    "specimen": "Right submandibular mass"
+  },
+  {
+    "id": "00121",
+    "date": "22-02-2020",
+    "patientName": "Mrs Shawkat Ara",
+    "age": "21 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00122",
+    "date": "22-02-2020",
+    "patientName": "Rafsa",
+    "age": "08 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right post-auricular lymph node"
+  },
+  {
+    "id": "00123",
+    "date": "22-02-2020",
+    "patientName": "Mrs Yanur Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Thyroid"
+  },
+  {
+    "id": "00124",
+    "date": "22-02-2020",
+    "patientName": "Mrs Joya Bhattacharjee",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "A)Left thyroid swelling and B)left cervical lymph nodes"
+  },
+  {
+    "id": "00125",
+    "date": "22-02-2020",
+    "patientName": "Mr Nirmal Das",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00126",
+    "date": "22-02-2020",
+    "patientName": "Mrs Nasima Akhter",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00127",
+    "date": "22-02-2020",
+    "patientName": "Mrs Babli Barua",
+    "age": "27 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00129",
+    "date": "23-02-2020",
+    "patientName": "Mrs Nabosree Chakma",
+    "age": "42 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00130",
+    "date": "23-02-2020",
+    "patientName": "Mrs Sangita Das",
+    "age": "24 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Left cervical swelling"
+  },
+  {
+    "id": "00131",
+    "date": "24-02-2020",
+    "patientName": "Mrs Bashonti Roy",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Supran  Biswas, MBBS,  FCPS(ENT)",
+    "specimen": "Left submandibular mass"
+  },
+  {
+    "id": "00132",
+    "date": "24-02-2020",
+    "patientName": "Mrs Hosne Ara Brgum",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Submental lymph node"
+  },
+  {
+    "id": "00133",
+    "date": "24-02-2020",
+    "patientName": "Mrs Momtaz Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Kamal Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00134",
+    "date": "24-02-2020",
+    "patientName": "Mrs Nur Haba",
+    "age": "23 years",
+    "referer": "Prof. / Dr: Lab Aid Ltd",
+    "specimen": "Right adnexal mass (CT guided FNA)"
+  },
+  {
+    "id": "00135",
+    "date": "25-02-2020",
+    "patientName": "Mrs Dipalee",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00136",
+    "date": "25-02-2020",
+    "patientName": "Mrs Rasheda Begum",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump (USG guided FNA)"
+  },
+  {
+    "id": "00137",
+    "date": "26-02-2020",
+    "patientName": "Rahi",
+    "age": "04 years",
+    "referer": "Prof. / Dr: Kamal Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00138",
+    "date": "26-02-2020",
+    "patientName": "Raihan",
+    "age": "10 years",
+    "referer": "Prof. / Dr: Md Salim, MBBS,MCPS, MS(Surgery)",
+    "specimen": "Anterior midline neck swelling"
+  },
+  {
+    "id": "00139",
+    "date": "26-02-2020",
+    "patientName": "Mr Mokhter Hossain",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Nurul Ahad, MBBS, DCH",
+    "specimen": "Left supraclavicular lymph node"
+  },
+  {
+    "id": "00140",
+    "date": "26-02-2020",
+    "patientName": "Mrs Hasina Akhter",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00141",
+    "date": "26-02-2020",
+    "patientName": "Mrs Joyasree Nath",
+    "age": "36 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00142",
+    "date": "26-02-2020",
+    "patientName": "Mrs Shamsun Nahar Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr: S.C Dhar, MBBS, D-Card",
+    "specimen": "Right breast lump (USG guided FNA)USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD : Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00144",
+    "date": "28-02-2020",
+    "patientName": "Miss Jasmin",
+    "age": "21 years",
+    "referer": "Prof. / Dr: M.Y.F.Parvez: MBBS,FCGP",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00145",
+    "date": "29-02-2020",
+    "patientName": "Miss Ruma Akhter",
+    "age": "years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00146",
+    "date": "29-02-2020",
+    "patientName": "Mrs Jhinu Sikdar",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00147",
+    "date": "29-02-2020",
+    "patientName": "Mr Ms Jahed",
+    "age": "23 years",
+    "referer": "Prof. / Dr: Hussain Ahammed Khan, MBBS, BCS",
+    "specimen": "Left post auricular swelling"
+  },
+  {
+    "id": "00148",
+    "date": "01-03-2020",
+    "patientName": "Mrs Trisha Kormoker",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Nandan Kumar Majumder MBBS, MCPS, MS(Paed Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00149",
+    "date": "01-03-2020",
+    "patientName": "Md Nur",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right submandibular lymph node"
+  },
+  {
+    "id": "00150",
+    "date": "02-03-2020",
+    "patientName": "Mrs Susmita Barua",
+    "age": "46 years",
+    "referer": "Prof. / Dr:W-19, CMCH",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00151",
+    "date": "02-03-2020",
+    "patientName": "Rayid",
+    "age": "09 years",
+    "referer": "Prof. / Dr: Mostafa Mahfuzul Anwar, MBBS, FCPS(ENT)",
+    "specimen": "Right neck mass (With right nasopharyngeal mass)"
+  },
+  {
+    "id": "00152",
+    "date": "02-03-2020",
+    "patientName": "Mr Habib",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00153",
+    "date": "02-03-2020",
+    "patientName": "Mrs Taslima Jannat",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00154",
+    "date": "02-03-2020",
+    "patientName": "Mrs Babita Dhar",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00155",
+    "date": "03-03-2020",
+    "patientName": "Ms Sabitri Das",
+    "age": "50 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00156",
+    "date": "03-03-2020",
+    "patientName": "Mrs Sraboni Rahman",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00157",
+    "date": "03-03-2020",
+    "patientName": "Mrs Jesmin Akhter",
+    "age": "36 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00158",
+    "date": "03-03-2020",
+    "patientName": "Mrs Ema Hossain",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00159",
+    "date": "02-03-2020",
+    "patientName": "Mrs Ruby Akhter",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Sk Anwarul Karim,MBBS, MD",
+    "specimen": "Left thyroid swelling (USG Guided FNA)USG guide: Professor Dr. Subash Mazumder, MBBS,BCS, MD: Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00160",
+    "date": "03-03-2020",
+    "patientName": "Mrs Urmi Akhter",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Umme Nahima Rumi, MBBS, BCS",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00161",
+    "date": "03-03-2020",
+    "patientName": "Mrs Rimi Akhter",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Ershad Alam, MBBS, BCS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00162",
+    "date": "04-03-2020",
+    "patientName": "Mrs Shahin Ara",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary nodule"
+  },
+  {
+    "id": "00163",
+    "date": "04-03-2020",
+    "patientName": "Ms Shahinoor Akhter",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump (USG Guided FNA)"
+  },
+  {
+    "id": "00164",
+    "date": "04-03-2020",
+    "patientName": "Miss Rahi",
+    "age": "18 years",
+    "referer": "Prof. / Dr: Zulfi Ara Juli, MBBS, PGT, CMU, DMU",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00166",
+    "date": "06-03-2020",
+    "patientName": "Md Ayub Ali",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Mahmudur Rahman Chowdhury (Arif), MBBS, FCPS",
+    "specimen": "Swelling over right anterior and lower chest wall"
+  },
+  {
+    "id": "00167",
+    "date": "06-03-2020",
+    "patientName": "Mrs Rumi Akhter",
+    "age": "32 years",
+    "referer": "Prof. / Dr: H S Mubarak Hossain, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling (USG Guided FNA)"
+  },
+  {
+    "id": "00168",
+    "date": "07-03-2020",
+    "patientName": "Mr Md Kawsar Alam",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00169",
+    "date": "07-03-2020",
+    "patientName": "Miss Sharen Halder",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00170",
+    "date": "07-03-2020",
+    "patientName": "Miss Mishu Das",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Sajid Khan, MBBS, DLO, PGT, MS(C)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00171",
+    "date": "07-03-2020",
+    "patientName": "Md Jahed",
+    "age": "19 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Left submandibular lymph node"
+  },
+  {
+    "id": "00172",
+    "date": "07-03-2020",
+    "patientName": "Mrs Lovely Akhter",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Ershad Alam, MBBS, BCS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00173",
+    "date": "07-03-2020",
+    "patientName": "Mrs Ruma Akhter",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Md Salim, MBBS, BCS, MCPS, MS(Surgery)",
+    "specimen": "Submental and right supra-clavicular lymph node"
+  },
+  {
+    "id": "00174",
+    "date": "08-03-2020",
+    "patientName": "Mr Murad Ahmed",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Flat swelling over left side of the cheek"
+  },
+  {
+    "id": "00175",
+    "date": "08-03-2020",
+    "patientName": "Mrs Nazma Akhter",
+    "age": "42 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00176",
+    "date": "09-03-2019",
+    "patientName": "Mrs Afroza",
+    "age": "18 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00177",
+    "date": "09-03-2019",
+    "patientName": "Mrs Umme Fatema",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00178",
+    "date": "10-03-2020",
+    "patientName": "Miss Halima Akhter",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Md Salim, MBBS, MCPS,MS(Surgery)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00179",
+    "date": "08-03-2020",
+    "patientName": "Md Ripon",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS,FCPS(ENT)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00180",
+    "date": "09-03-2020",
+    "patientName": "Mr Siddiqur Rahman",
+    "age": "60 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Right sided neck swelling"
+  },
+  {
+    "id": "00181",
+    "date": "11-03-2020",
+    "patientName": "Mrs Humarya",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00182",
+    "date": "12-03-2020",
+    "patientName": "Mrs Dilwara  Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right submandibular lymph node"
+  },
+  {
+    "id": "00183",
+    "date": "12-03-2020",
+    "patientName": "Mr Aminul Islam",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00184",
+    "date": "12-03-2020",
+    "patientName": "Mrs Razia Akhter",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Submental lymph node"
+  },
+  {
+    "id": "00185",
+    "date": "14-03-2020",
+    "patientName": "Mrs Rashida Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Zakaria Chowdhury, MBBS,CCD,FCPS (II)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00186",
+    "date": "14-03-2020",
+    "patientName": "Md Emran",
+    "age": "09 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00188",
+    "date": "14-03-2020",
+    "patientName": "Rakibul Islam",
+    "age": "07 years",
+    "referer": "Prof. / Dr: M A Hai,MBBS, BCS, MCPS",
+    "specimen": "Cervical lymph node"
+  },
+  {
+    "id": "00189",
+    "date": "15-03-2020",
+    "patientName": "Mr Farid Ahmed",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00190",
+    "date": "15-03-2020",
+    "patientName": "Mrs Ranu Akhter",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00191",
+    "date": "15-03-2020",
+    "patientName": "Ms Sathi Paul",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS",
+    "specimen": "Left parotid swelling(Have bilateral parotid swelling)"
+  },
+  {
+    "id": "00192",
+    "date": "16-03-2020",
+    "patientName": "Mr Joydeb Paul",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS,MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00193",
+    "date": "16-03-2020",
+    "patientName": "Mrs Fatema Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right submandibular swelling"
+  },
+  {
+    "id": "00194",
+    "date": "16-03-2020",
+    "patientName": "Mr Ahmed Gani",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00196",
+    "date": "17-03-2020",
+    "patientName": "Usan Puri Tangchangaya",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Md Salim , MBBS,MCPS, MS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00197",
+    "date": "17-03-2020",
+    "patientName": "Mrs Fatema Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Ershad Alam, MBBS, BCS, FCPS(Surgery)",
+    "specimen": "Swelling over right scapular region"
+  },
+  {
+    "id": "00198",
+    "date": "17-03-2020",
+    "patientName": "Mrs Hosne Ara Begum",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Sharmin Afroz, MBBS, PGT,CCD,DMU",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00199",
+    "date": "17-03-2020",
+    "patientName": "Mrs Jhoni Akhter",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00200",
+    "date": "18-03-2020",
+    "patientName": "Mrs Shafinoor Akhter",
+    "age": "39 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00201",
+    "date": "18-03-2020",
+    "patientName": "Mr Rubel Debonath",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Anterior neck swelling"
+  },
+  {
+    "id": "00202",
+    "date": "18-03-2020",
+    "patientName": "Miss Meherun Nessa",
+    "age": "17 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00203",
+    "date": "18-03-2020",
+    "patientName": "Mrs Monowara Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS. FCPS",
+    "specimen": "Left antero-lateral chest wall mass (CT guided FNA)"
+  },
+  {
+    "id": "00204",
+    "date": "18-03-2020",
+    "patientName": "Mrs Jahanara Begum",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right axillary swelling(USG Guided FNA)"
+  },
+  {
+    "id": "00205",
+    "date": "18-03-2020",
+    "patientName": "Mrs Jannatul Ferdous",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump(USG Guided FNA)"
+  },
+  {
+    "id": "00206",
+    "date": "18-03-2020",
+    "patientName": "Mrs Muslima Sultana",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right & left breast lump(USG Guided FNA)"
+  },
+  {
+    "id": "00207",
+    "date": "18-03-2020",
+    "patientName": "Mr Md Kaiser",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right post auricular lymph nodes"
+  },
+  {
+    "id": "00208",
+    "date": "19-03-2020",
+    "patientName": "Mr Md Anwar Hossain",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Hussain Ahammed Khan, MBBS, BCS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00209",
+    "date": "21-03-2020",
+    "patientName": "Mrs Saheda Akhter",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Md Azmul Islam (Azam)MBBS, BCS, FCPS (II),PGT",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00210",
+    "date": "21-03-2020",
+    "patientName": "Mrs Shikha Murmu",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Lutfun Nessa Khan; MBBS, MCPS",
+    "specimen": "Right breast lump (USG guided FNA)USG guide: Dr. Subash Mazumder, MBBS,BCS, MD : Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00211",
+    "date": "21-03-2020",
+    "patientName": "Mrs Baby",
+    "age": "40 years",
+    "referer": "Prof. / Dr: W-31, CMCH",
+    "specimen": "Lower abdominal mass (USG guided FNA)"
+  },
+  {
+    "id": "00212",
+    "date": "21-03-2020",
+    "patientName": "Ms Shukha Mala",
+    "age": "19 years",
+    "referer": "Prof. / Dr: Rangamati General Hospital",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00213",
+    "date": "21-03-2020",
+    "patientName": "Mrs NurJahan Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary lymph node (USG Guided FNA)"
+  },
+  {
+    "id": "00215",
+    "date": "22-03-2019",
+    "patientName": "Mrs Ayesha Begum",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Eyakub Hossain, MBBS, MCPS, MS(Surgery)",
+    "specimen": "Right cervical swelling  and B)  right thyroid swelling"
+  },
+  {
+    "id": "00216",
+    "date": "22-03-2020",
+    "patientName": "Mr Momin",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Hussain Ahammed Khan, MBBS, BCS",
+    "specimen": "Left arm swelling(Tiny cystic lesions in USG)"
+  },
+  {
+    "id": "00217",
+    "date": "22-03-2020",
+    "patientName": "Mrs Halima Sadia",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00218",
+    "date": "24-03-2020",
+    "patientName": "Mr Jahangir Alam",
+    "age": "54 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00220",
+    "date": "02-04-2020",
+    "patientName": "Mrs Saheda Akhter",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Md Azmul Islam (Azam)MBBS, BCS, FCPS (II),PGT",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00221",
+    "date": "08-04-2020",
+    "patientName": "Mrs Tumpa Das",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Breast lump"
+  },
+  {
+    "id": "00222",
+    "date": "11-04-2020",
+    "patientName": "Mrs Lucky Akhter",
+    "age": "40 years",
+    "referer": "Prof. / Dr: W-24, CMCH",
+    "specimen": "Hepatic SOL(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00223",
+    "date": "13-04-2020",
+    "patientName": "Mrs Monowara Begum",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00224",
+    "date": "18-04-2020",
+    "patientName": "Mrs Setara Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00225",
+    "date": "16-04-2020",
+    "patientName": "Ms Beatuy Akhter",
+    "age": "15 years",
+    "referer": "Prof. / Dr: OPD, CMCH",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00226",
+    "date": "19-04-2020",
+    "patientName": "Mr Shah Alam",
+    "age": "54 years",
+    "referer": "Prof. / Dr: W-25, CMCH",
+    "specimen": "Hepatic mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00227",
+    "date": "19-04-2020",
+    "patientName": "Mrs Ismat Ara",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS",
+    "specimen": "Right thyroid swelling (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00228",
+    "date": "19-04-2020",
+    "patientName": "Mrs Anny Akhter",
+    "age": "20 year",
+    "referer": "Prof. / Dr: Ershad Alam, MBBS, BCS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00229",
+    "date": "24-04-2020",
+    "patientName": "Sabrina Sharmin",
+    "age": "years",
+    "referer": "Prof. / Dr: Saifuddin Rokon, MBBS, FCPS(II)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00230",
+    "date": "24-04-2020",
+    "patientName": "Ayat",
+    "age": "03    years",
+    "referer": "Prof. / Dr: Ratan Bikash Rudra MBBS, MCPS, DLO",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00231",
+    "date": "29-04-2020",
+    "patientName": "Mrs Humaira Islam",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00232",
+    "date": "30-04-2020",
+    "patientName": "Ms Sarmistha Chakma",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00233",
+    "date": "05-05-2020",
+    "patientName": "Mrs Fatema Begum",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00234",
+    "date": "06-05-2020",
+    "patientName": "Mr Siddique Ahmed Chowdhury",
+    "age": "86 years",
+    "referer": "Prof. / Dr: Park View Hospital Ltd",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00235",
+    "date": "06-04-2020",
+    "patientName": "Mrs Shamima Faruque",
+    "age": "37 years",
+    "referer": "Prof. / Dr: Kohinoor Akhter, MBBS, FCPS",
+    "specimen": "Right breast lump with nipple discharge"
+  },
+  {
+    "id": "00236",
+    "date": "06-05-2020",
+    "patientName": "Mrs Ruma",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00237",
+    "date": "08-05-2020",
+    "patientName": "Mr Brahmachari Sajal",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left supra-clavicular lymph nodes"
+  },
+  {
+    "id": "00238",
+    "date": "08-05-2020",
+    "patientName": "Mrs Meherjan Akhter",
+    "age": "19 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00239",
+    "date": "09-05-2020",
+    "patientName": "Md Selim",
+    "age": "45 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Submandibular swelling"
+  },
+  {
+    "id": "00240",
+    "date": "09-05-2020",
+    "patientName": "Mrs Meherun Nessa",
+    "age": "24 years",
+    "referer": "Prof. / Dr: M Zakaria Chowdhury, MBBS, CCD, FCPS(II)",
+    "specimen": "Right neck swelling"
+  },
+  {
+    "id": "00241",
+    "date": "09-05-2020",
+    "patientName": "Mrs Devi Das",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00242",
+    "date": "10-05-2020",
+    "patientName": "Mr Maksud Ahmed",
+    "age": "85 years",
+    "referer": "Prof. / Dr: M A Awal, MBBS, MPhil,",
+    "specimen": "Right axillary swelling"
+  },
+  {
+    "id": "00243",
+    "date": "11-05-2020",
+    "patientName": "Mrs Janu Akhter",
+    "age": "60 years",
+    "referer": "Prof. / Dr: M A Awal,MBBS, MPhil (Radiotherapy)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00244",
+    "date": "11-05-2020",
+    "patientName": "Mrs Janu Akhter",
+    "age": "60 years",
+    "referer": "Prof. / Dr: M A Awal,MBBS, MPhil (Radiotherapy)",
+    "specimen": "Hepatic SOL(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00245",
+    "date": "11-05-2020",
+    "patientName": "Mrs Rehena Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: M A Awal,MBBS, MPhil (Radiotherapy)",
+    "specimen": "Right ovarian mass(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00246",
+    "date": "11-05-2020",
+    "patientName": "Mrs Anjuman Ara",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery),",
+    "specimen": "A)Right and B) left breast lump"
+  },
+  {
+    "id": "00247",
+    "date": "12-05-2020",
+    "patientName": "Mrs Saki Akhter",
+    "age": "19 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00248",
+    "date": "13-05-2020",
+    "patientName": "Alhaj Abul Hossain",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Md Abdur Rob, MBBS, MS(Surgery)",
+    "specimen": "Hepatic mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00249",
+    "date": "14-05-2020",
+    "patientName": "Mrs Marzina",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00250",
+    "date": "14-05-2020",
+    "patientName": "Mrs Shamim Akhter",
+    "age": "31 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00251",
+    "date": "14-05-2020",
+    "patientName": "Mrs Anwara Begum",
+    "age": "72 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary swelling"
+  },
+  {
+    "id": "00252",
+    "date": "17-05-2020",
+    "patientName": "Bristi Akhter",
+    "age": "23 years",
+    "referer": "Prof. / Dr: Md Azmul Islam (Azam)MBBS, BCS, FCPS (II),PGT",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00253",
+    "date": "17-05-2020",
+    "patientName": "Mrs Fatema Khatun",
+    "age": "60 years",
+    "referer": "Prof. / Dr: M A Awal, MBBS, M.Phil(Radiotherapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00254",
+    "date": "19-05-2020",
+    "patientName": "Mrs Jaba Barua",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Left breast lumps(Two lumps)"
+  },
+  {
+    "id": "00255",
+    "date": "20-05-2020",
+    "patientName": "Mr Shamsul Alam",
+    "age": "65 years",
+    "referer": "Prof. / Dr: M A Awal, MBBS, M.Phil(Radiotherapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00256",
+    "date": "19-05-2020",
+    "patientName": "Mr Abul Kalam",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Park View Hospital Ltd",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00257",
+    "date": "21-05-2020",
+    "patientName": "Mr Pabitra Barua",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Park View Hospital Ltd",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00258",
+    "date": "24-05-2020",
+    "patientName": "Mrs Rupban",
+    "age": "44 years",
+    "referer": "Prof. / Dr: W-24, CMCH",
+    "specimen": "Hepatic mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00259",
+    "date": "23-05-2020",
+    "patientName": "Mrs Dildar Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Parkview Hospital Ltd",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00260",
+    "date": "30-05-2020",
+    "patientName": "Mrs Rehena Parvin",
+    "age": "33 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00261",
+    "date": "01-06-2020",
+    "patientName": "Mr Hossain Azam",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Surjit Ghosh. MBBS, FCPS(Surgery)",
+    "specimen": "Left sub auricular swelling"
+  },
+  {
+    "id": "00262",
+    "date": "02-06-2020",
+    "patientName": "Mr Khorshed Alam",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Mohammad Jamal Hossen, MBBS, FCPS(ENT), MS",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00263",
+    "date": "02-06-2020",
+    "patientName": "Mr Devraj Barua",
+    "age": "03 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS(Health), DLO",
+    "specimen": "Submental swelling"
+  },
+  {
+    "id": "00264",
+    "date": "03-06-2020",
+    "patientName": "Mrs Renu Nath",
+    "age": "58 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00265",
+    "date": "03-06-2020",
+    "patientName": "Mrs Sharmin Akhter",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Md Nurul Amin Bhuyan, MBBS, FCPS (Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00266",
+    "date": "04-06-2020",
+    "patientName": "Mrs Shraboni Dhar",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00268",
+    "date": "05-06-2020",
+    "patientName": "Miss Fahmida",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS,FCPS(Surgery),",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00269",
+    "date": "06-06-2020",
+    "patientName": "Mrs Jhinu Mitra",
+    "age": "56 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right & Left breast lump (USG guided FNA)"
+  },
+  {
+    "id": "00270",
+    "date": "06-06-2020",
+    "patientName": "Mrs Ruma Parvin",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS (Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00271",
+    "date": "06-06-2020",
+    "patientName": "Mrs Shimul Akhter",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right & Left breast lump (USG guided FNA)"
+  },
+  {
+    "id": "00272",
+    "date": "08-06-2020",
+    "patientName": "Mrs Miftaul Jannat",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Breast lump"
+  },
+  {
+    "id": "00273",
+    "date": "09-06-2020",
+    "patientName": "Mrs Meherun Nesa",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Sharmin Afroz, MBBS, PGT,CCD,DMU",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00275",
+    "date": "10-06-2020",
+    "patientName": "Mrs Mira Bala Dey",
+    "age": "43 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left lateral chest wall swelling (USG guided FNA)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil (Radiology & Imaging)"
+  },
+  {
+    "id": "00276",
+    "date": "10-06-2020",
+    "patientName": "Miss Ramisa",
+    "age": "06 years",
+    "referer": "Prof. / Dr: Md Zakaria Chowdhury, MBBS, CCD, FCPS(II)",
+    "specimen": "Right breast nodule"
+  },
+  {
+    "id": "00277",
+    "date": "10-06-2020",
+    "patientName": "Mrs Parveen Akhter",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Md Zakaria Chowdhury, MBBS, CCD, FCPS(II)",
+    "specimen": "Thyroid swelling (Right and Left)"
+  },
+  {
+    "id": "00278",
+    "date": "10-06-2020",
+    "patientName": "Mrs Bibi Khadiza",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Ma O Shisu Hospital,",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00279",
+    "date": "10-06-2020",
+    "patientName": "Mrs Nasrin Sultana",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Nargis Sultana Munni, MBBS, BCS, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00280",
+    "date": "11-06-2020",
+    "patientName": "Mrs Monowara Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Nasrin Ferdous, MBBS, DGO, MCPS(Gynae & Obs)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00281",
+    "date": "13-06-2020",
+    "patientName": "Mrs Tajreen Akhter",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00282",
+    "date": "13-06-2020",
+    "patientName": "Mrs Ayesha Siddiqa",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00283",
+    "date": "13-06-2020",
+    "patientName": "Mrs Amena",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump (With ulceration on the surface)"
+  },
+  {
+    "id": "00284",
+    "date": "15-06-2020",
+    "patientName": "Mrs Alo  Bhowmik",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Taposh Mitra,MBBS, MPhil, FCPS (Radiotherapy)",
+    "specimen": "Left ovarian mass(USG guided)"
+  },
+  {
+    "id": "00285",
+    "date": "16-06-2020",
+    "patientName": "Mrs Hafeeza Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Swelling in the right side of the neck"
+  },
+  {
+    "id": "00286",
+    "date": "16-06-2020",
+    "patientName": "Mrs Markeching",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00287",
+    "date": "17-06-2020",
+    "patientName": "Mrs Shahana Akhter",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "A) Right breast lump & B) Right axillary lymph node"
+  },
+  {
+    "id": "00288",
+    "date": "17-06-2020",
+    "patientName": "Mrs Rashida Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00289",
+    "date": "17-06-2020",
+    "patientName": "Mr Ahmed Nobi",
+    "age": "60 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00290",
+    "date": "17-06-2020",
+    "patientName": "Mr Raihan",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Test Plus",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00291",
+    "date": "18-06-2020",
+    "patientName": "Mr Md Jalal",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00292",
+    "date": "19-06-2020",
+    "patientName": "Mrs Razia Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Lesion in the head of the pancreas (CT guided FNA)"
+  },
+  {
+    "id": "00293",
+    "date": "20-06-2020",
+    "patientName": "Mrs Sarjina Akhter",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00294",
+    "date": "21-06-2020",
+    "patientName": "Mr Md Ekhlasuddin",
+    "age": "33 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00295",
+    "date": "21-06-2020",
+    "patientName": "Mrs Shamima Akhter",
+    "age": "40 years",
+    "referer": "Prof. / Dr: M A Awal,MBBS, MPhil (Radiotherapy)",
+    "specimen": "Ovarian mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00296",
+    "date": "21-06-2020",
+    "patientName": "Mrs Mili",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Sayed Md Samser Nahid, MBBS, FCPS(Surgery), FASCRS",
+    "specimen": "Right axillary swelling(USG guided FNA)"
+  },
+  {
+    "id": "00297",
+    "date": "21-06-2020",
+    "patientName": "Mrs Nilu Akhter",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Sajjad Md Yousuf, MBBS, MCPS,FCPS (Radiotherapy)",
+    "specimen": "Ovarian mass (USG guided)"
+  },
+  {
+    "id": "00298",
+    "date": "21-06-2020",
+    "patientName": "Mrs Anowara Begum",
+    "age": "72 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00299",
+    "date": "21-06-2020",
+    "patientName": "Mr Mofizul Hoque",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Kajal Kanti Das, MBBS, MD(Internal Medicine)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00300",
+    "date": "22-06-2020",
+    "patientName": "Mrs Mithu Rani Das",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Kamrul Hasan Lohani, MBBS, MD(Internal Medicine)",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00301",
+    "date": "22-06-2020",
+    "patientName": "Mr Mozaffar Ahmed",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00302",
+    "date": "24-06-2020",
+    "patientName": "Mr Obaidul Akbar",
+    "age": "54 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Gall bladder mass(USG guided FNA)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00303",
+    "date": "24-06-2020",
+    "patientName": "Mrs Saleha Khatun",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00304",
+    "date": "25-06-2020",
+    "patientName": "Lina Dhar",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00305",
+    "date": "25-06-2020",
+    "patientName": "Mr Nobi Hossain",
+    "age": "65 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass(CT guided)"
+  },
+  {
+    "id": "00306",
+    "date": "25-06-2020",
+    "patientName": "Miss Israt Jahan",
+    "age": "15 years",
+    "referer": "Prof. / Dr: Md Azmul Islam (Azam)MBBS, BCS, FCPS (II)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00308",
+    "date": "27-06-2020",
+    "patientName": "Ms Tamima Nusrat",
+    "age": "11 years",
+    "referer": "Prof. / Dr: Sajid Khan, MBBS, DLO, PGT, MS(C)",
+    "specimen": "Anterior midline neck swelling"
+  },
+  {
+    "id": "00309",
+    "date": "18-06-2020",
+    "patientName": "Mr Riyad",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00310",
+    "date": "28-06-2020",
+    "patientName": "Mr Abdul Bari",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00311",
+    "date": "29-06-2020",
+    "patientName": "Mr Muslim Meah",
+    "age": "65 years",
+    "referer": "Prof. / Dr: M A Awal, MBBS, M.Phil(Radiotherapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00312",
+    "date": "29-06-2020",
+    "patientName": "Mr Jamal Uddin",
+    "age": "70 years",
+    "referer": "Prof. / Dr: CBBH",
+    "specimen": "Right lung lesion (CT guided FNA)"
+  },
+  {
+    "id": "00313",
+    "date": "30-06-2020",
+    "patientName": "Mrs Rizia Begum",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00314",
+    "date": "30-06-2020",
+    "patientName": "Mrs Munni Akhter",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00316",
+    "date": "01-07-2020",
+    "patientName": "Mrs Monowara Begum",
+    "age": "55years",
+    "referer": "Prof. / Dr: M A Awal,MBBS, MPhil (Radiotherapy)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00317",
+    "date": "01-07-2020",
+    "patientName": "Mrs Rita Das",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)",
+    "specimen": "Hepatic SOL(USG guided)  B)Subcutaneous nodule over anterior abdominal wallUSG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil (Radiology & Imaging)"
+  },
+  {
+    "id": "00318",
+    "date": "01-07-2020",
+    "patientName": "Mrs Ratna Biswas",
+    "age": "49 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, M.Phil , FCPS(Radiotherapy)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00319",
+    "date": "01-07-2020",
+    "patientName": "Miss Munni Akhter",
+    "age": "15 years",
+    "referer": "Prof. / Dr: A.T.M Rezaul Karim, MBBS, D.Ortho, MS(Ortho)",
+    "specimen": "Osteolytic lesion in the right distal femur (CT guided FNA)"
+  },
+  {
+    "id": "00320",
+    "date": "01-07-2020",
+    "patientName": "Mrs Laila Begum",
+    "age": "66 years",
+    "referer": "Prof. / Dr: Anisul Islam Khan, MBBS, MS(Neurosurgery)",
+    "specimen": "Lesion in the T10 vertebral spine (CT guided FNA)"
+  },
+  {
+    "id": "00321",
+    "date": "01-07-2020",
+    "patientName": "Mr Md Solaiman",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, M.Phil , FCPS(Radiotherapy))",
+    "specimen": "Hepatic SOL (USG guided)"
+  },
+  {
+    "id": "00322",
+    "date": "01-07-2020",
+    "patientName": "Mrs Suruzzaman",
+    "age": "75 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00323",
+    "date": "01-07-2020",
+    "patientName": "Mr Nurul Alam",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00324",
+    "date": "02-07-2020",
+    "patientName": "Mr Md Ibrahim",
+    "age": "58 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00325",
+    "date": "03-07-2020",
+    "patientName": "Mrs Sumita Chowdhury",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Nandan Kumar Majumder MBBS, MCPS, MS(Paed Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00327",
+    "date": "04-07-2020",
+    "patientName": "Mr Mokhlesur Rahman",
+    "age": "53 years",
+    "referer": "Prof. / Dr: W-24, CMCH",
+    "specimen": "Right axillary lymph node"
+  },
+  {
+    "id": "00328",
+    "date": "04-07-2020",
+    "patientName": "Mr Md Masud",
+    "age": "years",
+    "referer": "Prof. / Dr: Md Zakaria Chowdhury, MBBS, CCD, FCPS(II)",
+    "specimen": "Swelling over left deltoid region"
+  },
+  {
+    "id": "00329",
+    "date": "04-07-2020",
+    "patientName": "Mr Tazul Islam",
+    "age": "75 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Intra-abdominal mass (CT guided FNA)"
+  },
+  {
+    "id": "00330",
+    "date": "04-07-2020",
+    "patientName": "Mr Md Petan",
+    "age": "53 years",
+    "referer": "Prof. / Dr: Abu Hanif Chowdhury, MBBS, BCS, PGT",
+    "specimen": "Gluteal mass"
+  },
+  {
+    "id": "00331",
+    "date": "05-07-2020",
+    "patientName": "Mr Nepal Chakrabarty",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, M.Phil, FCPS(Radiotherapy)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00332",
+    "date": "05-07-2020",
+    "patientName": "Miss Razia Sultana",
+    "age": "14 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00333",
+    "date": "05-07-2020",
+    "patientName": "Mr Santonsh Kanti Biswas",
+    "age": "66 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, M.Phil , FCPS(Radiotherapy)",
+    "specimen": "Pancreatic mass (USG guided FNA)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00334",
+    "date": "05-07-2020",
+    "patientName": "Mr Abul Hossain",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Lab Aid",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00335",
+    "date": "06-07-2020",
+    "patientName": "Mrs Roksana Akhter",
+    "age": "30 years",
+    "referer": "Prof. / Dr: W-31, CMCH",
+    "specimen": "Ovarian mass(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00336",
+    "date": "06-07-2020",
+    "patientName": "Mrs Mithu Rani Dey",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Ferdousi Begum, MBBS, DGO",
+    "specimen": "Right & left breast lump(FNA)"
+  },
+  {
+    "id": "00337",
+    "date": "08-07-2020",
+    "patientName": "Mrs Senowara Begum",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Md Abdus Sattar, MBBS, DLO, FCPS, MS(ENT)",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00338",
+    "date": "08-07-2020",
+    "patientName": "Ms Aunkan Das",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS(Radiotherapy)",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00339",
+    "date": "08-07-2020",
+    "patientName": "Mrs Amena Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Hepatic SOL(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00340",
+    "date": "08-07-2020",
+    "patientName": "Mr Nur Ahmed",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00341",
+    "date": "08-07-2020",
+    "patientName": "Mr Md Jubaraj",
+    "age": "52 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00342",
+    "date": "09-07-2020",
+    "patientName": "Mr Dulal Ahmed",
+    "age": "26 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00343",
+    "date": "09-07-2020",
+    "patientName": "Mr Akbar Ali",
+    "age": "55 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Bilateral supra-clavicular lymph node"
+  },
+  {
+    "id": "00344",
+    "date": "09-07-2020",
+    "patientName": "Mrs Rumpa Barua",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Sayera Banu Sheuli, MBBS, FCPS(Surgery), FMAS",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00345",
+    "date": "09-07-2020",
+    "patientName": "Mr Dulal Ahmed",
+    "age": "26 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00346",
+    "date": "05-07-2020",
+    "patientName": "Mrs Maryam",
+    "age": "67     years",
+    "referer": "Prof. / Dr: Sayera Banu Sheuli, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00347",
+    "date": "09-07-2020",
+    "patientName": "Miss Nurnahar Puspha",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00348",
+    "date": "09-07-2020",
+    "patientName": "Mr Nurus Saba",
+    "age": "60 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00349",
+    "date": "09-07-2020",
+    "patientName": "Mr Masud",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Taposh Mitra,MBBS, MPhil, FCPS (Radiotherapy)",
+    "specimen": "Right lung lesion (CT guided FNA)"
+  },
+  {
+    "id": "00350",
+    "date": "09-07-2020",
+    "patientName": "Mr Nurul Amin",
+    "age": "65 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00351",
+    "date": "11-07-2020",
+    "patientName": "Mr Syed Ahmed",
+    "age": "48 years",
+    "referer": "Prof. / Dr: A K M Sofiullah,MBBS, FRSH",
+    "specimen": "Right femoral lymph nodes"
+  },
+  {
+    "id": "00352",
+    "date": "11-07-2020",
+    "patientName": "Mrs Ratri Das",
+    "age": "21 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Swelling under the LSCS scar mark"
+  },
+  {
+    "id": "00353",
+    "date": "11-07-2020",
+    "patientName": "Mr Shmol Dutta",
+    "age": "52 years",
+    "referer": "Prof. / Dr: W-24, CMCH",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00354",
+    "date": "07-07-2020",
+    "patientName": "Mrs Momtaz",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00355",
+    "date": "07-07-2020",
+    "patientName": "Mr Md Abdul Mannan",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00356",
+    "date": "12-07-2020",
+    "patientName": "Miss Mahfuza Akhter",
+    "age": "18 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00357",
+    "date": "12-07-2020",
+    "patientName": "Mrs Nur Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "A)Right breast lump B)Right axillary lymph node"
+  },
+  {
+    "id": "00358",
+    "date": "12-07-2020",
+    "patientName": "Mrs Jesmin",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00359",
+    "date": "12-07-2020",
+    "patientName": "Mr Omar Faruk",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Chowdhury Amir Md Farooque, MBBS,",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00360",
+    "date": "13-07-2020",
+    "patientName": "Mr Taher Ahmed",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)",
+    "specimen": "Hepatic SOL(USG guided)  USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil (Radiology & Imaging)"
+  },
+  {
+    "id": "00361",
+    "date": "13-07-2020",
+    "patientName": "Mr Nurul Islam",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Abdus Salam, MBBS, FCPS (Surgery), MS(Urology)",
+    "specimen": "Left epididymal swelling"
+  },
+  {
+    "id": "00362",
+    "date": "14-07-2020",
+    "patientName": "Mrs Raihana Jesmin",
+    "age": "36 years",
+    "referer": "Prof. / Dr: Umme Nahima Rumi, MBBS, BCS",
+    "specimen": "Left axillary swelling"
+  },
+  {
+    "id": "00363",
+    "date": "11-07-2020",
+    "patientName": "Mrs Nazma",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Sharmin Afroz, MBBS, PGT,CCD,DMU",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00364",
+    "date": "14-07-2020",
+    "patientName": "Mrs Nazu Akhter",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00367",
+    "date": "15-07-2020",
+    "patientName": "Mr Rony Nath",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Chittagong Medical College Hospital",
+    "specimen": "Left lateral chest wall swelling"
+  },
+  {
+    "id": "00368",
+    "date": "13-07-2020",
+    "patientName": "Mrs Tanju",
+    "age": "33 years",
+    "referer": "Prof. / Dr: Md Zakaria Chowdhury, MBBS, CCD, FCPS(II)",
+    "specimen": "Left axillary swelling"
+  },
+  {
+    "id": "00369",
+    "date": "15-07-2020",
+    "patientName": "Mr Banobihari Chakrabarty",
+    "age": "72 years",
+    "referer": "Prof. / Dr: Kamrul Hasan Lohani, MBBS, MD(Internal Medicine)",
+    "specimen": "Swelling over left deltoid muscle"
+  },
+  {
+    "id": "00370",
+    "date": "15-07-2020",
+    "patientName": "Mr Shamsul Hoque",
+    "age": "77 years",
+    "referer": "Prof. / Dr: Saroj Kanti Chowdhury, MBBS, MCPS, MD(Chest Disease)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00371",
+    "date": "15-07-2020",
+    "patientName": "Mr Nurul Islam",
+    "age": "70 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00372",
+    "date": "15-07-2020",
+    "patientName": "Mr Md Abdur Razzaq",
+    "age": "62 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right(lower & anterior) lung lesion (CT guided FNA)"
+  },
+  {
+    "id": "00373",
+    "date": "15-07-2020",
+    "patientName": "Mrs Nurun Nahar",
+    "age": "53 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00374",
+    "date": "15-07-2020",
+    "patientName": "Sheully Akhter",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00375",
+    "date": "15-07-2020",
+    "patientName": "Mr Abdur Rahman",
+    "age": "88 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radioerapy)",
+    "specimen": "Lesion in the D8 vertebral spine (CT guided FNA)"
+  },
+  {
+    "id": "00376",
+    "date": "16-08-2020",
+    "patientName": "Mrs Mukta Biswas",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Binoy Paul, MBBS, MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (USG guided)"
+  },
+  {
+    "id": "00377",
+    "date": "15-07-2020",
+    "patientName": "Mr Mridul Sen",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Mohammad Jashim Uddin, MBBS, FCPS(Medicine))",
+    "specimen": "Hepatic SOL (USG guided)"
+  },
+  {
+    "id": "00378",
+    "date": "16-07-2020",
+    "patientName": "Mr Md Feroz",
+    "age": "46 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)",
+    "specimen": "Hepatic SOL(USG guided)  USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil (Radiology & Imaging)"
+  },
+  {
+    "id": "00379",
+    "date": "16-07-2020",
+    "patientName": "Mr Makbul Ahmed",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)",
+    "specimen": "Hepatic SOL(USG guided)  USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil (Radiology & Imaging)"
+  },
+  {
+    "id": "00380",
+    "date": "16-07-2020",
+    "patientName": "Mr Harunur Rashid",
+    "age": "42 years",
+    "referer": "Prof. / Dr: MD Fahad Goni, MBBS, MS(Ortho)",
+    "specimen": "Lesion in the T10 vertebral spine (CT guided FNA)"
+  },
+  {
+    "id": "00381",
+    "date": "16-07-2020",
+    "patientName": "Mr Golam Rabbani",
+    "age": "31 years",
+    "referer": "Prof. / Dr: Md Nurul Amin Bhuyan, MBBS, FCPS (Surgery)",
+    "specimen": "Swelling over left anterior neck"
+  },
+  {
+    "id": "00382",
+    "date": "18-07-2020",
+    "patientName": "Mr Jasim Uddin",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right thyroid swelling (USG Guided)"
+  },
+  {
+    "id": "00383",
+    "date": "18-07-2020",
+    "patientName": "Mr Adul Goni",
+    "age": "76 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00384",
+    "date": "18-07-2020",
+    "patientName": "Mr Abdus Salam",
+    "age": "72 years",
+    "referer": "Prof. / Dr: Jannatun Nisa, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00385",
+    "date": "19-07-2020",
+    "patientName": "Mr Kumar Das",
+    "age": "62 years",
+    "referer": "Prof. / Dr:Taposh Mitra, MBBS, M.Phil . FCPS(Radiotherapy)",
+    "specimen": "Right lung mass, apical region (CT guided FNA)"
+  },
+  {
+    "id": "00386",
+    "date": "19-07-2020",
+    "patientName": "Mrs Fazila",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS (Surgery)",
+    "specimen": "Swelling over right elbow"
+  },
+  {
+    "id": "00387",
+    "date": "19-07-2020",
+    "patientName": "Mrs Momtaz Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Md Abdus Sattar, MBBS, DLO, FCPS, MS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00388",
+    "date": "19-07-2020",
+    "patientName": "Mrs Sajia Afrin",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Mohammed Main Uddin, MS(OMS)",
+    "specimen": "Swelling over left side of the soft palate"
+  },
+  {
+    "id": "00389",
+    "date": "19-07-2020",
+    "patientName": "Mr Sirajul Hoque",
+    "age": "45 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left lung mass, (CT guided FNA)"
+  },
+  {
+    "id": "00390",
+    "date": "19-07-2020",
+    "patientName": "Mr Monoranjan Barua",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Left lung mass, (CT guided FNA)"
+  },
+  {
+    "id": "00391",
+    "date": "20-07-2020",
+    "patientName": "Mrs Ambia Khatun",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Right renal mass(USG Guided FNA)"
+  },
+  {
+    "id": "00392",
+    "date": "20-07-2020",
+    "patientName": "Mr Khairul Bashar",
+    "age": "85 years",
+    "referer": "Prof. / Dr: Saifuddin Mahmud, MBBS, FCPS(Medicine )",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00393",
+    "date": "20-07-2020",
+    "patientName": "Mrs Nilu Ara Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Md Abdus Sattar, MBBS, DLO, FCPS, MS(ENT)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00396",
+    "date": "21-07-2020",
+    "patientName": "Miss Moni Akhter",
+    "age": "21 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00397",
+    "date": "22-07-2020",
+    "patientName": "Mrs Rupa",
+    "age": "21 years",
+    "referer": "Prof. / Dr: M Zakaria Chowdhury, MBBS, CCD, FCPS(II)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00398",
+    "date": "21-07-2020",
+    "patientName": "Mrs Umme Morium",
+    "age": "46 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00399",
+    "date": "22-07-2020",
+    "patientName": "Miss Arpita Nag",
+    "age": "15 years",
+    "referer": "Prof. / Dr: Nandan Kumar Majumder MBBS, MCPS, MS(Paed Surgery)",
+    "specimen": "Right and left breast lump"
+  },
+  {
+    "id": "00400",
+    "date": "21-07-2020",
+    "patientName": "Mrs Nahida Akhter",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Rashedul Hasan , MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00401",
+    "date": "22-07-2020",
+    "patientName": "Mrs Amena Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Hepatic SOL(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00402",
+    "date": "21-07-2020",
+    "patientName": "Mr Shafiul Alam",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00403",
+    "date": "21-07-2020",
+    "patientName": "Mr Ahmed Ullah",
+    "age": "60 years",
+    "referer": "Prof. / Dr: National Hospital",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00404",
+    "date": "23-07-2020",
+    "patientName": "Mrs Roksana Parvin",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00405",
+    "date": "22-07-2020",
+    "patientName": "Mr Md Danu Meah",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Md Abu Faisal, MBBS, MD(Gastroenterology)",
+    "specimen": "Hepatic mass (USG guided)"
+  },
+  {
+    "id": "00406",
+    "date": "23-07-2020",
+    "patientName": "Mrs Bilkis",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Md Nurul Amin Bhuyan, MBBS, FCPS (Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00407",
+    "date": "23-07-2020",
+    "patientName": "Mr Ezahar Miah",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "A) Left lung mass (CT guided FNA)B) Left cervical lymph node"
+  },
+  {
+    "id": "00408",
+    "date": "23-07-2020",
+    "patientName": "Mr Abdur Rashid",
+    "age": "55 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00409",
+    "date": "23-07-2020",
+    "patientName": "Mr Abul Hossain",
+    "age": "50 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00410",
+    "date": "23-07-2020",
+    "patientName": "Mr Nur Mohammad",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Ctg Health Point Hospital",
+    "specimen": "Abdominal mass (CT guided FNA)"
+  },
+  {
+    "id": "00411",
+    "date": "23-07-2020",
+    "patientName": "Mrs Anowara Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: M M Alam Sadi, MBBS,MCPS, MD(Cardiology)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00412",
+    "date": "20-07-2020",
+    "patientName": "Mrs Nur Banu",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS,FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00413",
+    "date": "25-07-2020",
+    "patientName": "Mrs Shahanaz",
+    "age": "34 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS,FCPS(Surgery),",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00414",
+    "date": "25-07-2020",
+    "patientName": "Mrs Koki Akhter",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00415",
+    "date": "28-07-2020",
+    "patientName": "Mr Raihan Murad",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Md Nurul Amin Bhuyan, MBBS, FCPS (Surgery)",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00416",
+    "date": "25-07-2020",
+    "patientName": "Mr Lal Mohon Das",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Right and left cervical lymph node"
+  },
+  {
+    "id": "00417",
+    "date": "08-01-2020",
+    "patientName": "Mr Jahanra Begum",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Left ovarian mass"
+  },
+  {
+    "id": "00418",
+    "date": "25-07-2020",
+    "patientName": "Mr Md Ramzan Ali",
+    "age": "57 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)",
+    "specimen": "Hepatic mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00419",
+    "date": "25-07-2020",
+    "patientName": "Mr Abdul Mabud",
+    "age": "74 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Let lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00420",
+    "date": "25-07-2020",
+    "patientName": "Mr Shahin Parvez",
+    "age": "52 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Left testicular swelling"
+  },
+  {
+    "id": "00421",
+    "date": "25-07-2020",
+    "patientName": "Mr Ranjit",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, M.Phil. FCPS(Radiotherapy)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00422",
+    "date": "25-07-2020",
+    "patientName": "Mr Shah Alam",
+    "age": "65 years",
+    "referer": "Prof. / Dr: National Hospital (Pvt) Ltd",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00423",
+    "date": "29-07-2020",
+    "patientName": "Mr Sufia Parveen",
+    "age": "52 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Hepatic SOL (CT guided FNA)"
+  },
+  {
+    "id": "00424",
+    "date": "25-07-2020",
+    "patientName": "Ms Lulul Bahar",
+    "age": "60 years",
+    "referer": "Prof. / Dr: M M Alam Sadi, MBBS, MCPS, MD(Cardiology)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00425",
+    "date": "26-07-2020",
+    "patientName": "Mawlana Abdul Mabud",
+    "age": "61 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00426",
+    "date": "26-07-2020",
+    "patientName": "Mr Mohiuddin",
+    "age": "74 years",
+    "referer": "Prof. / Dr: Chittagong Metropolitan Hospital",
+    "specimen": "A)Left supraclavicular lymph node B)Swelling over right shoulder"
+  },
+  {
+    "id": "00427",
+    "date": "27-07-2020",
+    "patientName": "Mr Md Jabed",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Left parotid swelling"
+  },
+  {
+    "id": "00429",
+    "date": "28-07-2020",
+    "patientName": "Miss Khuki",
+    "age": "17 years",
+    "referer": "Prof. / Dr: Md Abu  Tayab, MBBS, PGT, CCD",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00430",
+    "date": "29-07-2020",
+    "patientName": "Mr Ahendro Roy",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radioerapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00431",
+    "date": "29-07-2020",
+    "patientName": "Mr Sudhon Das",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00432",
+    "date": "29-07-2020",
+    "patientName": "Mr Md Yunus",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00433",
+    "date": "29-07-2020",
+    "patientName": "Ms Tanvir Akhter Sweety",
+    "age": "23 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00434",
+    "date": "30-07-2020",
+    "patientName": "Mrs Sufia Akhter",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Sayera Banu Sheuli, MBBS, FCPS(Surgery), FMAS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00435",
+    "date": "30-07-2020",
+    "patientName": "Mr Md Harun",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Mohammad Jamal Hossen, MBBS, FCPS(ENT), MS\t(Duplicate copy)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00436",
+    "date": "30-07-2020",
+    "patientName": "Mrs Mahfuza Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury,MBBS, FCPS (Radiotherapy)",
+    "specimen": "Left ovarian cyst (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00437",
+    "date": "03-08-2020",
+    "patientName": "Mrs Litu Dewanjee",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Panna Lal Saha, MBBS, FCPS, FICS",
+    "specimen": "A) Left breast lump & B) Left axillary lymph node"
+  },
+  {
+    "id": "00438",
+    "date": "03-08-2020",
+    "patientName": "Mrs Jarina Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00439",
+    "date": "03-08-2020",
+    "patientName": "Mrs Shamsun Nahar",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right axillary lymph node"
+  },
+  {
+    "id": "00440",
+    "date": "03-08-2020",
+    "patientName": "Mrs Kanta Chowdhury",
+    "age": "52 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary lymph node"
+  },
+  {
+    "id": "00441",
+    "date": "03-08-2020",
+    "patientName": "Mrs Anowara Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary lymph node (Swelling)"
+  },
+  {
+    "id": "00444",
+    "date": "04-08-2020",
+    "patientName": "Mr Monir Hossain",
+    "age": "17 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS, DLO(DU)",
+    "specimen": "Sub-mental lymph node"
+  },
+  {
+    "id": "00445",
+    "date": "04-08-2020",
+    "patientName": "Mrs Nipa Rani Majumdar",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00446",
+    "date": "05-08-2020",
+    "patientName": "Mrs Tinku Chakbrabarty",
+    "age": "43 years",
+    "referer": "Prof. / Dr: Kamol Krishna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00447",
+    "date": "05-08-2020",
+    "patientName": "Mrs Ayesha Akhter",
+    "age": "66 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00448",
+    "date": "05-08-2020",
+    "patientName": "Mr Md Jamal Hossain",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Nalional Hospital (Pvt) Ltd",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00449",
+    "date": "06-08-2020",
+    "patientName": "Mrs Dipali Gupta",
+    "age": "58 years",
+    "referer": "Prof. / Dr: Surojit Ghosh,MBBS, FCPS (Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00451",
+    "date": "06-08-2020",
+    "patientName": "Miss Tahsin",
+    "age": "10 years",
+    "referer": "Prof. / Dr: Md Eyakub Hossain, MBBS, MCPS, MS(Surgery), FMAS",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00452",
+    "date": "06-08-2020",
+    "patientName": "Miss Taslim Hossain",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS (Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00453",
+    "date": "06-08-2020",
+    "patientName": "Mr Md Mohiuddin",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Abu Khaled Muhammad Iqbal, MBBS,MS",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00454",
+    "date": "06-08-2020",
+    "patientName": "Mr Siraj",
+    "age": "68 years",
+    "referer": "Prof. / Dr: ASM Zahed, MBBS, FCPS (Medicine)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00455",
+    "date": "08-08-2020",
+    "patientName": "Mr Nizam Uddin",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Mushfiqul Abrar, MBBS, MD(Hepatology)\t(Duplicate Copy)",
+    "specimen": "Hepatic mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00456",
+    "date": "08-08-2020",
+    "patientName": "Mrs Rina Rani Dhar",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left axiilary swelling, (Two in number)(WithH/O mastectomy)"
+  },
+  {
+    "id": "00457",
+    "date": "08-08-2020",
+    "patientName": "Mrs Tarifa Khanom",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00458",
+    "date": "08-08-2020",
+    "patientName": "Mr Sawpan Nandy",
+    "age": "63 years",
+    "referer": "Prof. / Dr:Taposh Mitra, MBBS, M.Phil . FCPS(Radiotherapy)",
+    "specimen": "Right lung mass,(CT guided FNA)"
+  },
+  {
+    "id": "00459",
+    "date": "09-08-2020",
+    "patientName": "Mrs Shaheda Begum",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Nargis Sultana Munni, MBBS, DGO, MCPS, FCPS",
+    "specimen": "Left breast lump (ill defined)"
+  },
+  {
+    "id": "00460",
+    "date": "09-08-2020",
+    "patientName": "Mr Kabir Ahmed",
+    "age": "60 years",
+    "referer": "Prof. / Dr:Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Left lung mass,(CT guided FNA)"
+  },
+  {
+    "id": "00461",
+    "date": "09-08-2020",
+    "patientName": "Mrs Shahanaj Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00462",
+    "date": "08-08-2020",
+    "patientName": "Mr Bashir Ahmed",
+    "age": "92 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00463",
+    "date": "09-08-2020",
+    "patientName": "Mr Md Afzal Ahmed",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00464",
+    "date": "09-08-2020",
+    "patientName": "Md Fazlul Karim",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL in right lobe(CT guided)"
+  },
+  {
+    "id": "00465",
+    "date": "10-08-2020",
+    "patientName": "Mrs Kamrun Nahar",
+    "age": "36 years",
+    "referer": "Prof. / Dr: Shafatujjahan MBBS, FCPS (Radiotherapy)",
+    "specimen": "Ovarian mass(CT guided)"
+  },
+  {
+    "id": "00466",
+    "date": "10-08-2020",
+    "patientName": "Mrs Tahmina Nasrin",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary lymph node"
+  },
+  {
+    "id": "00467",
+    "date": "10-08-2020",
+    "patientName": "Towhid Uddin Ramim",
+    "age": "10 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00468",
+    "date": "10-08-2020",
+    "patientName": "Ms Nazma Akhter",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Md Abdus Sattar, MBBS, DLO, FCPS, MS(ENT)",
+    "specimen": "Cervical lymph node"
+  },
+  {
+    "id": "00469",
+    "date": "10-08-2020",
+    "patientName": "Utsab Basak",
+    "age": "07 years",
+    "referer": "Prof. / Dr: Md Abdus Sattar, MBBS, DLO, FCPS, MS(ENT)",
+    "specimen": "Right maxilary swelling"
+  },
+  {
+    "id": "00470",
+    "date": "10-08-2020",
+    "patientName": "Mr Amjad Hossain",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS,  FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00471",
+    "date": "10-08-2020",
+    "patientName": "Mrs Nurun  Nahar",
+    "age": "43 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Hepatic SOL(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00472",
+    "date": "10-08-2020",
+    "patientName": "Mrs Jahanara Begum",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Alamgir Md Shoab,MBBS, DLO(DU)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00473",
+    "date": "10-08-2020",
+    "patientName": "Mr Didarul Islam",
+    "age": "37 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00475",
+    "date": "10-08-2020",
+    "patientName": "Mrs Achiya  Khatun",
+    "age": "70 years",
+    "referer": "Prof. / Dr: National Hospital",
+    "specimen": "Right & Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00476",
+    "date": "09-08-2020",
+    "patientName": "Mrs Hannanu Akhter",
+    "age": "37 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS,FCPS (Surgery)",
+    "specimen": "Left axillary lymph node"
+  },
+  {
+    "id": "00477",
+    "date": "11-08-2020",
+    "patientName": "Mrs Anwara Begum",
+    "age": "42 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right and left thyroid swelling"
+  },
+  {
+    "id": "00478",
+    "date": "11-08-2020",
+    "patientName": "Muntahin",
+    "age": "3 years\t 2 months",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00479",
+    "date": "11-08-2020",
+    "patientName": "Mrs Sumita Chakma",
+    "age": "40 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00480",
+    "date": "11-08-2020",
+    "patientName": "Mrs Arju Nahar",
+    "age": "45 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00481",
+    "date": "11-08-2020",
+    "patientName": "Miss Ishrat Jahan",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Zulfi Ara Juli, MBBS, PGT, CMU, DMU",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00482",
+    "date": "11-08-2020",
+    "patientName": "Mrs Nipa",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Hachina Akhter, MBBS,BCS,FCPS",
+    "specimen": "Right breast lump (Ill defined)"
+  },
+  {
+    "id": "00483",
+    "date": "12-08-2020",
+    "patientName": "Mrs Shamima Yasmin",
+    "age": "56 years",
+    "referer": "Prof. / Dr: Dental Unit, CMCH",
+    "specimen": "Left cheek swelling"
+  },
+  {
+    "id": "00484",
+    "date": "12-08-2020",
+    "patientName": "Mrs Rokeya Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: AK M Sofiullah,MBBS, FRSH",
+    "specimen": "Lower abdominal mass(USG guided)"
+  },
+  {
+    "id": "00485",
+    "date": "12-08-2020",
+    "patientName": "Mr Shangha Prio Barua",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00486",
+    "date": "13-08-2020",
+    "patientName": "Mr Abdul Malek",
+    "age": "58 years",
+    "referer": "Prof. / Dr: W-20, CMCH",
+    "specimen": "Right neck mass"
+  },
+  {
+    "id": "00487",
+    "date": "11-08-2020",
+    "patientName": "Mrs Shanta Khatun",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary lymph node(USG Guided)"
+  },
+  {
+    "id": "00488",
+    "date": "11-08-2020",
+    "patientName": "Mrs Sahara Begum",
+    "age": "70 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00489",
+    "date": "13-08-2020",
+    "patientName": "Mr Abu Sayed",
+    "age": "62 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00490",
+    "date": "13-08-2020",
+    "patientName": "Mrs Nargis Sultana",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00491",
+    "date": "13-08-2020",
+    "patientName": "Mrs Nasima Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Right cervical swelling"
+  },
+  {
+    "id": "00492",
+    "date": "14-08-2020",
+    "patientName": "Mrs Momtaz Begum",
+    "age": "51 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00493",
+    "date": "14-08-2020",
+    "patientName": "Mrs Diba Chakrabarty",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00494",
+    "date": "16-08-2020",
+    "patientName": "Mr Shafiul Alam",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Gall bladder mass(USG guided FNA)Hepatic SOL(USG guided FNA)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00496",
+    "date": "16-08-2020",
+    "patientName": "Ruma Akhtrer",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Sajid Khan, MBBS, DLO, PGT, MS(C)",
+    "specimen": "Right supraclavicular lymph node"
+  },
+  {
+    "id": "00497",
+    "date": "16-08-2020",
+    "patientName": "Mrs Jahanara Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Md Abdus Sattar, MBBS, DLO, FCPS, MS(ENT)",
+    "specimen": "Right & left thyroid swelling"
+  },
+  {
+    "id": "00498",
+    "date": "16-08-2020",
+    "patientName": "Mrs Ayesha Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Sajid Khan, MBBS, DLO, PGT, MS(C)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00499",
+    "date": "16-08-2020",
+    "patientName": "Mrs Nurjahan",
+    "age": "22 years",
+    "referer": "Prof. / Dr: Sajid Khan, MBBS, DLO, PGT, MS(C)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00500",
+    "date": "16-08-2020",
+    "patientName": "Mr Hamidul Hasan",
+    "age": "70 years",
+    "referer": "Prof. / Dr: National Hospital",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00501",
+    "date": "16-08-2020",
+    "patientName": "Mrs Munni Akhter",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Mohammad Mohsin, MBBS, D.Ortho",
+    "specimen": "Swelling of the medial end of right clavicle (CT guided FNA)"
+  },
+  {
+    "id": "00502",
+    "date": "16-08-2020",
+    "patientName": "Mr Shafiul Alam",
+    "age": "55 years",
+    "referer": "Prof. / Dr: CMPHL",
+    "specimen": "Hepatic SOL(USG guided)  USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil (Radiology & Imaging)"
+  },
+  {
+    "id": "00503",
+    "date": "11-08-2020",
+    "patientName": "Mrs Akhi",
+    "age": "21 years",
+    "referer": "Prof. / Dr: Zakaria Chowdhury, MBBS,CCD,FCPS (II)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00504",
+    "date": "17-08-2020",
+    "patientName": "Mrs Peshkari Nessa",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00505",
+    "date": "17-08-2020",
+    "patientName": "Mrs Khadiza Begum",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Pradip Kumar Nath, MBBS, FCPS(Surgery)",
+    "specimen": "A) Right breast lump & B) Right axillary lymph node"
+  },
+  {
+    "id": "00506",
+    "date": "17-08-2020",
+    "patientName": "Mrs Lucky Akhter",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Md Abdus Sattar, MBBS, DLO, FCPS, MS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00507",
+    "date": "17-08-2020",
+    "patientName": "Mr Shamsul Alam",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00508",
+    "date": "17-08-2020",
+    "patientName": "Mr Jahangir Alam",
+    "age": "66 years",
+    "referer": "Prof. / Dr: Md Forkan, MBBS, MRCP",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00509",
+    "date": "17-08-2020",
+    "patientName": "Mr Asohk Kanti Dey",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00510",
+    "date": "18-08-2020",
+    "patientName": "Mrs Mina Akhter",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00511",
+    "date": "18-07-2020",
+    "patientName": "Mrs Nur Nahar Begum",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right submandibular swelling"
+  },
+  {
+    "id": "00513",
+    "date": "19-08-2020",
+    "patientName": "Mrs Nasima Akhter",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Ahmmadullah, MBBS, BCS, FCPS(II), MS(B)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00514",
+    "date": "19-08-2020",
+    "patientName": "Mr Manik Saha",
+    "age": "62 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS,(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00515",
+    "date": "19-08-2020",
+    "patientName": "Mrs Rehena Akhter",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00516",
+    "date": "19-08-2020",
+    "patientName": "Mr Prokash Chowdhury",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00517",
+    "date": "19-08-2020",
+    "patientName": "Mrs Hosne Ara Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Hepatic mass (USG guided)"
+  },
+  {
+    "id": "00518",
+    "date": "19-08-2020",
+    "patientName": "Umme Habiba",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Md Saiful Hoque, MBBS, FCPS, FRCS (Glasgow)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00519",
+    "date": "20-08-2020",
+    "patientName": "Mrs Sumitra Mutsuddi",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Himadri Barua, MBBS, D.Ortho,",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00520",
+    "date": "20-08-2020",
+    "patientName": "Ms Shakiul Jannat",
+    "age": "19 years",
+    "referer": "Prof. / Dr: M Zakaria Chowdhury, MBBS, CCD, FCPS(II)",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00521",
+    "date": "20-08-2020",
+    "patientName": "Mr Mohiuddin",
+    "age": "21 years",
+    "referer": "Prof. / Dr: Abdus Salam, MBBS, FCPS (Surgery), MS(Urology)",
+    "specimen": "Right and left testicular swelling (both at the lower end)"
+  },
+  {
+    "id": "00522",
+    "date": "20-08-2020",
+    "patientName": "Mr Md Ezahar Meah",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Mohammad Hanif, MBBS, BCS",
+    "specimen": "Left inguinal lymph node"
+  },
+  {
+    "id": "00523",
+    "date": "20-08-2020",
+    "patientName": "Mrs Roksana Ebad",
+    "age": "59 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00524",
+    "date": "21-08-2020",
+    "patientName": "Mrs Jahanara Begum",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Tarekul Islam, MBBS, PGT",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00525",
+    "date": "19-08-2020",
+    "patientName": "Mrs Rowshan Ara Begum",
+    "age": "58 years",
+    "referer": "Prof. / Dr: M MoinUddin Chowdhury, MBBS, FCPS(Medicine)",
+    "specimen": "Lung mass in the mediastinal region(CT guided FNA)"
+  },
+  {
+    "id": "00526",
+    "date": "19-08-2020",
+    "patientName": "Mrs Nilufer Akhter",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump (USG guided FNA)"
+  },
+  {
+    "id": "00527",
+    "date": "22-08-2020",
+    "patientName": "Mrs Morium Khatun",
+    "age": "80 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Lesion in the L4 vertebral body (CT guided FNA)"
+  },
+  {
+    "id": "00528",
+    "date": "16-08-2020",
+    "patientName": "Mrs Supria Ghosh",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Left axillary swelling"
+  },
+  {
+    "id": "00529",
+    "date": "22-08-2020",
+    "patientName": "Mrs Sharfatun Nesa",
+    "age": "52 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00530",
+    "date": "24-08-2020",
+    "patientName": "Mr Md Abdul Mabud",
+    "age": "74 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Hepatic SOL(USG guided)  USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil (Radiology & Imaging)"
+  },
+  {
+    "id": "00531",
+    "date": "24-08-2020",
+    "patientName": "Mrs Sajeda Begum",
+    "age": "40 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00532",
+    "date": "23-08-2020",
+    "patientName": "Mr Rupok Das",
+    "age": "37 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00533",
+    "date": "24-08-2020",
+    "patientName": "Mr Abul Qashem",
+    "age": "81 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right supraclavicular lymph node"
+  },
+  {
+    "id": "00534",
+    "date": "24-08-2020",
+    "patientName": "Mrs Ishrat Nahar",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Sayera Banu Sheuli, MBBS, FCPS(Surgery), FMAS",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00535",
+    "date": "23-08-2020",
+    "patientName": "Mr Mohammad Younus",
+    "age": "80 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS(Radiotherapy)",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00536",
+    "date": "24-08-2020",
+    "patientName": "Mehedi Hasan",
+    "age": "09  years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00537",
+    "date": "26-08-2020",
+    "patientName": "Mr Aminur Rahman",
+    "age": "62 years",
+    "referer": "Prof. / Dr: Taposh Mitra,MBBS, MPhil, FCPS (Radiotherapy)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00538",
+    "date": "25-08-2020",
+    "patientName": "Ms Nishi Barua",
+    "age": "06 years",
+    "referer": "Prof. / Dr: Maimun Redwan Chowdhury , MBBS, BCS, MS(C)",
+    "specimen": "Left forearm swelling"
+  },
+  {
+    "id": "00539",
+    "date": "25-08-2020",
+    "patientName": "Master Minhaz",
+    "age": "06 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Anteroir midline swelling"
+  },
+  {
+    "id": "00540",
+    "date": "25-08-2020",
+    "patientName": "Master Shantu Das",
+    "age": "07 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00541",
+    "date": "25-08-2020",
+    "patientName": "Mrs rima Akhter",
+    "age": "19 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Right axillary swelling"
+  },
+  {
+    "id": "00543",
+    "date": "26-08-2020",
+    "patientName": "Mr Md Tajul Islam",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Atanu Saha, MBBS, BCS",
+    "specimen": "Right thyroid swelling and B) right cervical lymph node"
+  },
+  {
+    "id": "00544",
+    "date": "26-08-2020",
+    "patientName": "Mr Abul Ansar",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Sajjad Mohammad Yousuf, MBBS, MCPS, FCPS",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00545",
+    "date": "26-08-2020",
+    "patientName": "Mr Aman Ullah",
+    "age": "72 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00546",
+    "date": "26-08-2020",
+    "patientName": "Mrs Farida Begum",
+    "age": "49 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00547",
+    "date": "26-08-2020",
+    "patientName": "Mr Ridwanul Alam",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Right renal mass (CT guided)"
+  },
+  {
+    "id": "00548",
+    "date": "27-08-2020",
+    "patientName": "Mrs Noor Jahan",
+    "age": "54 years",
+    "referer": "Prof. / Dr: W-24, CMCH",
+    "specimen": "Gall bladder mass(USG guided FNA)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00549",
+    "date": "27-08-2020",
+    "patientName": "Mr Kabir Ahmed",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radioerapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00550",
+    "date": "27-08-2020",
+    "patientName": "Mr Pradip Das",
+    "age": "62 years",
+    "referer": "Prof. / Dr: Shlmul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Pancreatic mass(USG guided FNA)Hepatic SOL(USG guided FNA)USG guide: Professor Dr. Subash Mazumder, MBBS, BCS, MD : Professor & Head, R&I Dept, CMCH"
+  },
+  {
+    "id": "00551",
+    "date": "28-08-2020",
+    "patientName": "Mrs Halima Akhter",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radioerapy)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00552",
+    "date": "29-08-2020",
+    "patientName": "Mr Shamsul Alam",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Hussain Ahammed Khan, MBBS, BCS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00553",
+    "date": "29-08-2020",
+    "patientName": "Mrs Lucky Das",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left supraclavicular lymph node"
+  },
+  {
+    "id": "00554",
+    "date": "29-08-2020",
+    "patientName": "Mrs Nasreen Akhter",
+    "age": "36 years",
+    "referer": "Prof. / Dr: A K M Sofiullah,MBBS, FRSH",
+    "specimen": "Left cervical swelling"
+  },
+  {
+    "id": "00555",
+    "date": "29-08-2020",
+    "patientName": "Mrs Dipa Biswas",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left inguinal lymph node"
+  },
+  {
+    "id": "00556",
+    "date": "30-08-2020",
+    "patientName": "Mrs Lucky Begum",
+    "age": "46 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Swelling over scalp"
+  },
+  {
+    "id": "00557",
+    "date": "30-08-2020",
+    "patientName": "Md Rabib",
+    "age": "4.5 years",
+    "referer": "Prof. / Dr: Hussain Ahammed Khan, MBBS, BCS",
+    "specimen": "Swelling over right knee joint"
+  },
+  {
+    "id": "00558",
+    "date": "30-08-2020",
+    "patientName": "Mr Md Anwar",
+    "age": "30 years",
+    "referer": "Prof. / Dr: W-29, CMCH",
+    "specimen": "Hepatic mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00559",
+    "date": "30-08-2020",
+    "patientName": "Mrs Kobita Chowdhury",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Ferdous Akhter, MBBS, DMU",
+    "specimen": "Right cervical & submandibular lymph node"
+  },
+  {
+    "id": "00561",
+    "date": "31-08-2020",
+    "patientName": "Master Rikdas",
+    "age": "05 years",
+    "referer": "Prof. / Dr: Ahsan Fuad Ayan , MBBS, FCPS",
+    "specimen": "Anterior midline neck swelling"
+  },
+  {
+    "id": "00562",
+    "date": "31-08-2020",
+    "patientName": "Mrs Parvin",
+    "age": "25 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary lymph node(USG Guided)"
+  },
+  {
+    "id": "00563",
+    "date": "31-08-2020",
+    "patientName": "Mrs Shamsun Nahar",
+    "age": "80 years",
+    "referer": "Prof. / Dr: National Hospital",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00564",
+    "date": "31-08-2020",
+    "patientName": "Mrs Morium Khatun",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00565",
+    "date": "31-08-2020",
+    "patientName": "Mrs Nupur Rani Das",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Shamim Boksha, MBBS, FCPS (Medicine), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00566",
+    "date": "31-08-2020",
+    "patientName": "Mr Hasan",
+    "age": "38 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00567",
+    "date": "31-08-2020",
+    "patientName": "Mrs Kobita Dey",
+    "age": "24 years",
+    "referer": "Prof. / Dr: W-24, CMCH",
+    "specimen": "Right sided abdominal mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00568",
+    "date": "01-09-2020",
+    "patientName": "Ms Jemi",
+    "age": "17 years",
+    "referer": "Prof. / Dr: Zulfi Ara Juli, MBBS, PGT, CMU, DMU",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00569",
+    "date": "01-09-2020",
+    "patientName": "Mr Md Saiful Islam",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right neck swelling"
+  },
+  {
+    "id": "00570",
+    "date": "01-09-2020",
+    "patientName": "Mrs Mohsena Begum",
+    "age": "34 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling (Isthmus)"
+  },
+  {
+    "id": "00571",
+    "date": "01-09-2020",
+    "patientName": "Mrs Hasina Begum",
+    "age": "52 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00572",
+    "date": "01-09-2020",
+    "patientName": "Mrs Nipa Akhter",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Submental swelling"
+  },
+  {
+    "id": "00573",
+    "date": "02-09-2020",
+    "patientName": "Mr Md Ali",
+    "age": "66 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00574",
+    "date": "02-09-2020",
+    "patientName": "Mrs Amtun Nur",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Left inguinal lymph nodes(USG guided FNA)"
+  },
+  {
+    "id": "00575",
+    "date": "02-09-2020",
+    "patientName": "Mr Abu Taher",
+    "age": "58 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00576",
+    "date": "02-09-2020",
+    "patientName": "Mr Ronotosh Barua",
+    "age": "68 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Left supraclavicular  lymph node Left axillary swelling"
+  },
+  {
+    "id": "00577",
+    "date": "02-09-2020",
+    "patientName": "Mr Abu Sufian",
+    "age": "years",
+    "referer": "Prof. / Dr: Sumon Talukder, MBBS, DLO",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00578",
+    "date": "02-09-2020",
+    "patientName": "Mr Md Hasan",
+    "age": "52 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right parotid swelling & Right submandibular swelling"
+  },
+  {
+    "id": "00581",
+    "date": "03-09-2020",
+    "patientName": "Mr Saidur Rahman",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Central City Hospital",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00582",
+    "date": "03-09-2020",
+    "patientName": "Mr Nur Mohammad",
+    "age": "52 years",
+    "referer": "Prof. / Dr: Central City Hospital",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00583",
+    "date": "03-09-2020",
+    "patientName": "Mr Ovirum Das",
+    "age": "63 years",
+    "referer": "Prof. / Dr: S M Iftekharul Islam, MBBS, FCPS, MD",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00584",
+    "date": "03-09-2020",
+    "patientName": "Mr A S M Tajul Islam",
+    "age": "72 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Right renal mass(CT Guided FNA)"
+  },
+  {
+    "id": "00585",
+    "date": "03-09-2020",
+    "patientName": "Miss Tamjida Mahmud",
+    "age": "18 years",
+    "referer": "Prof. / Dr: Muhammad Mukit Osman Chawdhury, MBBS, BCS",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00586",
+    "date": "03-09-2020",
+    "patientName": "Mr Abdul Hoque",
+    "age": "61 years",
+    "referer": "Prof. / Dr: Park View Hospital)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00587",
+    "date": "29-08-2020",
+    "patientName": "Mrs Majeda Akhter",
+    "age": "46 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary swelling"
+  },
+  {
+    "id": "00588",
+    "date": "03-09-2020",
+    "patientName": "Mrs Hamida Alam",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00589",
+    "date": "06-09-2020",
+    "patientName": "Mrs Dilruba",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Right ovarian mass(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00590",
+    "date": "07-09-2020",
+    "patientName": "Md Salam",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Sanjoy Das, MBBS,MCPS,FCPS(ENT),",
+    "specimen": "Right neck mass"
+  },
+  {
+    "id": "00591",
+    "date": "06-09-2020",
+    "patientName": "Mr Md Nazrul Islam",
+    "age": "years",
+    "referer": "Prof. / Dr: Sudhangsu Banarjee, MBBS, DLO(C), PGT",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00592",
+    "date": "06-09-2020",
+    "patientName": "Mr Mokhlesur Rahman",
+    "age": "61 years",
+    "referer": "Prof. / Dr: Physical Medicine Centre",
+    "specimen": "Lesion in the L3-4 vertebral body(CT guided FNA)"
+  },
+  {
+    "id": "00593",
+    "date": "06-09-2020",
+    "patientName": "Mr Abu Taher",
+    "age": "51 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00594",
+    "date": "06-09-2020",
+    "patientName": "Mr Amar Das",
+    "age": "78 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00595",
+    "date": "07-09-2020",
+    "patientName": "Mr Ananta Kumar Dey",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Right lung nodule (CT guided FNA)"
+  },
+  {
+    "id": "00596",
+    "date": "07-09-2020",
+    "patientName": "Mr Riaz",
+    "age": "17 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Right parotid swelling"
+  },
+  {
+    "id": "00597",
+    "date": "07-09-2020",
+    "patientName": "Mrs Farzana Banu",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, BCS, FCPS(Surgery)",
+    "specimen": "Right breast lump (USG guided FNA)"
+  },
+  {
+    "id": "00598",
+    "date": "08-09-2020",
+    "patientName": "Mr Nantu Rudra",
+    "age": "60 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00599",
+    "date": "08-09-2020",
+    "patientName": "Mrs Jannatul Ferdous",
+    "age": "50 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00600",
+    "date": "08-09-2020",
+    "patientName": "Miss Tamanna",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Himadri Barua, MBBS, D.Ortho,",
+    "specimen": "Right cervical swelling"
+  },
+  {
+    "id": "00601",
+    "date": "09-09-2020",
+    "patientName": "Mr Ekhlasur Rahman",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Taposh Mitra,MBBS, MPhil, FCPS (Radiotherapy)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00602",
+    "date": "09-09-2020",
+    "patientName": "Mr Md Osman Gani",
+    "age": "years",
+    "referer": "Prof. / Dr: Rashed Nizam, MBBS, PGT(Medicine)",
+    "specimen": "Swelling over anterior abdominal wall (Left lumbar region)"
+  },
+  {
+    "id": "00603",
+    "date": "09-09-2020",
+    "patientName": "Ms Baby Das",
+    "age": "42 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00604",
+    "date": "09-09-2020",
+    "patientName": "Mrs Amena Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Zakir Hossain, MBBS, M.Phil",
+    "specimen": "Right and left thyroid swelling"
+  },
+  {
+    "id": "00605",
+    "date": "09-09-2020",
+    "patientName": "Md Saiful",
+    "age": "years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00606",
+    "date": "09-09-2020",
+    "patientName": "Mrs Nasima Akhter",
+    "age": "39 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00607",
+    "date": "09-09-2020",
+    "patientName": "Mr Aminul Abedin",
+    "age": "33 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00608",
+    "date": "09-09-2020",
+    "patientName": "Mrs Razia Begum",
+    "age": "58 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00609",
+    "date": "09-09-2020",
+    "patientName": "Mr Ahmed Safa",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00610",
+    "date": "09-09-2020",
+    "patientName": "Mr Tamiz Uddin",
+    "age": "53 years",
+    "referer": "Prof. / Dr: Mohammad Jasim Uddin, MBBS, FCPS(Medicine) MD(Gastroenterology)",
+    "specimen": "Pancreatic mass(Complex solid and cystic mass) (CT guided FNA)"
+  },
+  {
+    "id": "00611",
+    "date": "09-09-2020",
+    "patientName": "Mr Narayan Mallick",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Square Lab",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00612",
+    "date": "09-09-2020",
+    "patientName": "Mr Sikandar Miah",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Central City Hospital",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00613",
+    "date": "09-09-2020",
+    "patientName": "Mr Sunil Das",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Prescription Centre",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00614",
+    "date": "10-09-2020",
+    "patientName": "Mr Md Ibrahim",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Supra renal mass(CT guided FNA)"
+  },
+  {
+    "id": "00615",
+    "date": "10-09-2020",
+    "patientName": "Mr Shamsul Alam",
+    "age": "63 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Left neck mass"
+  },
+  {
+    "id": "00616",
+    "date": "10-09-2020",
+    "patientName": "Mrs Taposhy Shil",
+    "age": "41 years",
+    "referer": "Prof. / Dr: Supran Biswas,MBBS, FCPS (ENT)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00617",
+    "date": "10-09-2020",
+    "patientName": "Mrs Farzana",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Right axillary lymph node"
+  },
+  {
+    "id": "00618",
+    "date": "10-09-2020",
+    "patientName": "Mrs Fatema Akhter",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Md Abul Bashar, MBBS, DLO(BSMMU)",
+    "specimen": "Left submandibular swelling"
+  },
+  {
+    "id": "00619",
+    "date": "10-09-2020",
+    "patientName": "Mr. Mahfuzur Rahman",
+    "age": "32 years",
+    "referer": "Prof. Dr/ : Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00620",
+    "date": "10-09-2020",
+    "patientName": "Mrs Nishrat Sultana",
+    "age": "42 years",
+    "referer": "Prof. / Dr: Md Faruq, MBBS, FCPS(Medicine)",
+    "specimen": "Right post auricular lymph node"
+  },
+  {
+    "id": "00621",
+    "date": "10-09-2020",
+    "patientName": "Mr Ramapada Dhar",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Zakir Hossain Bhuiyan, MBBS, MCPS,MS (Thoracic Surgery)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00622",
+    "date": "10-09-2020",
+    "patientName": "Mr Barun Chandra Chakma",
+    "age": "42 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00623",
+    "date": "11-09-2020",
+    "patientName": "Mrs Razia Khatun",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Shafatujjahan MBBS, FCPS (Radiotherapy)",
+    "specimen": "Abdominal mass (CT guided FNA)"
+  },
+  {
+    "id": "00624",
+    "date": "12-09-2020",
+    "patientName": "Mrs Morium Begum",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Atanu Saha, MBBS,DLO(C), PGT",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00625",
+    "date": "12-09-2020",
+    "patientName": "Miss Shima Akhter",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Southern Medical College & Hospital",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00626",
+    "date": "12-09-2020",
+    "patientName": "Miss Shima Akhter",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Southern Medical College & Hospital",
+    "specimen": "Left cervical lymph node( Repeat aspiration after antibiotic treatment)"
+  },
+  {
+    "id": "00627",
+    "date": "12-09-2020",
+    "patientName": "Mr Abul Hashem",
+    "age": "80 years",
+    "referer": "Prof. / Dr: Prescription Centre",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00628",
+    "date": "12-09-2020",
+    "patientName": "Mrs Hajera Khatun",
+    "age": "65 years",
+    "referer": "Prof. / Dr: W-16, CMCH",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00629",
+    "date": "12-09-2020",
+    "patientName": "Mr Abdul Mabud",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Lab Aid",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00631",
+    "date": "13-09-2020",
+    "patientName": "Mr Md Abdul Alam",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00632",
+    "date": "14-09-2020",
+    "patientName": "Mrs Hajera Bibi",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Sajid Khan, MBBS, DLO, PGT, MS(C)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00633",
+    "date": "14-09-2020",
+    "patientName": "Mr Abdur Rashid",
+    "age": "70 years",
+    "referer": "Prof. / Dr: M A Awal, MBBS, MPhil,",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00634",
+    "date": "14-09-2020",
+    "patientName": "Mrs Nasima Akhter",
+    "age": "42 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right A) breast lump and B) axillary lymph node (USG Guided FNA)"
+  },
+  {
+    "id": "00635",
+    "date": "14-09-2020",
+    "patientName": "Mrs Shabana",
+    "age": "42 years",
+    "referer": "Prof. / Dr: Medi Aid Complex",
+    "specimen": "Anterior mediastinal mass (CT guided FNA)( Known case of duct cell carcinoma)"
+  },
+  {
+    "id": "00636",
+    "date": "14-09-2020",
+    "patientName": "Miss Sanjida Afrin",
+    "age": "28 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00637",
+    "date": "14-09-2020",
+    "patientName": "Master Md Hanana",
+    "age": "11 years",
+    "referer": "Prof. / Dr:Rashedul Hasan, MBBS, FCPS(Surgery)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00638",
+    "date": "14-09-2020",
+    "patientName": "Mrs Kulsuma Begum",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Kamrul Hasan Lohani, MBBS, MD(Internal Medicine)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00639",
+    "date": "14-09-2020",
+    "patientName": "Mr Debasis Das",
+    "age": "44 years",
+    "referer": "Prof. / Dr: Sumon Talukder, MBBS, DLO",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00640",
+    "date": "16-09-2020",
+    "patientName": "Mrs Salma Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00641",
+    "date": "16-09-2020",
+    "patientName": "Mr Babul Sharma",
+    "age": "57 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00642",
+    "date": "16-09-2020",
+    "patientName": "Mr Md Rajin",
+    "age": "07 months",
+    "referer": "Prof. / Dr: Pankaj Kumar Banik, MBBS, PGT(ENT)",
+    "specimen": "Left submandibular swelling"
+  },
+  {
+    "id": "00643",
+    "date": "16-09-2020",
+    "patientName": "Miss Murshida Begum",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00644",
+    "date": "16-09-2020",
+    "patientName": "Amena Akhter",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Afrin Sultana, MBBS, PGT(MED), DMU",
+    "specimen": "Right axillary lymph node"
+  },
+  {
+    "id": "00645",
+    "date": "16-09-2020",
+    "patientName": "Mrs Rasheda Akhter",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Sumon Talukder, MBBS, DLO",
+    "specimen": "Right submandibular swelling"
+  },
+  {
+    "id": "00646",
+    "date": "16-09-2020",
+    "patientName": "Mrs Nazmun Nahar",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Nasrin Ferdous, MBBS, DGO, MCPS(Gynae & Obs)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00647",
+    "date": "16-09-2020",
+    "patientName": "Mrs Golapi Pankhoa",
+    "age": "66 years",
+    "referer": "Prof. / Dr: Najma Mahboob,MBBS, FCPS (Surgery)",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00648",
+    "date": "16-09-2020",
+    "patientName": "Mrs Sumitra Chakma",
+    "age": "70 years",
+    "referer": "",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00649",
+    "date": "18-09-2020",
+    "patientName": "Mr Md Nasir",
+    "age": "60 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00650",
+    "date": "18-09-2020",
+    "patientName": "Mr Ruhul Amin",
+    "age": "62 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00651",
+    "date": "17-09-2020",
+    "patientName": "Mr Abdur Razzak",
+    "age": "80 years",
+    "referer": "Prof /Dr : Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Anterior mediastinal mass (CT guided FNA)Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00652",
+    "date": "17-09-2020",
+    "patientName": "Mrs Tafura Begum",
+    "age": "50 years",
+    "referer": "Prof /Dr. : Kamrul Hasan Lohani, MBBS, MD(Internal Medicine)",
+    "specimen": "Right lung nodule (CT guided FNA)( Known case of Fibrosarcoma)"
+  },
+  {
+    "id": "00653",
+    "date": "17-09-2020",
+    "patientName": "Mrs Fatema Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Md Abul Bashar, MBBS, DLO(BSMMU)",
+    "specimen": "Anterior neck swelling"
+  },
+  {
+    "id": "00654",
+    "date": "17-09-2020",
+    "patientName": "Mrs Nomita Dhar",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Rivu Raj Chakrabarty, MBBS, FCPS(Surgery)",
+    "specimen": "Nipple discharge for malignant cells"
+  },
+  {
+    "id": "00655",
+    "date": "17-09-2020",
+    "patientName": "Mr. Santanu Kar Chowdhury",
+    "age": "34 years",
+    "referer": "Prof. Dr/ : Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00656",
+    "date": "17-09-2020",
+    "patientName": "Mrs Jahanara Begum",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Park View Hospital Ltd",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00658",
+    "date": "19-09-2020",
+    "patientName": "Mrs Hosne Ara",
+    "age": "30 years",
+    "referer": "Prof. / Dr: W-24, CMCH",
+    "specimen": "Right breast lump (USG guided FNA)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00659",
+    "date": "19-09-2020",
+    "patientName": "Mrs Karimun Nessa",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00660",
+    "date": "19-09-2020",
+    "patientName": "Mr Md Shahin",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00661",
+    "date": "19-09-2020",
+    "patientName": "Sadia Akhter",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Md Imran, MBBS, BCS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00662",
+    "date": "19-09-2020",
+    "patientName": "Mr Md Khokon",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00663",
+    "date": "19-09-2020",
+    "patientName": "Mr Md Dulal",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Nishith Ranjan Dey, MBBS, MD, FRCP(Glasgow)",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00664",
+    "date": "19-09-2020",
+    "patientName": "Mr Hossain Ali",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00665",
+    "date": "13-09-2020",
+    "patientName": "Mrs Samira Afrin",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Rupam Bhattacharjee, MBBS, BCS,DLO",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00666",
+    "date": "09-09-2020",
+    "patientName": "Mrs Shimu",
+    "age": "40 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00667",
+    "date": "20-09-2020",
+    "patientName": "Md Nabil",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Sajid Khan, MBBS, DLO, PGT, MS(C)",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00668",
+    "date": "20-08-2020",
+    "patientName": "Miss Ishrat Alam",
+    "age": "17 years",
+    "referer": "Prof. / Dr: Fazlun Nahar Pyrin, MBBS, DGO",
+    "specimen": "Left breast lump"
+  },
+  {
+    "id": "00669",
+    "date": "20-09-2020",
+    "patientName": "Mrs Mita Chakrabarty",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Supran  Biswas, MBBS,  FCPS(ENT)",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00670",
+    "date": "20-09-2020",
+    "patientName": "Mrs Selina Yasmin",
+    "age": "57 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Ovarian mass(USG guided)"
+  },
+  {
+    "id": "00671",
+    "date": "20-09-2020",
+    "patientName": "Mrs Nazmun Nahar",
+    "age": "34 years",
+    "referer": "Prof. / Dr: Kamol Krisna Pramanik, MBBS, FCPS(ENT)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00672",
+    "date": "21-09-2020",
+    "patientName": "Mrs Sairin Sultana",
+    "age": "29 years",
+    "referer": "Prof. / Dr: Meherun Kabir, MBBS, MCPS, DDV",
+    "specimen": "Right axillary lymph node with discharging sinus"
+  },
+  {
+    "id": "00674",
+    "date": "21-09-2020",
+    "patientName": "Mr Gias Uddin",
+    "age": "33 years",
+    "referer": "Prof. / Dr: General Hospital , Ctg",
+    "specimen": "Swelling over occipital region"
+  },
+  {
+    "id": "00675",
+    "date": "21-09-2020",
+    "patientName": "Mrs Delwara",
+    "age": "45 years",
+    "referer": "Prof. / Dr: W-14, CMCH",
+    "specimen": "Hepatic SOL (USG guided FNA)"
+  },
+  {
+    "id": "00676",
+    "date": "21-09-2020",
+    "patientName": "Mrs Safura Khatun",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Cosmopolitan HospitalDuplicate Report",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00677",
+    "date": "21-09-2020",
+    "patientName": "Mr Jamir Hossain",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Multiple hepatic SOL (USG guided FNA)"
+  },
+  {
+    "id": "00678",
+    "date": "21-09-2020",
+    "patientName": "Bibi Khaleda",
+    "age": "35 years",
+    "referer": "Prof. / Dr: M A Matin, MBBS",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00679",
+    "date": "21-09-2020",
+    "patientName": "Mr Md Shah Alam",
+    "age": "48 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Multiple hepatic SOL (USG guided FNA)"
+  },
+  {
+    "id": "00681",
+    "date": "22-09-2020",
+    "patientName": "Mrs Sheuli Mohuri",
+    "age": "43 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00682",
+    "date": "22-09-2020",
+    "patientName": "Mrs Safia Khatun",
+    "age": "46 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right thyroid swelling (USG Guided FNA)"
+  },
+  {
+    "id": "00683",
+    "date": "20-09-2020",
+    "patientName": "Mr Md Hafizur Rahman",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Kazi Md Asif Hasnan,MBBS, BCS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00684",
+    "date": "22-09-2020",
+    "patientName": "Md Mazharul Islam",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Anterior midline neck swelling"
+  },
+  {
+    "id": "00685",
+    "date": "23-09-2020",
+    "patientName": "Mrs Rehena Akhter",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump (USG guided FNA)"
+  },
+  {
+    "id": "00686",
+    "date": "23-09-2020",
+    "patientName": "Mrs Nur Nahar Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left axillary lymph node"
+  },
+  {
+    "id": "00687",
+    "date": "23-09-2020",
+    "patientName": "Mrs Afsana Begum",
+    "age": "53 years",
+    "referer": "Prof. / Dr: Sudhangsu  Bannarjee, MBBS, DLO(C), PGT",
+    "specimen": "Right thyroid swelling & cervical lymph node (H/O thyroidectomy many yrs back)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00688",
+    "date": "23-09-2020",
+    "patientName": "Mrs Shahanaj Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00689",
+    "date": "23-09-2020",
+    "patientName": "Mr Jubair Mowla Khan",
+    "age": "49 years",
+    "referer": "Prof. / Dr: Taposh Mitra, MBBS, M.Phil, FCPS(Radiotherapy)",
+    "specimen": "Left inguinal lymph node"
+  },
+  {
+    "id": "00690",
+    "date": "23-09-2020",
+    "patientName": "Mr Monoranjan Majumder",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Pankaj Kumar Banik, MBBS, MS(C)",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00691",
+    "date": "23-09-2020",
+    "patientName": "Mrs Rahima Begum",
+    "age": "64 years",
+    "referer": "Prof. / Dr: Mohammad Jamal Hossen, MBBS, FCPS(ENT), MS",
+    "specimen": "Left supra-clavicular swelling"
+  },
+  {
+    "id": "00692",
+    "date": "23-09-2020",
+    "patientName": "Mrs Arjuman Begum",
+    "age": "24 years",
+    "referer": "Prof. / Dr: Sreekanto Banik,MBBS, MCPS, MS(Surgery)",
+    "specimen": "Left supra-clavicular lymph node"
+  },
+  {
+    "id": "00693",
+    "date": "23-09-2020",
+    "patientName": "Mrs Tahera Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Suman Talukder, MBBS, DLO",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00694",
+    "date": "23-09-2020",
+    "patientName": "Mrs Reshma Akhter",
+    "age": "30 years",
+    "referer": "Prof. / Dr: Rownak Jahan, MBBS, DGO, FCPS",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00695",
+    "date": "23-019-2020",
+    "patientName": "Mrs Nur Nahar Karim",
+    "age": "58 years",
+    "referer": "Prof. / Dr: Md Muzharul Hoque Nasim, FCPS(Surgery), MS(Urology)",
+    "specimen": "Nodule at the left side of upper part of the neck (H/O subtotal thyroidectomy 15 yrs back)"
+  },
+  {
+    "id": "00696",
+    "date": "23-09-2020",
+    "patientName": "Mrs Joya Sen",
+    "age": "27 years",
+    "referer": "Prof. / Dr: Pankaj Kumar Banik, MBBS, MS(C)",
+    "specimen": "Left cervical lymph nodes"
+  },
+  {
+    "id": "00697",
+    "date": "23-09-2020",
+    "patientName": "Jannatul Mawa",
+    "age": "26 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Multiple nodules over scalp"
+  },
+  {
+    "id": "00698",
+    "date": "23-09-2020",
+    "patientName": "Mr S M Ashabuddin",
+    "age": "33 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS,MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00699",
+    "date": "23-09-2020",
+    "patientName": "Mrs Amena Begum",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Supran Biswas, MBBS, FCPS(ENT)",
+    "specimen": "Swelling over manbrium sterni"
+  },
+  {
+    "id": "00700",
+    "date": "23-09-2020",
+    "patientName": "Mrs Rasheda",
+    "age": "55 years",
+    "referer": "Prof. / Dr: Md Saiful Hoque,MBBS, FCPS (Surgery), FRCS(Glasgow)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00701",
+    "date": "23-09-2020",
+    "patientName": "Mrs Ayesha Khatun",
+    "age": "80 years",
+    "referer": "Prof. / Dr: Mohammad Nasir Uddin, MBBS, MCPS (Radiotherapy))",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00702",
+    "date": "23-09-2020",
+    "patientName": "Mrs Nilu Das",
+    "age": "30 years",
+    "referer": "Prof. / Dr: W-25, CMCH",
+    "specimen": "Pancreatic mass (USG guided FNA)"
+  },
+  {
+    "id": "00703",
+    "date": "23-09-2020",
+    "patientName": "Ms Madhuri Rani",
+    "age": "32 years",
+    "referer": "Prof. / Dr: CMCH",
+    "specimen": "Ovarian mass (USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00704",
+    "date": "23-09-2020",
+    "patientName": "Miss Priya Barua",
+    "age": "15 years",
+    "referer": "Prof. / Dr: W-31,CMCH",
+    "specimen": "Ovarian mass (USG guided)"
+  },
+  {
+    "id": "00705",
+    "date": "24-09-2020",
+    "patientName": "Mrs Yeasmin Akhter",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Mohammad Jamal Hossen, MBBS, FCPS(ENT), MS",
+    "specimen": "Left supraclavicular lymph node"
+  },
+  {
+    "id": "00706",
+    "date": "24-09-2020",
+    "patientName": "Mrs Soma Guha",
+    "age": "32 years",
+    "referer": "Prof. / Dr: Zakia Afroze, DGO, MCPS, MS (Gynae & Obs )",
+    "specimen": "Subcutaneous nodule over left breast"
+  },
+  {
+    "id": "00707",
+    "date": "24-09-2020",
+    "patientName": "Mr Selim Uddin Chowdhury",
+    "age": "54 years",
+    "referer": "Prof. / Dr: Sumon Talukder, MBBS, DLO",
+    "specimen": "Left cervical lymph node"
+  },
+  {
+    "id": "00708",
+    "date": "24-09-2020",
+    "patientName": "Mr Nikhil Chakrabarty",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Mohammad Jamal Hossen, MBBS, FCPS (ENT), MS",
+    "specimen": "Nodular swelling over supra-sternal region (H/O thyroidectomy due to papillary carcinoma in June 2020)"
+  },
+  {
+    "id": "00709",
+    "date": "24-09-2020",
+    "patientName": "Mrs Gouri Shil",
+    "age": "49 years",
+    "referer": "Prof. / Dr: Mohammad Jamal Hossen, MBBS, FCPS (ENT), MS",
+    "specimen": "Swelling over left side of the neck"
+  },
+  {
+    "id": "00710",
+    "date": "24-09-2020",
+    "patientName": "Mr Md Alauddin",
+    "age": "38 years",
+    "referer": "Prof. / Dr: Rokeya Begum, MBBS, FCPS, MS",
+    "specimen": "Both testes for spermatogenesis"
+  },
+  {
+    "id": "00711",
+    "date": "24-09-2020",
+    "patientName": "Mrs Shamsun Nahar",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Md Hasan Iftekhar, MBBS, BCS, DEM",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00712",
+    "date": "24-09-2020",
+    "patientName": "Mrs Bilkis Begum",
+    "age": "65 years",
+    "referer": "Prof. / Dr: Mohammad Jashimuddin, MBBS, FCPS (Med), MD(Gastroenterology)",
+    "specimen": "Hepatic SOL (CT guided)"
+  },
+  {
+    "id": "00713",
+    "date": "24-09-2020",
+    "patientName": "Mr Shamsu Miah",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Mohammad Ilias, MBBS, MD(Chest disaease), FCCP",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00714",
+    "date": "24-09-2020",
+    "patientName": "Mrs Hasina Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00715",
+    "date": "24-09-2020",
+    "patientName": "Mr Abu Shama",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Multiple hepatic SOL (USG guided FNA)"
+  },
+  {
+    "id": "00716",
+    "date": "24-09-2020",
+    "patientName": "Mr Shafiul Hoque",
+    "age": "70 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00717",
+    "date": "24-09-2020",
+    "patientName": "Mr Arafat Hossain",
+    "age": "31 years",
+    "referer": "Prof. / Dr: Monowar-ul- Haque Shamim, MBBS, MS(Urology)",
+    "specimen": "Suprarenal mass (USG guided FNA)"
+  },
+  {
+    "id": "00718",
+    "date": "24-09-2020",
+    "patientName": "Mr Rafiqul Islam",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS (Radiotherapy)",
+    "specimen": "Hepatic SOL(USG guided)USG guide: Dr. Mobinul A Chowdhury, MBBS, MPhil(Radiology & Imaging)"
+  },
+  {
+    "id": "00719",
+    "date": "25-09-2020",
+    "patientName": "Mr Md Harun",
+    "age": "70 years",
+    "referer": "Prof. / Dr: National Hospital",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00721",
+    "date": "25-09-2020",
+    "patientName": "Ma Chow Marma",
+    "age": "35 years",
+    "referer": "Prof. / Dr: Pankaj Kumar Banik, MBBS, PGT(ENT)",
+    "specimen": "Right anterior neck swelling"
+  },
+  {
+    "id": "00722",
+    "date": "25-09-2020",
+    "patientName": "Mr Mustakim",
+    "age": "61 years",
+    "referer": "Prof. / Dr: Shimul Kumar Bhowmik, MBBS, MD(Chest)",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00723",
+    "date": "26-09-2020",
+    "patientName": "Mr Md Ismail",
+    "age": "20 years",
+    "referer": "Prof. / Dr: Adnan Bacha, MBBS, MS (Surgery)",
+    "specimen": "Left testicular swelling"
+  },
+  {
+    "id": "00724",
+    "date": "26-09-2020",
+    "patientName": "Md Jahedul Islam",
+    "age": "14 years",
+    "referer": "Prof. / Dr: W-19, CMCH",
+    "specimen": "Right cervical lymph nodes"
+  },
+  {
+    "id": "00725",
+    "date": "26-09-2020",
+    "patientName": "Mrs Juthi Mohajon",
+    "age": "33 years",
+    "referer": "Prof. / Dr: Suman Talukder, MBBS, DLO",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00726",
+    "date": "26-09-2020",
+    "patientName": "Mrs Mahfuza Begum",
+    "age": "50 years",
+    "referer": "Prof. / Dr: Suman Talukder, MBBS, DLO",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00727",
+    "date": "26-09-2020",
+    "patientName": "Mrs Monowara Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Right axillary swelling with discharging sinus (H/O, right breast carcinoma 4 yrs back)"
+  },
+  {
+    "id": "00728",
+    "date": "26-09-2020",
+    "patientName": "Ms Sweety",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Najma Mahboob, MBBS, FCPS(Surgery)",
+    "specimen": "Left breast lump and axillary lymph node"
+  },
+  {
+    "id": "00729",
+    "date": "27-09-2020",
+    "patientName": "Mr Shahinul",
+    "age": "58 years",
+    "referer": "Prof. / Dr: Ali Asgar Chowdhury, MBBS, FCPS(Radiotherapy)",
+    "specimen": "Right lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00730",
+    "date": "27-09-2020",
+    "patientName": "Mr Binod Karmaker",
+    "age": "70 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00731",
+    "date": "27-09-2020",
+    "patientName": "Mrs Sagor Bia",
+    "age": "75 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Adnexal mass (CT guided FNA)"
+  },
+  {
+    "id": "00732",
+    "date": "27-09-2020",
+    "patientName": "Miss Salma",
+    "age": "18 years",
+    "referer": "Prof. / Dr:Mohammad Omar Farooque,MBBS, MCPS,DLO(DU)",
+    "specimen": "Right thyroid swelling"
+  },
+  {
+    "id": "00733",
+    "date": "27-09-2020",
+    "patientName": "Mr Madan Mitra",
+    "age": "47 years",
+    "referer": "Prof. / Dr: Tapash Mitra, MBBS, MPhil, FCPS",
+    "specimen": "Right cervical lymph node"
+  },
+  {
+    "id": "00734",
+    "date": "27-09-2020",
+    "patientName": "Mrs Sabina Yasmin",
+    "age": "35 years",
+    "referer": "Prof /Dr: W-28, CMCH",
+    "specimen": "Osteolytic lesion in D11 Vertebral body"
+  },
+  {
+    "id": "00735",
+    "date": "27-09-2020",
+    "patientName": "Mr Sultan Ahmed",
+    "age": "70 years",
+    "referer": "Prof. / Dr: W-14, CMCH",
+    "specimen": "Hepatic mass (USG guided)"
+  },
+  {
+    "id": "00737",
+    "date": "28-09-2020",
+    "patientName": "Mr Qayum Hossain",
+    "age": "16 years",
+    "referer": "Prof. / Dr: Khondoker A K Azad, MBBS,  FCPS, FRCS(Edin)",
+    "specimen": "Thyroid swelling"
+  },
+  {
+    "id": "00738",
+    "date": "28-09-2020",
+    "patientName": "Mrs Monwara Begum",
+    "age": "60 years",
+    "referer": "Prof. / Dr: Supran  Biswas, MBBS,  FCPS",
+    "specimen": "Left thyroid swelling"
+  },
+  {
+    "id": "00739",
+    "date": "28-09-2020",
+    "patientName": "Mrs Shefali Begum",
+    "age": "45 years",
+    "referer": "Prof. / Dr: Rivu Raj Chakrabarty, MBBS, FCPS(Surgery)",
+    "specimen": "Right breast lump"
+  },
+  {
+    "id": "00740",
+    "date": "28-09-2020",
+    "patientName": "Mrs Minoti Barua",
+    "age": "60 years",
+    "referer": "Prof. / Dr: City Hopsital",
+    "specimen": "Left lung mass (CT guided FNA)"
+  },
+  {
+    "id": "00741",
+    "date": "28-09-2020",
+    "patientName": "Mr Syed Rafiq Ahmed",
+    "age": "74 years",
+    "referer": "Prof. / Dr:",
+    "specimen": "Lesion in the L4 vertebral body(CT guided FNA)"
+  }
+]
