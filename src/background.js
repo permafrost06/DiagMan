@@ -1,10 +1,11 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, Menu } from "electron";
+import { app, protocol, BrowserWindow, Menu, dialog, shell } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
 const { ipcMain } = require("electron");
 const path = require("path");
+const fs = require("fs");
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Scheme must be registered before the app is ready
@@ -76,6 +77,9 @@ async function createWindow() {
       submenu: [
         {
           label: "About",
+          click() {
+            console.log(win.getSize());
+          },
         },
       ],
     },
@@ -132,3 +136,45 @@ ipcMain.on("asynchronous-message", (event, arg) => {
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
 });
+
+ipcMain.on("export", (event, arg) => {
+  const csv = jsonToCsv(arg);
+
+  if (csv) {
+    try {
+      fs.writeFileSync(
+        app.getPath("desktop") + "\\Exported Report.csv",
+        csv,
+        "utf-8"
+      );
+
+      shell.openPath(app.getPath("desktop") + "\\Exported Report.csv");
+    } catch (e) {
+      console.log(e);
+      dialog.showMessageBox(win, {
+        message:
+          "Failed to save the file!\nThe file might already be open in another program. Please close it first.",
+        type: "warning",
+      });
+    }
+  }
+});
+
+const jsonToCsv = (json) => {
+  if (json == "[]") return null;
+  else {
+    const items = JSON.parse(json);
+    const replacer = (key, value) => (value === null ? "" : value); // specify how you want to handle null values here
+    const header = Object.keys(items[0]);
+    const csv = [
+      header.join(","), // header row first
+      ...items.map((row) =>
+        header
+          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+          .join(",")
+      ),
+    ].join("\r\n");
+
+    return csv;
+  }
+};
