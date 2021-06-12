@@ -31,7 +31,11 @@
     </thead>
     <tbody>
       <tableRow v-for="record in filteredRecords" :key="record.id">
-        <recordRow v-bind="record" @record-updated="updateRecord" />
+        <recordRow
+          v-bind="record"
+          @record-updated="updateRecord"
+          @record-selection="updateSelection"
+        />
       </tableRow>
     </tbody>
   </table>
@@ -52,6 +56,19 @@ export default {
     recordRow,
   },
   methods: {
+    updateSelection(data) {
+      const selectedRecord = this.filteredRecords.filter(
+        (record) => record.id == data.record_id
+      );
+
+      if (data.operation == "add") {
+        this.selectedRecords.push(selectedRecord[0]);
+      } else {
+        this.selectedRecords = this.selectedRecords.filter(
+          (record) => record !== selectedRecord[0]
+        );
+      }
+    },
     updateRecord(data) {
       var index = this.records.findIndex(function(record) {
         return record.id == data.id;
@@ -131,18 +148,7 @@ export default {
       ageFilter: "",
       specimenFilter: "",
       refererFilter: "",
-      records: [
-        {
-          regn: "2020-C-01(Medinet 112)",
-          date: "01-01-2020",
-          patientName: "Mr Laxmiban Chakma",
-          age: "44 years",
-          referer: "Prof. / Dr:",
-          specimen: "Left parotid swelling",
-          aspNote: "On aspiration blood mixed material came out.",
-          me:
-            "Smears showed cellular material composed of many scattered and clusters of benign ductal epithelial cells along with lymphocytes and histiocytes, in the background of scanty blood.        No epithelioid or malignant cell was seen.",
-          impression: "Left parotid swelling(FNA): Sialadenitis",
+      selectedRecords: [],
         },
   beforeMount() {
     this.clientWidth = ipc.sendSync("get-width");

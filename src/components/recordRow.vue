@@ -1,6 +1,11 @@
 <template>
   <tableField v-bind="$attrs">
-    <input type="checkbox" class="check" />
+    <input
+      type="checkbox"
+      class="check"
+      v-model="selected"
+      @change="handleSelection"
+    />
   </tableField>
   <tableField v-if="edit">
     <editField
@@ -89,6 +94,7 @@ export default {
   },
   data() {
     return {
+      selected: false,
       modified: false,
       edit: false,
     };
@@ -115,6 +121,19 @@ export default {
     onModify(data) {
       this.modified = true;
       this.updatedRecord[data.fieldName] = data.value;
+    },
+    handleSelection() {
+      if (this.selected) {
+        this.$emit("record-selection", {
+          operation: "add",
+          record_id: this.id,
+        });
+      } else {
+        this.$emit("record-selection", {
+          operation: "remove",
+          record_id: this.id,
+        });
+      }
     },
     updateRecord() {
       if (this.modified) {
