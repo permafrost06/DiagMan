@@ -5,11 +5,18 @@
   >
     Export selected
   </button>
+  <button
+    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
+    @click="handleSelectAll"
+  >
+    Export all visible
+  </button>
   <table :style="cssVars">
     <thead>
       <tableRow>
         <tableHeader>
           <input
+            style="display:none"
             type="checkbox"
             class="check"
             v-model="selectAll"
@@ -36,7 +43,18 @@
           <div>Referer</div>
           <categorySearch catName="referer" @cat-search="search" />
         </tableHeader>
-        <tableHeader />
+        <tableHeader>
+          <div>Aspiration Note</div>
+          <categorySearch catName="aspNote" @cat-search="search" />
+        </tableHeader>
+        <tableHeader>
+          <div>Microscopic Examination</div>
+          <categorySearch catName="me" @cat-search="search" />
+        </tableHeader>
+        <tableHeader>
+          <div>Impression</div>
+          <categorySearch catName="impression" @cat-search="search" />
+        </tableHeader>
         <tableHeader />
       </tableRow>
     </thead>
@@ -72,14 +90,11 @@ export default {
   },
   methods: {
     handleSelectAll() {
-      if (this.selectAll) {
-        this.selectedRecords = this.filteredRecords;
-      } else {
-        this.selectedRecords = [];
-      }
+      this.selectedRecords = this.filteredRecords;
+      this.exportRecords();
+      this.selectedRecords = [];
     },
     exportRecords() {
-      console.log(this.selectedRecords);
       ipc.send("export", JSON.stringify(this.selectedRecords));
     },
     updateSelection(data) {
@@ -127,6 +142,18 @@ export default {
           this.refererFilter = value;
           break;
 
+        case "aspNote":
+          this.aspNoteFilter = value;
+          break;
+
+        case "me":
+          this.meFilter = value;
+          break;
+
+        case "impression":
+          this.impressionFilter = value;
+          break;
+
         default:
           break;
       }
@@ -151,6 +178,17 @@ export default {
         })
         .filter((record) => {
           return record.referer.toLowerCase().includes(this.refererFilter);
+        })
+        .filter((record) => {
+          return record.aspNote.toLowerCase().includes(this.aspNoteFilter);
+        })
+        .filter((record) => {
+          return record.me.toLowerCase().includes(this.meFilter);
+        })
+        .filter((record) => {
+          return record.impression
+            .toLowerCase()
+            .includes(this.impressionFilter);
         });
     },
     cssVars() {
@@ -161,8 +199,10 @@ export default {
         "--col4w": this.clientWidth * 0.1 + "px",
         "--col5w": this.clientWidth * 0.2 + "px",
         "--col6w": this.clientWidth * 0.2 + "px",
-        "--col7w": this.clientWidth * 0.05 + "px",
-        "--col8w": this.clientWidth * 0.1 + "px",
+        "--col7w": this.clientWidth * 0.2 + "px",
+        "--col8w": this.clientWidth * 0.2 + "px",
+        "--col9w": this.clientWidth * 0.2 + "px",
+        "--col10w": this.clientWidth * 0.05 + "px",
       };
     },
   },
@@ -175,6 +215,9 @@ export default {
       ageFilter: "",
       specimenFilter: "",
       refererFilter: "",
+      aspNoteFilter: "",
+      meFilter: "",
+      impressionFilter: "",
       selectedRecords: [],
       records: [],
     };
@@ -238,6 +281,14 @@ table th:nth-of-type(8),
 table td:nth-of-type(8) {
   width: var(--col8w);
 }
+table th:nth-of-type(9),
+table td:nth-of-type(9) {
+  width: var(--col9w);
+}
+table th:nth-of-type(10),
+table td:nth-of-type(10) {
+  width: var(--col10w);
+}
 
 table {
   max-width: 72rem;
@@ -247,7 +298,7 @@ table {
   table-layout: fixed;
   width: calc(
     var(--col1w) + var(--col2w) + var(--col3w) + var(--col4w) + var(--col5w) +
-      var(--col6w) + var(--col7w) + var(--col8w)
+      var(--col6w) + var(--col7w) + var(--col8w) + var(--col9w) + var(--col10w)
   );
 }
 </style>

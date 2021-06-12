@@ -64,13 +64,46 @@
     {{ referer }}
   </tableField>
   <tableField v-if="edit">
+    <editField
+      fieldLarge
+      fieldName="aspNote"
+      :fieldValue="aspNote"
+      fieldLabel="Aspiration Note"
+      @value-modified="onModify"
+    />
+  </tableField>
+  <tableField v-else>
+    {{ aspNote }}
+  </tableField>
+  <tableField v-if="edit">
+    <editField
+      fieldLarge
+      fieldName="me"
+      :fieldValue="me"
+      fieldLabel="Microscopic Examination"
+      @value-modified="onModify"
+    />
+  </tableField>
+  <tableField v-else>
+    {{ meShort }}
+  </tableField>
+  <tableField v-if="edit">
+    <editField
+      fieldLarge
+      fieldName="impression"
+      :fieldValue="impression"
+      fieldLabel="Impression"
+      @value-modified="onModify"
+    />
+  </tableField>
+  <tableField v-else>
+    {{ impressionShort }}
+  </tableField>
+  <tableField v-if="edit">
     <button @click="updateRecord">Save</button>
   </tableField>
   <tableField v-else>
     <button @click="enterEdit">Edit</button>
-  </tableField>
-  <tableField>
-    <button>Finalize</button>
   </tableField>
 </template>
 
@@ -91,6 +124,9 @@ export default {
     age: String,
     specimen: String,
     referer: String,
+    aspNote: String,
+    me: String,
+    impression: String,
   },
   data() {
     return {
@@ -100,6 +136,14 @@ export default {
     };
   },
   computed: {
+    meShort() {
+      return this.me.length > 50 ? this.me.slice(0, 50) + "..." : this.me;
+    },
+    impressionShort() {
+      return this.impression.length > 50
+        ? this.impression.slice(0, 50) + "..."
+        : this.impression;
+    },
     readableDate() {
       return this.date;
     },
@@ -111,6 +155,9 @@ export default {
         age: this.age,
         specimen: this.specimen,
         referer: this.referer,
+        aspNote: this.aspNote,
+        me: this.me,
+        impression: this.impression,
       };
     },
   },

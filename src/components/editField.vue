@@ -1,7 +1,8 @@
 <template>
   <div>
     <small>{{ fieldLabel }}</small>
-    <input type="text" v-model="value" />
+    <textarea v-if="fieldLarge" class="large" v-model="value" />
+    <input v-else type="text" v-model="value" />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ export default {
     fieldName: String,
     fieldValue: String,
     fieldLabel: String,
+    fieldLarge: Boolean,
   },
   computed: {
     value: {
@@ -30,11 +32,17 @@ export default {
 </script>
 
 <style lang="scss">
-input {
+input,
+textarea {
+  font-family: "Ubuntu";
   width: 100%;
   border: 1px solid #c4c4c4;
   border-radius: 4px;
   height: 1.7rem;
   padding-left: 0.5rem;
+}
+
+.large {
+  height: 10ch;
 }
 </style>
