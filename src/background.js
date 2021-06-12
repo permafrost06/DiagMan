@@ -129,7 +129,6 @@ ipcMain.on("asynchronous-message", (event, arg) => {
   event.reply("asynchronous-reply", "pong");
 });
 
-ipcMain.on("synchronous-message", (event, arg) => {
-  console.log(arg); // prints "ping"
-  event.returnValue = "pong";
+ipcMain.on("get-width", (event) => {
+  event.returnValue = win.getSize()[0];
 });

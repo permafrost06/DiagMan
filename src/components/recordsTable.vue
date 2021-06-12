@@ -110,9 +110,22 @@ export default {
           return record.referer.toLowerCase().includes(this.refererFilter);
         });
     },
+    cssVars() {
+      return {
+        "--col1w": 42 + "px",
+        "--col2w": this.clientWidth * 0.2 + "px",
+        "--col3w": this.clientWidth * 0.1 + "px",
+        "--col4w": this.clientWidth * 0.1 + "px",
+        "--col5w": this.clientWidth * 0.2 + "px",
+        "--col6w": this.clientWidth * 0.2 + "px",
+        "--col7w": this.clientWidth * 0.05 + "px",
+        "--col8w": this.clientWidth * 0.1 + "px",
+      };
+    },
   },
   data() {
     return {
+      clientWidth: null,
       patientNameFilter: "",
       dateFilter: "",
       ageFilter: "",
@@ -131,18 +144,8 @@ export default {
             "Smears showed cellular material composed of many scattered and clusters of benign ductal epithelial cells along with lymphocytes and histiocytes, in the background of scanty blood.        No epithelioid or malignant cell was seen.",
           impression: "Left parotid swelling(FNA): Sialadenitis",
         },
-        {
-          regn: "2020-C-02(Medinet )",
-          date: "01-01-2020",
-          patientName: "Humayra",
-          age: "06 years",
-          referer: "Prof. / Dr: Md Salim, MBBS,MCPS, MS(Surgery)",
-          specimen: "Left cervical lymph nodes",
-          aspNote: "On aspiration, blood mixed cellular material came out.",
-          me:
-            "Smear showed cellular material composed of polymorphous population of lymphoid cells along cells with much enlarged nucleus with prominent nucleoli often they were binucleated in the background of scanty blood.No epithelioid cell was seen.",
-          impression:
-            "Left cervical lymph nodes(FNA):See description please NB: Require histopathology to exclude HodgkinÆs disease",
+  beforeMount() {
+    this.clientWidth = ipc.sendSync("get-width");
         },
         {
           regn: "2020-C-03 (Central Lab 002)",
@@ -9267,16 +9270,16 @@ export default {
 </script>
 
 <style lang="scss">
-:root {
-  --col1w: 42px;
-  --col2w: 250px;
-  --col3w: 140px;
-  --col4w: 110px;
-  --col5w: 250px;
-  --col6w: 220px;
-  --col7w: 70px;
-  --col8w: 140px;
-}
+// :root {
+//   --col1w: 42px;
+//   --col2w: 250px;
+//   --col3w: 140px;
+//   --col4w: 110px;
+//   --col5w: 250px;
+//   --col6w: 220px;
+//   --col7w: 70px;
+//   --col8w: 140px;
+// }
 
 // table column widths
 
