@@ -76,8 +76,6 @@ import tableHeader from "./tableHeader.vue";
 import categorySearch from "./categorySearch.vue";
 import recordRow from "./recordRow.vue";
 
-import recordsjson from "./records.json";
-
 const ipc = window.ipcRenderer;
 
 export default {
@@ -226,7 +224,7 @@ export default {
     this.clientWidth = ipc.sendSync("get-width");
   },
   mounted() {
-    this.records = recordsjson;
+    this.records = ipc.sendSync("get-records");
   },
 };
 </script>

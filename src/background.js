@@ -1,10 +1,11 @@
 "use strict";
-
 import { app, protocol, BrowserWindow, Menu, dialog, shell } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
+import jsonData from "./components/records.js";
 const { ipcMain } = require("electron");
 const path = require("path");
+var PouchDB = require("pouchdb-node");
 const fs = require("fs");
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -15,6 +16,34 @@ protocol.registerSchemesAsPrivileged([
 
 let win = null;
 const gotTheLock = app.requestSingleInstanceLock();
+
+var db = new PouchDB("records.db");
+
+function seedDatabase() {
+  for (let i = 0; i < jsonData.length; i++) {
+    const { id, ...newCase } = jsonData[i];
+    newCase._id = id;
+    db.put(newCase).catch((error) => {
+      console.log(error);
+    });
+  }
+}
+
+function printDB() {
+  db.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      console.log(result.rows[i].doc);
+    }
+  });
+}
+
+function clearDB() {
+  db.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      db.remove(result.rows[i].doc);
+    }
+  });
+}
 
 if (!gotTheLock) {
   app.quit();
@@ -68,6 +97,29 @@ async function createWindow() {
           label: "Exit",
           click() {
             app.quit();
+          },
+        },
+      ],
+    },
+    {
+      label: "Database",
+      submenu: [
+        {
+          label: "Print DB",
+          click() {
+            printDB();
+          },
+        },
+        {
+          label: "Seed DB",
+          click() {
+            seedDatabase();
+          },
+        },
+        {
+          label: "Clear DB",
+          click() {
+            clearDB();
           },
         },
       ],
@@ -135,6 +187,21 @@ ipcMain.on("asynchronous-message", (event, arg) => {
 
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
+});
+
+ipcMain.on("get-records", (event, arg) => {
+  var allRecords = [];
+  db.allDocs({ include_docs: true })
+    .then((result) => {
+      for (let i = 0; i < result.rows.length; i++) {
+        const { _id, ...newCase } = result.rows[i].doc;
+        newCase.id = _id;
+        allRecords.push(newCase);
+      }
+    })
+    .then(() => {
+      event.returnValue = allRecords;
+    });
 });
 
 ipcMain.on("export", (event, arg) => {
