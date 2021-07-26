@@ -59,7 +59,7 @@
       </tableRow>
     </thead>
     <tbody>
-      <tableRow v-for="record in filteredRecords" :key="record._id">
+      <tableRow v-for="record in records" :key="record._id">
         <recordRow
           v-bind="record"
           @record-updated="updateRecord"
@@ -87,6 +87,18 @@ export default {
     recordRow,
   },
   methods: {
+    updateData() {
+      this.records = ipc.sendSync("get-records", {
+        patientNameFilter: this.patientNameFilter,
+        dateFilter: this.dateFilter,
+        ageFilter: this.ageFilter,
+        specimenFilter: this.specimenFilter,
+        refererFilter: this.refererFilter,
+        aspNoteFilter: this.aspNoteFilter,
+        meFilter: this.meFilter,
+        impressionFilter: this.impressionFilter,
+      });
+    },
     handleSelectAll() {
       this.selectedRecords = this.filteredRecords;
       this.exportRecords();
@@ -151,40 +163,10 @@ export default {
         default:
           break;
       }
+      this.updateData();
     },
   },
   computed: {
-    filteredRecords() {
-      return this.records
-        .filter((record) => {
-          return record.patientName
-            .toLowerCase()
-            .includes(this.patientNameFilter);
-        })
-        .filter((record) => {
-          return record.date.toLowerCase().includes(this.dateFilter);
-        })
-        .filter((record) => {
-          return record.age.toLowerCase().includes(this.ageFilter);
-        })
-        .filter((record) => {
-          return record.specimen.toLowerCase().includes(this.specimenFilter);
-        })
-        .filter((record) => {
-          return record.referer.toLowerCase().includes(this.refererFilter);
-        })
-        .filter((record) => {
-          return record.aspNote.toLowerCase().includes(this.aspNoteFilter);
-        })
-        .filter((record) => {
-          return record.me.toLowerCase().includes(this.meFilter);
-        })
-        .filter((record) => {
-          return record.impression
-            .toLowerCase()
-            .includes(this.impressionFilter);
-        });
-    },
     cssVars() {
       return {
         "--col1w": 42 + "px",
@@ -218,10 +200,10 @@ export default {
   },
   beforeMount() {
     this.clientWidth = ipc.sendSync("get-width");
-    this.records = ipc.sendSync("get-records");
+    this.updateData();
 
     ipc.on("db-updated", () => {
-      this.records = ipc.sendSync("get-records");
+      this.updateData();
     });
   },
   // mounted() {

@@ -224,7 +224,41 @@ ipcMain.on("get-records", async (event, filter) => {
     allRecords = query.rows.map(({ doc }) => doc);
   }
 
-  event.returnValue = allRecords;
+  console.log(filter);
+
+  if (filter) {
+    event.returnValue = allRecords
+      .filter((record) => {
+        return record.patientName
+          .toLowerCase()
+          .includes(filter.patientNameFilter);
+      })
+      .filter((record) => {
+        return record.date.toLowerCase().includes(filter.dateFilter);
+      })
+      .filter((record) => {
+        return record.age.toLowerCase().includes(filter.ageFilter);
+      })
+      .filter((record) => {
+        return record.specimen.toLowerCase().includes(filter.specimenFilter);
+      })
+      .filter((record) => {
+        return record.referer.toLowerCase().includes(filter.refererFilter);
+      })
+      .filter((record) => {
+        return record.aspNote.toLowerCase().includes(filter.aspNoteFilter);
+      })
+      .filter((record) => {
+        return record.me.toLowerCase().includes(filter.meFilter);
+      })
+      .filter((record) => {
+        return record.impression
+          .toLowerCase()
+          .includes(filter.impressionFilter);
+      });
+  } else {
+    event.returnValue = allRecords;
+  }
 });
 
 ipcMain.on("export", (event, arg) => {
