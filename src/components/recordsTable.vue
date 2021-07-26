@@ -109,11 +109,7 @@ export default {
       }
     },
     updateRecord(data) {
-      var index = this.records.findIndex(function(record) {
-        return record.id == data.id;
-      });
-
-      this.records.splice(index, 1, data);
+      ipc.send("record-update", data);
     },
     search(data) {
       const cat = data.cat;
@@ -222,10 +218,14 @@ export default {
   },
   beforeMount() {
     this.clientWidth = ipc.sendSync("get-width");
-  },
-  mounted() {
     this.records = ipc.sendSync("get-records");
+
+    ipc.on("db-updated", () => {
+      this.records = ipc.sendSync("get-records");
+    });
   },
+  // mounted() {
+  // },
 };
 </script>
 

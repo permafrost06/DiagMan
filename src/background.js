@@ -27,6 +27,8 @@ function seedDatabase() {
       console.log(error);
     });
   }
+
+  win.webContents.send("db-updated");
 }
 
 function printDB() {
@@ -43,7 +45,31 @@ function clearDB() {
       db.remove(result.rows[i].doc);
     }
   });
+
+  win.webContents.send("db-updated");
 }
+
+const updateRecord = async (record) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await db.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  const { id, ...newRecord } = record;
+  newRecord._id = id;
+  newRecord._rev = await getRev(record.id);
+
+  try {
+    await db.put(newRecord);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 if (!gotTheLock) {
   app.quit();
@@ -189,19 +215,22 @@ ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
 });
 
-ipcMain.on("get-records", (event, arg) => {
+ipcMain.on("record-update", (event, data) => {
+  updateRecord(data);
+  win.webContents.send("db-updated");
+});
+
+ipcMain.on("get-records", async (event, filter) => {
   var allRecords = [];
-  db.allDocs({ include_docs: true })
-    .then((result) => {
-      for (let i = 0; i < result.rows.length; i++) {
-        const { _id, ...newCase } = result.rows[i].doc;
-        newCase.id = _id;
-        allRecords.push(newCase);
-      }
-    })
-    .then(() => {
-      event.returnValue = allRecords;
-    });
+  const query = await db.allDocs({ include_docs: true });
+
+  for (let i = 0; i < query.rows.length; i++) {
+    const { _id, ...newCase } = query.rows[i].doc;
+    newCase.id = _id;
+    allRecords.push(newCase);
+  }
+
+  event.returnValue = allRecords;
 });
 
 ipcMain.on("export", (event, arg) => {
