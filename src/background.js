@@ -21,9 +21,7 @@ var db = new PouchDB("records.db");
 
 function seedDatabase() {
   for (let i = 0; i < jsonData.length; i++) {
-    const { id, ...newCase } = jsonData[i];
-    newCase._id = id;
-    db.put(newCase).catch((error) => {
+    db.put(jsonData[i]).catch((error) => {
       console.log(error);
     });
   }
@@ -60,12 +58,10 @@ const updateRecord = async (record) => {
     }
   };
 
-  const { id, ...newRecord } = record;
-  newRecord._id = id;
-  newRecord._rev = await getRev(record.id);
+  record._rev = await getRev(record._id);
 
   try {
-    await db.put(newRecord);
+    await db.put(record);
   } catch (error) {
     console.log(error);
   }
@@ -224,10 +220,8 @@ ipcMain.on("get-records", async (event, filter) => {
   var allRecords = [];
   const query = await db.allDocs({ include_docs: true });
 
-  for (let i = 0; i < query.rows.length; i++) {
-    const { _id, ...newCase } = query.rows[i].doc;
-    newCase.id = _id;
-    allRecords.push(newCase);
+  if (query.rows && query.rows.length) {
+    allRecords = query.rows.map(({ doc }) => doc);
   }
 
   event.returnValue = allRecords;

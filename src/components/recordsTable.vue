@@ -59,7 +59,7 @@
       </tableRow>
     </thead>
     <tbody>
-      <tableRow v-for="record in filteredRecords" :key="record.id">
+      <tableRow v-for="record in filteredRecords" :key="record._id">
         <recordRow
           v-bind="record"
           @record-updated="updateRecord"
@@ -97,7 +97,7 @@ export default {
     },
     updateSelection(data) {
       const selectedRecord = this.filteredRecords.filter(
-        (record) => record.id == data.record_id
+        (record) => record._id == data.record_id
       );
 
       if (data.operation == "add") {

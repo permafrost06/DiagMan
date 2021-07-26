@@ -17,7 +17,7 @@
   </tableField>
   <tableField v-else>
     <h5>{{ patientName }}</h5>
-    <small>{{ id }}</small>
+    <small>{{ _id }}</small>
   </tableField>
   <tableField v-if="edit">
     <editField
@@ -118,7 +118,7 @@ export default {
     editField,
   },
   props: {
-    id: String,
+    _id: String,
     patientName: String,
     date: String,
     age: String,
@@ -149,7 +149,7 @@ export default {
     },
     updatedRecord() {
       return {
-        id: this.id,
+        _id: this._id,
         patientName: this.patientName,
         date: this.date,
         age: this.age,
@@ -173,12 +173,12 @@ export default {
       if (this.selected) {
         this.$emit("record-selection", {
           operation: "add",
-          record_id: this.id,
+          record_id: this._id,
         });
       } else {
         this.$emit("record-selection", {
           operation: "remove",
-          record_id: this.id,
+          record_id: this._id,
         });
       }
     },
