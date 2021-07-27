@@ -168,23 +168,19 @@ ipcMain.on("record-update", (event, data) => {
   win.webContents.send("db-updated");
 });
 
-ipcMain.on("get-records", async (event, filter, options) => {
-  var allRecords = await getRecords(filter, options);
+ipcMain.on("get-records", async (event, options, filter) => {
+  var allRecords = await getRecords(options, filter);
   event.returnValue = allRecords;
 });
 
 ipcMain.on("export", async (event, ids) => {
   var csv;
 
-  var records = await getRecords(null, {
+  var records = await getRecords({
     keys: JSON.parse(ids),
   });
 
-  // console.log(records);
-
   csv = jsonToCsv(JSON.stringify(records));
-
-  // console.log(csv);
 
   if (csv) {
     try {

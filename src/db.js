@@ -47,8 +47,7 @@ export const updateRecord = async (record) => {
   }
 };
 
-export const getRecords = async (filter, options) => {
-  console.log(filter, options);
+export const getRecords = async (options, filter) => {
   options.include_docs = true;
 
   const query = await db.allDocs(options);

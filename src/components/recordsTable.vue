@@ -90,6 +90,7 @@ export default {
     updateData() {
       this.records = ipc.sendSync(
         "get-records",
+        {},
         {
           patientNameFilter: this.patientNameFilter,
           dateFilter: this.dateFilter,
@@ -99,8 +100,7 @@ export default {
           aspNoteFilter: this.aspNoteFilter,
           meFilter: this.meFilter,
           impressionFilter: this.impressionFilter,
-        },
-        {}
+        }
       );
     },
     handleSelectAll() {
