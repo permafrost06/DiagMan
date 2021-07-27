@@ -177,8 +177,12 @@ ipcMain.on("get-records", async (event, options, filter) => {
       const { lastID, ...dbopt } = opt;
       const records = await getRecords(dbopt, filter);
       const results = nextPage(records, lastID, options.limit);
-      }
 
+      if (results.length) {
+        event.returnValue = results;
+      } else {
+        event.returnValue = limitTo(records, options.limit);
+      }
     } else if (options.firstID) {
       const { firstID, ...dbopt } = opt;
       const records = await getRecords(dbopt, filter);
@@ -189,12 +193,10 @@ ipcMain.on("get-records", async (event, options, filter) => {
       } else {
         event.returnValue = limitTo(records, options.limit);
       }
-
     } else {
       const records = await getRecords(opt, filter);
       event.returnValue = limitTo(records, options.limit);
     }
-
   } else {
     event.returnValue = await getRecords(options, filter);
   }
