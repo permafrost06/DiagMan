@@ -100,23 +100,20 @@ export default {
       });
     },
     handleSelectAll() {
-      this.selectedRecords = this.filteredRecords;
+      const currentSelection = this.selectedRecords;
+      this.selectedRecords = this.records.map((record) => record._id);
       this.exportRecords();
-      this.selectedRecords = [];
+      this.selectedRecords = currentSelection;
     },
     exportRecords() {
       ipc.send("export", JSON.stringify(this.selectedRecords));
     },
     updateSelection(data) {
-      const selectedRecord = this.filteredRecords.filter(
-        (record) => record._id == data.record_id
-      );
-
       if (data.operation == "add") {
-        this.selectedRecords.push(selectedRecord[0]);
+        this.selectedRecords.push(data.record_id);
       } else {
         this.selectedRecords = this.selectedRecords.filter(
-          (record) => record !== selectedRecord[0]
+          (record) => record !== data.record_id
         );
       }
     },

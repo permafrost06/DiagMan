@@ -224,8 +224,6 @@ ipcMain.on("get-records", async (event, filter) => {
     allRecords = query.rows.map(({ doc }) => doc);
   }
 
-  console.log(filter);
-
   if (filter) {
     event.returnValue = allRecords
       .filter((record) => {
@@ -261,8 +259,21 @@ ipcMain.on("get-records", async (event, filter) => {
   }
 });
 
-ipcMain.on("export", (event, arg) => {
-  const csv = jsonToCsv(arg);
+ipcMain.on("export", async (event, arg) => {
+  var csv, records;
+
+  try {
+    records = await db.allDocs({
+      keys: JSON.parse(arg),
+      include_docs: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  records = records.rows.map(({ doc }) => doc);
+
+  csv = jsonToCsv(JSON.stringify(records));
 
   if (csv) {
     try {
