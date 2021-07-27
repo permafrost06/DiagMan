@@ -11,6 +11,8 @@
   >
     Export all visible
   </button>
+  Total {{ records.length }} records found
+
   <table :style="cssVars">
     <thead>
       <tableRow>
@@ -67,6 +69,8 @@
         />
       </tableRow>
     </tbody>
+    <button @click="prevPage">Previous</button>
+    <button @click="nextPage">Next</button>
   </table>
 </template>
 
@@ -87,21 +91,31 @@ export default {
     recordRow,
   },
   methods: {
-    updateData() {
-      this.records = ipc.sendSync(
-        "get-records",
-        {},
-        {
-          patientNameFilter: this.patientNameFilter,
-          dateFilter: this.dateFilter,
-          ageFilter: this.ageFilter,
-          specimenFilter: this.specimenFilter,
-          refererFilter: this.refererFilter,
-          aspNoteFilter: this.aspNoteFilter,
-          meFilter: this.meFilter,
-          impressionFilter: this.impressionFilter,
-        }
-      );
+    updateData(ids) {
+      var options = {};
+
+      if (ids) {
+        options = ids;
+      }
+
+      console.log(options);
+
+      if (this.limit) {
+        options.limit = this.limit;
+      }
+
+      this.records = ipc.sendSync("get-records", options, {
+        patientNameFilter: this.patientNameFilter,
+        dateFilter: this.dateFilter,
+        ageFilter: this.ageFilter,
+        specimenFilter: this.specimenFilter,
+        refererFilter: this.refererFilter,
+        aspNoteFilter: this.aspNoteFilter,
+        meFilter: this.meFilter,
+        impressionFilter: this.impressionFilter,
+      });
+
+      console.log(this.records);
     },
     handleSelectAll() {
       const currentSelection = this.selectedRecords;
@@ -166,6 +180,16 @@ export default {
       }
       this.updateData();
     },
+    nextPage() {
+      this.updateData({
+        lastID: this.records[this.records.length - 1]._id,
+      });
+    },
+    prevPage() {
+      this.updateData({
+        firstID: this.records[0]._id,
+      });
+    },
   },
   computed: {
     cssVars() {
@@ -197,6 +221,7 @@ export default {
       impressionFilter: "",
       selectedRecords: [],
       records: [],
+      limit: 10,
     };
   },
   beforeMount() {

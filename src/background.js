@@ -9,6 +9,7 @@ import {
   updateRecord,
   getRecords,
 } from "./db.js";
+import { limitTo, limitToLast, nextPage, prevPage } from "./pagination.js";
 const { ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
@@ -169,8 +170,34 @@ ipcMain.on("record-update", (event, data) => {
 });
 
 ipcMain.on("get-records", async (event, options, filter) => {
-  var allRecords = await getRecords(options, filter);
-  event.returnValue = allRecords;
+  if (options.limit) {
+    const { limit, ...opt } = options;
+
+    if (options.lastID) {
+      const { lastID, ...dbopt } = opt;
+      const records = await getRecords(dbopt, filter);
+      const results = nextPage(records, lastID, options.limit);
+      }
+
+    } else if (options.firstID) {
+      const { firstID, ...dbopt } = opt;
+      const records = await getRecords(dbopt, filter);
+      const results = prevPage(records, firstID, options.limit);
+
+      if (results.length) {
+        event.returnValue = results;
+      } else {
+        event.returnValue = limitTo(records, options.limit);
+      }
+
+    } else {
+      const records = await getRecords(opt, filter);
+      event.returnValue = limitTo(records, options.limit);
+    }
+
+  } else {
+    event.returnValue = await getRecords(options, filter);
+  }
 });
 
 ipcMain.on("export", async (event, ids) => {
