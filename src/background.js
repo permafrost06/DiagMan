@@ -2,10 +2,15 @@
 import { app, protocol, BrowserWindow, Menu, dialog, shell } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
-import jsonData from "./components/records.js";
+import {
+  seedDatabase,
+  printDB,
+  clearDB,
+  updateRecord,
+  getRecords,
+} from "./db.js";
 const { ipcMain } = require("electron");
 const path = require("path");
-var PouchDB = require("pouchdb-node");
 const fs = require("fs");
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -16,56 +21,6 @@ protocol.registerSchemesAsPrivileged([
 
 let win = null;
 const gotTheLock = app.requestSingleInstanceLock();
-
-var db = new PouchDB("records.db");
-
-function seedDatabase() {
-  for (let i = 0; i < jsonData.length; i++) {
-    db.put(jsonData[i]).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  win.webContents.send("db-updated");
-}
-
-function printDB() {
-  db.allDocs({ include_docs: true }).then((result) => {
-    for (let i = 0; i < result.rows.length; i++) {
-      console.log(result.rows[i].doc);
-    }
-  });
-}
-
-function clearDB() {
-  db.allDocs({ include_docs: true }).then((result) => {
-    for (let i = 0; i < result.rows.length; i++) {
-      db.remove(result.rows[i].doc);
-    }
-  });
-
-  win.webContents.send("db-updated");
-}
-
-const updateRecord = async (record) => {
-  const getRev = async (recordID) => {
-    try {
-      const oldRecord = await db.get(recordID);
-      return oldRecord._rev;
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
-
-  record._rev = await getRev(record._id);
-
-  try {
-    await db.put(record);
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 if (!gotTheLock) {
   app.quit();
@@ -136,12 +91,14 @@ async function createWindow() {
           label: "Seed DB",
           click() {
             seedDatabase();
+            win.webContents.send("db-updated");
           },
         },
         {
           label: "Clear DB",
           click() {
             clearDB();
+            win.webContents.send("db-updated");
           },
         },
       ],
@@ -202,11 +159,6 @@ if (isDevelopment) {
   }
 }
 
-ipcMain.on("asynchronous-message", (event, arg) => {
-  console.log(arg); // prints "ping"
-  event.reply("asynchronous-reply", "pong");
-});
-
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
 });
@@ -216,64 +168,23 @@ ipcMain.on("record-update", (event, data) => {
   win.webContents.send("db-updated");
 });
 
-ipcMain.on("get-records", async (event, filter) => {
-  var allRecords = [];
-  const query = await db.allDocs({ include_docs: true });
-
-  if (query.rows && query.rows.length) {
-    allRecords = query.rows.map(({ doc }) => doc);
-  }
-
-  if (filter) {
-    event.returnValue = allRecords
-      .filter((record) => {
-        return record.patientName
-          .toLowerCase()
-          .includes(filter.patientNameFilter);
-      })
-      .filter((record) => {
-        return record.date.toLowerCase().includes(filter.dateFilter);
-      })
-      .filter((record) => {
-        return record.age.toLowerCase().includes(filter.ageFilter);
-      })
-      .filter((record) => {
-        return record.specimen.toLowerCase().includes(filter.specimenFilter);
-      })
-      .filter((record) => {
-        return record.referer.toLowerCase().includes(filter.refererFilter);
-      })
-      .filter((record) => {
-        return record.aspNote.toLowerCase().includes(filter.aspNoteFilter);
-      })
-      .filter((record) => {
-        return record.me.toLowerCase().includes(filter.meFilter);
-      })
-      .filter((record) => {
-        return record.impression
-          .toLowerCase()
-          .includes(filter.impressionFilter);
-      });
-  } else {
-    event.returnValue = allRecords;
-  }
+ipcMain.on("get-records", async (event, filter, options) => {
+  var allRecords = await getRecords(filter, options);
+  event.returnValue = allRecords;
 });
 
-ipcMain.on("export", async (event, arg) => {
-  var csv, records;
+ipcMain.on("export", async (event, ids) => {
+  var csv;
 
-  try {
-    records = await db.allDocs({
-      keys: JSON.parse(arg),
-      include_docs: true,
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  var records = await getRecords(null, {
+    keys: JSON.parse(ids),
+  });
 
-  records = records.rows.map(({ doc }) => doc);
+  // console.log(records);
 
   csv = jsonToCsv(JSON.stringify(records));
+
+  // console.log(csv);
 
   if (csv) {
     try {

@@ -88,16 +88,20 @@ export default {
   },
   methods: {
     updateData() {
-      this.records = ipc.sendSync("get-records", {
-        patientNameFilter: this.patientNameFilter,
-        dateFilter: this.dateFilter,
-        ageFilter: this.ageFilter,
-        specimenFilter: this.specimenFilter,
-        refererFilter: this.refererFilter,
-        aspNoteFilter: this.aspNoteFilter,
-        meFilter: this.meFilter,
-        impressionFilter: this.impressionFilter,
-      });
+      this.records = ipc.sendSync(
+        "get-records",
+        {
+          patientNameFilter: this.patientNameFilter,
+          dateFilter: this.dateFilter,
+          ageFilter: this.ageFilter,
+          specimenFilter: this.specimenFilter,
+          refererFilter: this.refererFilter,
+          aspNoteFilter: this.aspNoteFilter,
+          meFilter: this.meFilter,
+          impressionFilter: this.impressionFilter,
+        },
+        {}
+      );
     },
     handleSelectAll() {
       const currentSelection = this.selectedRecords;
