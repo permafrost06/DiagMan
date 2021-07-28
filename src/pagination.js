@@ -12,7 +12,7 @@ export const limitTo = (arr, lim) => {
   return arr.slice(0, lim);
 };
 
-const limitToLast = (arr, lim) => {
+export const limitToLast = (arr, lim) => {
   return arr.slice(arr.length - lim);
 };
 

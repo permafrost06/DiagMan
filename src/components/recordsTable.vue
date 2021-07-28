@@ -11,7 +11,7 @@
   >
     Export all visible
   </button>
-  Total {{ records.length }} records found
+  <!-- Total {{ records.length }} records found -->
 
   <table :style="cssVars">
     <thead>
@@ -98,8 +98,6 @@ export default {
         options = ids;
       }
 
-      console.log(options);
-
       if (this.limit) {
         options.limit = this.limit;
       }
@@ -114,8 +112,6 @@ export default {
         meFilter: this.meFilter,
         impressionFilter: this.impressionFilter,
       });
-
-      console.log(this.records);
     },
     handleSelectAll() {
       const currentSelection = this.selectedRecords;

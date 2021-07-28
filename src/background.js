@@ -84,21 +84,21 @@ async function createWindow() {
       submenu: [
         {
           label: "Print DB",
-          click() {
-            printDB();
+          click: async () => {
+            await printDB();
           },
         },
         {
           label: "Seed DB",
-          click() {
-            seedDatabase();
+          click: async () => {
+            await seedDatabase();
             win.webContents.send("db-updated");
           },
         },
         {
           label: "Clear DB",
-          click() {
-            clearDB();
+          click: async () => {
+            await clearDB();
             win.webContents.send("db-updated");
           },
         },
@@ -176,26 +176,26 @@ ipcMain.on("get-records", async (event, options, filter) => {
     if (options.lastID) {
       const { lastID, ...dbopt } = opt;
       const records = await getRecords(dbopt, filter);
-      const results = nextPage(records, lastID, options.limit);
+      const results = nextPage(records, lastID, limit);
 
       if (results.length) {
         event.returnValue = results;
       } else {
-        event.returnValue = limitTo(records, options.limit);
+        event.returnValue = limitToLast(records, limit);
       }
     } else if (options.firstID) {
       const { firstID, ...dbopt } = opt;
       const records = await getRecords(dbopt, filter);
-      const results = prevPage(records, firstID, options.limit);
+      const results = prevPage(records, firstID, limit);
 
       if (results.length) {
         event.returnValue = results;
       } else {
-        event.returnValue = limitTo(records, options.limit);
+        event.returnValue = limitTo(records, limit);
       }
     } else {
       const records = await getRecords(opt, filter);
-      event.returnValue = limitTo(records, options.limit);
+      event.returnValue = limitTo(records, limit);
     }
   } else {
     event.returnValue = await getRecords(options, filter);
