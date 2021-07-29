@@ -63,7 +63,7 @@
   <tableField v-else>
     {{ referer }}
   </tableField>
-  <tableField v-if="edit">
+  <tableField v-if="edit && aspNote">
     <editField
       fieldLarge
       fieldName="aspNote"
@@ -72,10 +72,10 @@
       @value-modified="onModify"
     />
   </tableField>
-  <tableField v-else>
+  <tableField v-else-if="aspNote">
     {{ aspNote }}
   </tableField>
-  <tableField v-if="edit">
+  <tableField v-if="edit && me">
     <editField
       fieldLarge
       fieldName="me"
@@ -84,10 +84,10 @@
       @value-modified="onModify"
     />
   </tableField>
-  <tableField v-else>
+  <tableField v-else-if="me">
     {{ meShort }}
   </tableField>
-  <tableField v-if="edit">
+  <tableField v-if="edit && impression">
     <editField
       fieldLarge
       fieldName="impression"
@@ -96,7 +96,7 @@
       @value-modified="onModify"
     />
   </tableField>
-  <tableField v-else>
+  <tableField v-else-if="impression">
     {{ impressionShort }}
   </tableField>
   <tableField v-if="edit">
@@ -105,6 +105,7 @@
   <tableField v-else>
     <button @click="enterEdit">Edit</button>
   </tableField>
+  <slot></slot>
 </template>
 
 <script>
