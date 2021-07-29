@@ -1,8 +1,9 @@
 import jsonData from "./components/records.js";
+import { app } from "electron";
 var PouchDB = require("pouchdb-node");
 
-var db = new PouchDB("records.db");
-var stagedDB = new PouchDB("staged.db");
+var db = new PouchDB(`${app.getPath("userData")}/records.db`);
+var stagedDB = new PouchDB(`${app.getPath("userData")}/staged.db`);
 
 export const seedStaged = () => {
   try {
