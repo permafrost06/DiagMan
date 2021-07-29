@@ -1,14 +1,32 @@
 <template>
-  <recordsTable />
+  <recordsTable v-if="records" />
+  <patientsTable v-else />
+
+  <br />
+
+  <button class="sm-button" @click="changeView" v-if="records">Staged</button>
+  <button class="sm-button" @click="changeView" v-else>Records</button>
 </template>
 
 <script>
+import patientsTable from "./components/patientsTable.vue";
 import recordsTable from "./components/recordsTable.vue";
 
 export default {
   name: "App",
   components: {
     recordsTable,
+    patientsTable,
+  },
+  data() {
+    return {
+      records: false,
+    };
+  },
+  methods: {
+    changeView() {
+      this.records = !this.records;
+    },
   },
 };
 </script>
@@ -106,5 +124,11 @@ h5 {
 small {
   color: #a2a2a2;
   font-size: 0.8rem;
+}
+
+.sm-button {
+  width: auto;
+  margin: 1rem;
+  padding: 0.25rem 1rem;
 }
 </style>
