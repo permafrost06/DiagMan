@@ -8,6 +8,9 @@ import {
   clearDB,
   updateRecord,
   getRecords,
+  seedStaged,
+  getStaged,
+  updateStaged,
 } from "./db.js";
 import { limitTo, limitToLast, nextPage, prevPage } from "./pagination.js";
 const { ipcMain } = require("electron");
@@ -102,6 +105,13 @@ async function createWindow() {
             win.webContents.send("db-updated");
           },
         },
+        {
+          label: "Seed Staged",
+          click: async () => {
+            await seedStaged();
+            win.webContents.send("db-updated");
+          },
+        },
       ],
     },
     {
@@ -166,6 +176,11 @@ ipcMain.on("get-width", (event) => {
 
 ipcMain.on("record-update", (event, data) => {
   updateRecord(data);
+  win.webContents.send("db-updated");
+});
+
+ipcMain.on("update-staged", (event, data) => {
+  updateStaged(data);
   win.webContents.send("db-updated");
 });
 
@@ -249,3 +264,36 @@ const jsonToCsv = (json) => {
     return csv;
   }
 };
+
+ipcMain.on("get-staged", async (event, options, filter) => {
+  if (options.limit) {
+    const { limit, ...opt } = options;
+
+    if (options.lastID) {
+      const { lastID, ...dbopt } = opt;
+      const records = await getStaged(dbopt, filter);
+      const results = nextPage(records, lastID, limit);
+
+      if (results.length) {
+        event.returnValue = results;
+      } else {
+        event.returnValue = limitToLast(records, limit);
+      }
+    } else if (options.firstID) {
+      const { firstID, ...dbopt } = opt;
+      const records = await getStaged(dbopt, filter);
+      const results = prevPage(records, firstID, limit);
+
+      if (results.length) {
+        event.returnValue = results;
+      } else {
+        event.returnValue = limitTo(records, limit);
+      }
+    } else {
+      const records = await getStaged(opt, filter);
+      event.returnValue = limitTo(records, limit);
+    }
+  } else {
+    event.returnValue = await getStaged(options, filter);
+  }
+});
