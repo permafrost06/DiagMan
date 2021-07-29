@@ -1,16 +1,4 @@
 <template>
-  <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="exportRecords"
-  >
-    Export selected
-  </button>
-  <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="handleSelectAll"
-  >
-    Export all visible
-  </button>
   <!-- Total {{ records.length }} records found -->
 
   <table :style="cssVars">
@@ -69,9 +57,35 @@
         />
       </tableRow>
     </tbody>
-    <button @click="prevPage">Previous</button>
-    <button @click="nextPage">Next</button>
   </table>
+
+  <button
+    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
+    @click="prevPage"
+  >
+    Previous
+  </button>
+  <button
+    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
+    @click="nextPage"
+  >
+    Next
+  </button>
+
+  <br />
+
+  <button
+    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
+    @click="exportRecords"
+  >
+    Export selected
+  </button>
+  <button
+    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
+    @click="handleSelectAll"
+  >
+    Export all visible
+  </button>
 </template>
 
 <script>
@@ -233,7 +247,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // :root {
 //   --col1w: 42px;
 //   --col2w: 250px;
