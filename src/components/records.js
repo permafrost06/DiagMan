@@ -1,6 +1,6 @@
 export default [
   {
-    id: "00002",
+    _id: "00002",
     date: "01-01-2020",
     patientName: "Mr Laxmiban Chakma",
     age: "44 years",
@@ -12,7 +12,7 @@ export default [
     impression: "Left parotid swelling(FNA): Sialadenitis",
   },
   {
-    id: "00003",
+    _id: "00003",
     date: "01-01-2020",
     patientName: "Humayra",
     age: "06 years",
@@ -25,7 +25,7 @@ export default [
       "Left cervical lymph nodes(FNA):See description please NB: Require histopathology to exclude HodgkinÆs disease",
   },
   {
-    id: "00004",
+    _id: "00004",
     date: "02-01-2020",
     patientName: "Mrs Lucky",
     age: "40 years",
@@ -37,7 +37,7 @@ export default [
     impression: "Right forearm swellinlling(FNA):Benign mesenchymal lesion",
   },
   {
-    id: "00005",
+    _id: "00005",
     date: "02-01-2020",
     patientName: "Ishrat Jahan",
     age: "14 years",
@@ -50,7 +50,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00006",
+    _id: "00006",
     date: "02-01-2020",
     patientName: "Mrs Baby Dey",
     age: "34 years",
@@ -64,7 +64,7 @@ export default [
       "Left thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00007",
+    _id: "00007",
     date: "02-01-2020",
     patientName: "Mr Borhan Uddin",
     age: "26 years",
@@ -77,7 +77,7 @@ export default [
       "Swelling over dorsum of the tongue(FNA): Negative for malignant cell",
   },
   {
-    id: "00009",
+    _id: "00009",
     date: "05-01-2020",
     patientName: "Mr Arun Kanti Nath",
     age: "88 years",
@@ -90,7 +90,7 @@ export default [
       "Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00010",
+    _id: "00010",
     date: "05-01-2020",
     patientName: "Ms Jannatul Naim",
     age: "13 years",
@@ -102,7 +102,7 @@ export default [
     impression: "Submental lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00011",
+    _id: "00011",
     date: "05-01-2020",
     patientName: "Mrs Protima Das",
     age: "41 years",
@@ -115,7 +115,7 @@ export default [
       "Left supra-clavicular lymph node (FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00012",
+    _id: "00012",
     date: "05-01-2020",
     patientName: "Mrs Shahnaz Begum",
     age: "32 years",
@@ -129,7 +129,7 @@ export default [
       "Left breast lump (USG guided FNA):Fibroadenoma with fibrocystic changes",
   },
   {
-    id: "00013",
+    _id: "00013",
     date: "06-01-2020",
     patientName: "Iftekhar Uddin",
     age: "13 years",
@@ -142,7 +142,7 @@ export default [
       "Right cervical lymph node (FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00014",
+    _id: "00014",
     date: "06-01-2020",
     patientName: "Mrs Kajol",
     age: "18 years",
@@ -155,7 +155,7 @@ export default [
       "Swelling of the left humerous (CT guided FNAC): See description please",
   },
   {
-    id: "00015",
+    _id: "00015",
     date: "06-01-2020",
     patientName: "Mrs Sumi Begum",
     age: "25 years",
@@ -168,7 +168,7 @@ export default [
       "Right cervical lymph node(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00016",
+    _id: "00016",
     date: "07-01-2020",
     patientName: "Mr Kalu Shah",
     age: "26 years",
@@ -180,7 +180,7 @@ export default [
     impression: "Left arm swelling(FNA):Suggestive of hemangioma",
   },
   {
-    id: "00017",
+    _id: "00017",
     date: "08-01-2020",
     patientName: "Mr Anisur Rahman",
     age: "28 years",
@@ -192,7 +192,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00018",
+    _id: "00018",
     date: "08-01-2020",
     patientName: "Mr Sujit Sinha",
     age: "41 years",
@@ -204,7 +204,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00019",
+    _id: "00019",
     date: "08-01-2020",
     patientName: "Md Rashed",
     age: "31 years",
@@ -218,7 +218,7 @@ export default [
       "Right axillary swelling (USG guided FNA): Suspicious cells seenNB: Require Histopathology",
   },
   {
-    id: "00020",
+    _id: "00020",
     date: "08-01-2020",
     patientName: "Mr Tobiullah Mollah",
     age: "60 years",
@@ -232,7 +232,7 @@ export default [
       "Hepatic mass (USG guided FNA): Hepatocellular carcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00021",
+    _id: "00021",
     date: "09-01-2020",
     patientName: "Mrs Minu",
     age: "29 years",
@@ -244,7 +244,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00022",
+    _id: "00022",
     date: "11-01-2020",
     patientName: "Mr Md Mainuddin",
     age: "30 years",
@@ -257,7 +257,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00023",
+    _id: "00023",
     date: "11-01-2020",
     patientName: "Parvin Akhter",
     age: "19 years",
@@ -271,7 +271,7 @@ export default [
       "Swelling over right side of the neck (FNA): Suggestive of Epidermal inclusion cyst with                                                                 foreign body type granuloma and suppuration",
   },
   {
-    id: "00024",
+    _id: "00024",
     date: "12-01-2020",
     patientName: "Mrs Akhi Akhter",
     age: "20 years",
@@ -285,7 +285,7 @@ export default [
       "Left cervical lymph node(FNA):Suggestive of granulomatous inflammation with suppurationNB: Repeat FNAC after a course of antibiotic or biopsy for histopathology",
   },
   {
-    id: "00026",
+    _id: "00026",
     date: "12-01-2020",
     patientName: "Mr Md Nurul Islam",
     age: "72 years",
@@ -299,7 +299,7 @@ export default [
       "Left cervical and supra-clavicular lymph node (FNA): Non HodgkinÆs lymphomaNB: Requires histopathology",
   },
   {
-    id: "00027",
+    _id: "00027",
     date: "12-01-2020",
     patientName: "Ms Murshida",
     age: "48 years",
@@ -312,7 +312,7 @@ export default [
     impression: "Right thyroid swelling (USG guided FNA): Nodular goitre",
   },
   {
-    id: "00028",
+    _id: "00028",
     date: "13-01-2020",
     patientName: "Mrs Tumpa Mohazon",
     age: "24 years",
@@ -324,7 +324,7 @@ export default [
     impression: "Thyroid swelling (FNA): Suggestive of lymphocytic thyroiditis",
   },
   {
-    id: "00029",
+    _id: "00029",
     date: "15-01-2020",
     patientName: "Mr Nikhil Chakrobarty",
     age: "44 years",
@@ -337,7 +337,7 @@ export default [
       "Left thyroid swelling (FNA): Papillary carcinoma NB: Requires histopathology for confirmation",
   },
   {
-    id: "00030",
+    _id: "00030",
     date: "15-01-2020",
     patientName: "Mrs Farida Begum",
     age: "45 years",
@@ -350,7 +350,7 @@ export default [
       "Anterior midline neck swelling(FNA):Benign cystic lesion,                     Suggestive of Thyroglossal cyst",
   },
   {
-    id: "00031",
+    _id: "00031",
     date: "15-01-2020",
     patientName: "Mrs Shamima",
     age: "23 years",
@@ -363,7 +363,7 @@ export default [
     impression: "Left thyroid swelling (USG guided FNA): Colloid goitre",
   },
   {
-    id: "00032",
+    _id: "00032",
     date: "15-01-2020",
     patientName: "Ms Nishat Tasnim",
     age: "23 years",
@@ -376,7 +376,7 @@ export default [
       "Swelling over left shoulder (FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00033",
+    _id: "00033",
     date: "16-01-2020",
     patientName: "Ms Salma Akhter",
     age: "19 years",
@@ -390,7 +390,7 @@ export default [
       "Left cervical lymph nodes (FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00034",
+    _id: "00034",
     date: "18-01-2020",
     patientName: "Mrs Sheli Akhter",
     age: "35 years",
@@ -403,7 +403,7 @@ export default [
       "Right breast lump(FNA):Granulomatous mastitis with suppuration and atypical cellNB: Repeat FNAC or biopsy after a course of antibiotics",
   },
   {
-    id: "00035",
+    _id: "00035",
     date: "18-01-2020",
     patientName: "Mrs Rima Akhter",
     age: "30 years",
@@ -415,7 +415,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00036",
+    _id: "00036",
     date: "19-01-2020",
     patientName: "Mr Syed Azizul Islam",
     age: "48 years",
@@ -428,7 +428,7 @@ export default [
       "Swelling over back of the chest(FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00037",
+    _id: "00037",
     date: "19-01-2020",
     patientName: "Mrs Shingu Marma",
     age: "73 years",
@@ -442,7 +442,7 @@ export default [
       "Left submandibular and sub-mental lymph nodes (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00038",
+    _id: "00038",
     date: "19-01-2020",
     patientName: "Mrs Kaosar Akhter",
     age: "29 years",
@@ -456,7 +456,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseation necrosis with calcificationNB: Requires histopathology to exclude granuloma",
   },
   {
-    id: "00039",
+    _id: "00039",
     date: "19-01-2020",
     patientName: "Mr Md Anowar",
     age: "28 years",
@@ -470,7 +470,7 @@ export default [
       "Hepatic mass (USG guided FNA): Negative for malignant cellNB: Possibility of haemangioma needs to be excluded.",
   },
   {
-    id: "00040",
+    _id: "00040",
     date: "20-01-2020",
     patientName: "Ms Umme Kulsum",
     age: "47 years",
@@ -483,7 +483,7 @@ export default [
     impression: "Left thyroid swelling (USG guided FNA): Nodular goitre",
   },
   {
-    id: "00041",
+    _id: "00041",
     date: "21-01-2020",
     patientName: "Mis Saima Jannat",
     age: "17 years",
@@ -495,7 +495,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00042",
+    _id: "00042",
     date: "21-01-2020",
     patientName: "Mrs Shahnaz Begum",
     age: "38 years",
@@ -507,7 +507,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00044",
+    _id: "00044",
     date: "21-01-2020",
     patientName: "Md Faizullah",
     age: "16 years",
@@ -519,7 +519,7 @@ export default [
     impression: "Submental lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00045",
+    _id: "00045",
     date: "21-01-2020",
     patientName: "Md Saleh Ahmed",
     age: "70 years",
@@ -532,7 +532,7 @@ export default [
       "Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00046",
+    _id: "00046",
     date: "21-01-2020",
     patientName: "Mrs Shahanaz Parvin",
     age: "40 years",
@@ -545,7 +545,7 @@ export default [
       "Left parotid swelling(FNA): Suggestive of WarthinÆs tumour NB: Require histopathology for confirmation",
   },
   {
-    id: "00048",
+    _id: "00048",
     date: "22-01-2020",
     patientName: "Mrs Shathi",
     age: "22 years",
@@ -559,7 +559,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma with suppuration                                                 Suggestive of Tubercular abscess",
   },
   {
-    id: "00049",
+    _id: "00049",
     date: "22-01-2020",
     patientName: "Md Nurul Alam",
     age: "19 years",
@@ -571,7 +571,7 @@ export default [
     impression: "Submental lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00051",
+    _id: "00051",
     date: "23-01-2020",
     patientName: "Mrs Ranu Begum",
     age: "40 years",
@@ -585,7 +585,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00052",
+    _id: "00052",
     date: "23-01-2020",
     patientName: "Mrs Nazma Akhter",
     age: "26 years",
@@ -597,7 +597,7 @@ export default [
     impression: "Left breast (FNA):Chronic mastitis",
   },
   {
-    id: "00053",
+    _id: "00053",
     date: "25-01-2020",
     patientName: "Mrs Mohinur Akhter",
     age: "49 years",
@@ -609,7 +609,7 @@ export default [
     impression: "Thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00054",
+    _id: "00054",
     date: "27-01-2020",
     patientName: "Mr Humayun Kabir Sumon",
     age: "30 years",
@@ -622,7 +622,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00055",
+    _id: "00055",
     date: "28-01-2020",
     patientName: "Mrs Rusha Akhter",
     age: "33 years",
@@ -635,7 +635,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00056",
+    _id: "00056",
     date: "06-01-2020",
     patientName: "Mrs Johura Khatun",
     age: "25 years",
@@ -648,7 +648,7 @@ export default [
       "Swelling over left side of the back of the chest (FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00057",
+    _id: "00057",
     date: "29-01-2020",
     patientName: "Mrs Tofa Akhter",
     age: "26 years",
@@ -661,7 +661,7 @@ export default [
       "Left axillary lymph node (FNA):See description please NB: Require histopathology to exclude HodgkinÆs disease",
   },
   {
-    id: "00058",
+    _id: "00058",
     date: "29-01-2020",
     patientName: "Ms Jannatul Adna",
     age: "31 years",
@@ -674,7 +674,7 @@ export default [
     impression: "Thyroid swelling (USG guided FNA): Nodular goitre",
   },
   {
-    id: "00059",
+    _id: "00059",
     date: "30-01-2020",
     patientName: "Niloy Barua",
     age: "13 years",
@@ -687,7 +687,7 @@ export default [
       "Swelling over lateral border of left small finger(FNA): Benign mesenchymal lesion",
   },
   {
-    id: "00062",
+    _id: "00062",
     date: "01-02-2020",
     patientName: "Mrs Shafiya Khatun",
     age: "40 years",
@@ -700,7 +700,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00063",
+    _id: "00063",
     date: "01-02-2020",
     patientName: "Mr Abul Bashar",
     age: "45 years",
@@ -712,7 +712,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00064",
+    _id: "00064",
     date: "01-02-2020",
     patientName: "Ms Maymun Akhter",
     age: "15 years",
@@ -725,7 +725,7 @@ export default [
       "Left submandibular lymph node (FNA): Chronic non-specific lymphadenitis",
   },
   {
-    id: "00065",
+    _id: "00065",
     date: "02-02-2020",
     patientName: "Ms Akhi Akhter",
     age: "18 years",
@@ -739,7 +739,7 @@ export default [
       "Right cervical lymph nodes(FNA): Atypical cell seen NB: Require histopathology",
   },
   {
-    id: "00066",
+    _id: "00066",
     date: "03-02-2020",
     patientName: "Mrs Nur Banu",
     age: "55 years",
@@ -753,7 +753,7 @@ export default [
       "A) Left axillary lymph node(FNA): Metastatic duct cell carcinoma, with inflammationB) Left breast lump (FNA): Duct cell carcinoma, with inflammation",
   },
   {
-    id: "00068",
+    _id: "00068",
     date: "04-02-2020",
     patientName: "Mrs Shamsun Nahar",
     age: "41 years",
@@ -766,7 +766,7 @@ export default [
       "Right breast lump(FNA): Negative for malignant cell                                     Suggestive of benign proliferative breast disease",
   },
   {
-    id: "00069",
+    _id: "00069",
     date: "04-02-2020",
     patientName: "Mrs Nazmun Nahar",
     age: "22 years",
@@ -779,7 +779,7 @@ export default [
       "Right thyroid swelling (FNA): Papillary carcinoma NB: Requires histopathology for confirmation",
   },
   {
-    id: "00070",
+    _id: "00070",
     date: "04-02-2020",
     patientName: "Mrs Tahmina",
     age: "21 years",
@@ -792,7 +792,7 @@ export default [
       "Right axillary lymph node(USG Guided FNA): Chronic non specific lymphadenitis",
   },
   {
-    id: "00071",
+    _id: "00071",
     date: "04-02-2020",
     patientName: "Mrs Jamila Begum",
     age: "32 years",
@@ -804,7 +804,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00072",
+    _id: "00072",
     date: "05-02-2020",
     patientName: "Mr Osman Gani",
     age: "38 years",
@@ -816,7 +816,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00073",
+    _id: "00073",
     date: "06-02-2020",
     patientName: "Mrs Khadiza Begum",
     age: "47 years",
@@ -830,7 +830,7 @@ export default [
       "Epigastric mass (USG guided FNA): Suggestive of Non-HodgkinÆs LymphomaNB: Require Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00074",
+    _id: "00074",
     date: "06-02-2020",
     patientName: "Mrs Shirin  Akhter",
     age: "48 years",
@@ -843,7 +843,7 @@ export default [
       "Right breast lump(FNA):Granulomatous mastitis with suppuration NB: Require histopathology",
   },
   {
-    id: "00076",
+    _id: "00076",
     date: "06-02-2020",
     patientName: "Mrs Jahanara Begum",
     age: "50 years",
@@ -856,7 +856,7 @@ export default [
       "Left thyroid swelling(FNA): Poorly differentiated thyroid carcinoma",
   },
   {
-    id: "00077",
+    _id: "00077",
     date: "07-02-2020",
     patientName: "Mrs Hormuja Khatun",
     age: "80 years",
@@ -869,7 +869,7 @@ export default [
       "Left post auricular mass(FNA): Poorly differentiated squamous cell carcinoma",
   },
   {
-    id: "00078",
+    _id: "00078",
     date: "07-02-2020",
     patientName: "Mrs Julekha Khatun",
     age: "65 years",
@@ -882,7 +882,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00079",
+    _id: "00079",
     date: "07-02-2020",
     patientName: "Mr Md Munir",
     age: "38 years",
@@ -894,7 +894,7 @@ export default [
     impression: "Right and Left testes (FNA): Late maturation arrest",
   },
   {
-    id: "00080",
+    _id: "00080",
     date: "07-02-2020",
     patientName: "Mr Jafrul Islam",
     age: "35 years",
@@ -907,7 +907,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00081",
+    _id: "00081",
     date: "08-02-2020",
     patientName: "Mr Nafiz",
     age: "23 years",
@@ -920,7 +920,7 @@ export default [
       "Anterior midline neck swelling(FNA): Suggestive of benign cystic lesion",
   },
   {
-    id: "00084",
+    _id: "00084",
     date: "09-02-2020",
     patientName: "Mr Md Mainuddin",
     age: "30 years",
@@ -933,7 +933,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00085",
+    _id: "00085",
     date: "09-02-2020",
     patientName: "Mrs Farah",
     age: "25 years",
@@ -946,7 +946,7 @@ export default [
       "Left breast lump (FNA): Atypical ductal hyperplasia with fibrocystic changes NB: Require histopathology to exclude any possibility of malignancy",
   },
   {
-    id: "00086",
+    _id: "00086",
     date: "09-02-2020",
     patientName: "Mr Md Khokon",
     age: "27 years",
@@ -959,7 +959,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00087",
+    _id: "00087",
     date: "09-02-2020",
     patientName: "Mr Jafar Ahmed",
     age: "50 years",
@@ -972,7 +972,7 @@ export default [
       "Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00088",
+    _id: "00088",
     date: "10-02-2020",
     patientName: "Mrs Halima Begum",
     age: "55 years",
@@ -985,7 +985,7 @@ export default [
       "Left breast lump (FNA): Duct cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00089",
+    _id: "00089",
     date: "10-02-2020",
     patientName: "Mrs Lily Kar",
     age: "29 years",
@@ -998,7 +998,7 @@ export default [
     impression: "Left breast lump (USG guided FNA):  Fibrocystic changes",
   },
   {
-    id: "00090",
+    _id: "00090",
     date: "12-02-2020",
     patientName: "Mrs Rezia Begum",
     age: "45 years",
@@ -1011,7 +1011,7 @@ export default [
       "Thyroid swelling(FNA): Benign follicular nodule                                     Suggestive of nodular goitre",
   },
   {
-    id: "00091",
+    _id: "00091",
     date: "12-02-2020",
     patientName: "Mrs Senowara Begum",
     age: "45 years",
@@ -1023,7 +1023,7 @@ export default [
     impression: "Thyroid swelling(FNA): Colloid goitre",
   },
   {
-    id: "00092",
+    _id: "00092",
     date: "11-02-2020",
     patientName: "Mrs Laxmi Das",
     age: "32 years",
@@ -1037,7 +1037,7 @@ export default [
       "Right breast lump (USG guided FNA):  Chronic mastitis                                                          Granulomatous mastitis could not be overruled.",
   },
   {
-    id: "00093",
+    _id: "00093",
     date: "12-02-2020",
     patientName: "Md Abdullah Al Dihan",
     age: "15 years",
@@ -1050,7 +1050,7 @@ export default [
       "Left cervical lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00094",
+    _id: "00094",
     date: "29-01-2020",
     patientName: "Ms Shamsun Nahar",
     age: "44 years",
@@ -1064,7 +1064,7 @@ export default [
     impression: "Thyroid swelling (USG guided FNA): Nodular goitre",
   },
   {
-    id: "00095",
+    _id: "00095",
     date: "13-02-2020",
     patientName: "Mr Nazir Hossain",
     age: "73 years",
@@ -1078,7 +1078,7 @@ export default [
       "Left submandibular lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00096",
+    _id: "00096",
     date: "13-02-2020",
     patientName: "Mr Nazir Hossain",
     age: "73 years",
@@ -1092,7 +1092,7 @@ export default [
       "Left submandibular swelling (FNA): Suspicious cell seen.NB: Require histopathology to exclude malignancy",
   },
   {
-    id: "00097",
+    _id: "00097",
     date: "13-02-2020",
     patientName: "Mrs Ambia Khatun",
     age: "60 years",
@@ -1105,7 +1105,7 @@ export default [
       "Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00098",
+    _id: "00098",
     date: "13-02-2020",
     patientName: "Mrs Delwara Begum",
     age: "50 years",
@@ -1118,7 +1118,7 @@ export default [
       "Left parotid swelling(FNA): Suggestive of Adenoid cystic carcinomaNB: Requires histopathology for confirmationD/D: Monomorphic Adenoma",
   },
   {
-    id: "00099",
+    _id: "00099",
     date: "15-02-2020",
     patientName: "Mr Sk Farhad Hossain",
     age: "82 years",
@@ -1132,7 +1132,7 @@ export default [
       "Hepatic mass (USG guided FNA): Metastatic adenocarcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00100",
+    _id: "00100",
     date: "15-02-2020",
     patientName: "Mrs Monowara Begum",
     age: "27 years",
@@ -1145,7 +1145,7 @@ export default [
       "Right breast lump(FNA): Suppurative inflammation                                     Compatible with Breast abscess",
   },
   {
-    id: "00101",
+    _id: "00101",
     date: "15-02-2020",
     patientName: "Mrs Khursheda Begum",
     age: "60 years",
@@ -1158,7 +1158,7 @@ export default [
       "Hepatic mass (USG guided FNA): Suggestive of Hydatid cystNB: Requires histopathology for confirmation",
   },
   {
-    id: "00102",
+    _id: "00102",
     date: "15-02-2020",
     patientName: "Mrs Khursheda Begum",
     age: "60 years",
@@ -1171,7 +1171,7 @@ export default [
       "Hepatic mass (USG guided FNA): Suggestive of Caseating granuloma  NB: Requires histopathology for confirmation",
   },
   {
-    id: "00103",
+    _id: "00103",
     date: "16-02-2020",
     patientName: "Mr Nazmul Huda",
     age: "43 years",
@@ -1184,7 +1184,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00104",
+    _id: "00104",
     date: "16-02-2020",
     patientName: "Mr Md Nurul Islam",
     age: "38 years",
@@ -1196,7 +1196,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00105",
+    _id: "00105",
     date: "16-02-2020",
     patientName: "Azmel",
     age: "09 years",
@@ -1209,7 +1209,7 @@ export default [
       "Right auricular swelling(FNA): Suggestive of Epidermal Inclusion Cyst",
   },
   {
-    id: "00106",
+    _id: "00106",
     date: "16-02-2020",
     patientName: "Mrs Shamima Akhter",
     age: "35 years",
@@ -1221,7 +1221,7 @@ export default [
     impression: "Thyroid(FNA): Suggestive of Benign follicular nodule",
   },
   {
-    id: "00107",
+    _id: "00107",
     date: "16-02-2020",
     patientName: "Mrs Daisy",
     age: "26 years",
@@ -1234,7 +1234,7 @@ export default [
       "Right breast lump (FNA): Granulomatous mastitis with suppuration NB: Require histopathology",
   },
   {
-    id: "00108",
+    _id: "00108",
     date: "17-02-2020",
     patientName: "Mr Putul Majumdar",
     age: "50 years",
@@ -1247,7 +1247,7 @@ export default [
       "Right and Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00109",
+    _id: "00109",
     date: "17-02-2020",
     patientName: "Mr Dahanonjoy Sengupta",
     age: "40 years",
@@ -1259,7 +1259,7 @@ export default [
     impression: "Right and Left testes (FNA): Early maturation arrest",
   },
   {
-    id: "00110",
+    _id: "00110",
     date: "17-02-2020",
     patientName: "Mr Murad Md Hasan",
     age: "34 years",
@@ -1271,7 +1271,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00111",
+    _id: "00111",
     date: "18-02-2020",
     patientName: "Miss Jannatul Naima",
     age: "15 years",
@@ -1285,7 +1285,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma with suppuration                                                 Suggestive of Tubercular abscess",
   },
   {
-    id: "00112",
+    _id: "00112",
     date: "02-01-2020",
     patientName: "Mrs Yesmin Akhter",
     age: "27 years",
@@ -1298,7 +1298,7 @@ export default [
       "Left axillary lymph node(FNA):Caseating granuloma                                               Suggestive of TuberculosisNB: Require histopathology for confirmation",
   },
   {
-    id: "00113",
+    _id: "00113",
     date: "18-02-2020",
     patientName: "Mrs Harimukhi Chakma",
     age: "40 years",
@@ -1310,7 +1310,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00114",
+    _id: "00114",
     date: "19-02-2020",
     patientName: "Mr Atiqul Islam",
     age: "34 years",
@@ -1322,7 +1322,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00115",
+    _id: "00115",
     date: "19-02-2020",
     patientName: "Mr Abdus Salam",
     age: "61 years",
@@ -1335,7 +1335,7 @@ export default [
       "Right lung lesion (USG guided FNA): Suggestive of Granulomatous inflammation                                                                                with suppuration",
   },
   {
-    id: "00116",
+    _id: "00116",
     date: "19-02-2020",
     patientName: "Mr Pradip Kumar Mallick",
     age: "75 years",
@@ -1348,7 +1348,7 @@ export default [
       "Right lung mass (CT guided FNA): Granulomatous inflammation with suppuration",
   },
   {
-    id: "00117",
+    _id: "00117",
     date: "20-02-2020",
     patientName: "Mrs Sulati Barua",
     age: "65 years",
@@ -1360,7 +1360,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00118",
+    _id: "00118",
     date: "20-02-2020",
     patientName: "Mrs Sania Afsar",
     age: "20 years",
@@ -1374,7 +1374,7 @@ export default [
       "Right and left supra-clavicular lymph nodes (FNA):Caseating granuloma with suppuration                                                                           Suggestive of Tubercular abscess",
   },
   {
-    id: "00119",
+    _id: "00119",
     date: "20-02-2020",
     patientName: "Mrs Amatun Nur Begum",
     age: "45 years",
@@ -1387,7 +1387,7 @@ export default [
       "Left cervical lymph node(FNA): Granulomatous inflammation with suppuration                                                                           NB: Require histopathology for confirmation",
   },
   {
-    id: "00120",
+    _id: "00120",
     date: "22-02-2020",
     patientName: "Mrs Nur Bahar",
     age: "50 years",
@@ -1400,7 +1400,7 @@ export default [
       "Right submandibular mass (FNA): Positive for malignant cells                                                   Suggestive of metastatic adenocarcinoma",
   },
   {
-    id: "00121",
+    _id: "00121",
     date: "22-02-2020",
     patientName: "Mrs Shawkat Ara",
     age: "21 years",
@@ -1412,7 +1412,7 @@ export default [
     impression: "Left thyroid swelling(FNA): Colloid goitre",
   },
   {
-    id: "00122",
+    _id: "00122",
     date: "22-02-2020",
     patientName: "Rafsa",
     age: "08 years",
@@ -1425,7 +1425,7 @@ export default [
       "Right post-auricular lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00123",
+    _id: "00123",
     date: "22-02-2020",
     patientName: "Mrs Yanur Begum",
     age: "45 years",
@@ -1437,7 +1437,7 @@ export default [
     impression: "Thyroid(FNA): Suggestive of Benign follicular nodule",
   },
   {
-    id: "00124",
+    _id: "00124",
     date: "22-02-2020",
     patientName: "Mrs Joya Bhattacharjee",
     age: "22 years",
@@ -1451,7 +1451,7 @@ export default [
       "A) Left thyroid swelling (FNA): Lymphocytic thyroiditisB) Left cervical lymph nodes(FNA): Suggestive of Granulomatous inflammationNB: Require histopathology for the lymph nodes if clinically considered",
   },
   {
-    id: "00125",
+    _id: "00125",
     date: "22-02-2020",
     patientName: "Mr Nirmal Das",
     age: "50 years",
@@ -1463,7 +1463,7 @@ export default [
     impression: "Right thyroid swelling (FNA): Nodular goitre with atypia",
   },
   {
-    id: "00126",
+    _id: "00126",
     date: "22-02-2020",
     patientName: "Mrs Nasima Akhter",
     age: "45 years",
@@ -1475,7 +1475,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Colloid goitre",
   },
   {
-    id: "00127",
+    _id: "00127",
     date: "22-02-2020",
     patientName: "Mrs Babli Barua",
     age: "27 years",
@@ -1489,7 +1489,7 @@ export default [
       "Thyroid swelling(FNA): Nodular goitre  with atypical cellsNB: Requires histopathology to exclude malignancy",
   },
   {
-    id: "00129",
+    _id: "00129",
     date: "23-02-2020",
     patientName: "Mrs Nabosree Chakma",
     age: "42 years",
@@ -1502,7 +1502,7 @@ export default [
     impression: "Left breast lump ( FNA):  Fibrocystic changes",
   },
   {
-    id: "00130",
+    _id: "00130",
     date: "23-02-2020",
     patientName: "Mrs Sangita Das",
     age: "24 years",
@@ -1515,7 +1515,7 @@ export default [
       "Left cervical swelling (FNA):  Suspicious cells seenNB: Require histopathology",
   },
   {
-    id: "00131",
+    _id: "00131",
     date: "24-02-2020",
     patientName: "Mrs Bashonti Roy",
     age: "50 years",
@@ -1528,7 +1528,7 @@ export default [
     impression: "Left submandibular mass (FNA): Mucoepidermoid carcinoma",
   },
   {
-    id: "00132",
+    _id: "00132",
     date: "24-02-2020",
     patientName: "Mrs Hosne Ara Brgum",
     age: "40 years",
@@ -1540,7 +1540,7 @@ export default [
     impression: "Submental lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00133",
+    _id: "00133",
     date: "24-02-2020",
     patientName: "Mrs Momtaz Begum",
     age: "60 years",
@@ -1553,7 +1553,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00134",
+    _id: "00134",
     date: "24-02-2020",
     patientName: "Mrs Nur Haba",
     age: "23 years",
@@ -1566,7 +1566,7 @@ export default [
       "Right adnexal mass (CT guided FNA): Suggestive of Serous cystadenoma",
   },
   {
-    id: "00135",
+    _id: "00135",
     date: "25-02-2020",
     patientName: "Mrs Dipalee",
     age: "48 years",
@@ -1578,7 +1578,7 @@ export default [
     impression: "Thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00136",
+    _id: "00136",
     date: "25-02-2020",
     patientName: "Mrs Rasheda Begum",
     age: "41 years",
@@ -1590,7 +1590,7 @@ export default [
     impression: "Right breast lump (USG guided FNA): Fibrocystic changes",
   },
   {
-    id: "00137",
+    _id: "00137",
     date: "26-02-2020",
     patientName: "Rahi",
     age: "04 years",
@@ -1603,7 +1603,7 @@ export default [
       "Right cervical lymph nodes (FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00138",
+    _id: "00138",
     date: "26-02-2020",
     patientName: "Raihan",
     age: "10 years",
@@ -1616,7 +1616,7 @@ export default [
       "Anterior midline neck swelling(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00139",
+    _id: "00139",
     date: "26-02-2020",
     patientName: "Mr Mokhter Hossain",
     age: "70 years",
@@ -1629,7 +1629,7 @@ export default [
       "Left supraclavicular lymph node (FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00140",
+    _id: "00140",
     date: "26-02-2020",
     patientName: "Mrs Hasina Akhter",
     age: "26 years",
@@ -1642,7 +1642,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00141",
+    _id: "00141",
     date: "26-02-2020",
     patientName: "Mrs Joyasree Nath",
     age: "36 years",
@@ -1655,7 +1655,7 @@ export default [
       "Left thyroid swelling(FNA): Suggestive of nodular goitreNB: USG guided FNAC if clinically otherwise considered",
   },
   {
-    id: "00142",
+    _id: "00142",
     date: "26-02-2020",
     patientName: "Mrs Shamsun Nahar Begum",
     age: "65 years",
@@ -1669,7 +1669,7 @@ export default [
       "Right breast lump (USG guided FNA): Atypical ductal hyperplasia",
   },
   {
-    id: "00144",
+    _id: "00144",
     date: "28-02-2020",
     patientName: "Miss Jasmin",
     age: "21 years",
@@ -1682,7 +1682,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00145",
+    _id: "00145",
     date: "29-02-2020",
     patientName: "Miss Ruma Akhter",
     age: "years",
@@ -1694,7 +1694,7 @@ export default [
     impression: "Thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00146",
+    _id: "00146",
     date: "29-02-2020",
     patientName: "Mrs Jhinu Sikdar",
     age: "50 years",
@@ -1706,7 +1706,7 @@ export default [
     impression: "Thyroid swelling(FNA): Colloid goitre",
   },
   {
-    id: "00147",
+    _id: "00147",
     date: "29-02-2020",
     patientName: "Mr Ms Jahed",
     age: "23 years",
@@ -1718,7 +1718,7 @@ export default [
     impression: "Left post auricular swelling(FNA):Benign mesenchymal lesion",
   },
   {
-    id: "00148",
+    _id: "00148",
     date: "01-03-2020",
     patientName: "Mrs Trisha Kormoker",
     age: "28 years",
@@ -1731,7 +1731,7 @@ export default [
       "Right breast lump (FNA): Duct cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00149",
+    _id: "00149",
     date: "01-03-2020",
     patientName: "Md Nur",
     age: "32 years",
@@ -1744,7 +1744,7 @@ export default [
       "Right submandibular lymph node (FNA): Caseating granuloma                                                      Suggestive of Tuberculosis",
   },
   {
-    id: "00150",
+    _id: "00150",
     date: "02-03-2020",
     patientName: "Mrs Susmita Barua",
     age: "46 years",
@@ -1757,7 +1757,7 @@ export default [
       "Right cervical lymph nodes(FNA): Suggestive of Non HodgkinÆs LymphomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00151",
+    _id: "00151",
     date: "02-03-2020",
     patientName: "Rayid",
     age: "09 years",
@@ -1770,7 +1770,7 @@ export default [
       "Right neck mass (FNA): Suggestive of Nasopharyngeal carcinoma NB: Require histopathology for confirmation",
   },
   {
-    id: "00152",
+    _id: "00152",
     date: "02-03-2020",
     patientName: "Mr Habib",
     age: "28 years",
@@ -1782,7 +1782,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00153",
+    _id: "00153",
     date: "02-03-2020",
     patientName: "Mrs Taslima Jannat",
     age: "30 years",
@@ -1795,7 +1795,7 @@ export default [
       "Right breast lump (FNA): Granulomatous mastitis with suppuration NB: Require histopathology",
   },
   {
-    id: "00154",
+    _id: "00154",
     date: "02-03-2020",
     patientName: "Mrs Babita Dhar",
     age: "48 years",
@@ -1808,7 +1808,7 @@ export default [
     impression: "Right thyroid swelling (FNA): Colloid goitre",
   },
   {
-    id: "00155",
+    _id: "00155",
     date: "03-03-2020",
     patientName: "Ms Sabitri Das",
     age: "50 years",
@@ -1820,7 +1820,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00156",
+    _id: "00156",
     date: "03-03-2020",
     patientName: "Mrs Sraboni Rahman",
     age: "30 years",
@@ -1834,7 +1834,7 @@ export default [
       "Left cervical lymph node (FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00157",
+    _id: "00157",
     date: "03-03-2020",
     patientName: "Mrs Jesmin Akhter",
     age: "36 years",
@@ -1848,7 +1848,7 @@ export default [
       "Right thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00158",
+    _id: "00158",
     date: "03-03-2020",
     patientName: "Mrs Ema Hossain",
     age: "26 years",
@@ -1861,7 +1861,7 @@ export default [
       "Right thyroid swelling (FNA): Papillary carcinoma, follicular variant",
   },
   {
-    id: "00159",
+    _id: "00159",
     date: "02-03-2020",
     patientName: "Mrs Ruby Akhter",
     age: "35 years",
@@ -1874,7 +1874,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00160",
+    _id: "00160",
     date: "03-03-2020",
     patientName: "Mrs Urmi Akhter",
     age: "22 years",
@@ -1886,7 +1886,7 @@ export default [
     impression: "Left breast lump(FNA): Fibroadenoma",
   },
   {
-    id: "00161",
+    _id: "00161",
     date: "03-03-2020",
     patientName: "Mrs Rimi Akhter",
     age: "20 years",
@@ -1898,7 +1898,7 @@ export default [
     impression: "Right breast lump (FNA): Fibroadenoma",
   },
   {
-    id: "00162",
+    _id: "00162",
     date: "04-03-2020",
     patientName: "Mrs Shahin Ara",
     age: "28 years",
@@ -1911,7 +1911,7 @@ export default [
       "Left axillary nodule((FNA): Epidermal inclusion cyst with                                          Granulomatous inflammation & suppuration",
   },
   {
-    id: "00163",
+    _id: "00163",
     date: "04-03-2020",
     patientName: "Ms Shahinoor Akhter",
     age: "25 years",
@@ -1923,7 +1923,7 @@ export default [
     impression: "Right breast lump ((USG Guided FNA): Fibroadenoma",
   },
   {
-    id: "00164",
+    _id: "00164",
     date: "04-03-2020",
     patientName: "Miss Rahi",
     age: "18 years",
@@ -1935,7 +1935,7 @@ export default [
     impression: "Right breast lump (FNA): Fibroadenoma",
   },
   {
-    id: "00166",
+    _id: "00166",
     date: "06-03-2020",
     patientName: "Md Ayub Ali",
     age: "50 years",
@@ -1948,7 +1948,7 @@ export default [
       "Swelling over right anterior and lower chest wall(FNA): Metastatic carcinoma",
   },
   {
-    id: "00167",
+    _id: "00167",
     date: "06-03-2020",
     patientName: "Mrs Rumi Akhter",
     age: "32 years",
@@ -1962,7 +1962,7 @@ export default [
       "Right thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00168",
+    _id: "00168",
     date: "07-03-2020",
     patientName: "Mr Md Kawsar Alam",
     age: "27 years",
@@ -1975,7 +1975,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00169",
+    _id: "00169",
     date: "07-03-2020",
     patientName: "Miss Sharen Halder",
     age: "25 years",
@@ -1988,7 +1988,7 @@ export default [
       "Right thyroid swelling (FNA): Papillary carcinoma, follicular variant NB: Require histopathology for confirmation.",
   },
   {
-    id: "00170",
+    _id: "00170",
     date: "07-03-2020",
     patientName: "Miss Mishu Das",
     age: "22 years",
@@ -2000,7 +2000,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00171",
+    _id: "00171",
     date: "07-03-2020",
     patientName: "Md Jahed",
     age: "19 years",
@@ -2013,7 +2013,7 @@ export default [
       "Left submandibular lymph node(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00172",
+    _id: "00172",
     date: "07-03-2020",
     patientName: "Mrs Lovely Akhter",
     age: "32 years",
@@ -2026,7 +2026,7 @@ export default [
       "Left breast lump (FNA): Granulomatous mastitis with suppuration NB: Require histopathology",
   },
   {
-    id: "00173",
+    _id: "00173",
     date: "07-03-2020",
     patientName: "Mrs Ruma Akhter",
     age: "22 years",
@@ -2039,7 +2039,7 @@ export default [
       "Submental & right supra-clavicular lymph node(FNA): Suggestive of                                                                                          Chronic non-specific lymphadenitisNB: Please do histopathology if clinically considered otherwise.",
   },
   {
-    id: "00174",
+    _id: "00174",
     date: "08-03-2020",
     patientName: "Mr Murad Ahmed",
     age: "28 years",
@@ -2052,7 +2052,7 @@ export default [
       "Flat swelling over left side of the cheek(FNA):Benign mesenchymal lesion",
   },
   {
-    id: "00175",
+    _id: "00175",
     date: "08-03-2020",
     patientName: "Mrs Nazma Akhter",
     age: "42 years",
@@ -2064,7 +2064,7 @@ export default [
     impression: "Left breast lump (FNA):Fibroadenoma with fibrocystic changes",
   },
   {
-    id: "00176",
+    _id: "00176",
     date: "09-03-2019",
     patientName: "Mrs Afroza",
     age: "18 years",
@@ -2076,7 +2076,7 @@ export default [
     impression: "Right breast lump (FNA): GalactoceleD/D: Lactating adenoma",
   },
   {
-    id: "00177",
+    _id: "00177",
     date: "09-03-2019",
     patientName: "Mrs Umme Fatema",
     age: "29 years",
@@ -2088,7 +2088,7 @@ export default [
     impression: "Left breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00178",
+    _id: "00178",
     date: "10-03-2020",
     patientName: "Miss Halima Akhter",
     age: "20 years",
@@ -2101,7 +2101,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma with suppuration                                                 Suggestive of Tubercular abscess",
   },
   {
-    id: "00179",
+    _id: "00179",
     date: "08-03-2020",
     patientName: "Md Ripon",
     age: "26 years",
@@ -2114,7 +2114,7 @@ export default [
       "Left cervical lymph nodes(FNA):See description please NB: Require histopathology to exclude HodgkinÆs disease",
   },
   {
-    id: "00180",
+    _id: "00180",
     date: "09-03-2020",
     patientName: "Mr Siddiqur Rahman",
     age: "60 years",
@@ -2127,7 +2127,7 @@ export default [
       "Right sided neck swelling (FNA): Suggestive of basal cell adenoma",
   },
   {
-    id: "00181",
+    _id: "00181",
     date: "11-03-2020",
     patientName: "Mrs Humarya",
     age: "40 years",
@@ -2140,7 +2140,7 @@ export default [
       "Right thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00182",
+    _id: "00182",
     date: "12-03-2020",
     patientName: "Mrs Dilwara  Begum",
     age: "50 years",
@@ -2153,7 +2153,7 @@ export default [
       "Right submandibular lymph node (FNA): Granulomatous lymphadenitisNB: Require histopathology to confirm tubercular lesion",
   },
   {
-    id: "00183",
+    _id: "00183",
     date: "12-03-2020",
     patientName: "Mr Aminul Islam",
     age: "22 years",
@@ -2165,7 +2165,7 @@ export default [
     impression: "Thyroid swelling (FNA): Suggestive of lymphocytic thyroiditis",
   },
   {
-    id: "00184",
+    _id: "00184",
     date: "12-03-2020",
     patientName: "Mrs Razia Akhter",
     age: "27 years",
@@ -2177,7 +2177,7 @@ export default [
     impression: "Submental lymph node (FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00185",
+    _id: "00185",
     date: "14-03-2020",
     patientName: "Mrs Rashida Begum",
     age: "60 years",
@@ -2189,7 +2189,7 @@ export default [
     impression: "Left breast lump (FNA): Duct cell carcinoma",
   },
   {
-    id: "00186",
+    _id: "00186",
     date: "14-03-2020",
     patientName: "Md Emran",
     age: "09 years",
@@ -2202,7 +2202,7 @@ export default [
       "Right cervical lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00188",
+    _id: "00188",
     date: "14-03-2020",
     patientName: "Rakibul Islam",
     age: "07 years",
@@ -2214,7 +2214,7 @@ export default [
     impression: "Cervical lymph node(FNA): Chronic non-specific lymphadenitis",
   },
   {
-    id: "00189",
+    _id: "00189",
     date: "15-03-2020",
     patientName: "Mr Farid Ahmed",
     age: "47 years",
@@ -2227,7 +2227,7 @@ export default [
       "Right cervical lymph node(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00190",
+    _id: "00190",
     date: "15-03-2020",
     patientName: "Mrs Ranu Akhter",
     age: "35 years",
@@ -2239,7 +2239,7 @@ export default [
     impression: "Right thyroid swelling (FNA): Poorly differentiated carcinoma",
   },
   {
-    id: "00191",
+    _id: "00191",
     date: "15-03-2020",
     patientName: "Ms Sathi Paul",
     age: "30 years",
@@ -2252,7 +2252,7 @@ export default [
       "Left parotid swelling(FNA): Chronic sialadenitisNB: Require histopathology to exclude Granulomatous lesion if considered clinically",
   },
   {
-    id: "00192",
+    _id: "00192",
     date: "16-03-2020",
     patientName: "Mr Joydeb Paul",
     age: "35 years",
@@ -2264,7 +2264,7 @@ export default [
     impression: "Right and Left testes (FNA): Late maturation arrest",
   },
   {
-    id: "00193",
+    _id: "00193",
     date: "16-03-2020",
     patientName: "Mrs Fatema Begum",
     age: "50 years",
@@ -2278,7 +2278,7 @@ export default [
       "Right submandibular swelling (FNA): Granulomatous inflammation with suppurationNB: Repeat FNAC after a course of antibiotic or biopsy for histopathology",
   },
   {
-    id: "00194",
+    _id: "00194",
     date: "16-03-2020",
     patientName: "Mr Ahmed Gani",
     age: "50 years",
@@ -2292,7 +2292,7 @@ export default [
       "Right cervical lymph node(FNA): Caseating granuloma  with suppurationNB: Require biopsy for histopathology",
   },
   {
-    id: "00196",
+    _id: "00196",
     date: "17-03-2020",
     patientName: "Usan Puri Tangchangaya",
     age: "38 years",
@@ -2304,7 +2304,7 @@ export default [
     impression: "Left breast lump(FNA):Fibroadenoma with atypical cells",
   },
   {
-    id: "00197",
+    _id: "00197",
     date: "17-03-2020",
     patientName: "Mrs Fatema Begum",
     age: "55 years",
@@ -2317,7 +2317,7 @@ export default [
       "Swelling over right scapular region(FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00198",
+    _id: "00198",
     date: "17-03-2020",
     patientName: "Mrs Hosne Ara Begum",
     age: "40 years",
@@ -2329,7 +2329,7 @@ export default [
     impression: "Left breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00199",
+    _id: "00199",
     date: "17-03-2020",
     patientName: "Mrs Jhoni Akhter",
     age: "25 years",
@@ -2342,7 +2342,7 @@ export default [
       "Right cervical lymph node (FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00200",
+    _id: "00200",
     date: "18-03-2020",
     patientName: "Mrs Shafinoor Akhter",
     age: "39 years",
@@ -2355,7 +2355,7 @@ export default [
       "Right thyroid swelling (FNA): Suspicious for Papillary carcinomaNB: Require histopathology to exclude malignancy",
   },
   {
-    id: "00201",
+    _id: "00201",
     date: "18-03-2020",
     patientName: "Mr Rubel Debonath",
     age: "30 years",
@@ -2368,7 +2368,7 @@ export default [
       "Right cervical lymph nodes (FNA):Granulomatous inflammation with suppuration                                         NB: Require histopathology to exclude Tuberculosis",
   },
   {
-    id: "00202",
+    _id: "00202",
     date: "18-03-2020",
     patientName: "Miss Meherun Nessa",
     age: "17 years",
@@ -2380,7 +2380,7 @@ export default [
     impression: "Right thyroid swelling(FNA): Colloid goitre",
   },
   {
-    id: "00203",
+    _id: "00203",
     date: "18-03-2020",
     patientName: "Mrs Monowara Begum",
     age: "50 years",
@@ -2393,7 +2393,7 @@ export default [
       "Left antero-lateral chest wall mass (CT guided FNA)): Small round cell tumour",
   },
   {
-    id: "00204",
+    _id: "00204",
     date: "18-03-2020",
     patientName: "Mrs Jahanara Begum",
     age: "47 years",
@@ -2406,7 +2406,7 @@ export default [
       "Right axillary swelling(USG Guided FNA): Suggestive of benign cystic lesion, inflamedNB: Require histopathology",
   },
   {
-    id: "00205",
+    _id: "00205",
     date: "18-03-2020",
     patientName: "Mrs Jannatul Ferdous",
     age: "30 years",
@@ -2419,7 +2419,7 @@ export default [
       "Right breast lump (USG Guided FNA): Suggestive of Fibroadenoma",
   },
   {
-    id: "00206",
+    _id: "00206",
     date: "18-03-2020",
     patientName: "Mrs Muslima Sultana",
     age: "41 years",
@@ -2433,7 +2433,7 @@ export default [
       "Right & left breast lump (USG Guided FNA): Suggestive of Fibrocystic changes",
   },
   {
-    id: "00207",
+    _id: "00207",
     date: "18-03-2020",
     patientName: "Mr Md Kaiser",
     age: "20 years",
@@ -2446,7 +2446,7 @@ export default [
       "Right post auricular lymph nodes(FNA): Caseating granuloma                                        NB: Require histopathology to confirm",
   },
   {
-    id: "00208",
+    _id: "00208",
     date: "19-03-2020",
     patientName: "Mr Md Anwar Hossain",
     age: "35 years",
@@ -2458,7 +2458,7 @@ export default [
     impression: "Right breast lump (FNA): Duct cell carcinoma",
   },
   {
-    id: "00209",
+    _id: "00209",
     date: "21-03-2020",
     patientName: "Mrs Saheda Akhter",
     age: "32 years",
@@ -2471,7 +2471,7 @@ export default [
       "Left breast lump (FNA): Atypical cells were seenNB: Require histopathology to confirm duct cell carcinoma",
   },
   {
-    id: "00210",
+    _id: "00210",
     date: "21-03-2020",
     patientName: "Mrs Shikha Murmu",
     age: "30 years",
@@ -2484,7 +2484,7 @@ export default [
     impression: "Right breast lump (USG guided FNA): Fibrocystic changes",
   },
   {
-    id: "00211",
+    _id: "00211",
     date: "21-03-2020",
     patientName: "Mrs Baby",
     age: "40 years",
@@ -2498,7 +2498,7 @@ export default [
       "Lower abdominal mass (USG guided FNA): Suggestive of Mucinous  cystadenocarcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00212",
+    _id: "00212",
     date: "21-03-2020",
     patientName: "Ms Shukha Mala",
     age: "19 years",
@@ -2510,7 +2510,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00213",
+    _id: "00213",
     date: "21-03-2020",
     patientName: "Mrs NurJahan Begum",
     age: "60 years",
@@ -2523,7 +2523,7 @@ export default [
       "Left axillary lymph node (USG Guided FNA) : See description please",
   },
   {
-    id: "00215",
+    _id: "00215",
     date: "22-03-2019",
     patientName: "Mrs Ayesha Begum",
     age: "47 years",
@@ -2537,7 +2537,7 @@ export default [
       "Right cervical swelling (FNA): Atypical  cells seenRight thyroid swelling (FNA): Follicular neoplasmNB: Requires histopathology to exclude malignancy",
   },
   {
-    id: "00216",
+    _id: "00216",
     date: "22-03-2020",
     patientName: "Mr Momin",
     age: "50 years",
@@ -2549,7 +2549,7 @@ export default [
     impression: "Left arm swelling (FNA):Suggestive of Fat necrosis",
   },
   {
-    id: "00217",
+    _id: "00217",
     date: "22-03-2020",
     patientName: "Mrs Halima Sadia",
     age: "20 years",
@@ -2561,7 +2561,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00218",
+    _id: "00218",
     date: "24-03-2020",
     patientName: "Mr Jahangir Alam",
     age: "54 years",
@@ -2574,7 +2574,7 @@ export default [
       "Right thyroid swelling (FNA): Suspicious for Papillary carcinomaNB: Require histopathology to exclude malignancy",
   },
   {
-    id: "00220",
+    _id: "00220",
     date: "02-04-2020",
     patientName: "Mrs Saheda Akhter",
     age: "32 years",
@@ -2587,7 +2587,7 @@ export default [
       "Right breast lump (FNA): Negative for malignant cell                                      Suggestive of fibrocystic disease",
   },
   {
-    id: "00221",
+    _id: "00221",
     date: "08-04-2020",
     patientName: "Mrs Tumpa Das",
     age: "29 years",
@@ -2600,7 +2600,7 @@ export default [
       "Breast lump (FNA): Granulomatous mastitis NB: Require histopathology",
   },
   {
-    id: "00222",
+    _id: "00222",
     date: "11-04-2020",
     patientName: "Mrs Lucky Akhter",
     age: "40 years",
@@ -2613,7 +2613,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Suppurative inflammation",
   },
   {
-    id: "00223",
+    _id: "00223",
     date: "13-04-2020",
     patientName: "Mrs Monowara Begum",
     age: "30 years",
@@ -2626,7 +2626,7 @@ export default [
       "Right breast lump(FNA): Suppurative inflammation                                     Compatible with Breast abscess",
   },
   {
-    id: "00224",
+    _id: "00224",
     date: "18-04-2020",
     patientName: "Mrs Setara Begum",
     age: "65 years",
@@ -2638,7 +2638,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00225",
+    _id: "00225",
     date: "16-04-2020",
     patientName: "Ms Beatuy Akhter",
     age: "15 years",
@@ -2651,7 +2651,7 @@ export default [
       "Left cervical lymph nodes(FNA): Caseating granuloma                                                   Suggestive of Tuberculosis",
   },
   {
-    id: "00226",
+    _id: "00226",
     date: "19-04-2020",
     patientName: "Mr Shah Alam",
     age: "54 years",
@@ -2665,7 +2665,7 @@ export default [
       "Hepatic mass (USG guided FNA): Hepatocellular carcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00227",
+    _id: "00227",
     date: "19-04-2020",
     patientName: "Mrs Ismat Ara",
     age: "40 years",
@@ -2679,7 +2679,7 @@ export default [
       "Right thyroid swelling (USG guided FNA): Suggestive of Papillary carcinoma NB: Requires histopathology for confirmation",
   },
   {
-    id: "00228",
+    _id: "00228",
     date: "19-04-2020",
     patientName: "Mrs Anny Akhter",
     age: "20 year",
@@ -2691,7 +2691,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00229",
+    _id: "00229",
     date: "24-04-2020",
     patientName: "Sabrina Sharmin",
     age: "years",
@@ -2704,7 +2704,7 @@ export default [
       "Left cervical lymph nodes(FNA):Suggestive of Caseating granuloma                                                  NB: Require histopathology to confirm Tuberculosis",
   },
   {
-    id: "00230",
+    _id: "00230",
     date: "24-04-2020",
     patientName: "Ayat",
     age: "03    years",
@@ -2717,7 +2717,7 @@ export default [
       "Left cervical lymph nodes(FNA):Suggestive of Granulomatous inflammation                                                  NB: Require histopathology to exclude Tuberculosis",
   },
   {
-    id: "00231",
+    _id: "00231",
     date: "29-04-2020",
     patientName: "Mrs Humaira Islam",
     age: "20 years",
@@ -2729,7 +2729,7 @@ export default [
     impression: "Left breast lump (FNA): Galactocele",
   },
   {
-    id: "00232",
+    _id: "00232",
     date: "30-04-2020",
     patientName: "Ms Sarmistha Chakma",
     age: "30 years",
@@ -2742,7 +2742,7 @@ export default [
       "Right breast lump (FNA):  Benign cystic lesion, Suggestive of Fibrocystic changes",
   },
   {
-    id: "00233",
+    _id: "00233",
     date: "05-05-2020",
     patientName: "Mrs Fatema Begum",
     age: "24 years",
@@ -2754,7 +2754,7 @@ export default [
     impression: "Right breast lump (FNA): Galactocele with suppuration",
   },
   {
-    id: "00234",
+    _id: "00234",
     date: "06-05-2020",
     patientName: "Mr Siddique Ahmed Chowdhury",
     age: "86 years",
@@ -2767,7 +2767,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00235",
+    _id: "00235",
     date: "06-04-2020",
     patientName: "Mrs Shamima Faruque",
     age: "37 years",
@@ -2781,7 +2781,7 @@ export default [
       "Right breast lump(FNA): Suppurative inflammation                                     Compatible with Breast abscess  NB: Possibility of Granulomatous mastitis needs to be excluded by repeat FNAC after a course of antibiotic.",
   },
   {
-    id: "00236",
+    _id: "00236",
     date: "06-05-2020",
     patientName: "Mrs Ruma",
     age: "28 years",
@@ -2795,7 +2795,7 @@ export default [
       "Left breast lump(FNA): Suppurative inflammation                                     Compatible with Breast abscess  NB: Possibility of Granulomatous mastitis needs to be excluded by repeat FNAC after a course of antibiotic.",
   },
   {
-    id: "00237",
+    _id: "00237",
     date: "08-05-2020",
     patientName: "Mr Brahmachari Sajal",
     age: "35 years",
@@ -2809,7 +2809,7 @@ export default [
       "Left supra-clavicular lymph nodes(FNA): Metastatic carcinoma                                                             Suggestive of Metastatic renal cell carcinoma",
   },
   {
-    id: "00238",
+    _id: "00238",
     date: "08-05-2020",
     patientName: "Mrs Meherjan Akhter",
     age: "19 years",
@@ -2821,7 +2821,7 @@ export default [
     impression: "Left breast lump (FNA): Galactocele with suppuration",
   },
   {
-    id: "00239",
+    _id: "00239",
     date: "09-05-2020",
     patientName: "Md Selim",
     age: "45 years",
@@ -2834,7 +2834,7 @@ export default [
       "Submandibular swelling (FNA): Suggestive of Epidermal inclusion cyst with suppuration",
   },
   {
-    id: "00240",
+    _id: "00240",
     date: "09-05-2020",
     patientName: "Mrs Meherun Nessa",
     age: "24 years",
@@ -2846,7 +2846,7 @@ export default [
     impression: "Right neck swelling (FNA):Acute suppurative lymphadenitis",
   },
   {
-    id: "00241",
+    _id: "00241",
     date: "09-05-2020",
     patientName: "Mrs Devi Das",
     age: "50 years",
@@ -2859,7 +2859,7 @@ export default [
       "Left cervical lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00242",
+    _id: "00242",
     date: "10-05-2020",
     patientName: "Mr Maksud Ahmed",
     age: "85 years",
@@ -2872,7 +2872,7 @@ export default [
       "Right axillary lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00243",
+    _id: "00243",
     date: "11-05-2020",
     patientName: "Mrs Janu Akhter",
     age: "60 years",
@@ -2884,7 +2884,7 @@ export default [
     impression: "Left breast lump (FNA): Duct cell carcinoma",
   },
   {
-    id: "00244",
+    _id: "00244",
     date: "11-05-2020",
     patientName: "Mrs Janu Akhter",
     age: "60 years",
@@ -2899,7 +2899,7 @@ export default [
       "Hepatic mass (USG guided FNA): Metastatic Adenocarcinoma                                                   Suggestive of metastatic duct cell carcinoma",
   },
   {
-    id: "00245",
+    _id: "00245",
     date: "11-05-2020",
     patientName: "Mrs Rehena Begum",
     age: "60 years",
@@ -2914,7 +2914,7 @@ export default [
       "Right ovarian mass(USG guided FNA): Poorly differentiated carcinoma  NB: Require histopathology and immunohistochemistry for further classification",
   },
   {
-    id: "00246",
+    _id: "00246",
     date: "11-05-2020",
     patientName: "Mrs Anjuman Ara",
     age: "38 years",
@@ -2928,7 +2928,7 @@ export default [
       "A)Right breast lump ( FNA):  Benign cystic lesion, Fibrocystic changesB) Left breast lump  FNA):  Benign cystic lesion, Fibrocystic changes",
   },
   {
-    id: "00247",
+    _id: "00247",
     date: "12-05-2020",
     patientName: "Mrs Saki Akhter",
     age: "19 years",
@@ -2941,7 +2941,7 @@ export default [
       "Right thyroid swelling (FNA): Suspicious for Papillary carcinomaNB: Require histopathology to exclude malignancy",
   },
   {
-    id: "00248",
+    _id: "00248",
     date: "13-05-2020",
     patientName: "Alhaj Abul Hossain",
     age: "75 years",
@@ -2955,7 +2955,7 @@ export default [
       "Hepatic mass (USG guided FNA): Hepatocellular carcinomaNB: Require Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00249",
+    _id: "00249",
     date: "14-05-2020",
     patientName: "Mrs Marzina",
     age: "48 years",
@@ -2968,7 +2968,7 @@ export default [
       "Right breast lump (FNA): Granulomatous mastitis with suppuration NB: Require histopathology",
   },
   {
-    id: "00250",
+    _id: "00250",
     date: "14-05-2020",
     patientName: "Mrs Shamim Akhter",
     age: "31 years",
@@ -2981,7 +2981,7 @@ export default [
       "Right breast lump (FNA): Granulomatous mastitis NB: Require histopathology",
   },
   {
-    id: "00251",
+    _id: "00251",
     date: "14-05-2020",
     patientName: "Mrs Anwara Begum",
     age: "72 years",
@@ -2994,7 +2994,7 @@ export default [
       "Left axillary lymph node (FNA): Metastatic poorly differentiated carcinoma",
   },
   {
-    id: "00252",
+    _id: "00252",
     date: "17-05-2020",
     patientName: "Bristi Akhter",
     age: "23 years",
@@ -3006,7 +3006,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00253",
+    _id: "00253",
     date: "17-05-2020",
     patientName: "Mrs Fatema Khatun",
     age: "60 years",
@@ -3019,7 +3019,7 @@ export default [
       "Right lung mass (CT guided FNA): Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00254",
+    _id: "00254",
     date: "19-05-2020",
     patientName: "Mrs Jaba Barua",
     age: "32 years",
@@ -3033,7 +3033,7 @@ export default [
       "Left breast lumps(FNA):Granulomatous mastitis with suppuration",
   },
   {
-    id: "00255",
+    _id: "00255",
     date: "20-05-2020",
     patientName: "Mr Shamsul Alam",
     age: "65 years",
@@ -3046,7 +3046,7 @@ export default [
       "Right lung mass (CT guided FNA): Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00256",
+    _id: "00256",
     date: "19-05-2020",
     patientName: "Mr Abul Kalam",
     age: "55 years",
@@ -3058,7 +3058,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Suppurative inflammation",
   },
   {
-    id: "00257",
+    _id: "00257",
     date: "21-05-2020",
     patientName: "Mr Pabitra Barua",
     age: "70 years",
@@ -3071,7 +3071,7 @@ export default [
       "Left lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma                                                   D/D: Large Cell CarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00258",
+    _id: "00258",
     date: "24-05-2020",
     patientName: "Mrs Rupban",
     age: "44 years",
@@ -3085,7 +3085,7 @@ export default [
       "Hepatic mass (USG guided FNA): Hepatocellular carcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00259",
+    _id: "00259",
     date: "23-05-2020",
     patientName: "Mrs Dildar Begum",
     age: "65 years",
@@ -3098,7 +3098,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cells                                                    Suggestive of squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00260",
+    _id: "00260",
     date: "30-05-2020",
     patientName: "Mrs Rehena Parvin",
     age: "33 years",
@@ -3111,7 +3111,7 @@ export default [
       "Right breast lump(FNA):Granulomatous mastitis with suppuration NB: Require histopathology",
   },
   {
-    id: "00261",
+    _id: "00261",
     date: "01-06-2020",
     patientName: "Mr Hossain Azam",
     age: "22 years",
@@ -3123,7 +3123,7 @@ export default [
     impression: "Left sub auricular swelling(FNA): Epidermal Inclusion Cyst",
   },
   {
-    id: "00262",
+    _id: "00262",
     date: "02-06-2020",
     patientName: "Mr Khorshed Alam",
     age: "48 years",
@@ -3136,7 +3136,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Metastatic adenocarcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00263",
+    _id: "00263",
     date: "02-06-2020",
     patientName: "Mr Devraj Barua",
     age: "03 years",
@@ -3149,7 +3149,7 @@ export default [
       "Submental swelling((FNA): Epidermal inclusion cyst with                                          Granulomatous inflammation & suppuration",
   },
   {
-    id: "00264",
+    _id: "00264",
     date: "03-06-2020",
     patientName: "Mrs Renu Nath",
     age: "58 years",
@@ -3162,7 +3162,7 @@ export default [
       "Right cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00265",
+    _id: "00265",
     date: "03-06-2020",
     patientName: "Mrs Sharmin Akhter",
     age: "27 years",
@@ -3175,7 +3175,7 @@ export default [
       "Left breast lump (FNA): Duct cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00266",
+    _id: "00266",
     date: "04-06-2020",
     patientName: "Mrs Shraboni Dhar",
     age: "20 years",
@@ -3187,7 +3187,7 @@ export default [
     impression: "Left breast lump ((FNA): Fibroadenoma",
   },
   {
-    id: "00268",
+    _id: "00268",
     date: "05-06-2020",
     patientName: "Miss Fahmida",
     age: "30 years",
@@ -3201,7 +3201,7 @@ export default [
       "Right breast lump ( FNA):  Fibrocystic changes with suppuration",
   },
   {
-    id: "00269",
+    _id: "00269",
     date: "06-06-2020",
     patientName: "Mrs Jhinu Mitra",
     age: "56 years",
@@ -3215,7 +3215,7 @@ export default [
       "Right & Left breast lump (USG guided FNA): Fibrocystic changes",
   },
   {
-    id: "00270",
+    _id: "00270",
     date: "06-06-2020",
     patientName: "Mrs Ruma Parvin",
     age: "45 years",
@@ -3228,7 +3228,7 @@ export default [
       "Right breast lump (FNA): Duct cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00271",
+    _id: "00271",
     date: "06-06-2020",
     patientName: "Mrs Shimul Akhter",
     age: "24 years",
@@ -3242,7 +3242,7 @@ export default [
       "Right breast lump (USG guided FNA): Fibrocystic changesLeft breast lump (USG guided FNA): Chronic mastitis",
   },
   {
-    id: "00272",
+    _id: "00272",
     date: "08-06-2020",
     patientName: "Mrs Miftaul Jannat",
     age: "32 years",
@@ -3255,7 +3255,7 @@ export default [
       "Breast lump (FNA): Fat necrosis with atypical cellsNB: Require histopathology to exclude malignancy",
   },
   {
-    id: "00273",
+    _id: "00273",
     date: "09-06-2020",
     patientName: "Mrs Meherun Nesa",
     age: "40 years",
@@ -3268,7 +3268,7 @@ export default [
       "Left breast lump (FNA): Granulomatous mastitis with suppuration NB: Require histopathology",
   },
   {
-    id: "00275",
+    _id: "00275",
     date: "10-06-2020",
     patientName: "Mrs Mira Bala Dey",
     age: "43 years",
@@ -3282,7 +3282,7 @@ export default [
       "Left chest wall swelling(USG guided FNA): Metastatic poorly differentiated adenocarcinoma",
   },
   {
-    id: "00276",
+    _id: "00276",
     date: "10-06-2020",
     patientName: "Miss Ramisa",
     age: "06 years",
@@ -3294,7 +3294,7 @@ export default [
     impression: "Right breast nodule(FNA):Negative for malignant cell",
   },
   {
-    id: "00277",
+    _id: "00277",
     date: "10-06-2020",
     patientName: "Mrs Parveen Akhter",
     age: "41 years",
@@ -3307,7 +3307,7 @@ export default [
     impression: "Right and Left  thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00278",
+    _id: "00278",
     date: "10-06-2020",
     patientName: "Mrs Bibi Khadiza",
     age: "40 years",
@@ -3320,7 +3320,7 @@ export default [
       "Right lung mass (CT guided FNA)): Positive for malignant cell                                                     Suggestive of small cell carcinoma",
   },
   {
-    id: "00279",
+    _id: "00279",
     date: "10-06-2020",
     patientName: "Mrs Nasrin Sultana",
     age: "26 years",
@@ -3333,7 +3333,7 @@ export default [
       "Right breast lump(FNA): Lactational adenoma                                   D/D: Fibroadenoma with lactational changes",
   },
   {
-    id: "00280",
+    _id: "00280",
     date: "11-06-2020",
     patientName: "Mrs Monowara Begum",
     age: "45 years",
@@ -3346,7 +3346,7 @@ export default [
       "Left breast lump (FNA): Atypical duct cell seen NB: Require histopathology to exclude any possibility of malignancy",
   },
   {
-    id: "00281",
+    _id: "00281",
     date: "13-06-2020",
     patientName: "Mrs Tajreen Akhter",
     age: "28 years",
@@ -3359,7 +3359,7 @@ export default [
       "Right breast lump(FNA):Granulomatous mastitis with suppuration",
   },
   {
-    id: "00282",
+    _id: "00282",
     date: "13-06-2020",
     patientName: "Mrs Ayesha Siddiqa",
     age: "32 years",
@@ -3372,7 +3372,7 @@ export default [
     impression: "Left breast lump(FNA):Granulomatous mastitis with suppuration",
   },
   {
-    id: "00283",
+    _id: "00283",
     date: "13-06-2020",
     patientName: "Mrs Amena",
     age: "25 years",
@@ -3384,7 +3384,7 @@ export default [
     impression: "Right breast lump(FNA): Negative for malignant cell",
   },
   {
-    id: "00284",
+    _id: "00284",
     date: "15-06-2020",
     patientName: "Mrs Alo  Bhowmik",
     age: "45 years",
@@ -3397,7 +3397,7 @@ export default [
       "Left ovarian mass(USG guided FNA): Mucinous cystadenocarcinoma",
   },
   {
-    id: "00285",
+    _id: "00285",
     date: "16-06-2020",
     patientName: "Mrs Hafeeza Begum",
     age: "65 years",
@@ -3410,7 +3410,7 @@ export default [
       "Swelling in the right side of the neck(FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00286",
+    _id: "00286",
     date: "16-06-2020",
     patientName: "Mrs Markeching",
     age: "40 years",
@@ -3423,7 +3423,7 @@ export default [
       "Left thyroid swelling (FNA): Suspicious for Papillary carcinomaNB: Require histopathology to exclude malignancy",
   },
   {
-    id: "00287",
+    _id: "00287",
     date: "17-06-2020",
     patientName: "Mrs Shahana Akhter",
     age: "35 years",
@@ -3437,7 +3437,7 @@ export default [
       "A) Right breast lump (FNA): Duct cell carcinoma, B) Right axillary lymph node(FNA): Metastatic duct cell carcinoma,",
   },
   {
-    id: "00288",
+    _id: "00288",
     date: "17-06-2020",
     patientName: "Mrs Rashida Begum",
     age: "65 years",
@@ -3450,7 +3450,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00289",
+    _id: "00289",
     date: "17-06-2020",
     patientName: "Mr Ahmed Nobi",
     age: "60 years",
@@ -3463,7 +3463,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00290",
+    _id: "00290",
     date: "17-06-2020",
     patientName: "Mr Raihan",
     age: "38 years",
@@ -3476,7 +3476,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Atypical cell seenNB: Require histopathology & immunohistochemistry to confirm malignancy",
   },
   {
-    id: "00291",
+    _id: "00291",
     date: "18-06-2020",
     patientName: "Mr Md Jalal",
     age: "70 years",
@@ -3489,7 +3489,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Hepatocellular carcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00292",
+    _id: "00292",
     date: "19-06-2020",
     patientName: "Mrs Razia Begum",
     age: "60 years",
@@ -3502,7 +3502,7 @@ export default [
       "Lesion in the head of the pancreas (CT guided FNA): Suppurative inflammation",
   },
   {
-    id: "00293",
+    _id: "00293",
     date: "20-06-2020",
     patientName: "Mrs Sarjina Akhter",
     age: "30 years",
@@ -3516,7 +3516,7 @@ export default [
       "Left breast lump(FNA): Chronic mastitis with suppurative inflammation",
   },
   {
-    id: "00294",
+    _id: "00294",
     date: "21-06-2020",
     patientName: "Mr Md Ekhlasuddin",
     age: "33 years",
@@ -3528,7 +3528,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00295",
+    _id: "00295",
     date: "21-06-2020",
     patientName: "Mrs Shamima Akhter",
     age: "40 years",
@@ -3543,7 +3543,7 @@ export default [
       "Ovarian mass(USG guided FNA): Suggestive of Granulosa cell tumourNB: Require histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00296",
+    _id: "00296",
     date: "21-06-2020",
     patientName: "Mrs Mili",
     age: "35 years",
@@ -3556,7 +3556,7 @@ export default [
       "Right axillary swelling ((USG guided FNA): Fatty tissue, Suggestive of Axillary pad of fat",
   },
   {
-    id: "00297",
+    _id: "00297",
     date: "21-06-2020",
     patientName: "Mrs Nilu Akhter",
     age: "45 years",
@@ -3570,7 +3570,7 @@ export default [
       "Ovarian mass(USG guided FNA): Suspicious cell seenNB: Require histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00298",
+    _id: "00298",
     date: "21-06-2020",
     patientName: "Mrs Anowara Begum",
     age: "72 years",
@@ -3583,7 +3583,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00299",
+    _id: "00299",
     date: "21-06-2020",
     patientName: "Mr Mofizul Hoque",
     age: "55 years",
@@ -3595,7 +3595,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00300",
+    _id: "00300",
     date: "22-06-2020",
     patientName: "Mrs Mithu Rani Das",
     age: "40 years",
@@ -3608,7 +3608,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00301",
+    _id: "00301",
     date: "22-06-2020",
     patientName: "Mr Mozaffar Ahmed",
     age: "55 years",
@@ -3620,7 +3620,7 @@ export default [
     impression: "Left cervical lymph node (FNA): Metastatic carcinoma",
   },
   {
-    id: "00302",
+    _id: "00302",
     date: "24-06-2020",
     patientName: "Mr Obaidul Akbar",
     age: "54 years",
@@ -3633,7 +3633,7 @@ export default [
     impression: "Gall bladder mass (USG guided FNA): Suppurative inflammation",
   },
   {
-    id: "00303",
+    _id: "00303",
     date: "24-06-2020",
     patientName: "Mrs Saleha Khatun",
     age: "70 years",
@@ -3646,7 +3646,7 @@ export default [
       "Right cervical lymph nodes(FNA): Suggestive of Granulomatous inflammationNB: Require Histopathology",
   },
   {
-    id: "00304",
+    _id: "00304",
     date: "25-06-2020",
     patientName: "Lina Dhar",
     age: "48 years",
@@ -3659,7 +3659,7 @@ export default [
       "Left breast lump (FNA): Duct cell carcinoma NB: Histopathology for confirmation",
   },
   {
-    id: "00305",
+    _id: "00305",
     date: "25-06-2020",
     patientName: "Mr Nobi Hossain",
     age: "65 years",
@@ -3672,7 +3672,7 @@ export default [
       "Right lung mass(CT guided FNA): Atypical squamous cell seenNB: Require histopathology to confirm malignancy",
   },
   {
-    id: "00306",
+    _id: "00306",
     date: "25-06-2020",
     patientName: "Miss Israt Jahan",
     age: "15 years",
@@ -3686,7 +3686,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00308",
+    _id: "00308",
     date: "27-06-2020",
     patientName: "Ms Tamima Nusrat",
     age: "11 years",
@@ -3699,7 +3699,7 @@ export default [
       "Anterior midline neck swelling(FNA):Benign cystic lesion,                     Suggestive of Thyroglossal cyst with acute inflammation",
   },
   {
-    id: "00309",
+    _id: "00309",
     date: "18-06-2020",
     patientName: "Mr Riyad",
     age: "29 years",
@@ -3712,7 +3712,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Suggestive of Hepatic adenomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00310",
+    _id: "00310",
     date: "28-06-2020",
     patientName: "Mr Abdul Bari",
     age: "50 years",
@@ -3725,7 +3725,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Atypical cell seenNB: Please consider USG guided FNA or Biopsy for histopathology",
   },
   {
-    id: "00311",
+    _id: "00311",
     date: "29-06-2020",
     patientName: "Mr Muslim Meah",
     age: "65 years",
@@ -3737,7 +3737,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00312",
+    _id: "00312",
     date: "29-06-2020",
     patientName: "Mr Jamal Uddin",
     age: "70 years",
@@ -3749,7 +3749,7 @@ export default [
     impression: "Right lung lesion (CT guided FNA): Granulomatous inflammation",
   },
   {
-    id: "00313",
+    _id: "00313",
     date: "30-06-2020",
     patientName: "Mrs Rizia Begum",
     age: "26 years",
@@ -3761,7 +3761,7 @@ export default [
     impression: "Thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00314",
+    _id: "00314",
     date: "30-06-2020",
     patientName: "Mrs Munni Akhter",
     age: "45 years",
@@ -3774,7 +3774,7 @@ export default [
       "Left breast lump(FNA):Chronic mastitis with suppuration NB: Repeat FNAC or biopsy after a course of antibiotics",
   },
   {
-    id: "00316",
+    _id: "00316",
     date: "01-07-2020",
     patientName: "Mrs Monowara Begum",
     age: "55years",
@@ -3787,7 +3787,7 @@ export default [
       "Right breast lump (FNA): Duct cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00317",
+    _id: "00317",
     date: "01-07-2020",
     patientName: "Mrs Rita Das",
     age: "35 years",
@@ -3802,7 +3802,7 @@ export default [
       "Hepatic SOL (USG guided FNA): Metastatic AdenocarcinomaAnterior abdominal swelling (FNA): Metastatic Adenocarcinoma",
   },
   {
-    id: "00318",
+    _id: "00318",
     date: "01-07-2020",
     patientName: "Mrs Ratna Biswas",
     age: "49 years",
@@ -3815,7 +3815,7 @@ export default [
       "Left breast lump(FNA): Negative for malignant cell                                     Suggestive of benign proliferative breast disease",
   },
   {
-    id: "00319",
+    _id: "00319",
     date: "01-07-2020",
     patientName: "Miss Munni Akhter",
     age: "15 years",
@@ -3828,7 +3828,7 @@ export default [
       "Osteolytic lesion in the right distal femur (CT guided FNA): Osteosarcoma NB: Require histopathology for confirmation",
   },
   {
-    id: "00320",
+    _id: "00320",
     date: "01-07-2020",
     patientName: "Mrs Laila Begum",
     age: "66 years",
@@ -3841,7 +3841,7 @@ export default [
       "T10 vertebral spine (CT guided FNA): Granulomatous inflammation with suppuration                                                          Suggestive of tuberculosis",
   },
   {
-    id: "00321",
+    _id: "00321",
     date: "01-07-2020",
     patientName: "Mr Md Solaiman",
     age: "60 years",
@@ -3854,7 +3854,7 @@ export default [
       "Hepatic SOL (USG guided FNA): Metastatic adenocarcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00322",
+    _id: "00322",
     date: "01-07-2020",
     patientName: "Mrs Suruzzaman",
     age: "75 years",
@@ -3866,7 +3866,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00323",
+    _id: "00323",
     date: "01-07-2020",
     patientName: "Mr Nurul Alam",
     age: "65 years",
@@ -3878,7 +3878,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00324",
+    _id: "00324",
     date: "02-07-2020",
     patientName: "Mr Md Ibrahim",
     age: "58 years",
@@ -3890,7 +3890,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00325",
+    _id: "00325",
     date: "03-07-2020",
     patientName: "Mrs Sumita Chowdhury",
     age: "47 years",
@@ -3902,7 +3902,7 @@ export default [
     impression: "Left breast lump (FNA): Fibroadenoma with fibrocystic changes",
   },
   {
-    id: "00327",
+    _id: "00327",
     date: "04-07-2020",
     patientName: "Mr Mokhlesur Rahman",
     age: "53 years",
@@ -3915,7 +3915,7 @@ export default [
       "Right axillary lymph node (FNA): Suggestive of HodgkinÆs LymphomaNB: Require histopathology to confirm",
   },
   {
-    id: "00328",
+    _id: "00328",
     date: "04-07-2020",
     patientName: "Mr Md Masud",
     age: "years",
@@ -3928,7 +3928,7 @@ export default [
       "Swelling over left deltoid region(FNA): Epidermal Inclusion Cyst",
   },
   {
-    id: "00329",
+    _id: "00329",
     date: "04-07-2020",
     patientName: "Mr Tazul Islam",
     age: "75 years",
@@ -3941,7 +3941,7 @@ export default [
       "Intra-abdominal mass (CT guided FNA): Positive for malignant cell                                      Suggestive of Poorly differentiated carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00330",
+    _id: "00330",
     date: "04-07-2020",
     patientName: "Mr Md Petan",
     age: "53 years",
@@ -3954,7 +3954,7 @@ export default [
       "Gluteal mass (FNA): Atypical cell seen                                                 NB: Requires Histopathology to exclude malignancy",
   },
   {
-    id: "00331",
+    _id: "00331",
     date: "05-07-2020",
     patientName: "Mr Nepal Chakrabarty",
     age: "60 years",
@@ -3967,7 +3967,7 @@ export default [
       "Left lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma                                                   D/D: Large Cell CarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00332",
+    _id: "00332",
     date: "05-07-2020",
     patientName: "Miss Razia Sultana",
     age: "14 years",
@@ -3982,7 +3982,7 @@ export default [
       "Hepatic SOL (USG guided FNA): Compatible with eosinophilic abscess",
   },
   {
-    id: "00333",
+    _id: "00333",
     date: "05-07-2020",
     patientName: "Mr Santonsh Kanti Biswas",
     age: "66 years",
@@ -3996,7 +3996,7 @@ export default [
       "Pancreatic mass (USG guided FNA): AdenocarcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00334",
+    _id: "00334",
     date: "05-07-2020",
     patientName: "Mr Abul Hossain",
     age: "65 years",
@@ -4009,7 +4009,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00335",
+    _id: "00335",
     date: "06-07-2020",
     patientName: "Mrs Roksana Akhter",
     age: "30 years",
@@ -4024,7 +4024,7 @@ export default [
       "Ovarian  mass(USG guided FNA): Poorly differentiated carcinoma  NB: Require histopathology and immunohistochemistry for further classification",
   },
   {
-    id: "00336",
+    _id: "00336",
     date: "06-07-2020",
     patientName: "Mrs Mithu Rani Dey",
     age: "35 years",
@@ -4038,7 +4038,7 @@ export default [
       "Right & left breast lump (FNA): Suggestive of Fibrocystic changes",
   },
   {
-    id: "00337",
+    _id: "00337",
     date: "08-07-2020",
     patientName: "Mrs Senowara Begum",
     age: "27 years",
@@ -4051,7 +4051,7 @@ export default [
       "Right cervical lymph node (FNA): Suppurative lymphadenitis NB: Require repeat FNA after a course of antibiotic to confirm Granulomatous lesion",
   },
   {
-    id: "00338",
+    _id: "00338",
     date: "08-07-2020",
     patientName: "Ms Aunkan Das",
     age: "26 years",
@@ -4063,7 +4063,7 @@ export default [
     impression: "Right cervical lymph node (FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00339",
+    _id: "00339",
     date: "08-07-2020",
     patientName: "Mrs Amena Begum",
     age: "50 years",
@@ -4076,7 +4076,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Suppurative inflammation",
   },
   {
-    id: "00340",
+    _id: "00340",
     date: "08-07-2020",
     patientName: "Mr Nur Ahmed",
     age: "70 years",
@@ -4090,7 +4090,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Adenocarcinoma\tNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00341",
+    _id: "00341",
     date: "08-07-2020",
     patientName: "Mr Md Jubaraj",
     age: "52 years",
@@ -4103,7 +4103,7 @@ export default [
       "Right cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00342",
+    _id: "00342",
     date: "09-07-2020",
     patientName: "Mr Dulal Ahmed",
     age: "26 years",
@@ -4116,7 +4116,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00343",
+    _id: "00343",
     date: "09-07-2020",
     patientName: "Mr Akbar Ali",
     age: "55 years",
@@ -4130,7 +4130,7 @@ export default [
       "Bilateral supra-clavicular lymph node (FNA): See description pleaseNB: Required re-aspiration, but patient could not attend.",
   },
   {
-    id: "00344",
+    _id: "00344",
     date: "09-07-2020",
     patientName: "Mrs Rumpa Barua",
     age: "29 years",
@@ -4142,7 +4142,7 @@ export default [
     impression: "Left breast lump(FNA):Granulomatous mastitis with suppuration",
   },
   {
-    id: "00345",
+    _id: "00345",
     date: "09-07-2020",
     patientName: "Mr Dulal Ahmed",
     age: "26 years",
@@ -4155,7 +4155,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00346",
+    _id: "00346",
     date: "05-07-2020",
     patientName: "Mrs Maryam",
     age: "67     years",
@@ -4168,7 +4168,7 @@ export default [
       "Left breast lump (FNA): Atypical ductal hyperplasia  NB: Require histopathology to exclude any possibility of malignancy",
   },
   {
-    id: "00347",
+    _id: "00347",
     date: "09-07-2020",
     patientName: "Miss Nurnahar Puspha",
     age: "24 years",
@@ -4182,7 +4182,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma                                                   Suggestive of Tuberculosis",
   },
   {
-    id: "00348",
+    _id: "00348",
     date: "09-07-2020",
     patientName: "Mr Nurus Saba",
     age: "60 years",
@@ -4194,7 +4194,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00349",
+    _id: "00349",
     date: "09-07-2020",
     patientName: "Mr Masud",
     age: "27 years",
@@ -4207,7 +4207,7 @@ export default [
       "Right lung lesion (USG guided FNA):  Granulomatous inflammation",
   },
   {
-    id: "00350",
+    _id: "00350",
     date: "09-07-2020",
     patientName: "Mr Nurul Amin",
     age: "65 years",
@@ -4219,7 +4219,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00351",
+    _id: "00351",
     date: "11-07-2020",
     patientName: "Mr Syed Ahmed",
     age: "48 years",
@@ -4233,7 +4233,7 @@ export default [
       "Right femoral lymph nodes(FNA): Non HodgkinÆs lymphomaNB: Requires histopathology",
   },
   {
-    id: "00352",
+    _id: "00352",
     date: "11-07-2020",
     patientName: "Mrs Ratri Das",
     age: "21 years",
@@ -4245,7 +4245,7 @@ export default [
     impression: "Swelling under the LSCS scar (FNA):Scar endometriosis",
   },
   {
-    id: "00353",
+    _id: "00353",
     date: "11-07-2020",
     patientName: "Mr Shmol Dutta",
     age: "52 years",
@@ -4257,7 +4257,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00354",
+    _id: "00354",
     date: "07-07-2020",
     patientName: "Mrs Momtaz",
     age: "28 years",
@@ -4270,7 +4270,7 @@ export default [
       "Right cervical lymph node(FNA):Suggestive of caseating granuloma NB: Require histopathology",
   },
   {
-    id: "00355",
+    _id: "00355",
     date: "07-07-2020",
     patientName: "Mr Md Abdul Mannan",
     age: "60 years",
@@ -4283,7 +4283,7 @@ export default [
       "Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00356",
+    _id: "00356",
     date: "12-07-2020",
     patientName: "Miss Mahfuza Akhter",
     age: "18 years",
@@ -4295,7 +4295,7 @@ export default [
     impression: "Right breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00357",
+    _id: "00357",
     date: "12-07-2020",
     patientName: "Mrs Nur Begum",
     age: "60 years",
@@ -4308,7 +4308,7 @@ export default [
       "A) Right breast lump (FNA): Duct cell carcinomaB) Right axillary lymph node(FNA): Metastatic duct cell carcinoma",
   },
   {
-    id: "00358",
+    _id: "00358",
     date: "12-07-2020",
     patientName: "Mrs Jesmin",
     age: "24 years",
@@ -4321,7 +4321,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00359",
+    _id: "00359",
     date: "12-07-2020",
     patientName: "Mr Omar Faruk",
     age: "24 years",
@@ -4334,7 +4334,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma with suppuration                                                  Suggestive of Tubercular abscess",
   },
   {
-    id: "00360",
+    _id: "00360",
     date: "13-07-2020",
     patientName: "Mr Taher Ahmed",
     age: "50 years",
@@ -4348,7 +4348,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Metastatic Adenocarcinoma",
   },
   {
-    id: "00361",
+    _id: "00361",
     date: "13-07-2020",
     patientName: "Mr Nurul Islam",
     age: "41 years",
@@ -4361,7 +4361,7 @@ export default [
       "Left epididymal swelling(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00362",
+    _id: "00362",
     date: "14-07-2020",
     patientName: "Mrs Raihana Jesmin",
     age: "36 years",
@@ -4374,7 +4374,7 @@ export default [
       "Left axillary swelling ((FNA): Fatty tissue, Suggestive of Axillary pad of fat",
   },
   {
-    id: "00363",
+    _id: "00363",
     date: "11-07-2020",
     patientName: "Mrs Nazma",
     age: "25 years",
@@ -4387,7 +4387,7 @@ export default [
       "Left breast lump(FNA): Suppurative inflammation                                     Compatible with Breast abscess",
   },
   {
-    id: "00364",
+    _id: "00364",
     date: "14-07-2020",
     patientName: "Mrs Nazu Akhter",
     age: "25 years",
@@ -4400,7 +4400,7 @@ export default [
       "Left breast lump(FNA):Benign breast disease                                   Suggestive of Fibrocystic Disease",
   },
   {
-    id: "00367",
+    _id: "00367",
     date: "15-07-2020",
     patientName: "Mr Rony Nath",
     age: "22 years",
@@ -4412,7 +4412,7 @@ export default [
     impression: "Left lateral chest wall swelling(FNA):Benign cystic lesion,",
   },
   {
-    id: "00368",
+    _id: "00368",
     date: "13-07-2020",
     patientName: "Mrs Tanju",
     age: "33 years",
@@ -4425,7 +4425,7 @@ export default [
       "Left axillary swelling ((FNA): Fatty tissue, Suggestive of Axillary pad of fat",
   },
   {
-    id: "00369",
+    _id: "00369",
     date: "15-07-2020",
     patientName: "Mr Banobihari Chakrabarty",
     age: "72 years",
@@ -4438,7 +4438,7 @@ export default [
       "Swelling over left deltoid muscle (FNA): Suggestive of Giant cell tumour of tendon sheathNB: Require histopathology for confirmation",
   },
   {
-    id: "00370",
+    _id: "00370",
     date: "15-07-2020",
     patientName: "Mr Shamsul Hoque",
     age: "77 years",
@@ -4451,7 +4451,7 @@ export default [
       "Left lung mass (CT guided FNA): AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00371",
+    _id: "00371",
     date: "15-07-2020",
     patientName: "Mr Nurul Islam",
     age: "70 years",
@@ -4464,7 +4464,7 @@ export default [
       "Right lung mass (CT guided FNA): AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00372",
+    _id: "00372",
     date: "15-07-2020",
     patientName: "Mr Md Abdur Razzaq",
     age: "62 years",
@@ -4477,7 +4477,7 @@ export default [
       "Right lung mass (CT guided FNA): Negative for malignant cells                               Suggestive of Granulomatous inflammation with suppuration",
   },
   {
-    id: "00373",
+    _id: "00373",
     date: "15-07-2020",
     patientName: "Mrs Nurun Nahar",
     age: "53 years",
@@ -4490,7 +4490,7 @@ export default [
       "Right lung mass (CT guided FNA): Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00374",
+    _id: "00374",
     date: "15-07-2020",
     patientName: "Sheully Akhter",
     age: "27 years",
@@ -4503,7 +4503,7 @@ export default [
       "Right cervical lymph nodes (FNA): Chronic non-specific lymphadenitis",
   },
   {
-    id: "00375",
+    _id: "00375",
     date: "15-07-2020",
     patientName: "Mr Abdur Rahman",
     age: "88 years",
@@ -4516,7 +4516,7 @@ export default [
       "D8 vertebral spine (CT guided FNA): Suggestive of Granulomatous inflammation",
   },
   {
-    id: "00376",
+    _id: "00376",
     date: "16-08-2020",
     patientName: "Mrs Mukta Biswas",
     age: "30 years",
@@ -4528,7 +4528,7 @@ export default [
     impression: "Hepatic SOL(USG guided FNA): Negative for malignant cell",
   },
   {
-    id: "00377",
+    _id: "00377",
     date: "15-07-2020",
     patientName: "Mr Mridul Sen",
     age: "65 years",
@@ -4541,7 +4541,7 @@ export default [
       "Hepatic SOL (USG guided FNA): Metastatic AdenocarcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00378",
+    _id: "00378",
     date: "16-07-2020",
     patientName: "Mr Md Feroz",
     age: "46 years",
@@ -4556,7 +4556,7 @@ export default [
       "Hepatic SOL (USG guided FNA): Suggestive of Hepatocellular carcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00379",
+    _id: "00379",
     date: "16-07-2020",
     patientName: "Mr Makbul Ahmed",
     age: "60 years",
@@ -4570,7 +4570,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Metastatic Adenocarcinoma",
   },
   {
-    id: "00380",
+    _id: "00380",
     date: "16-07-2020",
     patientName: "Mr Harunur Rashid",
     age: "42 years",
@@ -4583,7 +4583,7 @@ export default [
       "T10 vertebral spine (CT guided FNA): Suggestive of Granulomatous inflammation",
   },
   {
-    id: "00381",
+    _id: "00381",
     date: "16-07-2020",
     patientName: "Mr Golam Rabbani",
     age: "31 years",
@@ -4596,7 +4596,7 @@ export default [
       "Swelling over left anterior neck (FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00382",
+    _id: "00382",
     date: "18-07-2020",
     patientName: "Mr Jasim Uddin",
     age: "50 years",
@@ -4609,7 +4609,7 @@ export default [
       "Right thyroid swelling (USG guided FNA): Suggestive of Benign follicular noduleNB: Repeat FNAC after 4 weeks",
   },
   {
-    id: "00383",
+    _id: "00383",
     date: "18-07-2020",
     patientName: "Mr Adul Goni",
     age: "76 years",
@@ -4622,7 +4622,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00384",
+    _id: "00384",
     date: "18-07-2020",
     patientName: "Mr Abdus Salam",
     age: "72 years",
@@ -4634,7 +4634,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00385",
+    _id: "00385",
     date: "19-07-2020",
     patientName: "Mr Kumar Das",
     age: "62 years",
@@ -4647,7 +4647,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00386",
+    _id: "00386",
     date: "19-07-2020",
     patientName: "Mrs Fazila",
     age: "50 years",
@@ -4660,7 +4660,7 @@ export default [
       "Swelling over right elbow(FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00387",
+    _id: "00387",
     date: "19-07-2020",
     patientName: "Mrs Momtaz Begum",
     age: "55 years",
@@ -4673,7 +4673,7 @@ export default [
       "Right thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00388",
+    _id: "00388",
     date: "19-07-2020",
     patientName: "Mrs Sajia Afrin",
     age: "28 years",
@@ -4687,7 +4687,7 @@ export default [
       "Swelling over left side of the soft palate(FNA): Atypical cell seenNB: Require histopathology to exclude malignancy",
   },
   {
-    id: "00389",
+    _id: "00389",
     date: "19-07-2020",
     patientName: "Mr Sirajul Hoque",
     age: "45 years",
@@ -4700,7 +4700,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00390",
+    _id: "00390",
     date: "19-07-2020",
     patientName: "Mr Monoranjan Barua",
     age: "70 years",
@@ -4714,7 +4714,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00391",
+    _id: "00391",
     date: "20-07-2020",
     patientName: "Mrs Ambia Khatun",
     age: "60 years",
@@ -4727,7 +4727,7 @@ export default [
       "Right renal mass (USG Guided FNA): Positive for malignant cells                                                        Suggestive of renal cell carcinoma",
   },
   {
-    id: "00392",
+    _id: "00392",
     date: "20-07-2020",
     patientName: "Mr Khairul Bashar",
     age: "85 years",
@@ -4740,7 +4740,7 @@ export default [
       "Left lung mass (CT guided FNA): AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00393",
+    _id: "00393",
     date: "20-07-2020",
     patientName: "Mrs Nilu Ara Begum",
     age: "50 years",
@@ -4753,7 +4753,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00396",
+    _id: "00396",
     date: "21-07-2020",
     patientName: "Miss Moni Akhter",
     age: "21 years",
@@ -4765,7 +4765,7 @@ export default [
     impression: "Left breast lump (FNA):Fibroadenoma with fibrocystic changes",
   },
   {
-    id: "00397",
+    _id: "00397",
     date: "22-07-2020",
     patientName: "Mrs Rupa",
     age: "21 years",
@@ -4778,7 +4778,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00398",
+    _id: "00398",
     date: "21-07-2020",
     patientName: "Mrs Umme Morium",
     age: "46 years",
@@ -4791,7 +4791,7 @@ export default [
       "Right breast lump (FNA):  Benign cystic lesion                                        Suggestive of fibrocystic changes",
   },
   {
-    id: "00399",
+    _id: "00399",
     date: "22-07-2020",
     patientName: "Miss Arpita Nag",
     age: "15 years",
@@ -4803,7 +4803,7 @@ export default [
     impression: "Right and left breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00400",
+    _id: "00400",
     date: "21-07-2020",
     patientName: "Mrs Nahida Akhter",
     age: "35 years",
@@ -4816,7 +4816,7 @@ export default [
       "Right breast lump (FNA): Granulomatous mastitis with suppuration",
   },
   {
-    id: "00401",
+    _id: "00401",
     date: "22-07-2020",
     patientName: "Mrs Amena Begum",
     age: "45 years",
@@ -4829,7 +4829,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Suppurative inflammation",
   },
   {
-    id: "00402",
+    _id: "00402",
     date: "21-07-2020",
     patientName: "Mr Shafiul Alam",
     age: "35 years",
@@ -4843,7 +4843,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Atypical cell seenNB: Require histopathology & immunohistochemistry to confirm malignancy",
   },
   {
-    id: "00403",
+    _id: "00403",
     date: "21-07-2020",
     patientName: "Mr Ahmed Ullah",
     age: "60 years",
@@ -4856,7 +4856,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Positive for Malignant cells                                                Suggestive of Hepatocellular carcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00404",
+    _id: "00404",
     date: "23-07-2020",
     patientName: "Mrs Roksana Parvin",
     age: "25 years",
@@ -4869,7 +4869,7 @@ export default [
       "Right breast lump (FNA): Granulomatous mastitis with suppuration",
   },
   {
-    id: "00405",
+    _id: "00405",
     date: "22-07-2020",
     patientName: "Mr Md Danu Meah",
     age: "55 years",
@@ -4882,7 +4882,7 @@ export default [
       "Hepatic mass (USG guided FNA): Hepatocellular carcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00406",
+    _id: "00406",
     date: "23-07-2020",
     patientName: "Mrs Bilkis",
     age: "27 years",
@@ -4895,7 +4895,7 @@ export default [
       "Right breast lump (FNA):  Benign cystic lesion                                        Suggestive of fibrocystic changes",
   },
   {
-    id: "00407",
+    _id: "00407",
     date: "23-07-2020",
     patientName: "Mr Ezahar Miah",
     age: "70 years",
@@ -4909,7 +4909,7 @@ export default [
       "A) Left lung mass (CT guided FNA): Small cell carcinomaB) Left cervical lymph node (FNA)): Metastatic small cell carcinoma",
   },
   {
-    id: "00408",
+    _id: "00408",
     date: "23-07-2020",
     patientName: "Mr Abdur Rashid",
     age: "55 years",
@@ -4921,7 +4921,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00409",
+    _id: "00409",
     date: "23-07-2020",
     patientName: "Mr Abul Hossain",
     age: "50 years",
@@ -4934,7 +4934,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cells                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00410",
+    _id: "00410",
     date: "23-07-2020",
     patientName: "Mr Nur Mohammad",
     age: "70 years",
@@ -4947,7 +4947,7 @@ export default [
       "Abdominal mass (CT guided FNA: Benign mesenchymal lesionNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00411",
+    _id: "00411",
     date: "23-07-2020",
     patientName: "Mrs Anowara Begum",
     age: "55 years",
@@ -4959,7 +4959,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00412",
+    _id: "00412",
     date: "20-07-2020",
     patientName: "Mrs Nur Banu",
     age: "45 years",
@@ -4971,7 +4971,7 @@ export default [
     impression: "Left breast lump (FNA): Negative for malignant cells",
   },
   {
-    id: "00413",
+    _id: "00413",
     date: "25-07-2020",
     patientName: "Mrs Shahanaz",
     age: "34 years",
@@ -4983,7 +4983,7 @@ export default [
     impression: "Right breast lump (FNA): Fibrocystic changes",
   },
   {
-    id: "00414",
+    _id: "00414",
     date: "25-07-2020",
     patientName: "Mrs Koki Akhter",
     age: "45 years",
@@ -4995,7 +4995,7 @@ export default [
     impression: "Thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00415",
+    _id: "00415",
     date: "28-07-2020",
     patientName: "Mr Raihan Murad",
     age: "28 years",
@@ -5008,7 +5008,7 @@ export default [
       "Right cervical lymph node(FNA):Possibilty of gramulomatous inflammation                                                   could not be ruled out.NB: Require histopathology to exclude gramulomatous inflammation",
   },
   {
-    id: "00416",
+    _id: "00416",
     date: "25-07-2020",
     patientName: "Mr Lal Mohon Das",
     age: "75 years",
@@ -5022,7 +5022,7 @@ export default [
       "Right and left cervical and lymph node (FNA): Non HodgkinÆs lymphomaNB: Requires histopathology",
   },
   {
-    id: "00417",
+    _id: "00417",
     date: "08-01-2020",
     patientName: "Mr Jahanra Begum",
     age: "28 years",
@@ -5035,7 +5035,7 @@ export default [
       "Left ovarian mass (USG guided FNA): Positive for malignant cell                                                         Suggestive of mucinous cystadenocarcinoma  NB: Require histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00418",
+    _id: "00418",
     date: "25-07-2020",
     patientName: "Mr Md Ramzan Ali",
     age: "57 years",
@@ -5049,7 +5049,7 @@ export default [
       "Hepatic mass (USG guided FNA): Hepatocellular carcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00419",
+    _id: "00419",
     date: "25-07-2020",
     patientName: "Mr Abdul Mabud",
     age: "74 years",
@@ -5062,7 +5062,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Atypical cell seen",
   },
   {
-    id: "00420",
+    _id: "00420",
     date: "25-07-2020",
     patientName: "Mr Shahin Parvez",
     age: "52 years",
@@ -5076,7 +5076,7 @@ export default [
       "Left testicular swelling (FNA):  Suggestive of inflammatory lesion",
   },
   {
-    id: "00421",
+    _id: "00421",
     date: "25-07-2020",
     patientName: "Mr Ranjit",
     age: "55 years",
@@ -5089,7 +5089,7 @@ export default [
       "Left lung mass (CT guided FNA)): Positive for malignant cell                                                     Suggestive of small cell carcinoma",
   },
   {
-    id: "00422",
+    _id: "00422",
     date: "25-07-2020",
     patientName: "Mr Shah Alam",
     age: "65 years",
@@ -5102,7 +5102,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00423",
+    _id: "00423",
     date: "29-07-2020",
     patientName: "Mr Sufia Parveen",
     age: "52 years",
@@ -5115,7 +5115,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Metastatic adenocarcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00424",
+    _id: "00424",
     date: "25-07-2020",
     patientName: "Ms Lulul Bahar",
     age: "60 years",
@@ -5128,7 +5128,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00425",
+    _id: "00425",
     date: "26-07-2020",
     patientName: "Mawlana Abdul Mabud",
     age: "61 years",
@@ -5142,7 +5142,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Adenocarcinoma",
   },
   {
-    id: "00426",
+    _id: "00426",
     date: "26-07-2020",
     patientName: "Mr Mohiuddin",
     age: "74 years",
@@ -5157,7 +5157,7 @@ export default [
       "A)Left supraclavicular lymph node (FNA): Metastatic AdenocarcinomaB)Swelling over right shoulder (FNA): Lipoma",
   },
   {
-    id: "00427",
+    _id: "00427",
     date: "27-07-2020",
     patientName: "Mr Md Jabed",
     age: "28 years",
@@ -5170,7 +5170,7 @@ export default [
       "Left parotid swelling(FNA): Suggestive of WarthinÆs tumour , with suppurationNB: Require histopathology for confirmation",
   },
   {
-    id: "00429",
+    _id: "00429",
     date: "28-07-2020",
     patientName: "Miss Khuki",
     age: "17 years",
@@ -5183,7 +5183,7 @@ export default [
       "Right breast lump(FNA):Benign breast disease                                   Suggestive of Fibrocystic Disease",
   },
   {
-    id: "00430",
+    _id: "00430",
     date: "29-07-2020",
     patientName: "Mr Ahendro Roy",
     age: "65 years",
@@ -5195,7 +5195,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00431",
+    _id: "00431",
     date: "29-07-2020",
     patientName: "Mr Sudhon Das",
     age: "70 years",
@@ -5209,7 +5209,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Hepatocellular carcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00432",
+    _id: "00432",
     date: "29-07-2020",
     patientName: "Mr Md Yunus",
     age: "70 years",
@@ -5222,7 +5222,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00433",
+    _id: "00433",
     date: "29-07-2020",
     patientName: "Ms Tanvir Akhter Sweety",
     age: "23 years",
@@ -5235,7 +5235,7 @@ export default [
       "Left thyroid swelling (FNA): Suggestive of papillary carcinoma NB: Requires histopathology for confirmation",
   },
   {
-    id: "00434",
+    _id: "00434",
     date: "30-07-2020",
     patientName: "Mrs Sufia Akhter",
     age: "35 years",
@@ -5247,7 +5247,7 @@ export default [
     impression: "Right breast lump(FNA):Suggestive of Fibroadenoma",
   },
   {
-    id: "00435",
+    _id: "00435",
     date: "30-07-2020",
     patientName: "Mr Md Harun",
     age: "55 years",
@@ -5261,7 +5261,7 @@ export default [
       "Left lung mass (CT guided FNA)): Positive for malignant cell                                                    Suggestive of small cell carcinoma",
   },
   {
-    id: "00436",
+    _id: "00436",
     date: "30-07-2020",
     patientName: "Mrs Mahfuza Begum",
     age: "65 years",
@@ -5275,7 +5275,7 @@ export default [
       "Left ovarian cyst (USG guided FNA): Negative for malignant cellsNB: Require histopathology",
   },
   {
-    id: "00437",
+    _id: "00437",
     date: "03-08-2020",
     patientName: "Mrs Litu Dewanjee",
     age: "47 years",
@@ -5289,7 +5289,7 @@ export default [
       "A) Left breast lump (FNA): Duct cell carcinoma, B) Left axillary lymph node(FNA): Metastatic duct cell carcinoma,",
   },
   {
-    id: "00438",
+    _id: "00438",
     date: "03-08-2020",
     patientName: "Mrs Jarina Begum",
     age: "60 years",
@@ -5302,7 +5302,7 @@ export default [
       "Right lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma",
   },
   {
-    id: "00439",
+    _id: "00439",
     date: "03-08-2020",
     patientName: "Mrs Shamsun Nahar",
     age: "55 years",
@@ -5315,7 +5315,7 @@ export default [
       "Right axillary lymph node(FNA): Metastatic duct cell carcinoma",
   },
   {
-    id: "00440",
+    _id: "00440",
     date: "03-08-2020",
     patientName: "Mrs Kanta Chowdhury",
     age: "52 years",
@@ -5327,7 +5327,7 @@ export default [
     impression: "Left axillary lymph node(FNA): Metastatic duct cell carcinoma",
   },
   {
-    id: "00441",
+    _id: "00441",
     date: "03-08-2020",
     patientName: "Mrs Anowara Begum",
     age: "60 years",
@@ -5339,7 +5339,7 @@ export default [
     impression: "Left axillary lymph node(FNA): Metastatic duct cell carcinoma",
   },
   {
-    id: "00444",
+    _id: "00444",
     date: "04-08-2020",
     patientName: "Mr Monir Hossain",
     age: "17 years",
@@ -5352,7 +5352,7 @@ export default [
       "Sub-mental lymph node (FNA): Atypical cell seenNB: Requires histopathology",
   },
   {
-    id: "00445",
+    _id: "00445",
     date: "04-08-2020",
     patientName: "Mrs Nipa Rani Majumdar",
     age: "30 years",
@@ -5365,7 +5365,7 @@ export default [
       "Right thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00446",
+    _id: "00446",
     date: "05-08-2020",
     patientName: "Mrs Tinku Chakbrabarty",
     age: "43 years",
@@ -5377,7 +5377,7 @@ export default [
     impression: "Right thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00447",
+    _id: "00447",
     date: "05-08-2020",
     patientName: "Mrs Ayesha Akhter",
     age: "66 years",
@@ -5391,7 +5391,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Metastatic Adenocarcinoma NB: Require histopathology for confirmation",
   },
   {
-    id: "00448",
+    _id: "00448",
     date: "05-08-2020",
     patientName: "Mr Md Jamal Hossain",
     age: "50 years",
@@ -5404,7 +5404,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Metastatic carcinoma                                                Suggestive of Metastatic small cell carcinoma",
   },
   {
-    id: "00449",
+    _id: "00449",
     date: "06-08-2020",
     patientName: "Mrs Dipali Gupta",
     age: "58 years",
@@ -5417,7 +5417,7 @@ export default [
       "Left breast lump (FNA): Duct cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00451",
+    _id: "00451",
     date: "06-08-2020",
     patientName: "Miss Tahsin",
     age: "10 years",
@@ -5429,7 +5429,7 @@ export default [
     impression: "Left breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00452",
+    _id: "00452",
     date: "06-08-2020",
     patientName: "Miss Taslim Hossain",
     age: "16 years",
@@ -5441,7 +5441,7 @@ export default [
     impression: "Left breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00453",
+    _id: "00453",
     date: "06-08-2020",
     patientName: "Mr Md Mohiuddin",
     age: "48 years",
@@ -5454,7 +5454,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Suggestive of Metastatic adenocarcinomaNB: Require histopathology",
   },
   {
-    id: "00454",
+    _id: "00454",
     date: "06-08-2020",
     patientName: "Mr Siraj",
     age: "68 years",
@@ -5467,7 +5467,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Small cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00455",
+    _id: "00455",
     date: "08-08-2020",
     patientName: "Mr Nizam Uddin",
     age: "32 years",
@@ -5482,7 +5482,7 @@ export default [
       "Hepatic mass (USG guided FNA): Hepatocellular carcinomaNB: Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00456",
+    _id: "00456",
     date: "08-08-2020",
     patientName: "Mrs Rina Rani Dhar",
     age: "45 years",
@@ -5496,7 +5496,7 @@ export default [
       "(A)Left axiilary swelling (FNA): Compatible with Seroma (B)Left axiilary swelling(FNA):Pad of fat",
   },
   {
-    id: "00457",
+    _id: "00457",
     date: "08-08-2020",
     patientName: "Mrs Tarifa Khanom",
     age: "30 years",
@@ -5509,7 +5509,7 @@ export default [
       "Right breast lump(FNA):Granulomatous mastitis with suppuration",
   },
   {
-    id: "00458",
+    _id: "00458",
     date: "08-08-2020",
     patientName: "Mr Sawpan Nandy",
     age: "63 years",
@@ -5522,7 +5522,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00459",
+    _id: "00459",
     date: "09-08-2020",
     patientName: "Mrs Shaheda Begum",
     age: "40 years",
@@ -5534,7 +5534,7 @@ export default [
     impression: "Left breast lump (FNA):  Compatible with Fibrocystic changes",
   },
   {
-    id: "00460",
+    _id: "00460",
     date: "09-08-2020",
     patientName: "Mr Kabir Ahmed",
     age: "60 years",
@@ -5547,7 +5547,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00461",
+    _id: "00461",
     date: "09-08-2020",
     patientName: "Mrs Shahanaj Begum",
     age: "55 years",
@@ -5559,7 +5559,7 @@ export default [
     impression: "Right thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00462",
+    _id: "00462",
     date: "08-08-2020",
     patientName: "Mr Bashir Ahmed",
     age: "92 years",
@@ -5572,7 +5572,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Adenocarcinoma",
   },
   {
-    id: "00463",
+    _id: "00463",
     date: "09-08-2020",
     patientName: "Mr Md Afzal Ahmed",
     age: "65 years",
@@ -5586,7 +5586,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Negative for malignant cell",
   },
   {
-    id: "00464",
+    _id: "00464",
     date: "09-08-2020",
     patientName: "Md Fazlul Karim",
     age: "60 years",
@@ -5600,7 +5600,7 @@ export default [
       "Hepatic SOL in right lobe(CT guided FNA): Compatible with Hepatic abscess",
   },
   {
-    id: "00465",
+    _id: "00465",
     date: "10-08-2020",
     patientName: "Mrs Kamrun Nahar",
     age: "36 years",
@@ -5614,7 +5614,7 @@ export default [
       "Ovarian mass(CT guided FNA): Positive for malignant cell                                                Suggestive of mucinous cystadenocarcinoma  NB: Require histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00466",
+    _id: "00466",
     date: "10-08-2020",
     patientName: "Mrs Tahmina Nasrin",
     age: "30 years",
@@ -5627,7 +5627,7 @@ export default [
       "Left axillary lymph node(USG Guided FNA): Suggestive of Granulomatous lymphadenitis NB: Require histopathology to exclude tuberculosis",
   },
   {
-    id: "00467",
+    _id: "00467",
     date: "10-08-2020",
     patientName: "Towhid Uddin Ramim",
     age: "10 years",
@@ -5640,7 +5640,7 @@ export default [
       "Left cervical lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00468",
+    _id: "00468",
     date: "10-08-2020",
     patientName: "Ms Nazma Akhter",
     age: "28 years",
@@ -5653,7 +5653,7 @@ export default [
       "Cervical lymph node (FNA):Caseating granuloma                                             Suggestive of Tuberculosis",
   },
   {
-    id: "00469",
+    _id: "00469",
     date: "10-08-2020",
     patientName: "Utsab Basak",
     age: "07 years",
@@ -5666,7 +5666,7 @@ export default [
       "Right maxilary swelling(FNA):Benign cystic lesion,inflammed                     Suggestive of Dentigerous cyst",
   },
   {
-    id: "00470",
+    _id: "00470",
     date: "10-08-2020",
     patientName: "Mr Amjad Hossain",
     age: "32 years",
@@ -5680,7 +5680,7 @@ export default [
       "Right thyroid swelling (FNA): Suggestive of Nodular goitre with cystic changes",
   },
   {
-    id: "00471",
+    _id: "00471",
     date: "10-08-2020",
     patientName: "Mrs Nurun  Nahar",
     age: "43 years",
@@ -5695,7 +5695,7 @@ export default [
       "Hepatic mass (USG guided FNA): Metastatic Adenocarcinoma                                                   Suggestive of metastatic duct cell carcinoma",
   },
   {
-    id: "00472",
+    _id: "00472",
     date: "10-08-2020",
     patientName: "Mrs Jahanara Begum",
     age: "40 years",
@@ -5709,7 +5709,7 @@ export default [
       "Right cervical lymph nodes(FNA): Suggestive of Non HodgkinÆs lymphomaNB: Requires histopathology for confirmation",
   },
   {
-    id: "00473",
+    _id: "00473",
     date: "10-08-2020",
     patientName: "Mr Didarul Islam",
     age: "37 years",
@@ -5722,7 +5722,7 @@ export default [
       "Left thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00475",
+    _id: "00475",
     date: "10-08-2020",
     patientName: "Mrs Achiya  Khatun",
     age: "70 years",
@@ -5735,7 +5735,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Negative for malignant cell",
   },
   {
-    id: "00476",
+    _id: "00476",
     date: "09-08-2020",
     patientName: "Mrs Hannanu Akhter",
     age: "37 years",
@@ -5747,7 +5747,7 @@ export default [
     impression: "Left axillary lymph node(FNA): Metastatic duct cell carcinoma",
   },
   {
-    id: "00477",
+    _id: "00477",
     date: "11-08-2020",
     patientName: "Mrs Anwara Begum",
     age: "42 years",
@@ -5761,7 +5761,7 @@ export default [
       "Right and left thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00478",
+    _id: "00478",
     date: "11-08-2020",
     patientName: "Muntahin",
     age: "3 years\t 2 months",
@@ -5774,7 +5774,7 @@ export default [
       "Right cervical lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00479",
+    _id: "00479",
     date: "11-08-2020",
     patientName: "Mrs Sumita Chakma",
     age: "40 years",
@@ -5786,7 +5786,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00480",
+    _id: "00480",
     date: "11-08-2020",
     patientName: "Mrs Arju Nahar",
     age: "45 years",
@@ -5799,7 +5799,7 @@ export default [
       "Thyroid swelling (FNA): Follicular neoplasmNB: Requires histopathology to exclude malignancy",
   },
   {
-    id: "00481",
+    _id: "00481",
     date: "11-08-2020",
     patientName: "Miss Ishrat Jahan",
     age: "26 years",
@@ -5812,7 +5812,7 @@ export default [
       "Left breast lump(FNA): Suppurative inflammation                                   Compatible with Breast abscess",
   },
   {
-    id: "00482",
+    _id: "00482",
     date: "11-08-2020",
     patientName: "Mrs Nipa",
     age: "25 years",
@@ -5824,7 +5824,7 @@ export default [
     impression: "Right breast lump (USG guided FNA):  Fibrocystic changes",
   },
   {
-    id: "00483",
+    _id: "00483",
     date: "12-08-2020",
     patientName: "Mrs Shamima Yasmin",
     age: "56 years",
@@ -5838,7 +5838,7 @@ export default [
       "Left cheek swelling (FNA): Suggestive of Metastatic squamous cell carcinoma",
   },
   {
-    id: "00484",
+    _id: "00484",
     date: "12-08-2020",
     patientName: "Mrs Rokeya Begum",
     age: "60 years",
@@ -5852,7 +5852,7 @@ export default [
       "Lower abdominal mas (USG guided FNA): Poorly differentiated carcinoma  NB: Require histopathology and immunohistochemistry for further classification",
   },
   {
-    id: "00485",
+    _id: "00485",
     date: "12-08-2020",
     patientName: "Mr Shangha Prio Barua",
     age: "40 years",
@@ -5865,7 +5865,7 @@ export default [
       "Right cervical lymph node (FNA):Caseating granuloma with suppuration                                                  Suggestive of Tubercular abscess",
   },
   {
-    id: "00486",
+    _id: "00486",
     date: "13-08-2020",
     patientName: "Mr Abdul Malek",
     age: "58 years",
@@ -5877,7 +5877,7 @@ export default [
     impression: "Right neck mass (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00487",
+    _id: "00487",
     date: "11-08-2020",
     patientName: "Mrs Shanta Khatun",
     age: "30 years",
@@ -5890,7 +5890,7 @@ export default [
       "Left axillary lymph node(USG Guided FNA): Suggestive of Chronic non specific lymphadenitis",
   },
   {
-    id: "00488",
+    _id: "00488",
     date: "11-08-2020",
     patientName: "Mrs Sahara Begum",
     age: "70 years",
@@ -5903,7 +5903,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Adenocarcinoma",
   },
   {
-    id: "00489",
+    _id: "00489",
     date: "13-08-2020",
     patientName: "Mr Abu Sayed",
     age: "62 years",
@@ -5917,7 +5917,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Hepatocellular carcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00490",
+    _id: "00490",
     date: "13-08-2020",
     patientName: "Mrs Nargis Sultana",
     age: "28 years",
@@ -5929,7 +5929,7 @@ export default [
     impression: "Right breast lump (FNA): Atypical ductal hyperplasia",
   },
   {
-    id: "00491",
+    _id: "00491",
     date: "13-08-2020",
     patientName: "Mrs Nasima Begum",
     age: "45 years",
@@ -5942,7 +5942,7 @@ export default [
       "Right cervical swelling(FNA): Suggestive of WarthinÆs tumour NB: Require histopathology for confirmation",
   },
   {
-    id: "00492",
+    _id: "00492",
     date: "14-08-2020",
     patientName: "Mrs Momtaz Begum",
     age: "51 years",
@@ -5954,7 +5954,7 @@ export default [
     impression: "Left breast lump(FNA): Negative for malignant cell",
   },
   {
-    id: "00493",
+    _id: "00493",
     date: "14-08-2020",
     patientName: "Mrs Diba Chakrabarty",
     age: "24 years",
@@ -5966,7 +5966,7 @@ export default [
     impression: "Left breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00494",
+    _id: "00494",
     date: "16-08-2020",
     patientName: "Mr Shafiul Alam",
     age: "38 years",
@@ -5981,7 +5981,7 @@ export default [
       "Gall bladder mass (USG guided FNA): AdenocarcinomaHepatic SOL (USG guided FNA):  Metastatic Adenocarcinoma",
   },
   {
-    id: "00496",
+    _id: "00496",
     date: "16-08-2020",
     patientName: "Ruma Akhtrer",
     age: "24 years",
@@ -5994,7 +5994,7 @@ export default [
       "Right supraclavicular lymph node(FNA):Caseating granuloma                                                  Suggestive of TuberculosisNB: Require histopathology for confirmation",
   },
   {
-    id: "00497",
+    _id: "00497",
     date: "16-08-2020",
     patientName: "Mrs Jahanara Begum",
     age: "65 years",
@@ -6007,7 +6007,7 @@ export default [
       "Right & left thyroid swelling (FNA): Follicular neoplasmNB: Requires histopathology to exclude malignancy",
   },
   {
-    id: "00498",
+    _id: "00498",
     date: "16-08-2020",
     patientName: "Mrs Ayesha Begum",
     age: "55 years",
@@ -6019,7 +6019,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Colloid goitre",
   },
   {
-    id: "00499",
+    _id: "00499",
     date: "16-08-2020",
     patientName: "Mrs Nurjahan",
     age: "22 years",
@@ -6032,7 +6032,7 @@ export default [
       "Thyroid swelling (FNA): Atypia of undetermined significance*                                    NB: Repeat FNA is recomeneded after 4 weeks** (Accorrding to ôThe Bethesda system for reporting thyroid cytopathologyö)",
   },
   {
-    id: "00500",
+    _id: "00500",
     date: "16-08-2020",
     patientName: "Mr Hamidul Hasan",
     age: "70 years",
@@ -6045,7 +6045,7 @@ export default [
       "Right lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma                                                   D/D: Large Cell CarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00501",
+    _id: "00501",
     date: "16-08-2020",
     patientName: "Mrs Munni Akhter",
     age: "40 years",
@@ -6058,7 +6058,7 @@ export default [
       "Medial end of right clavicle (CT guided FNA): Suggestive of Granulomatous inflammationNB: Requires Histopathology for confirmation",
   },
   {
-    id: "00502",
+    _id: "00502",
     date: "16-08-2020",
     patientName: "Mr Shafiul Alam",
     age: "55 years",
@@ -6072,7 +6072,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Metastatic Adenocarcinoma",
   },
   {
-    id: "00503",
+    _id: "00503",
     date: "11-08-2020",
     patientName: "Mrs Akhi",
     age: "21 years",
@@ -6085,7 +6085,7 @@ export default [
       "Thyroid swelling (FNA): Follicular neoplasmNB: Requires histopathology to exclude malignancy",
   },
   {
-    id: "00504",
+    _id: "00504",
     date: "17-08-2020",
     patientName: "Mrs Peshkari Nessa",
     age: "65 years",
@@ -6099,7 +6099,7 @@ export default [
       "Right breast lump(FNA): Negative for malignant cell                                     Compatible with Inflammatory lesion",
   },
   {
-    id: "00505",
+    _id: "00505",
     date: "17-08-2020",
     patientName: "Mrs Khadiza Begum",
     age: "35 years",
@@ -6113,7 +6113,7 @@ export default [
       "A) Right breast lump (FNA): Duct cell carcinoma, B) Right axillary lymph node(FNA): Metastatic duct cell carcinoma",
   },
   {
-    id: "00506",
+    _id: "00506",
     date: "17-08-2020",
     patientName: "Mrs Lucky Akhter",
     age: "30 years",
@@ -6126,7 +6126,7 @@ export default [
       "Left thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00507",
+    _id: "00507",
     date: "17-08-2020",
     patientName: "Mr Shamsul Alam",
     age: "65 years",
@@ -6141,7 +6141,7 @@ export default [
       "Hepatic mass (USG guided FNA): Positive for malignant cells                                                   Suggestive of Hepatocellular carcinomaNB: Require Histopathology & Immunohistochemistry for confirmation",
   },
   {
-    id: "00508",
+    _id: "00508",
     date: "17-08-2020",
     patientName: "Mr Jahangir Alam",
     age: "66 years",
@@ -6153,7 +6153,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00509",
+    _id: "00509",
     date: "17-08-2020",
     patientName: "Mr Asohk Kanti Dey",
     age: "65 years",
@@ -6165,7 +6165,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00510",
+    _id: "00510",
     date: "18-08-2020",
     patientName: "Mrs Mina Akhter",
     age: "20 years",
@@ -6177,7 +6177,7 @@ export default [
     impression: "Left breast lump (FNA): Galactocele",
   },
   {
-    id: "00511",
+    _id: "00511",
     date: "18-07-2020",
     patientName: "Mrs Nur Nahar Begum",
     age: "30 years",
@@ -6189,7 +6189,7 @@ export default [
     impression: "Right submandibular swelling(FNA): Pleomorphic adenoma",
   },
   {
-    id: "00513",
+    _id: "00513",
     date: "19-08-2020",
     patientName: "Mrs Nasima Akhter",
     age: "45 years",
@@ -6202,7 +6202,7 @@ export default [
     impression: "Left breast lump (FNA):  Fibrocystic changes, inflammed",
   },
   {
-    id: "00514",
+    _id: "00514",
     date: "19-08-2020",
     patientName: "Mr Manik Saha",
     age: "62 years",
@@ -6214,7 +6214,7 @@ export default [
     impression: "Right thyroid swelling (FNA): Colloid goitre",
   },
   {
-    id: "00515",
+    _id: "00515",
     date: "19-08-2020",
     patientName: "Mrs Rehena Akhter",
     age: "38 years",
@@ -6227,7 +6227,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Suppurative inflammation",
   },
   {
-    id: "00516",
+    _id: "00516",
     date: "19-08-2020",
     patientName: "Mr Prokash Chowdhury",
     age: "60 years",
@@ -6240,7 +6240,7 @@ export default [
       "Left lung mass (CT guided FNA): suggestive of Granulomatous inflammation",
   },
   {
-    id: "00517",
+    _id: "00517",
     date: "19-08-2020",
     patientName: "Mrs Hosne Ara Begum",
     age: "55 years",
@@ -6252,7 +6252,7 @@ export default [
     impression: "Hepatic mass (USG guided FNA): Negative for malignant cell",
   },
   {
-    id: "00518",
+    _id: "00518",
     date: "19-08-2020",
     patientName: "Umme Habiba",
     age: "27 years",
@@ -6264,7 +6264,7 @@ export default [
     impression: "Right thyroid swelling (FNA): Colloid goitre",
   },
   {
-    id: "00519",
+    _id: "00519",
     date: "20-08-2020",
     patientName: "Mrs Sumitra Mutsuddi",
     age: "50 years",
@@ -6276,7 +6276,7 @@ export default [
     impression: "Thyroid swelling (FNA): Colloid goitre",
   },
   {
-    id: "00520",
+    _id: "00520",
     date: "20-08-2020",
     patientName: "Ms Shakiul Jannat",
     age: "19 years",
@@ -6289,7 +6289,7 @@ export default [
       "Left cervical lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00521",
+    _id: "00521",
     date: "20-08-2020",
     patientName: "Mr Mohiuddin",
     age: "21 years",
@@ -6302,7 +6302,7 @@ export default [
       "Right and left testicular swelling (FNA): Spermatocele with suppuration",
   },
   {
-    id: "00522",
+    _id: "00522",
     date: "20-08-2020",
     patientName: "Mr Md Ezahar Meah",
     age: "70 years",
@@ -6315,7 +6315,7 @@ export default [
       "Left inguinal lymph node (FNA): Non HodgkinÆs lymphomaNB: Requires histopathology",
   },
   {
-    id: "00523",
+    _id: "00523",
     date: "20-08-2020",
     patientName: "Mrs Roksana Ebad",
     age: "59 years",
@@ -6328,7 +6328,7 @@ export default [
       "Left breast lump (FNA): Negative for malignant cell                                   Suggestive of benign proliferative breast diseaseNB: Require histopathology",
   },
   {
-    id: "00524",
+    _id: "00524",
     date: "21-08-2020",
     patientName: "Mrs Jahanara Begum",
     age: "30 years",
@@ -6341,7 +6341,7 @@ export default [
       "Right breast lump(FNA): Suppurative inflammation                                     Compatible with Breast abscess",
   },
   {
-    id: "00525",
+    _id: "00525",
     date: "19-08-2020",
     patientName: "Mrs Rowshan Ara Begum",
     age: "58 years",
@@ -6354,7 +6354,7 @@ export default [
       "Lung mass in the mediastinal region (CT guided FNA): Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00526",
+    _id: "00526",
     date: "19-08-2020",
     patientName: "Mrs Nilufer Akhter",
     age: "47 years",
@@ -6367,7 +6367,7 @@ export default [
       "Left breast lump (USG guided FNA): Suggestive of Fibrocystic changes",
   },
   {
-    id: "00527",
+    _id: "00527",
     date: "22-08-2020",
     patientName: "Mrs Morium Khatun",
     age: "80 years",
@@ -6380,7 +6380,7 @@ export default [
       "L4 vertebral body (CT guided FNA): Negative for malignant cell                                                      Suggestive of Chronic Osteomyelitis",
   },
   {
-    id: "00528",
+    _id: "00528",
     date: "16-08-2020",
     patientName: "Mrs Supria Ghosh",
     age: "55 years",
@@ -6392,7 +6392,7 @@ export default [
     impression: "Left axillary swelling(FNA): Axillary pad of fat",
   },
   {
-    id: "00529",
+    _id: "00529",
     date: "22-08-2020",
     patientName: "Mrs Sharfatun Nesa",
     age: "52 years",
@@ -6405,7 +6405,7 @@ export default [
       "Left breast lump (FNA): Negative for malignant cell                                   Suggestive of benign proliferative breast diseaseNB: Require histopathology",
   },
   {
-    id: "00530",
+    _id: "00530",
     date: "24-08-2020",
     patientName: "Mr Md Abdul Mabud",
     age: "74 years",
@@ -6419,7 +6419,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Metastatic Adenocarcinoma",
   },
   {
-    id: "00531",
+    _id: "00531",
     date: "24-08-2020",
     patientName: "Mrs Sajeda Begum",
     age: "40 years",
@@ -6431,7 +6431,7 @@ export default [
     impression: "Right breast lump (FNA): Duct cell carcinoma",
   },
   {
-    id: "00532",
+    _id: "00532",
     date: "23-08-2020",
     patientName: "Mr Rupok Das",
     age: "37 years",
@@ -6443,7 +6443,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00533",
+    _id: "00533",
     date: "24-08-2020",
     patientName: "Mr Abul Qashem",
     age: "81 years",
@@ -6456,7 +6456,7 @@ export default [
       "Right supraclavicular lymph node (FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00534",
+    _id: "00534",
     date: "24-08-2020",
     patientName: "Mrs Ishrat Nahar",
     age: "38 years",
@@ -6469,7 +6469,7 @@ export default [
     impression: "Left breast lump(FNA):Granulomatous mastitis with suppuration",
   },
   {
-    id: "00535",
+    _id: "00535",
     date: "23-08-2020",
     patientName: "Mr Mohammad Younus",
     age: "80 years",
@@ -6481,7 +6481,7 @@ export default [
     impression: "Left cervical lymph node (FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00536",
+    _id: "00536",
     date: "24-08-2020",
     patientName: "Mehedi Hasan",
     age: "09  years",
@@ -6493,7 +6493,7 @@ export default [
     impression: "Thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00537",
+    _id: "00537",
     date: "26-08-2020",
     patientName: "Mr Aminur Rahman",
     age: "62 years",
@@ -6506,7 +6506,7 @@ export default [
       "Left lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma",
   },
   {
-    id: "00538",
+    _id: "00538",
     date: "25-08-2020",
     patientName: "Ms Nishi Barua",
     age: "06 years",
@@ -6518,7 +6518,7 @@ export default [
     impression: "Left forearm swelling(FNA):Suggestive of hemangioma",
   },
   {
-    id: "00539",
+    _id: "00539",
     date: "25-08-2020",
     patientName: "Master Minhaz",
     age: "06 years",
@@ -6531,7 +6531,7 @@ export default [
       "Anteroir midline swelling (FNA): Suggestive of Thyroglossal cyst",
   },
   {
-    id: "00540",
+    _id: "00540",
     date: "25-08-2020",
     patientName: "Master Shantu Das",
     age: "07 years",
@@ -6544,7 +6544,7 @@ export default [
       "Right cervical lymph node (FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00541",
+    _id: "00541",
     date: "25-08-2020",
     patientName: "Mrs rima Akhter",
     age: "19 years",
@@ -6556,7 +6556,7 @@ export default [
     impression: "Right axillary swelling(FNA):Axillary tail of breast",
   },
   {
-    id: "00543",
+    _id: "00543",
     date: "26-08-2020",
     patientName: "Mr Md Tajul Islam",
     age: "55 years",
@@ -6569,7 +6569,7 @@ export default [
       "Right thyroid swelling (FNA): Papillary carcinoma Right cervical lymph node (FNA): Metastatic papillary carcinoma",
   },
   {
-    id: "00544",
+    _id: "00544",
     date: "26-08-2020",
     patientName: "Mr Abul Ansar",
     age: "70 years",
@@ -6582,7 +6582,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Metastatic poorly differentiated adenocarcinoma",
   },
   {
-    id: "00545",
+    _id: "00545",
     date: "26-08-2020",
     patientName: "Mr Aman Ullah",
     age: "72 years",
@@ -6595,7 +6595,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00546",
+    _id: "00546",
     date: "26-08-2020",
     patientName: "Mrs Farida Begum",
     age: "49 years",
@@ -6609,7 +6609,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Negative for malignant cell                                               Suggestive of Hemangioma",
   },
   {
-    id: "00547",
+    _id: "00547",
     date: "26-08-2020",
     patientName: "Mr Ridwanul Alam",
     age: "40 years",
@@ -6622,7 +6622,7 @@ export default [
       "Right renal mass (CT guided FNA): Positive for malignant cell                                                     Suggestive of Renal Cell Carcinoma",
   },
   {
-    id: "00548",
+    _id: "00548",
     date: "27-08-2020",
     patientName: "Mrs Noor Jahan",
     age: "54 years",
@@ -6635,7 +6635,7 @@ export default [
     impression: "Gall bladder mass (USG guided FNA): Adenocarcinoma",
   },
   {
-    id: "00549",
+    _id: "00549",
     date: "27-08-2020",
     patientName: "Mr Kabir Ahmed",
     age: "75 years",
@@ -6647,7 +6647,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00550",
+    _id: "00550",
     date: "27-08-2020",
     patientName: "Mr Pradip Das",
     age: "62 years",
@@ -6661,7 +6661,7 @@ export default [
       "Pancreatic mass (USG guided FNA): AdenocarcinomaHepatic SOL (USG guided FNA):  Metastatic Adenocarcinoma",
   },
   {
-    id: "00551",
+    _id: "00551",
     date: "28-08-2020",
     patientName: "Mrs Halima Akhter",
     age: "70 years",
@@ -6673,7 +6673,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00552",
+    _id: "00552",
     date: "29-08-2020",
     patientName: "Mr Shamsul Alam",
     age: "70 years",
@@ -6686,7 +6686,7 @@ export default [
       "Right breast lump (FNA): Suggestive of Atypical ductal hyperplasia NB: Require histopathology",
   },
   {
-    id: "00553",
+    _id: "00553",
     date: "29-08-2020",
     patientName: "Mrs Lucky Das",
     age: "35 years",
@@ -6699,7 +6699,7 @@ export default [
       "Left supraclavicular lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00554",
+    _id: "00554",
     date: "29-08-2020",
     patientName: "Mrs Nasreen Akhter",
     age: "36 years",
@@ -6713,7 +6713,7 @@ export default [
       "Left cervical swelling(FNA): Atypical cell seenNB: Requires histopathology",
   },
   {
-    id: "00555",
+    _id: "00555",
     date: "29-08-2020",
     patientName: "Mrs Dipa Biswas",
     age: "30 years",
@@ -6726,7 +6726,7 @@ export default [
       "Left inguinal lymph node(FNA):Suggestive of Granulomatous inflammation                                                  NB: Require histopathology to exclude Tuberculosis",
   },
   {
-    id: "00556",
+    _id: "00556",
     date: "30-08-2020",
     patientName: "Mrs Lucky Begum",
     age: "46 years",
@@ -6738,7 +6738,7 @@ export default [
     impression: "Swelling over scalp(FNA):Benign mesenchymal lesion, inflamed",
   },
   {
-    id: "00557",
+    _id: "00557",
     date: "30-08-2020",
     patientName: "Md Rabib",
     age: "4.5 years",
@@ -6749,7 +6749,7 @@ export default [
     impression: "Swelling over right knee joint (FNA):Suggestive of hemangioma",
   },
   {
-    id: "00558",
+    _id: "00558",
     date: "30-08-2020",
     patientName: "Mr Md Anwar",
     age: "30 years",
@@ -6762,7 +6762,7 @@ export default [
     impression: "Hepatic mass (USG guided FNA): Hepatocellular carcinoma",
   },
   {
-    id: "00559",
+    _id: "00559",
     date: "30-08-2020",
     patientName: "Mrs Kobita Chowdhury",
     age: "38 years",
@@ -6775,7 +6775,7 @@ export default [
       "Right cervical & submandibular lymph node (FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00561",
+    _id: "00561",
     date: "31-08-2020",
     patientName: "Master Rikdas",
     age: "05 years",
@@ -6788,7 +6788,7 @@ export default [
       "Anterior midline neck swelling(FNA):Benign cystic lesion,                     Suggestive of Thyroglossal cyst",
   },
   {
-    id: "00562",
+    _id: "00562",
     date: "31-08-2020",
     patientName: "Mrs Parvin",
     age: "25 years",
@@ -6801,7 +6801,7 @@ export default [
       "Left axillary lymph node(USG Guided FNA): Chronic non specific lymphadenitis",
   },
   {
-    id: "00563",
+    _id: "00563",
     date: "31-08-2020",
     patientName: "Mrs Shamsun Nahar",
     age: "80 years",
@@ -6813,7 +6813,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Metastatic Adenocarcinoma",
   },
   {
-    id: "00564",
+    _id: "00564",
     date: "31-08-2020",
     patientName: "Mrs Morium Khatun",
     age: "55 years",
@@ -6826,7 +6826,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Benign cystic lesion",
   },
   {
-    id: "00565",
+    _id: "00565",
     date: "31-08-2020",
     patientName: "Mrs Nupur Rani Das",
     age: "75 years",
@@ -6840,7 +6840,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Suggestive of Hepatocellular carcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00566",
+    _id: "00566",
     date: "31-08-2020",
     patientName: "Mr Hasan",
     age: "38 years",
@@ -6853,7 +6853,7 @@ export default [
       "Hepatic SOL (CT guided FNA): Suggestive of Metastatic adenocarcinomaNB: Require histopathology & immunohistochemistry to confirm",
   },
   {
-    id: "00567",
+    _id: "00567",
     date: "31-08-2020",
     patientName: "Mrs Kobita Dey",
     age: "24 years",
@@ -6867,7 +6867,7 @@ export default [
       "Right sided abdominal mass (USG guided FNA): Negative for malignant cell                                                                        Suggestive of Benign cystic teratoma",
   },
   {
-    id: "00568",
+    _id: "00568",
     date: "01-09-2020",
     patientName: "Ms Jemi",
     age: "17 years",
@@ -6879,7 +6879,7 @@ export default [
     impression: "Right breast lump (FNA): Fibroadenoma",
   },
   {
-    id: "00569",
+    _id: "00569",
     date: "01-09-2020",
     patientName: "Mr Md Saiful Islam",
     age: "24 years",
@@ -6891,7 +6891,7 @@ export default [
     impression: "Right neck swelling(FNA): Negative for malignant cell",
   },
   {
-    id: "00570",
+    _id: "00570",
     date: "01-09-2020",
     patientName: "Mrs Mohsena Begum",
     age: "34 years",
@@ -6903,7 +6903,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00571",
+    _id: "00571",
     date: "01-09-2020",
     patientName: "Mrs Hasina Begum",
     age: "52 years",
@@ -6915,7 +6915,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00572",
+    _id: "00572",
     date: "01-09-2020",
     patientName: "Mrs Nipa Akhter",
     age: "24 years",
@@ -6927,7 +6927,7 @@ export default [
     impression: "Submental swelling(FNA): Pad of fat",
   },
   {
-    id: "00573",
+    _id: "00573",
     date: "02-09-2020",
     patientName: "Mr Md Ali",
     age: "66 years",
@@ -6940,7 +6940,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00574",
+    _id: "00574",
     date: "02-09-2020",
     patientName: "Mrs Amtun Nur",
     age: "48 years",
@@ -6954,7 +6954,7 @@ export default [
       "Left inguinal lymph nodes(USG guided FNA): Non HodgkinÆs lymphomaNB: Requires histopathology",
   },
   {
-    id: "00575",
+    _id: "00575",
     date: "02-09-2020",
     patientName: "Mr Abu Taher",
     age: "58 years",
@@ -6967,7 +6967,7 @@ export default [
       "Right lung mass (CT guided FNA): AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00576",
+    _id: "00576",
     date: "02-09-2020",
     patientName: "Mr Ronotosh Barua",
     age: "68 years",
@@ -6981,7 +6981,7 @@ export default [
       "Left supraclavicular  lymph node : (FNA): Metastatic poorly differentiated carcinomaLeft axillary swelling(FNA): Metastatic poorly differentiated carcinoma",
   },
   {
-    id: "00577",
+    _id: "00577",
     date: "02-09-2020",
     patientName: "Mr Abu Sufian",
     age: "years",
@@ -6994,7 +6994,7 @@ export default [
       "Right cervical lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00578",
+    _id: "00578",
     date: "02-09-2020",
     patientName: "Mr Md Hasan",
     age: "52 years",
@@ -7008,7 +7008,7 @@ export default [
       "Right parotid swelling  (FNA):Suggestive of granulomatous inflammation                                                                   with suppurationRight submandibular swelling  (FNA): See description pleaseNB: Repeat FNAC after a course of antibiotic or biopsy for histopathology",
   },
   {
-    id: "00581",
+    _id: "00581",
     date: "03-09-2020",
     patientName: "Mr Saidur Rahman",
     age: "65 years",
@@ -7021,7 +7021,7 @@ export default [
       "Right lung mass (CT guided FNA): Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00582",
+    _id: "00582",
     date: "03-09-2020",
     patientName: "Mr Nur Mohammad",
     age: "52 years",
@@ -7034,7 +7034,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00583",
+    _id: "00583",
     date: "03-09-2020",
     patientName: "Mr Ovirum Das",
     age: "63 years",
@@ -7047,7 +7047,7 @@ export default [
       "Right lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma                                                   D/D: Large Cell CarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00584",
+    _id: "00584",
     date: "03-09-2020",
     patientName: "Mr A S M Tajul Islam",
     age: "72 years",
@@ -7060,7 +7060,7 @@ export default [
       "Right renal mass (CT Guided FNA): Suggestive of renal cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00585",
+    _id: "00585",
     date: "03-09-2020",
     patientName: "Miss Tamjida Mahmud",
     age: "18 years",
@@ -7074,7 +7074,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma                                                   Suggestive of Tuberculosis",
   },
   {
-    id: "00586",
+    _id: "00586",
     date: "03-09-2020",
     patientName: "Mr Abdul Hoque",
     age: "61 years",
@@ -7087,7 +7087,7 @@ export default [
       "Right lung mass (CT guided FNA): Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00587",
+    _id: "00587",
     date: "29-08-2020",
     patientName: "Mrs Majeda Akhter",
     age: "46 years",
@@ -7099,7 +7099,7 @@ export default [
     impression: "Left axillary swelling(FNA): Axillary tail of breast",
   },
   {
-    id: "00588",
+    _id: "00588",
     date: "03-09-2020",
     patientName: "Mrs Hamida Alam",
     age: "48 years",
@@ -7112,7 +7112,7 @@ export default [
     impression: "Left breast lump (FNA):  Fibrocystic changes",
   },
   {
-    id: "00589",
+    _id: "00589",
     date: "06-09-2020",
     patientName: "Mrs Dilruba",
     age: "65 years",
@@ -7127,7 +7127,7 @@ export default [
       "Right ovarian mass(USG guided FNA): Possibility of Granulosa cell tumour could not be                                                                                    excluded   NB: Require histopathology",
   },
   {
-    id: "00590",
+    _id: "00590",
     date: "07-09-2020",
     patientName: "Md Salam",
     age: "60 years",
@@ -7140,7 +7140,7 @@ export default [
     impression: "Right neck mass (FNA):  See description please",
   },
   {
-    id: "00591",
+    _id: "00591",
     date: "06-09-2020",
     patientName: "Mr Md Nazrul Islam",
     age: "years",
@@ -7154,7 +7154,7 @@ export default [
       "Right cervical lymph nodes (FNA): Metastatic carcinoma                                                     Suggestive of Metastatic Adenocarcinoma",
   },
   {
-    id: "00592",
+    _id: "00592",
     date: "06-09-2020",
     patientName: "Mr Mokhlesur Rahman",
     age: "61 years",
@@ -7167,7 +7167,7 @@ export default [
       "L3-4 vertebral body (CT guided FNA): Negative for malignant cell",
   },
   {
-    id: "00593",
+    _id: "00593",
     date: "06-09-2020",
     patientName: "Mr Abu Taher",
     age: "51 years",
@@ -7180,7 +7180,7 @@ export default [
       "Right lung mass (CT guided FNA): Suggestive of Granulomatous inflammation",
   },
   {
-    id: "00594",
+    _id: "00594",
     date: "06-09-2020",
     patientName: "Mr Amar Das",
     age: "78 years",
@@ -7193,7 +7193,7 @@ export default [
       "Left lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma                                                   D/D: Large Cell CarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00595",
+    _id: "00595",
     date: "07-09-2020",
     patientName: "Mr Ananta Kumar Dey",
     age: "65 years",
@@ -7206,7 +7206,7 @@ export default [
       "Right lung nodule (CT guided FNA): Negative for malignant cell",
   },
   {
-    id: "00596",
+    _id: "00596",
     date: "07-09-2020",
     patientName: "Mr Riaz",
     age: "17 years",
@@ -7219,7 +7219,7 @@ export default [
       "Right parotid swelling (FNA): Suppurative inflammation NB: Require repeat FNA after a course of antibiotic",
   },
   {
-    id: "00597",
+    _id: "00597",
     date: "07-09-2020",
     patientName: "Mrs Farzana Banu",
     age: "41 years",
@@ -7232,7 +7232,7 @@ export default [
       "Right breast lump (USG guided FNA):  Negative for malignant cell",
   },
   {
-    id: "00598",
+    _id: "00598",
     date: "08-09-2020",
     patientName: "Mr Nantu Rudra",
     age: "60 years",
@@ -7245,7 +7245,7 @@ export default [
       "Left thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00599",
+    _id: "00599",
     date: "08-09-2020",
     patientName: "Mrs Jannatul Ferdous",
     age: "50 years",
@@ -7257,7 +7257,7 @@ export default [
     impression: "Left thyroid swelling(FNA): Colloid goitre",
   },
   {
-    id: "00600",
+    _id: "00600",
     date: "08-09-2020",
     patientName: "Miss Tamanna",
     age: "16 years",
@@ -7270,7 +7270,7 @@ export default [
       "Right cervical swelling(FNA):Caseating granuloma                                             Suggestive of Tuberculosis",
   },
   {
-    id: "00601",
+    _id: "00601",
     date: "09-09-2020",
     patientName: "Mr Ekhlasur Rahman",
     age: "60 years",
@@ -7282,7 +7282,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00602",
+    _id: "00602",
     date: "09-09-2020",
     patientName: "Mr Md Osman Gani",
     age: "years",
@@ -7295,7 +7295,7 @@ export default [
       "Swelling over anterior abdominal wall (FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00603",
+    _id: "00603",
     date: "09-09-2020",
     patientName: "Ms Baby Das",
     age: "42 years",
@@ -7308,7 +7308,7 @@ export default [
       "Right breast lump (FNA):  Benign cystic lesion, Suggestive of Fibrocystic changes",
   },
   {
-    id: "00604",
+    _id: "00604",
     date: "09-09-2020",
     patientName: "Mrs Amena Begum",
     age: "45 years",
@@ -7321,7 +7321,7 @@ export default [
       "Right and left thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00605",
+    _id: "00605",
     date: "09-09-2020",
     patientName: "Md Saiful",
     age: "years",
@@ -7334,7 +7334,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma with suppuration                                                 Suggestive of Tubercular abscess",
   },
   {
-    id: "00606",
+    _id: "00606",
     date: "09-09-2020",
     patientName: "Mrs Nasima Akhter",
     age: "39 years",
@@ -7347,7 +7347,7 @@ export default [
       "Right breast lump (FNA): Sugestive of Atypical ductal hyperplasia NB: Require histopathology",
   },
   {
-    id: "00607",
+    _id: "00607",
     date: "09-09-2020",
     patientName: "Mr Aminul Abedin",
     age: "33 years",
@@ -7359,7 +7359,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00608",
+    _id: "00608",
     date: "09-09-2020",
     patientName: "Mrs Razia Begum",
     age: "58 years",
@@ -7371,7 +7371,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00609",
+    _id: "00609",
     date: "09-09-2020",
     patientName: "Mr Ahmed Safa",
     age: "70 years",
@@ -7383,7 +7383,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00610",
+    _id: "00610",
     date: "09-09-2020",
     patientName: "Mr Tamiz Uddin",
     age: "53 years",
@@ -7397,7 +7397,7 @@ export default [
       "Pancreatic mass (CT guided FNA): Suggestive of Granulomatous inflammation                                                                           with suppurationNB: Require histopathology",
   },
   {
-    id: "00611",
+    _id: "00611",
     date: "09-09-2020",
     patientName: "Mr Narayan Mallick",
     age: "70 years",
@@ -7409,7 +7409,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00612",
+    _id: "00612",
     date: "09-09-2020",
     patientName: "Mr Sikandar Miah",
     age: "65 years",
@@ -7422,7 +7422,7 @@ export default [
       "Right lung mass (CT guided FNA): Granulomatous inflammation                                                    Suggestive of Tuberculosis",
   },
   {
-    id: "00613",
+    _id: "00613",
     date: "09-09-2020",
     patientName: "Mr Sunil Das",
     age: "65 years",
@@ -7434,7 +7434,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Negative for malignant cell",
   },
   {
-    id: "00614",
+    _id: "00614",
     date: "10-09-2020",
     patientName: "Mr Md Ibrahim",
     age: "28 years",
@@ -7447,7 +7447,7 @@ export default [
       "Supra renal mass (CT guided FNA): Positive for malignant cell                                                     Suggestive of adrenal cortical carcinoma",
   },
   {
-    id: "00615",
+    _id: "00615",
     date: "10-09-2020",
     patientName: "Mr Shamsul Alam",
     age: "63 years",
@@ -7461,7 +7461,7 @@ export default [
       "Left neck mass  (FNA): Positive for malignant cells                             D/D: High grade Non HodgkinÆs lymphoma                                      Metastatic poorly differentiated carcinomaNB: Requires histopathology",
   },
   {
-    id: "00616",
+    _id: "00616",
     date: "10-09-2020",
     patientName: "Mrs Taposhy Shil",
     age: "41 years",
@@ -7473,7 +7473,7 @@ export default [
     impression: "Thyroid swelling(FNA): Colloid goitre",
   },
   {
-    id: "00617",
+    _id: "00617",
     date: "10-09-2020",
     patientName: "Mrs Farzana",
     age: "29 years",
@@ -7486,7 +7486,7 @@ export default [
       "Right axillary lymph node(FNA):Suggestive of granulomatous inflammation                                                                        with suppurationNB: Repeat FNAC after a course of antibiotic or biopsy for histopathology",
   },
   {
-    id: "00618",
+    _id: "00618",
     date: "10-09-2020",
     patientName: "Mrs Fatema Akhter",
     age: "24 years",
@@ -7499,7 +7499,7 @@ export default [
       "Left submandibular swelling(FNA):Suggestive of Granulomatous inflammation                                                                       NB: Require biopsy for histopathology to exclude tuberculosis",
   },
   {
-    id: "00619",
+    _id: "00619",
     date: "10-09-2020",
     patientName: "Mr. Mahfuzur Rahman",
     age: "32 years",
@@ -7512,7 +7512,7 @@ export default [
       "Right and left testes (FNA): Negative for spermatogenesis, Atrophic pattern",
   },
   {
-    id: "00620",
+    _id: "00620",
     date: "10-09-2020",
     patientName: "Mrs Nishrat Sultana",
     age: "42 years",
@@ -7525,7 +7525,7 @@ export default [
       "Right post auricular lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00621",
+    _id: "00621",
     date: "10-09-2020",
     patientName: "Mr Ramapada Dhar",
     age: "70 years",
@@ -7539,7 +7539,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Squamous cell carcinoma",
   },
   {
-    id: "00622",
+    _id: "00622",
     date: "10-09-2020",
     patientName: "Mr Barun Chandra Chakma",
     age: "42 years",
@@ -7552,7 +7552,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Squamous cell carcinoma",
   },
   {
-    id: "00623",
+    _id: "00623",
     date: "11-09-2020",
     patientName: "Mrs Razia Khatun",
     age: "30 years",
@@ -7566,7 +7566,7 @@ export default [
       "Abdominal mass (CT guided FNA): See description pleaseNB: Repeated aspiration yield very few cells to make comment. Require biopsy for histopathoogy.",
   },
   {
-    id: "00624",
+    _id: "00624",
     date: "12-09-2020",
     patientName: "Mrs Morium Begum",
     age: "32 years",
@@ -7578,7 +7578,7 @@ export default [
     impression: "Thyroid swelling(FNA): Colloid goitre",
   },
   {
-    id: "00625",
+    _id: "00625",
     date: "12-09-2020",
     patientName: "Miss Shima Akhter",
     age: "16 years",
@@ -7591,7 +7591,7 @@ export default [
       "Left cervical lymph node (FNA):Acute suppurative lymphadenitis NB: Repeat FNAC after a course of antibiotic to exclude possibility of Granulomatous inflammation.",
   },
   {
-    id: "00626",
+    _id: "00626",
     date: "12-09-2020",
     patientName: "Miss Shima Akhter",
     age: "16 years",
@@ -7605,7 +7605,7 @@ export default [
       "Left cervical lymph node (FNA): Caseating granuloma                                                Consisting with tuberculosis",
   },
   {
-    id: "00627",
+    _id: "00627",
     date: "12-09-2020",
     patientName: "Mr Abul Hashem",
     age: "80 years",
@@ -7618,7 +7618,7 @@ export default [
       "Right lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of AdenocarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00628",
+    _id: "00628",
     date: "12-09-2020",
     patientName: "Mrs Hajera Khatun",
     age: "65 years",
@@ -7631,7 +7631,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of Squamous cell carcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00629",
+    _id: "00629",
     date: "12-09-2020",
     patientName: "Mr Abdul Mabud",
     age: "65 years",
@@ -7644,7 +7644,7 @@ export default [
       "Right lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma                                                    D/D: Large Cell CarcinomaNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00631",
+    _id: "00631",
     date: "13-09-2020",
     patientName: "Mr Md Abdul Alam",
     age: "70 years",
@@ -7657,7 +7657,7 @@ export default [
       "Right cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00632",
+    _id: "00632",
     date: "14-09-2020",
     patientName: "Mrs Hajera Bibi",
     age: "40 years",
@@ -7670,7 +7670,7 @@ export default [
       "Thyroid swelling (FNA): Follicular neoplasmNB: Requires histopathology to exclude malignancy",
   },
   {
-    id: "00633",
+    _id: "00633",
     date: "14-09-2020",
     patientName: "Mr Abdur Rashid",
     age: "70 years",
@@ -7683,7 +7683,7 @@ export default [
       "Left lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma                                                  NB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00634",
+    _id: "00634",
     date: "14-09-2020",
     patientName: "Mrs Nasima Akhter",
     age: "42 years",
@@ -7698,7 +7698,7 @@ export default [
       "Right breast lump (USG Guided FNA): Atypical ductal hyperplasia Right axillary lymph node(USG Guided FNA): Chronic non specific lymphadenitis",
   },
   {
-    id: "00635",
+    _id: "00635",
     date: "14-09-2020",
     patientName: "Mrs Shabana",
     age: "42 years",
@@ -7712,7 +7712,7 @@ export default [
       "Anterior mediastinal mass (CT guided FNA): Positive for malignant cell                                                    Suggestive of Metastatic duct cell carcinoma",
   },
   {
-    id: "00636",
+    _id: "00636",
     date: "14-09-2020",
     patientName: "Miss Sanjida Afrin",
     age: "28 years",
@@ -7724,7 +7724,7 @@ export default [
     impression: "Left breast lump ( FNA):  Fibrocystic changes",
   },
   {
-    id: "00637",
+    _id: "00637",
     date: "14-09-2020",
     patientName: "Master Md Hanana",
     age: "11 years",
@@ -7737,7 +7737,7 @@ export default [
       "Right cervical lymph nodes(FNA): Suggestive of Non HodgkinÆs LymphomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00638",
+    _id: "00638",
     date: "14-09-2020",
     patientName: "Mrs Kulsuma Begum",
     age: "38 years",
@@ -7750,7 +7750,7 @@ export default [
       "Breast lump (FNA): Granulomatous mastitis NB: Require histopathology for confirmation",
   },
   {
-    id: "00639",
+    _id: "00639",
     date: "14-09-2020",
     patientName: "Mr Debasis Das",
     age: "44 years",
@@ -7763,7 +7763,7 @@ export default [
       "Right thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00640",
+    _id: "00640",
     date: "16-09-2020",
     patientName: "Mrs Salma Begum",
     age: "60 years",
@@ -7775,7 +7775,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Suggestive of Adenocarcinoma",
   },
   {
-    id: "00641",
+    _id: "00641",
     date: "16-09-2020",
     patientName: "Mr Babul Sharma",
     age: "57 years",
@@ -7787,7 +7787,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00642",
+    _id: "00642",
     date: "16-09-2020",
     patientName: "Mr Md Rajin",
     age: "07 months",
@@ -7799,7 +7799,7 @@ export default [
     impression: "Left submandibular swelling (FNA):Benign cystic lesion,",
   },
   {
-    id: "00643",
+    _id: "00643",
     date: "16-09-2020",
     patientName: "Miss Murshida Begum",
     age: "20 years",
@@ -7812,7 +7812,7 @@ export default [
       "Right breast lump (USG guided FNA):Fibroadenoma with fibrocystic changes",
   },
   {
-    id: "00644",
+    _id: "00644",
     date: "16-09-2020",
     patientName: "Amena Akhter",
     age: "27 years",
@@ -7825,7 +7825,7 @@ export default [
       "Right axillary lymph node(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00645",
+    _id: "00645",
     date: "16-09-2020",
     patientName: "Mrs Rasheda Akhter",
     age: "40 years",
@@ -7838,7 +7838,7 @@ export default [
       "Right submandibular swelling (FNA): Suppurative inflammationNB: Please repeat FNA after a course of antibiotic",
   },
   {
-    id: "00646",
+    _id: "00646",
     date: "16-09-2020",
     patientName: "Mrs Nazmun Nahar",
     age: "27 years",
@@ -7851,7 +7851,7 @@ export default [
       "Right breast lump(FNA): Suppurative inflammation                                     Possibility of Granulomatous inflammation could not be ruled out.NB: Repeat FNAC after a course of antibiotic",
   },
   {
-    id: "00647",
+    _id: "00647",
     date: "16-09-2020",
     patientName: "Mrs Golapi Pankhoa",
     age: "66 years",
@@ -7864,7 +7864,7 @@ export default [
       "Left breast lump (FNA): Suggestive of Duct cell carcinomaNB: Require histopathology for confirmation",
   },
   {
-    id: "00648",
+    _id: "00648",
     date: "16-09-2020",
     patientName: "Mrs Sumitra Chakma",
     age: "70 years",
@@ -7876,7 +7876,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00649",
+    _id: "00649",
     date: "18-09-2020",
     patientName: "Mr Md Nasir",
     age: "60 years",
@@ -7889,7 +7889,7 @@ export default [
       "Right lung mass (CT guided FNA)): Positive for malignant cell                                                     Suggestive of small cell carcinoma",
   },
   {
-    id: "00650",
+    _id: "00650",
     date: "18-09-2020",
     patientName: "Mr Ruhul Amin",
     age: "62 years",
@@ -7901,7 +7901,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00651",
+    _id: "00651",
     date: "17-09-2020",
     patientName: "Mr Abdur Razzak",
     age: "80 years",
@@ -7916,7 +7916,7 @@ export default [
       "Anterior mediastinal mass (CT guided FNA): Positive for malignant cell,                                                                    Suggestive of Small cell carcinomaRight lung mass (CT guided FNA) Positive for malignant cell                                                            Suggestive of Small cell carcinoma",
   },
   {
-    id: "00652",
+    _id: "00652",
     date: "17-09-2020",
     patientName: "Mrs Tafura Begum",
     age: "50 years",
@@ -7929,7 +7929,7 @@ export default [
       "Right lung nodules (CT guided FNA): Positive for malignant cell                                                            Suggestive of Malignant mesenchymal tumour",
   },
   {
-    id: "00653",
+    _id: "00653",
     date: "17-09-2020",
     patientName: "Mrs Fatema Begum",
     age: "50 years",
@@ -7943,7 +7943,7 @@ export default [
       "Anterior neck swelling (FNA): See description pleaseNB: Require histopathology",
   },
   {
-    id: "00654",
+    _id: "00654",
     date: "17-09-2020",
     patientName: "Mrs Nomita Dhar",
     age: "50 years",
@@ -7957,7 +7957,7 @@ export default [
       "Nipple discharge for malignant cells(PapÆs stain): Negative for malignant cell",
   },
   {
-    id: "00655",
+    _id: "00655",
     date: "17-09-2020",
     patientName: "Mr. Santanu Kar Chowdhury",
     age: "34 years",
@@ -7969,7 +7969,7 @@ export default [
     impression: "Right and left testes (FNA): Negative for spermatogenesis,",
   },
   {
-    id: "00656",
+    _id: "00656",
     date: "17-09-2020",
     patientName: "Mrs Jahanara Begum",
     age: "55 years",
@@ -7981,7 +7981,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Negative for malignant cell",
   },
   {
-    id: "00658",
+    _id: "00658",
     date: "19-09-2020",
     patientName: "Mrs Hosne Ara",
     age: "30 years",
@@ -7995,7 +7995,7 @@ export default [
       "Right breast lump (USG guided FNA): Suggestive of Atypical ductal hyperplasia",
   },
   {
-    id: "00659",
+    _id: "00659",
     date: "19-09-2020",
     patientName: "Mrs Karimun Nessa",
     age: "55 years",
@@ -8008,7 +8008,7 @@ export default [
       "Left lung mass (CT guided FNA): Suggestive of Small cell carcinoma",
   },
   {
-    id: "00660",
+    _id: "00660",
     date: "19-09-2020",
     patientName: "Mr Md Shahin",
     age: "30 years",
@@ -8020,7 +8020,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00661",
+    _id: "00661",
     date: "19-09-2020",
     patientName: "Sadia Akhter",
     age: "16 years",
@@ -8033,7 +8033,7 @@ export default [
       "Right cervical lymph node (FNA): Caseating granuloma                                                  Suggestive of Tuberculosis NB: Require histopathology for confirmation",
   },
   {
-    id: "00662",
+    _id: "00662",
     date: "19-09-2020",
     patientName: "Mr Md Khokon",
     age: "35 years",
@@ -8046,7 +8046,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00663",
+    _id: "00663",
     date: "19-09-2020",
     patientName: "Mr Md Dulal",
     age: "26 years",
@@ -8058,7 +8058,7 @@ export default [
     impression: "Right and left testes (FNA): Positive for spermatogenesis",
   },
   {
-    id: "00664",
+    _id: "00664",
     date: "19-09-2020",
     patientName: "Mr Hossain Ali",
     age: "55 years",
@@ -8071,7 +8071,7 @@ export default [
       "Right lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma",
   },
   {
-    id: "00665",
+    _id: "00665",
     date: "13-09-2020",
     patientName: "Mrs Samira Afrin",
     age: "24 years",
@@ -8083,7 +8083,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00666",
+    _id: "00666",
     date: "09-09-2020",
     patientName: "Mrs Shimu",
     age: "40 years",
@@ -8096,7 +8096,7 @@ export default [
       "Left cervical lymph nodes(FNA): See description please NB: Require histopathology to confirm HodgkinÆs lymphoma",
   },
   {
-    id: "00667",
+    _id: "00667",
     date: "20-09-2020",
     patientName: "Md Nabil",
     age: "16 years",
@@ -8109,7 +8109,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00668",
+    _id: "00668",
     date: "20-08-2020",
     patientName: "Miss Ishrat Alam",
     age: "17 years",
@@ -8121,7 +8121,7 @@ export default [
     impression: "Left breast lump(FNA):Fibroadenoma",
   },
   {
-    id: "00669",
+    _id: "00669",
     date: "20-09-2020",
     patientName: "Mrs Mita Chakrabarty",
     age: "38 years",
@@ -8134,7 +8134,7 @@ export default [
       "Left thyroid swelling (FNA): See description please NB: Repeated aspiration yielded only fluid, require USG guided aspiration if clinically considered otherwise.",
   },
   {
-    id: "00670",
+    _id: "00670",
     date: "20-09-2020",
     patientName: "Mrs Selina Yasmin",
     age: "57 years",
@@ -8147,7 +8147,7 @@ export default [
       "Ovarian mass (USG guided FNA): Suggestive of  Adenocarcinoma  NB: Require histopathology",
   },
   {
-    id: "00671",
+    _id: "00671",
     date: "20-09-2020",
     patientName: "Mrs Nazmun Nahar",
     age: "34 years",
@@ -8160,7 +8160,7 @@ export default [
       "Thyroid swelling (FNA): Follicular neoplasm, Suggestive of Follicular CarcinomaNB: Requires histopathology to exclude malignancy",
   },
   {
-    id: "00672",
+    _id: "00672",
     date: "21-09-2020",
     patientName: "Mrs Sairin Sultana",
     age: "29 years",
@@ -8173,7 +8173,7 @@ export default [
       "Right axillary lymph node (FNA): Caseating granuloma with suppuration                                                   Suggestive of Tubercular abscess",
   },
   {
-    id: "00674",
+    _id: "00674",
     date: "21-09-2020",
     patientName: "Mr Gias Uddin",
     age: "33 years",
@@ -8186,7 +8186,7 @@ export default [
       "Swelling over occipital region(FNA): Fatty tissue, suggestive of Lipoma",
   },
   {
-    id: "00675",
+    _id: "00675",
     date: "21-09-2020",
     patientName: "Mrs Delwara",
     age: "45 years",
@@ -8199,7 +8199,7 @@ export default [
       "Hepatic SOL (USG guided FNA): Hepatocellular carcinomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00676",
+    _id: "00676",
     date: "21-09-2020",
     patientName: "Mrs Safura Khatun",
     age: "60 years",
@@ -8211,7 +8211,7 @@ export default [
     impression: "Left lung mass (CT guided FNA)): Small cell carcinoma",
   },
   {
-    id: "00677",
+    _id: "00677",
     date: "21-09-2020",
     patientName: "Mr Jamir Hossain",
     age: "48 years",
@@ -8223,7 +8223,7 @@ export default [
     impression: "Hepatic mass (USG guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00678",
+    _id: "00678",
     date: "21-09-2020",
     patientName: "Bibi Khaleda",
     age: "35 years",
@@ -8237,7 +8237,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00679",
+    _id: "00679",
     date: "21-09-2020",
     patientName: "Mr Md Shah Alam",
     age: "48 years",
@@ -8249,7 +8249,7 @@ export default [
     impression: "Hepatic SOL (USG guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00681",
+    _id: "00681",
     date: "22-09-2020",
     patientName: "Mrs Sheuli Mohuri",
     age: "43 years",
@@ -8262,7 +8262,7 @@ export default [
       "Thyroid swelling (FNA): Benign follicular nodule                                     Suggestive of nodular goitre",
   },
   {
-    id: "00682",
+    _id: "00682",
     date: "22-09-2020",
     patientName: "Mrs Safia Khatun",
     age: "46 years",
@@ -8275,7 +8275,7 @@ export default [
       "Right thyroid swelling (USG Guided FNA): Lymphocytic thyroiditis",
   },
   {
-    id: "00683",
+    _id: "00683",
     date: "20-09-2020",
     patientName: "Mr Md Hafizur Rahman",
     age: "75 years",
@@ -8288,7 +8288,7 @@ export default [
       "Right cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00684",
+    _id: "00684",
     date: "22-09-2020",
     patientName: "Md Mazharul Islam",
     age: "75 years",
@@ -8301,7 +8301,7 @@ export default [
       "Anterior midline neck swelling(FNA):Benign cystic lesion,                     Suggestive of Thyroglossal cyst",
   },
   {
-    id: "00685",
+    _id: "00685",
     date: "23-09-2020",
     patientName: "Mrs Rehena Akhter",
     age: "30 years",
@@ -8314,7 +8314,7 @@ export default [
       "Right breast lump (USG guided FNA): Fibroadenoma with fibrocystic changes",
   },
   {
-    id: "00686",
+    _id: "00686",
     date: "23-09-2020",
     patientName: "Mrs Nur Nahar Begum",
     age: "45 years",
@@ -8327,7 +8327,7 @@ export default [
       "Left axillary lymph node(USG Guided FNA): Chronic non specific lymphadenitis",
   },
   {
-    id: "00687",
+    _id: "00687",
     date: "23-09-2020",
     patientName: "Mrs Afsana Begum",
     age: "53 years",
@@ -8341,7 +8341,7 @@ export default [
     impression: "Right thyroid swelling (USG guided FNA): Atypical cell seen",
   },
   {
-    id: "00688",
+    _id: "00688",
     date: "23-09-2020",
     patientName: "Mrs Shahanaj Begum",
     age: "50 years",
@@ -8354,7 +8354,7 @@ export default [
       "Right lung mass (CT guided FNA): Granulomatous inflammation                                                     Consisting with Tuberculosis",
   },
   {
-    id: "00689",
+    _id: "00689",
     date: "23-09-2020",
     patientName: "Mr Jubair Mowla Khan",
     age: "49 years",
@@ -8367,7 +8367,7 @@ export default [
       "Left inguinal lymph node(FNA):Chronic non-specific lymphadenitis",
   },
   {
-    id: "00690",
+    _id: "00690",
     date: "23-09-2020",
     patientName: "Mr Monoranjan Majumder",
     age: "65 years",
@@ -8380,7 +8380,7 @@ export default [
       "Right cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00691",
+    _id: "00691",
     date: "23-09-2020",
     patientName: "Mrs Rahima Begum",
     age: "64 years",
@@ -8392,7 +8392,7 @@ export default [
     impression: "Left supra-clavicular swelling(FNA):Benign cystic lesion,",
   },
   {
-    id: "00692",
+    _id: "00692",
     date: "23-09-2020",
     patientName: "Mrs Arjuman Begum",
     age: "24 years",
@@ -8405,7 +8405,7 @@ export default [
       "Left supra-clavicular lymph node(FNA): Suggestive of HodgkinÆs LymphomaNB: Require histopathology to exclude HodgkinÆs Lymphoma",
   },
   {
-    id: "00693",
+    _id: "00693",
     date: "23-09-2020",
     patientName: "Mrs Tahera Begum",
     age: "60 years",
@@ -8417,7 +8417,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Colloid goitre",
   },
   {
-    id: "00694",
+    _id: "00694",
     date: "23-09-2020",
     patientName: "Mrs Reshma Akhter",
     age: "30 years",
@@ -8430,7 +8430,7 @@ export default [
       "Right breast lump (FNA): Atypical ductal hyperplasia  NB: Require histopathology to exclude any possibility of malignancy",
   },
   {
-    id: "00695",
+    _id: "00695",
     date: "23-019-2020",
     patientName: "Mrs Nur Nahar Karim",
     age: "58 years",
@@ -8444,7 +8444,7 @@ export default [
       "Nodule at the left side of upper part of the neck (FNA): Positive for malignant cells                                                                           Suggestive of papillary carcinoma of thyroidNB: Requires histopathology for confirmation",
   },
   {
-    id: "00696",
+    _id: "00696",
     date: "23-09-2020",
     patientName: "Mrs Joya Sen",
     age: "27 years",
@@ -8457,7 +8457,7 @@ export default [
       "Left cervical lymph nodes(FNA):Caseating granuloma                                                  Suggestive of Tuberculosis",
   },
   {
-    id: "00697",
+    _id: "00697",
     date: "23-09-2020",
     patientName: "Jannatul Mawa",
     age: "26 years",
@@ -8470,7 +8470,7 @@ export default [
       "Multiple nodules over scalp(FNA): Suggestive Epidermal inclusion cyst",
   },
   {
-    id: "00698",
+    _id: "00698",
     date: "23-09-2020",
     patientName: "Mr S M Ashabuddin",
     age: "33 years",
@@ -8483,7 +8483,7 @@ export default [
       "Right testis:(FNA): Positive for spermatogenesisLeft testis (FNA): Hypo-spermatogenesis",
   },
   {
-    id: "00699",
+    _id: "00699",
     date: "23-09-2020",
     patientName: "Mrs Amena Begum",
     age: "75 years",
@@ -8495,7 +8495,7 @@ export default [
     impression: "Swelling over manbrium sterni(FNA): Suppurative inflammation",
   },
   {
-    id: "00700",
+    _id: "00700",
     date: "23-09-2020",
     patientName: "Mrs Rasheda",
     age: "55 years",
@@ -8507,7 +8507,7 @@ export default [
     impression: "Right breast lump (FNA): Duct cell carcinoma",
   },
   {
-    id: "00701",
+    _id: "00701",
     date: "23-09-2020",
     patientName: "Mrs Ayesha Khatun",
     age: "80 years",
@@ -8519,7 +8519,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00702",
+    _id: "00702",
     date: "23-09-2020",
     patientName: "Mrs Nilu Das",
     age: "30 years",
@@ -8531,7 +8531,7 @@ export default [
     impression: "Pancreatic mass (USG guided FNA): Suppurative inflammation",
   },
   {
-    id: "00703",
+    _id: "00703",
     date: "23-09-2020",
     patientName: "Ms Madhuri Rani",
     age: "32 years",
@@ -8545,7 +8545,7 @@ export default [
       "Ovarian mass (USG guided FNA): Negative for malignant cellNB: Require histopathology",
   },
   {
-    id: "00704",
+    _id: "00704",
     date: "23-09-2020",
     patientName: "Miss Priya Barua",
     age: "15 years",
@@ -8559,7 +8559,7 @@ export default [
       "Ovarian mass (USG guided FNA): Positive for malignant cell                                                   Suggestive of dysgerminomaNB: Require histopathology",
   },
   {
-    id: "00705",
+    _id: "00705",
     date: "24-09-2020",
     patientName: "Mrs Yeasmin Akhter",
     age: "38 years",
@@ -8572,7 +8572,7 @@ export default [
       "Left supra-clavicular lymph node(FNA): Caseating granuloma                                                  Consisting with Tuberculosis",
   },
   {
-    id: "00706",
+    _id: "00706",
     date: "24-09-2020",
     patientName: "Mrs Soma Guha",
     age: "32 years",
@@ -8585,7 +8585,7 @@ export default [
       "Subcutaneous nodule over left breast (FNA): Negative for malignant cell",
   },
   {
-    id: "00707",
+    _id: "00707",
     date: "24-09-2020",
     patientName: "Mr Selim Uddin Chowdhury",
     age: "54 years",
@@ -8598,7 +8598,7 @@ export default [
       "Left cervical lymph node (FNA): Atypical cell seen NB: Require biopsy for histopathology to exclude malignancy.",
   },
   {
-    id: "00708",
+    _id: "00708",
     date: "24-09-2020",
     patientName: "Mr Nikhil Chakrabarty",
     age: "45 years",
@@ -8612,7 +8612,7 @@ export default [
       "Nodular swelling over supra-sternal region (FNA): Benign cystic lesion",
   },
   {
-    id: "00709",
+    _id: "00709",
     date: "24-09-2020",
     patientName: "Mrs Gouri Shil",
     age: "49 years",
@@ -8625,7 +8625,7 @@ export default [
       "Swelling over left side of the neck (FNA): Benign cystic lesion",
   },
   {
-    id: "00710",
+    _id: "00710",
     date: "24-09-2020",
     patientName: "Mr Md Alauddin",
     age: "38 years",
@@ -8638,7 +8638,7 @@ export default [
       "Right and left testes (FNA): Sertoli cell only, Negative for spermatogenesis",
   },
   {
-    id: "00711",
+    _id: "00711",
     date: "24-09-2020",
     patientName: "Mrs Shamsun Nahar",
     age: "35 years",
@@ -8651,7 +8651,7 @@ export default [
       "Right thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00712",
+    _id: "00712",
     date: "24-09-2020",
     patientName: "Mrs Bilkis Begum",
     age: "65 years",
@@ -8664,7 +8664,7 @@ export default [
     impression: "Hepatic SOL (CT guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00713",
+    _id: "00713",
     date: "24-09-2020",
     patientName: "Mr Shamsu Miah",
     age: "70 years",
@@ -8676,7 +8676,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00714",
+    _id: "00714",
     date: "24-09-2020",
     patientName: "Mrs Hasina Begum",
     age: "60 years",
@@ -8688,7 +8688,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00715",
+    _id: "00715",
     date: "24-09-2020",
     patientName: "Mr Abu Shama",
     age: "60 years",
@@ -8701,7 +8701,7 @@ export default [
       "Hepatic mass (USG guided FNA): Atypical cell seenNB: Require biopsy for histopathology",
   },
   {
-    id: "00716",
+    _id: "00716",
     date: "24-09-2020",
     patientName: "Mr Shafiul Hoque",
     age: "70 years",
@@ -8713,7 +8713,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Adenocarcinoma",
   },
   {
-    id: "00717",
+    _id: "00717",
     date: "24-09-2020",
     patientName: "Mr Arafat Hossain",
     age: "31 years",
@@ -8726,7 +8726,7 @@ export default [
       "Suprarenal mass (USG guided FNA): Suggestive of adrenocortical adenomaNB: Require histopathology & immunohistochemistry for confirmation",
   },
   {
-    id: "00718",
+    _id: "00718",
     date: "24-09-2020",
     patientName: "Mr Rafiqul Islam",
     age: "50 years",
@@ -8740,7 +8740,7 @@ export default [
     impression: "Hepatic mass (USG guided FNA): Metastatic Adenocarcinoma",
   },
   {
-    id: "00719",
+    _id: "00719",
     date: "25-09-2020",
     patientName: "Mr Md Harun",
     age: "70 years",
@@ -8753,7 +8753,7 @@ export default [
       "Left lung mass (CT guided FNA): Positive for malignant cell                                                  Suggestive of Adenocarcinoma\tNB: Requires Histopathology and immunohistochemistry for confirmation",
   },
   {
-    id: "00721",
+    _id: "00721",
     date: "25-09-2020",
     patientName: "Ma Chow Marma",
     age: "35 years",
@@ -8765,7 +8765,7 @@ export default [
     impression: "Right anterior neck swelling(FNA):Colloid goitre",
   },
   {
-    id: "00722",
+    _id: "00722",
     date: "25-09-2020",
     patientName: "Mr Mustakim",
     age: "61 years",
@@ -8778,7 +8778,7 @@ export default [
       "Left lung mass (CT guided FNA)): Suggestive of Small cell carcinoma wit suppuration",
   },
   {
-    id: "00723",
+    _id: "00723",
     date: "26-09-2020",
     patientName: "Mr Md Ismail",
     age: "20 years",
@@ -8792,7 +8792,7 @@ export default [
       "Left testicular swelling(FNA): Negative for malignant cell                                             Suggestive of chronic orchitis",
   },
   {
-    id: "00724",
+    _id: "00724",
     date: "26-09-2020",
     patientName: "Md Jahedul Islam",
     age: "14 years",
@@ -8805,7 +8805,7 @@ export default [
       "Right cervical lymph nodes(FNA):Caseating granuloma with suppuration                                                 Suggestive of Tubercular abscess",
   },
   {
-    id: "00725",
+    _id: "00725",
     date: "26-09-2020",
     patientName: "Mrs Juthi Mohajon",
     age: "33 years",
@@ -8817,7 +8817,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre with atypical cell",
   },
   {
-    id: "00726",
+    _id: "00726",
     date: "26-09-2020",
     patientName: "Mrs Mahfuza Begum",
     age: "50 years",
@@ -8829,7 +8829,7 @@ export default [
     impression: "Left thyroid swelling (FNA): Nodular goitre",
   },
   {
-    id: "00727",
+    _id: "00727",
     date: "26-09-2020",
     patientName: "Mrs Monowara Begum",
     age: "60 years",
@@ -8843,7 +8843,7 @@ export default [
       "Right axillary swelling (FNA): Suppurative inflammation with atypical cell                                     NB: Repeat FNAC after antibiotic course or histopathology to exclude malignancy",
   },
   {
-    id: "00728",
+    _id: "00728",
     date: "26-09-2020",
     patientName: "Ms Sweety",
     age: "45 years",
@@ -8856,7 +8856,7 @@ export default [
     impression: "Left breast lump(FNA):Granulomatous mastitis with suppuration",
   },
   {
-    id: "00729",
+    _id: "00729",
     date: "27-09-2020",
     patientName: "Mr Shahinul",
     age: "58 years",
@@ -8868,7 +8868,7 @@ export default [
     impression: "Right lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00730",
+    _id: "00730",
     date: "27-09-2020",
     patientName: "Mr Binod Karmaker",
     age: "70 years",
@@ -8881,7 +8881,7 @@ export default [
       "Left lung mass (CT guided FNA): Poorly Differentiated Adenocarcinoma",
   },
   {
-    id: "00731",
+    _id: "00731",
     date: "27-09-2020",
     patientName: "Mrs Sagor Bia",
     age: "75 years",
@@ -8895,7 +8895,7 @@ export default [
       "Adnexal mass (CT guided FNA): Positive for malignant cells                                                 Suggestive of Mucinous cystadenocarcinoma",
   },
   {
-    id: "00732",
+    _id: "00732",
     date: "27-09-2020",
     patientName: "Miss Salma",
     age: "18 years",
@@ -8908,7 +8908,7 @@ export default [
       "Right thyroid swelling(FNA): Benign follicular nodule                                     Suggestive of nodular goitre",
   },
   {
-    id: "00733",
+    _id: "00733",
     date: "27-09-2020",
     patientName: "Mr Madan Mitra",
     age: "47 years",
@@ -8921,7 +8921,7 @@ export default [
       "Right cervical lymph node (FNA): Metastatic squamous cell carcinoma",
   },
   {
-    id: "00734",
+    _id: "00734",
     date: "27-09-2020",
     patientName: "Mrs Sabina Yasmin",
     age: "35 years",
@@ -8934,7 +8934,7 @@ export default [
       "Osteolytic lesion in D11 Vertebral body (CT guided FNA): Positive for malignant cell                                                                                       Suggestive of Metastatic adenocarcinoma",
   },
   {
-    id: "00735",
+    _id: "00735",
     date: "27-09-2020",
     patientName: "Mr Sultan Ahmed",
     age: "70 years",
@@ -8946,7 +8946,7 @@ export default [
     impression: "Hepatic mass (USG guided FNA): Metastatic adenocarcinoma",
   },
   {
-    id: "00737",
+    _id: "00737",
     date: "28-09-2020",
     patientName: "Mr Qayum Hossain",
     age: "16 years",
@@ -8959,7 +8959,7 @@ export default [
     impression: "Thyroid swelling (FNA): Nodular goitre with cystic changes",
   },
   {
-    id: "00738",
+    _id: "00738",
     date: "28-09-2020",
     patientName: "Mrs Monwara Begum",
     age: "60 years",
@@ -8973,7 +8973,7 @@ export default [
       "Left thyroid swelling (FNA): Nodular goitre with cystic changes and atypical cells",
   },
   {
-    id: "00739",
+    _id: "00739",
     date: "28-09-2020",
     patientName: "Mrs Shefali Begum",
     age: "45 years",
@@ -8985,7 +8985,7 @@ export default [
     impression: "Right breast lump (FNA): Duct cell carcinoma",
   },
   {
-    id: "00740",
+    _id: "00740",
     date: "28-09-2020",
     patientName: "Mrs Minoti Barua",
     age: "60 years",
@@ -8997,7 +8997,7 @@ export default [
     impression: "Left lung mass (CT guided FNA): Squamous cell carcinoma",
   },
   {
-    id: "00741",
+    _id: "00741",
     date: "28-09-2020",
     patientName: "Mr Syed Rafiq Ahmed",
     age: "74 years",
