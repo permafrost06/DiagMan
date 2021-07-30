@@ -16,6 +16,10 @@ export const limitToLast = (arr, lim) => {
   return arr.slice(arr.length - lim);
 };
 
+export const lastPage = (arr, lim) => {
+  return arr.slice(Math.floor(arr.length / lim) * lim);
+};
+
 export const nextPage = (arr, lastID, lim) => {
   return limitTo(startAfter(arr, lastID), lim);
 };

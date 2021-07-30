@@ -15,7 +15,7 @@ import {
   clearStaged,
   addRecord,
 } from "./db.js";
-import { limitTo, limitToLast, nextPage, prevPage } from "./pagination.js";
+import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 const { ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
@@ -226,7 +226,7 @@ ipcMain.on("get-records", async (event, options, filter) => {
       if (results.length) {
         event.returnValue = results;
       } else {
-        event.returnValue = limitToLast(records, limit);
+        event.returnValue = lastPage(records, limit);
       }
     } else if (options.firstID) {
       const { firstID, ...dbopt } = opt;
@@ -307,7 +307,7 @@ ipcMain.on("get-staged", async (event, options, filter) => {
       if (results.length) {
         event.returnValue = results;
       } else {
-        event.returnValue = limitToLast(records, limit);
+        event.returnValue = lastPage(records, limit);
       }
     } else if (options.firstID) {
       const { firstID, ...dbopt } = opt;
