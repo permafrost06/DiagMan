@@ -1,4 +1,13 @@
 <template>
+  <button class="sm-button" @click="changeView" v-if="records">
+    Staged records
+  </button>
+  <button class="sm-button" @click="changeView" v-else-if="staged">
+    Saved records
+  </button>
+
+  <br />
+
   <addRecord v-if="staging" @hide="stagingDone" />
   <finalizeRecord v-bind="finalizeRcd" @hide="finalizeDone" v-if="final" />
   <recordsTable v-if="records" />
@@ -8,13 +17,6 @@
     @add-patient="openStaging"
     v-else-if="staged"
   />
-
-  <br />
-
-  <button class="sm-button" @click="changeView" v-if="records">Staged</button>
-  <button class="sm-button" @click="changeView" v-else-if="staged">
-    Records
-  </button>
 </template>
 
 <script>

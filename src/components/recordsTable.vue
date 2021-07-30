@@ -1,6 +1,6 @@
 <template>
   <!-- Total {{ records.length }} records found -->
-
+  <h1 style="margin: 1rem">Saved Records</h1>
   <table :style="cssVars">
     <thead>
       <tableRow>
@@ -77,6 +77,7 @@
   <button
     style="width: auto; margin: 1rem; padding: .25rem 1rem;"
     @click="exportRecords"
+    v-if="selectedRecords.length"
   >
     Export selected
   </button>

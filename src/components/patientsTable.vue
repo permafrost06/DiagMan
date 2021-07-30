@@ -1,4 +1,5 @@
 <template>
+  <h1 style="display:inline-block;margin: 1rem">Staged Records</h1>
   <button
     style="width: auto; margin: 1rem; padding: .25rem 1rem;"
     @click="addPatient"
