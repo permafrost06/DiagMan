@@ -89,36 +89,18 @@ async function createWindow() {
       label: "Database",
       submenu: [
         {
-          label: "Print DB",
-          click: async () => {
-            await printDB();
-          },
-        },
-        {
-          label: "Seed DB",
-          click: async () => {
-            await seedDatabase();
-            win.webContents.send("db-updated");
-          },
-        },
-        {
-          label: "Clear DB",
+          label: "Seed Records",
           click: async () => {
             await clearDB();
+            await seedDatabase();
             win.webContents.send("db-updated");
           },
         },
         {
           label: "Seed Staged",
           click: async () => {
-            await seedStaged();
-            win.webContents.send("db-updated");
-          },
-        },
-        {
-          label: "Clear Staged",
-          click: async () => {
             await clearStaged();
+            await seedStaged();
             win.webContents.send("db-updated");
           },
         },
