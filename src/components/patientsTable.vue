@@ -1,4 +1,10 @@
 <template>
+  <button
+    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
+    @click="addPatient"
+  >
+    Add Patient
+  </button>
   <table :style="cssVars">
     <thead>
       <tableRow>
@@ -109,7 +115,7 @@ export default {
       ipc.send("export", JSON.stringify(this.selectedRecords));
     },
     finalize(id) {
-      console.log(id);
+      this.$emit("finalize-staged", id);
     },
     updateSelection(data) {
       if (data.operation == "add") {
@@ -162,6 +168,9 @@ export default {
       this.updateData({
         firstID: this.records[0]._id,
       });
+    },
+    addPatient() {
+      this.$emit("add-patient");
     },
   },
   computed: {

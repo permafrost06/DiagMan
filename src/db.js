@@ -96,6 +96,14 @@ export const clearDB = () => {
   });
 };
 
+export const clearStaged = () => {
+  stagedDB.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      stagedDB.remove(result.rows[i].doc);
+    }
+  });
+};
+
 export const updateRecord = async (record) => {
   const getRev = async (recordID) => {
     try {
@@ -111,6 +119,31 @@ export const updateRecord = async (record) => {
 
   try {
     await db.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addRecord = async (record) => {
+  try {
+    await db.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+
+  const stagedRecord = await stagedDB.get(record._id);
+  stagedDB.remove(stagedRecord._id, stagedRecord._rev);
+};
+
+export const addStaged = async (record) => {
+  const records = await getStaged({});
+
+  record._id = records.length
+    ? String(Number(records[records.length - 1]._id) + 1).padStart(5, "0")
+    : "00001";
+
+  try {
+    await stagedDB.put(record);
   } catch (error) {
     console.log(error);
   }

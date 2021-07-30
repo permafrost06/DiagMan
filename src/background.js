@@ -11,6 +11,9 @@ import {
   seedStaged,
   getStaged,
   updateStaged,
+  addStaged,
+  clearStaged,
+  addRecord,
 } from "./db.js";
 import { limitTo, limitToLast, nextPage, prevPage } from "./pagination.js";
 const { ipcMain } = require("electron");
@@ -112,6 +115,13 @@ async function createWindow() {
             win.webContents.send("db-updated");
           },
         },
+        {
+          label: "Clear Staged",
+          click: async () => {
+            await clearStaged();
+            win.webContents.send("db-updated");
+          },
+        },
       ],
     },
     {
@@ -174,6 +184,19 @@ ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
 });
 
+ipcMain.on("add-record", async (event, data) => {
+  try {
+    addRecord(data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+ipcMain.on("add-staged", async (event, data) => {
+  await addStaged(data);
+  win.webContents.send("db-updated");
+});
+
 ipcMain.on("record-update", (event, data) => {
   updateRecord(data);
   win.webContents.send("db-updated");
@@ -182,6 +205,13 @@ ipcMain.on("record-update", (event, data) => {
 ipcMain.on("update-staged", (event, data) => {
   updateStaged(data);
   win.webContents.send("db-updated");
+});
+
+ipcMain.on("get-record", async (event, id) => {
+  const records = await getStaged({
+    keys: [id],
+  });
+  event.returnValue = records[0];
 });
 
 ipcMain.on("get-records", async (event, options, filter) => {
@@ -271,7 +301,7 @@ ipcMain.on("get-staged", async (event, options, filter) => {
 
     if (options.lastID) {
       const { lastID, ...dbopt } = opt;
-      const records = await getStaged(dbopt, filter);
+      const records = (await getStaged(dbopt, filter)).reverse();
       const results = nextPage(records, lastID, limit);
 
       if (results.length) {
@@ -281,7 +311,7 @@ ipcMain.on("get-staged", async (event, options, filter) => {
       }
     } else if (options.firstID) {
       const { firstID, ...dbopt } = opt;
-      const records = await getStaged(dbopt, filter);
+      const records = (await getStaged(dbopt, filter)).reverse();
       const results = prevPage(records, firstID, limit);
 
       if (results.length) {
@@ -290,10 +320,10 @@ ipcMain.on("get-staged", async (event, options, filter) => {
         event.returnValue = limitTo(records, limit);
       }
     } else {
-      const records = await getStaged(opt, filter);
+      const records = (await getStaged(opt, filter)).reverse();
       event.returnValue = limitTo(records, limit);
     }
   } else {
-    event.returnValue = await getStaged(options, filter);
+    event.returnValue = (await getStaged(options, filter)).reverse();
   }
 });

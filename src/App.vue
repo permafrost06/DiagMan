@@ -1,31 +1,68 @@
 <template>
+  <addRecord v-if="staging" @hide="stagingDone" />
+  <finalizeRecord v-bind="finalizeRcd" @hide="finalizeDone" v-if="final" />
   <recordsTable v-if="records" />
-  <patientsTable v-else />
+
+  <patientsTable
+    @finalize-staged="finalize"
+    @add-patient="openStaging"
+    v-else-if="staged"
+  />
 
   <br />
 
   <button class="sm-button" @click="changeView" v-if="records">Staged</button>
-  <button class="sm-button" @click="changeView" v-else>Records</button>
+  <button class="sm-button" @click="changeView" v-else-if="staged">
+    Records
+  </button>
 </template>
 
 <script>
 import patientsTable from "./components/patientsTable.vue";
 import recordsTable from "./components/recordsTable.vue";
+import addRecord from "./components/addRecord.vue";
+import finalizeRecord from "./components/finalizeRecord.vue";
+
+const ipc = window.ipcRenderer;
 
 export default {
   name: "App",
   components: {
     recordsTable,
     patientsTable,
+    addRecord,
+    finalizeRecord,
   },
   data() {
     return {
       records: false,
+      staged: true,
+      staging: false,
+      finalizeRcd: {},
+      final: false,
     };
   },
   methods: {
     changeView() {
       this.records = !this.records;
+      this.staged = !this.staged;
+    },
+    stagingDone() {
+      this.staging = false;
+      this.staged = true;
+    },
+    openStaging() {
+      this.staging = true;
+      this.staged = false;
+    },
+    finalize(id) {
+      this.final = true;
+      this.staged = false;
+      this.finalizeRcd = ipc.sendSync("get-record", id);
+    },
+    finalizeDone() {
+      this.final = false;
+      this.staged = true;
     },
   },
 };
