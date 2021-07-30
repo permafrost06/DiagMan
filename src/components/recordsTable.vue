@@ -1,6 +1,6 @@
 <template>
   <!-- Total {{ records.length }} records found -->
-  <h1 style="margin: 1rem">Saved Records</h1>
+  <h1 style="margin: 1rem; margin-bottom: 2.25rem">Saved Records</h1>
   <table :style="cssVars">
     <thead>
       <tableRow>
