@@ -141,11 +141,15 @@ export const addStaged = async (record) => {
   var records;
 
   if (finalRecords.length) {
-    records =
-      stagedRecords[stagedRecords.length - 1]._id >
-      finalRecords[finalRecords.length - 1]._id
-        ? stagedRecords
-        : finalRecords;
+    if (stagedRecords.length) {
+      records =
+        stagedRecords[stagedRecords.length - 1]._id >
+        finalRecords[finalRecords.length - 1]._id
+          ? stagedRecords
+          : finalRecords;
+    } else {
+      records = finalRecords;
+    }
   } else {
     records = stagedRecords;
   }
