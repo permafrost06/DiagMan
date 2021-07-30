@@ -4,7 +4,6 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
 import {
   seedDatabase,
-  printDB,
   clearDB,
   updateRecord,
   getRecords,
@@ -89,6 +88,14 @@ async function createWindow() {
       label: "Database",
       submenu: [
         {
+          label: "Seed Staged",
+          click: async () => {
+            await clearStaged();
+            await seedStaged();
+            win.webContents.send("db-updated");
+          },
+        },
+        {
           label: "Seed Records",
           click: async () => {
             await clearDB();
@@ -97,10 +104,16 @@ async function createWindow() {
           },
         },
         {
-          label: "Seed Staged",
+          label: "Clear Staged",
           click: async () => {
             await clearStaged();
-            await seedStaged();
+            win.webContents.send("db-updated");
+          },
+        },
+        {
+          label: "Clear Records",
+          click: async () => {
+            await clearDB();
             win.webContents.send("db-updated");
           },
         },
