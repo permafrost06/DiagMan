@@ -136,7 +136,19 @@ export const addRecord = async (record) => {
 };
 
 export const addStaged = async (record) => {
-  const records = await getStaged({});
+  const stagedRecords = await getStaged({});
+  const finalRecords = await getRecords({});
+  var records;
+
+  if (finalRecords.length) {
+    records =
+      stagedRecords[stagedRecords.length - 1]._id >
+      finalRecords[finalRecords.length - 1]._id
+        ? stagedRecords
+        : finalRecords;
+  } else {
+    records = stagedRecords;
+  }
 
   record._id = records.length
     ? String(Number(records[records.length - 1]._id) + 1).padStart(5, "0")
