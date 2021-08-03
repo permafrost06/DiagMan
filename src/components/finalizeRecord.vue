@@ -43,18 +43,21 @@ export default {
     };
   },
   methods: {
-    addRecord() {
-      ipc.send("add-record", {
-        _id: this._id,
-        date: this.date,
-        patientName: this.patientName,
-        age: this.age,
-        referer: this.referer,
-        specimen: this.specimen,
-        aspNote: this.aspirationNote,
-        me: this.me,
-        impression: this.impression,
-      });
+    addRecord(event) {
+      event.preventDefault();
+      if (this.aspirationNote && this.me && this.impression)
+        ipc.send("add-record", {
+          _id: this._id,
+          date: this.date,
+          patientName: this.patientName,
+          age: this.age,
+          referer: this.referer,
+          specimen: this.specimen,
+          aspNote: this.aspirationNote,
+          me: this.me,
+          impression: this.impression,
+        });
+      this.$emit("finalized", this._id);
     },
     hide() {
       this.$emit("hide");
