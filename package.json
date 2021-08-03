@@ -16,7 +16,6 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
-    "neo-async": "^2.6.2",
     "pouchdb": "^7.2.2",
     "pouchdb-node": "^7.2.2",
     "sass": "^1.34.1",
