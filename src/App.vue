@@ -60,7 +60,7 @@ export default {
     finalize(id) {
       this.final = true;
       this.staged = false;
-      this.finalizeRcd = ipc.sendSync("get-record", id);
+      this.finalizeRcd = ipc.sendSync("get-staged-rcd", id);
     },
     finalizeDone() {
       this.final = false;
