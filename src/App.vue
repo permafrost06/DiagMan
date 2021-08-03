@@ -6,10 +6,17 @@
     Saved records
   </button>
 
+  <report v-bind="finalizeRcd" v-if="showReport" @back="closeReport" />
+
   <br />
 
   <addRecord v-if="staging" @hide="stagingDone" />
-  <finalizeRecord v-bind="finalizeRcd" @hide="finalizeDone" v-if="final" />
+  <finalizeRecord
+    v-bind="finalizeRcd"
+    @finalized="displayReport"
+    @hide="finalizeDone"
+    v-if="final"
+  />
   <recordsTable v-if="records" />
 
   <patientsTable
@@ -24,6 +31,7 @@ import patientsTable from "./components/patientsTable.vue";
 import recordsTable from "./components/recordsTable.vue";
 import addRecord from "./components/addRecord.vue";
 import finalizeRecord from "./components/finalizeRecord.vue";
+import Report from "./components/report.vue";
 
 const ipc = window.ipcRenderer;
 
@@ -34,14 +42,17 @@ export default {
     patientsTable,
     addRecord,
     finalizeRecord,
+    Report,
   },
   data() {
     return {
       records: false,
       staged: true,
       staging: false,
-      finalizeRcd: {},
       final: false,
+      report: false,
+      finalizeRcd: {},
+      showReport: false,
     };
   },
   methods: {
@@ -65,6 +76,14 @@ export default {
     finalizeDone() {
       this.final = false;
       this.staged = true;
+    },
+    displayReport(id) {
+      this.final = false;
+      this.finalizeRcd = ipc.sendSync("get-record", id);
+      this.showReport = true;
+    },
+    closeReport() {
+      (this.showReport = false), (this.staged = true);
     },
   },
 };

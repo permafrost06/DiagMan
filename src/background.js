@@ -203,6 +203,13 @@ ipcMain.on("update-staged", (event, data) => {
 });
 
 ipcMain.on("get-record", async (event, id) => {
+  const records = await getRecords({
+    keys: [id],
+  });
+  event.returnValue = records[0];
+});
+
+ipcMain.on("get-staged-rcd", async (event, id) => {
   const records = await getStaged({
     keys: [id],
   });
