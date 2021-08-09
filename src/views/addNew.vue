@@ -36,7 +36,8 @@ export default {
     };
   },
   methods: {
-    addToStaged() {
+    addToStaged(event) {
+      event.preventDefault();
       ipc.send("add-staged", {
         patientName: this.patientName,
         date: this.date,
