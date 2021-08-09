@@ -1,6 +1,8 @@
 <template>
   <button class="sm-button" @click="print">Print</button>
-  <button class="sm-button" @click="back">Go back</button>
+  <router-link :to="{ name: 'Pending' }">
+    <button class="sm-button">Go back</button>
+  </router-link>
   <div class="report">
     <div class="page">
       <header>
@@ -8,50 +10,46 @@
       </header>
       <div class="box">
         <div>
-          <div class="bold">ID No: {{ _id }}</div>
+          <div class="bold">ID No: {{ record._id }}</div>
           <!-- <div>Collected: 01-01-2021</div>
           <div>Received: 01-01-2021</div> -->
-          <div>Date: {{ date }}</div>
+          <div>Date: {{ record.date }}</div>
         </div>
         <div class="right">
-          <div class="bold">Patient: {{ patientName }}</div>
-          <div>Age: {{ age }}</div>
+          <div class="bold">Patient: {{ record.patientName }}</div>
+          <div>Age: {{ record.age }}</div>
           <!-- <div>Sex: Female</div> -->
         </div>
       </div>
-      <div class="reference">Referred by: {{ referer }}</div>
+      <div class="reference">Referred by: {{ record.referer }}</div>
       <h3>Impression:</h3>
-      {{ impression }}
+      {{ record.impression }}
       <h3>Specimen</h3>
-      {{ specimen }}
+      {{ record.specimen }}
       <h3>Aspiration Note:</h3>
-      {{ aspNote }}
+      {{ record.aspNote }}
       <h3>M/E:</h3>
-      {{ me }}
+      {{ record.me }}
     </div>
   </div>
 </template>
 
 <script>
+const ipc = window.ipcRenderer;
+
 export default {
-  props: {
-    _id: String,
-    patientName: String,
-    date: String,
-    age: String,
-    specimen: String,
-    referer: String,
-    impression: String,
-    aspNote: String,
-    me: String,
+  data() {
+    return {
+      record: {},
+    };
   },
   methods: {
     print() {
       window.print();
     },
-    back() {
-      this.$emit("back");
-    },
+  },
+  beforeMount() {
+    this.record = ipc.sendSync("get-record", this.$route.params.id);
   },
   mounted() {
     this.print();

@@ -1,91 +1,14 @@
 <template>
-  <button class="sm-button" @click="changeView" v-if="records">
-    Staged records
-  </button>
-  <button class="sm-button" @click="changeView" v-else-if="staged">
-    Saved records
-  </button>
-
-  <report v-bind="finalizeRcd" v-if="showReport" @back="closeReport" />
-
-  <br />
-
-  <addRecord v-if="staging" @hide="stagingDone" />
-  <finalizeRecord
-    v-bind="finalizeRcd"
-    @finalized="displayReport"
-    @hide="finalizeDone"
-    v-if="final"
-  />
-  <recordsTable v-if="records" />
-
-  <patientsTable
-    @finalize-staged="finalize"
-    @add-patient="openStaging"
-    v-else-if="staged"
-  />
+  <div id="nav">
+    <router-link to="/">Pending Patients</router-link> |
+    <router-link :to="{ name: 'Records' }">Past Reports</router-link>
+  </div>
+  <router-view />
 </template>
 
 <script>
-import patientsTable from "./components/patientsTable.vue";
-import recordsTable from "./components/recordsTable.vue";
-import addRecord from "./components/addRecord.vue";
-import finalizeRecord from "./components/finalizeRecord.vue";
-import Report from "./components/report.vue";
-
-const ipc = window.ipcRenderer;
-
 export default {
   name: "App",
-  components: {
-    recordsTable,
-    patientsTable,
-    addRecord,
-    finalizeRecord,
-    Report,
-  },
-  data() {
-    return {
-      records: false,
-      staged: true,
-      staging: false,
-      final: false,
-      report: false,
-      finalizeRcd: {},
-      showReport: false,
-    };
-  },
-  methods: {
-    changeView() {
-      this.records = !this.records;
-      this.staged = !this.staged;
-    },
-    stagingDone() {
-      this.staging = false;
-      this.staged = true;
-    },
-    openStaging() {
-      this.staging = true;
-      this.staged = false;
-    },
-    finalize(id) {
-      this.final = true;
-      this.staged = false;
-      this.finalizeRcd = ipc.sendSync("get-staged-rcd", id);
-    },
-    finalizeDone() {
-      this.final = false;
-      this.staged = true;
-    },
-    displayReport(id) {
-      this.final = false;
-      this.finalizeRcd = ipc.sendSync("get-record", id);
-      this.showReport = true;
-    },
-    closeReport() {
-      (this.showReport = false), (this.staged = true);
-    },
-  },
 };
 </script>
 

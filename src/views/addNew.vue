@@ -16,7 +16,9 @@
     <input v-model="referer" />
     <br />
     <button @click="addToStaged" style="width:8rem;">Add</button>
-    <button @click="hide" style="width:8rem;">Cancel</button>
+    <router-link to="/">
+      <button style="width:8rem;">Cancel</button>
+    </router-link>
   </form>
 </template>
 
@@ -42,9 +44,7 @@ export default {
         specimen: this.specimen,
         referer: this.referer,
       });
-    },
-    hide() {
-      this.$emit("hide");
+      this.$router.push({ name: "Pending" });
     },
   },
 };

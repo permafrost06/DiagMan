@@ -1,11 +1,10 @@
 <template>
-  <h1 style="display:inline-block;margin: 1rem">Staged Records</h1>
-  <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="addPatient"
-  >
-    Add Patient
-  </button>
+  <h1 style="display:inline-block;margin: 1rem">Pending Patients</h1>
+  <router-link :to="{ name: 'AddRecord' }">
+    <button style="width: auto; margin: 1rem; padding: .25rem 1rem;">
+      Add Patient
+    </button>
+  </router-link>
   <table :style="cssVars">
     <thead>
       <tableRow>
@@ -48,9 +47,13 @@
           @record-updated="updateStaged"
           @record-selection="updateSelection"
         >
-          <button style="margin-top: 1.35rem;" @click="finalize(record._id)">
-            Finalize
-          </button>
+          <router-link
+            :to="{ name: 'finalizeRecord', params: { id: record._id } }"
+          >
+            <button style="margin-top: 1.35rem;">
+              Finalize
+            </button>
+          </router-link>
         </recordRow>
       </tableRow>
     </tbody>
@@ -115,9 +118,6 @@ export default {
     exportRecords() {
       ipc.send("export", JSON.stringify(this.selectedRecords));
     },
-    finalize(id) {
-      this.$emit("finalize-staged", id);
-    },
     updateSelection(data) {
       if (data.operation == "add") {
         this.selectedRecords.push(data.record_id);
@@ -170,9 +170,6 @@ export default {
         firstID: this.records[0]._id,
       });
     },
-    addPatient() {
-      this.$emit("add-patient");
-    },
   },
   computed: {
     cssVars() {
@@ -210,8 +207,6 @@ export default {
       this.updateData();
     });
   },
-  // mounted() {
-  // },
 };
 </script>
 
