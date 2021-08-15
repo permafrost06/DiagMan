@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .report {
   height: 210mm; /* DIN A4 standard paper size */
   width: 297mm;
@@ -100,6 +100,10 @@ export default {
   }
 
   button {
+    display: none;
+  }
+
+  #nav {
     display: none;
   }
 }
