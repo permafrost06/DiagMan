@@ -4,7 +4,7 @@
   </td>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 td {
   padding: 1em;
 }

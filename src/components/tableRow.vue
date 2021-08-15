@@ -4,7 +4,7 @@
   </tr>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 tbody tr {
   border-bottom: 2px solid #c0c0c080;
 }

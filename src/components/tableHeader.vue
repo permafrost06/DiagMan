@@ -4,7 +4,7 @@
   </th>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 thead {
   border-bottom: 1px solid #c4c4c4;
   box-shadow: 0 6px 4px -4px rgba(0, 0, 0, 0.15);
