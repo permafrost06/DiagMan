@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <router-link to="/">Pending Patients</router-link> |
+    <router-link :to="{ name: 'Pending' }">Pending Patients</router-link>
     <router-link :to="{ name: 'Records' }">Past Reports</router-link>
   </div>
   <router-view />
@@ -111,5 +111,27 @@ small {
   width: auto;
   margin: 1rem;
   padding: 0.25rem 1rem;
+}
+
+#nav {
+  padding: 1.5rem;
+  padding-bottom: 1rem;
+  width: 100vw;
+  background: #1b91af;
+}
+
+#nav a {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  padding-bottom: 3rem;
+  border: 1px solid white;
+  border-radius: 15px;
+  border-bottom: none;
+}
+
+#nav .router-link-active {
+  color: black;
+  background: white;
 }
 </style>
