@@ -4,6 +4,8 @@ import Records from "../views/Records.vue";
 import addNew from "../views/addNew.vue";
 import finalize from "../views/finalize/finalize.vue";
 import Report from "../views/report/Report.vue";
+import Invoice from "../views/invoice/Invoice.vue";
+import Settings from "../views/Settings.vue";
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: "/report/:id",
     name: "Report",
     component: Report,
+  },
+  {
+    path: "/invoice/",
+    name: "Invoice",
+    component: Invoice,
+  },
+  {
+    path: "/settings/",
+    name: "Settings",
+    component: Settings,
   },
 ];
 
