@@ -15,6 +15,13 @@
     Referer
     <input v-model="referer" />
     <br />
+    <div class="checkboxes">
+      <div class="test" v-for="test in tests" :key="test.id">
+        <input type="checkbox" :value="test.id" v-model="selectedTests" />
+        <div class="description">{{ test.name }} - BDT{{ test.cost }}</div>
+      </div>
+    </div>
+    <br />
     <button @click="addToStaged" style="width:8rem;">Add</button>
     <router-link to="/">
       <button style="width:8rem;">Cancel</button>
@@ -33,6 +40,19 @@ export default {
       age: "",
       specimen: "",
       referer: "",
+      tests: [
+        {
+          id: 1,
+          name: "test_1",
+          cost: 100,
+        },
+        {
+          id: 2,
+          name: "test_2",
+          cost: 200,
+        },
+      ],
+      selectedTests: [],
     };
   },
   methods: {
@@ -62,5 +82,18 @@ input {
 
 * {
   margin: 0.5rem 0.25rem;
+}
+
+.checkboxes {
+  input {
+    width: unset;
+    margin: 0;
+    margin-right: 0.5rem;
+    height: auto;
+  }
+
+  .description {
+    display: inline-block;
+  }
 }
 </style>
