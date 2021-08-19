@@ -34,7 +34,7 @@ const routes = [
     component: Report,
   },
   {
-    path: "/invoice/",
+    path: "/invoice/:id",
     name: "Invoice",
     component: Invoice,
   },

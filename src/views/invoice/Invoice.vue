@@ -10,18 +10,16 @@
       </header>
       <div>Money Receipt</div>
       <div class="box bold">
-        <div><span class="left">ID No</span>: 00023</div>
-        <div>Date: 29/05/2021 08:52 PM</div>
+        <div><span class="left">ID No</span>: {{ record._id }}</div>
+        <div>Date: {{ record.date }}</div>
       </div>
-      <div><span class="left">Name</span>: Mr. Shamsul Alam</div>
+      <div><span class="left">Name</span>: {{ record.patientName }}</div>
       <div class="box">
-        <div><span class="left">Age</span>: 54 Years</div>
-        <div>Gender: Male</div>
-        <div>Contact No: 017827456293</div>
+        <div><span class="left">Age</span>: {{ record.age }}</div>
+        <div>Gender: {{ record.gender }}</div>
+        <div>Contact No: {{ record.contactNo }}</div>
       </div>
-      <div>
-        <span class="left">Referred by</span>: (C1012) Mediaid Complex (PVT)
-      </div>
+      <div><span class="left">Referred by</span>: {{ record.referer }}</div>
       <table class="invoice-table">
         <thead>
           <tr>
@@ -31,24 +29,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>0031</td>
-            <td>Urine R/M/E</td>
-            <td class="right">250</td>
-          </tr>
-          <tr>
-            <td>0151</td>
-            <td>Bilirubin Serum</td>
-            <td class="right">200</td>
+          <tr v-for="test in tests" :key="test._id">
+            <td>{{ test._id }}</td>
+            <td>{{ test.name }}</td>
+            <td class="right">{{ test.cost }}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td></td>
             <td></td>
-            <td class="right">Sub total: <span class="spaced">450</span></td>
+            <td class="right">
+              Sub total: <span class="spaced">{{ testTotalCost }}</span>
+            </td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td></td>
             <td></td>
             <td class="right">Discount: <span class="spaced">0</span></td>
@@ -57,7 +52,7 @@
             <td></td>
             <td></td>
             <td class="right">Net payable: <span class="spaced">450</span></td>
-          </tr>
+          </tr> -->
         </tfoot>
       </table>
     </div>
@@ -71,7 +66,24 @@ export default {
   data() {
     return {
       record: {},
+      allTests: [],
     };
+  },
+  computed: {
+    tests() {
+      return this.allTests.filter(
+        (test) => this.record.tests.indexOf(test._id) >= 0
+      );
+    },
+    testTotalCost() {
+      var total = 0;
+
+      this.tests.forEach((test) => {
+        total += test.cost;
+      });
+
+      return total;
+    },
   },
   methods: {
     print() {
@@ -79,7 +91,8 @@ export default {
     },
   },
   beforeMount() {
-    this.record = ipc.sendSync("get-record", this.$route.params.id);
+    this.record = ipc.sendSync("get-staged-rcd", this.$route.params.id);
+    this.allTests = ipc.sendSync("get-tests");
   },
   // mounted() {
   //   this.print();

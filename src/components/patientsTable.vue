@@ -47,10 +47,15 @@
           @record-updated="updateStaged"
           @record-selection="updateSelection"
         >
+          <router-link :to="{ name: 'Invoice', params: { id: record._id } }">
+            <button>
+              Invoice
+            </button>
+          </router-link>
           <router-link
             :to="{ name: 'finalizeRecord', params: { id: record._id } }"
           >
-            <button style="margin-top: 1.35rem;">
+            <button style="margin-top: .75rem;">
               Finalize
             </button>
           </router-link>
