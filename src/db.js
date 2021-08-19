@@ -4,6 +4,7 @@ var PouchDB = require("pouchdb-node");
 
 var db = new PouchDB(`${app.getPath("userData")}/records.db`);
 var stagedDB = new PouchDB(`${app.getPath("userData")}/staged.db`);
+var tests = new PouchDB(`${app.getPath("userData")}/tests.db`);
 
 export const seedStaged = () => {
   try {
@@ -72,6 +73,60 @@ export const seedStaged = () => {
   }
 };
 
+export const initTests = () => {
+  const tempTests = [
+    {
+      _id: "0001",
+      name: "CT Scan - Brain Plain",
+      cost: 4000,
+    },
+    {
+      _id: "0002",
+      name: "CT Scan - Chest",
+      cost: 6000,
+    },
+    {
+      _id: "0003",
+      name: "Urine R/M/E",
+      cost: 250,
+    },
+    {
+      _id: "0004",
+      name: "AST (SGOT) Blood",
+      cost: 300,
+    },
+    {
+      _id: "0005",
+      name: "ALT (SGPT) Blood",
+      cost: 300,
+    },
+    {
+      _id: "0006",
+      name: "Bilirubin Serum",
+      cost: 200,
+    },
+    {
+      _id: "0007",
+      name: "Creatinine Serum",
+      cost: 400,
+    },
+  ];
+
+  tests.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      tests.remove(result.rows[i].doc);
+    }
+  });
+
+  for (let i = 0; i <= tempTests.length; i++) {
+    try {
+      tests.put(tempTests[i]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
 export const seedDatabase = () => {
   for (let i = 0; i < jsonData.length; i++) {
     db.put(jsonData[i]).catch((error) => {
@@ -102,6 +157,26 @@ export const clearStaged = () => {
       stagedDB.remove(result.rows[i].doc);
     }
   });
+};
+
+export const updateTest = async (test) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await tests.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  test._rev = await getRev(test._id);
+
+  try {
+    await tests.put(test);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const updateRecord = async (record) => {
@@ -135,6 +210,27 @@ export const addRecord = async (record) => {
   stagedDB.remove(stagedRecord._id, stagedRecord._rev);
 };
 
+export const addTest = async (test) => {
+  try {
+    await tests.put(test);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const removeTest = async (id) => {
+  try {
+    var test = await tests.get(id);
+    try {
+      tests.remove(test);
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addStaged = async (record) => {
   const stagedRecords = await getStaged({});
   const finalRecords = await getRecords({});
@@ -157,6 +253,8 @@ export const addStaged = async (record) => {
   record._id = records.length
     ? String(Number(records[records.length - 1]._id) + 1).padStart(5, "0")
     : "00001";
+
+  record.tests = JSON.parse(record.tests);
 
   try {
     await stagedDB.put(record);
@@ -183,6 +281,18 @@ export const updateStaged = async (record) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const getTests = async () => {
+  var allTests;
+  try {
+    const result = await tests.allDocs({ include_docs: true });
+    allTests = result.rows.map(({ doc }) => doc);
+  } catch (error) {
+    console.log(error);
+    allTests = [];
+  }
+  return allTests;
 };
 
 export const getRecords = async (options, filter) => {

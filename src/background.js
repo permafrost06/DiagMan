@@ -13,6 +13,11 @@ import {
   addStaged,
   clearStaged,
   addRecord,
+  initTests,
+  getTests,
+  addTest,
+  updateTest,
+  removeTest,
 } from "./db.js";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 const { ipcMain } = require("electron");
@@ -87,6 +92,13 @@ async function createWindow() {
     {
       label: "Database",
       submenu: [
+        {
+          label: "Initialize Settings",
+          click: () => {
+            initTests();
+            win.webContents.send("db-update");
+          },
+        },
         {
           label: "Seed Staged",
           click: async () => {
@@ -179,6 +191,15 @@ ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
 });
 
+ipcMain.on("get-tests", async (event) => {
+  event.returnValue = await getTests();
+});
+
+ipcMain.on("add-test", async (event, data) => {
+  await addTest(data);
+  win.webContents.send("db-update");
+});
+
 ipcMain.on("add-record", async (event, data) => {
   try {
     addRecord(data);
@@ -189,7 +210,17 @@ ipcMain.on("add-record", async (event, data) => {
 
 ipcMain.on("add-staged", async (event, data) => {
   await addStaged(data);
-  win.webContents.send("db-updated");
+  win.webContents.send("db-update");
+});
+
+ipcMain.on("update-test", async (event, data) => {
+  await updateTest(data);
+  win.webContents.send("db-update");
+});
+
+ipcMain.on("test-delete", async (event, data) => {
+  await removeTest(data);
+  win.webContents.send("db-update");
 });
 
 ipcMain.on("record-update", (event, data) => {
