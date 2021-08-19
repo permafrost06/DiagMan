@@ -72,10 +72,6 @@ textarea {
   padding-left: 0.5rem;
 }
 
-.bold {
-  font-weight: 800;
-}
-
 * {
   margin: 0.5rem 0.25rem;
 }
