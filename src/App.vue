@@ -107,6 +107,10 @@ small {
   font-size: 0.8rem;
 }
 
+.bold {
+  font-weight: 800;
+}
+
 .sm-button {
   width: auto;
   margin: 1rem;
