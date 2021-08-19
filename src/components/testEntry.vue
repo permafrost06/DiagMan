@@ -1,13 +1,14 @@
 <template>
   <li>
+    <div class="test test-code">{{ _id }}</div>
     <span v-if="edit">
       <input type="text" v-model="newName" />
       <input type="text" v-model="newCost" />
       <button @click="updateEntry">Save</button>
     </span>
     <span v-else>
-      {{ name }}: {{ cost }}
-
+      <div class="test test-name">{{ name }}</div>
+      <div class="test test-cost">{{ cost }}</div>
       <button @click="editEntry">Edit</button
       ><button @click="deleteEntry">Delete</button>
     </span>
@@ -19,7 +20,7 @@ export default {
   props: {
     _id: String,
     name: String,
-    cost: String,
+    cost: Number,
   },
   data() {
     return {
@@ -39,6 +40,9 @@ export default {
         cost: this.newCost,
       });
       this.edit = false;
+    },
+    deleteEntry() {
+      this.$emit("test-delete", this._id);
     },
   },
 };
