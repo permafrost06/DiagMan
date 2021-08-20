@@ -90,6 +90,26 @@ async function createWindow() {
       ],
     },
     {
+      label: "View",
+      submenu: [
+        {
+          label: "Pending Patients",
+          type: "radio",
+          click: () => {
+            win.webContents.send("show-pending-patients");
+          },
+          checked: true,
+        },
+        {
+          label: "Past Reports",
+          type: "radio",
+          click: () => {
+            win.webContents.send("show-past-reports");
+          },
+        },
+      ],
+    },
+    {
       label: "Database",
       submenu: [
         {

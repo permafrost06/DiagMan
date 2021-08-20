@@ -1,8 +1,4 @@
 <template>
-  <div id="nav">
-    <router-link :to="{ name: 'Pending' }">Pending Patients</router-link>
-    <router-link :to="{ name: 'Records' }">Past Reports</router-link>
-  </div>
   <router-view />
 </template>
 
@@ -14,6 +10,12 @@ export default {
   beforeMount() {
     ipc.on("open-settings", () => {
       this.$router.push({ name: "Settings" });
+    });
+    ipc.on("show-pending-patients", () => {
+      this.$router.push({ name: "Pending" });
+    });
+    ipc.on("show-past-reports", () => {
+      this.$router.push({ name: "Records" });
     });
   },
 };
