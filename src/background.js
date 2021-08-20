@@ -132,6 +132,17 @@ async function createWindow() {
       ],
     },
     {
+      label: "Settings",
+      submenu: [
+        {
+          label: "Tests",
+          click() {
+            win.webContents.send("open-settings");
+          },
+        },
+      ],
+    },
+    {
       label: "Help",
       submenu: [
         {

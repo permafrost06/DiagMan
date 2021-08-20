@@ -7,8 +7,15 @@
 </template>
 
 <script>
+const ipc = window.ipcRenderer;
+
 export default {
   name: "App",
+  beforeMount() {
+    ipc.on("open-settings", () => {
+      this.$router.push({ name: "Settings" });
+    });
+  },
 };
 </script>
 
