@@ -232,27 +232,29 @@ export const removeTest = async (id) => {
 };
 
 export const addStaged = async (record) => {
-  const stagedRecords = await getStaged({});
-  const finalRecords = await getRecords({});
-  var records;
-
-  if (finalRecords.length) {
-    if (stagedRecords.length) {
-      records =
-        stagedRecords[stagedRecords.length - 1]._id >
-        finalRecords[finalRecords.length - 1]._id
-          ? stagedRecords
-          : finalRecords;
-    } else {
-      records = finalRecords;
-    }
-  } else {
-    records = stagedRecords;
-  }
-
-  record._id = records.length
-    ? String(Number(records[records.length - 1]._id) + 1).padStart(5, "0")
-    : "00001";
+  let now = new Date();
+  record._id =
+    now
+      .getFullYear()
+      .toString()
+      .substr(-2) +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    now
+      .getDate()
+      .toString()
+      .padStart(2, "0") +
+    now
+      .getHours()
+      .toString()
+      .padStart(2, "0") +
+    now
+      .getMinutes()
+      .toString()
+      .padStart(2, "0") +
+    now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0");
 
   record.tests = JSON.parse(record.tests);
 
