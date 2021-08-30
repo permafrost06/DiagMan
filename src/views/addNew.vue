@@ -16,7 +16,7 @@
     <input v-model="referer" />
     <br />
     <div class="checkboxes">
-      <div class="test" v-for="test in tests" :key="test._id">
+      <div class="test-entry" v-for="test in tests" :key="test._id">
         <input type="checkbox" :value="test._id" v-model="selectedTests" />
         <div class="description">{{ test.name }} - BDT{{ test.cost }}</div>
       </div>
