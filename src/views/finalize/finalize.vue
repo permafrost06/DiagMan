@@ -58,13 +58,21 @@
             class="new-organ-field"
             @keydown.enter="addTemplate"
           />
-          <button class="organ-button" @click="addTemplate">
+          <button class="organ-button" @click="addTemplate" v-if="templateID">
             Save Template As
           </button>
-          <button class="organ-button" @click="updateTemplate">
+          <button
+            class="organ-button"
+            @click="updateTemplate"
+            v-if="templateID"
+          >
             Update Template
           </button>
-          <button class="organ-button" @click="deleteTemplate">
+          <button
+            class="organ-button"
+            @click="deleteTemplate"
+            v-if="templateID"
+          >
             Delete Template
           </button>
         </p>
