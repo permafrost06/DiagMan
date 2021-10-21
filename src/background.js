@@ -18,6 +18,10 @@ import {
   addTest,
   updateTest,
   removeTest,
+  seedTemplates,
+  printTemps,
+  getTemplates,
+  addOrgan,
 } from "./db.js";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 const { ipcMain } = require("electron");
@@ -133,6 +137,18 @@ async function createWindow() {
             await clearDB();
             await seedDatabase();
             win.webContents.send("db-updated");
+          },
+        },
+        {
+          label: "Seed Templates",
+          click: async () => {
+            seedTemplates();
+          },
+        },
+        {
+          label: "Print Templates",
+          click: async () => {
+            printTemps();
           },
         },
         {
@@ -269,6 +285,15 @@ ipcMain.on("get-record", async (event, id) => {
     keys: [id],
   });
   event.returnValue = records[0];
+});
+
+ipcMain.on("get-templates", async (event) => {
+  const templates = await getTemplates();
+  event.returnValue = templates;
+});
+
+ipcMain.on("add-organ", async (event, organName) => {
+  await addOrgan(organName);
 });
 
 ipcMain.on("get-staged-rcd", async (event, id) => {

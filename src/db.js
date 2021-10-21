@@ -5,6 +5,7 @@ var PouchDB = require("pouchdb-node");
 var db = new PouchDB(`${app.getPath("userData")}/records.db`);
 var stagedDB = new PouchDB(`${app.getPath("userData")}/staged.db`);
 var tests = new PouchDB(`${app.getPath("userData")}/tests.db`);
+var templates = new PouchDB(`${app.getPath("userData")}/templates.db`);
 
 export const seedStaged = () => {
   try {
@@ -73,6 +74,92 @@ export const seedStaged = () => {
   }
 };
 
+export const seedTemplates = () => {
+  const temps = [
+    {
+      _id: "parotid",
+      organName: "Parotid",
+      templates: [
+        {
+          _id: "0001",
+          name: "Left Parotid Swelling",
+          aspNote: "On aspiration blood mixed material came out.",
+          me:
+            "Smears showed cellular material composed of many scattered and clusters of benign ductal epithelial cells along with lymphocytes and histiocytes, in the background of scanty blood. No epithelioid or malignant cell was seen.",
+          impression: "Left parotid swelling(FNA): Sialadenitis",
+        },
+        {
+          _id: "0002",
+          name: "Right parotid swelling",
+          aspNote: "On aspiration, 0.5 ml pus like material came out.",
+          me:
+            "Smear showed numerous neutrophils, lymphocytes in the background of necrosis. No epithelioid or malignant cell was seen.",
+          impression: "Right parotid swelling (FNA): Suppurative inflammation",
+        },
+      ],
+    },
+    {
+      _id: "lymph",
+      organName: "Lymph",
+      templates: [
+        {
+          _id: "0001",
+          name: "Left cervical lymph nodes",
+          aspNote: "On aspiration, blood mixed cellular material came out.",
+          me:
+            "Smear showed cellular material composed of polymorphous population of lymphoid cells along cells with much enlarged nucleus with prominent nucleoli often they were binucleated in the background of scanty blood. No epithelioid cell was seen.",
+          impression: "Left cervical lymph nodes(FNA)",
+        },
+        {
+          _id: "0002",
+          name: "Right cervical lymph nodes",
+          aspNote: "On aspiration, caseous necrotic material came out.",
+          me:
+            "Smear showed many scattered and aggregates of epithelioid cells along with histiocytes, lymphocytes in the background of caseation necrosis. No malignant cell was seen.",
+          impression:
+            "Right cervical lymph nodes(FNA):Caseating granuloma Suggestive of Tuberculosis",
+        },
+        {
+          _id: "0003",
+          name: "Left cervical lymph node",
+          aspNote: "On aspiration necrotic cellular material came out.",
+          me:
+            "Smears showed cellular material composed of many scattered and small to large clusters of spindle to polygonal malignant squamous epithelial cells with pleomorphic, enlarged and hyperchromatic nucleus in the background of necrosis and plenty of acute inflammatory cells and lymphocytes.",
+          impression:
+            "Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
+        },
+      ],
+    },
+    {
+      _id: "forearm",
+      organName: "Forearm",
+      templates: [
+        {
+          _id: "0001",
+          name: "Right forearm swelling",
+          aspNote: "On aspiration blood mixed material came out.",
+          me:
+            "Smears showed few clusters of benign fibroblasts, adipocytes along with many lymphocytes in a background of blood. No epithelioid or malignant cell was seen.",
+          impression:
+            "Right forearm swellinlling(FNA):Benign mesenchymal lesion",
+        },
+      ],
+    },
+  ];
+
+  templates.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      templates.remove(result.rows[i].doc);
+    }
+  });
+
+  try {
+    templates.bulkDocs(temps);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const initTests = () => {
   const tempTests = [
     {
@@ -133,6 +220,14 @@ export const seedDatabase = () => {
       console.log(error);
     });
   }
+};
+
+export const printTemps = async () => {
+  templates.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      console.log(result.rows[i].doc);
+    }
+  });
 };
 
 export const printDB = () => {
@@ -265,6 +360,18 @@ export const addStaged = async (record) => {
   }
 };
 
+export const addOrgan = async (organ) => {
+  try {
+    await templates.put({
+      _id: organ.toLowerCase(),
+      organName: organ,
+      templates: [],
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const updateStaged = async (record) => {
   const getRev = async (recordID) => {
     try {
@@ -295,6 +402,18 @@ export const getTests = async () => {
     allTests = [];
   }
   return allTests;
+};
+
+export const getTemplates = async () => {
+  var allTemplates;
+  try {
+    const result = await templates.allDocs({ include_docs: true });
+    allTemplates = result.rows.map(({ doc }) => doc);
+  } catch (error) {
+    console.log(error);
+    allTemplates = [];
+  }
+  return allTemplates;
 };
 
 export const getRecords = async (options, filter) => {

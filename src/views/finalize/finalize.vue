@@ -22,6 +22,13 @@
               {{ organ.organName }}
             </option>
           </select>
+          <input
+            type="text"
+            ref="newOrganField"
+            class="new-organ-field"
+            v-model="newOrganName"
+          />
+          <button class="organ-button" @click="addOrgan">Add Organ</button>
         </p>
         <p>
           <select v-if="organ" @change="template">
@@ -31,14 +38,28 @@
               :key="organ._id"
               :label="organ.organName"
             >
+              <option value="" disabled v-if="!organ.templates.length"
+                >There are no templates for this organ</option
+              >
               <option
                 :value="template._id"
                 v-for="template in organ.templates"
                 :key="template._id"
-                >{{ template.impression }}</option
+                >{{ template.name }}</option
               >
             </optgroup>
           </select>
+          <br />
+          <input
+            type="text"
+            v-model="newTemplateName"
+            class="new-organ-field"
+          />
+          <button class="organ-button" @click="addTemplate">
+            Save Template As
+          </button>
+          <button class="organ-button">Update Template</button>
+          <button class="organ-button">Delete Template</button>
         </p>
       </div>
     </div>
@@ -72,78 +93,9 @@ export default {
       impression: "",
       record: {},
       organ: "",
-      templates: [
-        {
-          _id: "parotid",
-          organName: "Parotid",
-          templates: [
-            {
-              _id: "0001",
-              name: "Left Parotid Swelling",
-              aspNote: "On aspiration blood mixed material came out.",
-              me:
-                "Smears showed cellular material composed of many scattered and clusters of benign ductal epithelial cells along with lymphocytes and histiocytes, in the background of scanty blood. No epithelioid or malignant cell was seen.",
-              impression: "Left parotid swelling(FNA): Sialadenitis",
-            },
-            {
-              _id: "0002",
-              name: "Right parotid swelling",
-              aspNote: "On aspiration, 0.5 ml pus like material came out.",
-              me:
-                "Smear showed numerous neutrophils, lymphocytes in the background of necrosis. No epithelioid or malignant cell was seen.",
-              impression:
-                "Right parotid swelling (FNA): Suppurative inflammation",
-            },
-          ],
-        },
-        {
-          _id: "lymph",
-          organName: "Lymph",
-          templates: [
-            {
-              _id: "0001",
-              name: "Left cervical lymph nodes",
-              aspNote: "On aspiration, blood mixed cellular material came out.",
-              me:
-                "Smear showed cellular material composed of polymorphous population of lymphoid cells along cells with much enlarged nucleus with prominent nucleoli often they were binucleated in the background of scanty blood. No epithelioid cell was seen.",
-              impression: "Left cervical lymph nodes(FNA)",
-            },
-            {
-              _id: "0002",
-              name: "Right cervical lymph nodes",
-              aspNote: "On aspiration, caseous necrotic material came out.",
-              me:
-                "Smear showed many scattered and aggregates of epithelioid cells along with histiocytes, lymphocytes in the background of caseation necrosis. No malignant cell was seen.",
-              impression:
-                "Right cervical lymph nodes(FNA):Caseating granuloma Suggestive of Tuberculosis",
-            },
-            {
-              _id: "0003",
-              name: "Left cervical lymph node",
-              aspNote: "On aspiration necrotic cellular material came out.",
-              me:
-                "Smears showed cellular material composed of many scattered and small to large clusters of spindle to polygonal malignant squamous epithelial cells with pleomorphic, enlarged and hyperchromatic nucleus in the background of necrosis and plenty of acute inflammatory cells and lymphocytes.",
-              impression:
-                "Left cervical lymph node (FNA): Metastatic squamous cell carcinoma",
-            },
-          ],
-        },
-        {
-          _id: "forearm",
-          organName: "Forearm",
-          templates: [
-            {
-              _id: "0001",
-              name: "Right forearm swelling",
-              aspNote: "On aspiration blood mixed material came out.",
-              me:
-                "Smears showed few clusters of benign fibroblasts, adipocytes along with many lymphocytes in a background of blood. No epithelioid or malignant cell was seen.",
-              impression:
-                "Right forearm swellinlling(FNA):Benign mesenchymal lesion",
-            },
-          ],
-        },
-      ],
+      templates: [],
+      newOrganName: "",
+      newTemplateName: "",
     };
   },
   computed: {
@@ -177,9 +129,22 @@ export default {
         });
       this.$router.push({ name: "Report", params: { id: this.record._id } });
     },
+    addOrgan(event) {
+      event.preventDefault();
+      if (this.newOrganName == "") {
+        this.$refs.newOrganField.style.display = "inline-block";
+        this.$refs.newOrganField.focus();
+      } else {
+        ipc.send("add-organ", this.newOrganName);
+        this.$refs.newOrganField.style.display = "none";
+        this.newOrganName = "";
+        this.templates = ipc.sendSync("get-templates");
+      }
+    },
   },
   beforeMount() {
     this.record = ipc.sendSync("get-staged-rcd", this.$route.params.id);
+    this.templates = ipc.sendSync("get-templates");
   },
 };
 </script>
@@ -205,5 +170,16 @@ textarea {
 
 .row-left {
   width: 40vw;
+}
+
+.organ-button {
+  display: inline-block;
+  width: auto;
+  padding: 0 0.5rem;
+}
+
+.new-organ-field {
+  display: none;
+  width: 10rem;
 }
 </style>
