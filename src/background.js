@@ -296,6 +296,18 @@ ipcMain.on("add-organ", async (event, organName) => {
   await addOrgan(organName);
 });
 
+ipcMain.on("add-template", async (event, organ, template) => {
+  console.log("organ", organ, "template", template);
+});
+
+ipcMain.on("update-template", async (event, organ, templateID, template) => {
+  console.log("organ", organ, "templateID", templateID, "template", template);
+});
+
+ipcMain.on("delete-template", async (event, organ, templateID) => {
+  console.log("organ", organ, "templateID", templateID);
+});
+
 ipcMain.on("get-staged-rcd", async (event, id) => {
   const records = await getStaged({
     keys: [id],

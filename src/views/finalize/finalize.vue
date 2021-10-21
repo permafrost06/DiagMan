@@ -27,6 +27,7 @@
             ref="newOrganField"
             class="new-organ-field"
             v-model="newOrganName"
+            @keydown.enter="addOrgan"
           />
           <button class="organ-button" @click="addOrgan">Add Organ</button>
         </p>
@@ -52,14 +53,20 @@
           <br />
           <input
             type="text"
+            ref="newTemplateField"
             v-model="newTemplateName"
             class="new-organ-field"
+            @keydown.enter="addTemplate"
           />
           <button class="organ-button" @click="addTemplate">
             Save Template As
           </button>
-          <button class="organ-button">Update Template</button>
-          <button class="organ-button">Delete Template</button>
+          <button class="organ-button" @click="updateTemplate">
+            Update Template
+          </button>
+          <button class="organ-button" @click="deleteTemplate">
+            Delete Template
+          </button>
         </p>
       </div>
     </div>
@@ -96,6 +103,7 @@ export default {
       templates: [],
       newOrganName: "",
       newTemplateName: "",
+      templateID: 0,
     };
   },
   computed: {
@@ -105,10 +113,10 @@ export default {
   },
   methods: {
     template(event) {
-      let tempID = event.target.value;
+      this.templateID = event.target.value;
       let template = this.templates
         .filter((organ) => organ._id == this.organ)[0]
-        .templates.filter((temp) => temp._id == tempID)[0];
+        .templates.filter((temp) => temp._id == this.templateID)[0];
       this.aspNote = template.aspNote;
       this.me = template.me;
       this.impression = template.impression;
@@ -140,6 +148,36 @@ export default {
         this.newOrganName = "";
         this.templates = ipc.sendSync("get-templates");
       }
+    },
+    addTemplate(event) {
+      event.preventDefault();
+      if (this.newTemplateName == "") {
+        this.$refs.newTemplateField.style.display = "inline-block";
+        this.$refs.newTemplateField.focus();
+      } else {
+        ipc.send("add-template", this.organ, {
+          name: this.newTemplateName,
+          aspNote: this.aspNote,
+          me: this.me,
+          impression: this.impression,
+        });
+        this.$refs.newTemplateField.style.display = "none";
+        this.newTemplateName = "";
+        this.templates = ipc.sendSync("get-templates");
+      }
+    },
+    updateTemplate(event) {
+      event.preventDefault();
+      ipc.send("update-template", this.organ, this.templateID, {
+        name: this.newTemplateName,
+        aspNote: this.aspNote,
+        me: this.me,
+        impression: this.impression,
+      });
+    },
+    deleteTemplate(event) {
+      event.preventDefault();
+      ipc.send("delete-template", this.organ, this.templateID);
     },
   },
   beforeMount() {
