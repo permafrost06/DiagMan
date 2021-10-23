@@ -22,6 +22,9 @@ import {
   printTemps,
   getTemplates,
   addOrgan,
+  addTemplate,
+  updateTemplate,
+  removeTemplate,
 } from "./db.js";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 const { ipcMain } = require("electron");
@@ -143,6 +146,7 @@ async function createWindow() {
           label: "Seed Templates",
           click: async () => {
             seedTemplates();
+            win.webContents.send("db-update");
           },
         },
         {
@@ -297,15 +301,18 @@ ipcMain.on("add-organ", async (event, organName) => {
 });
 
 ipcMain.on("add-template", async (event, organ, template) => {
-  console.log("organ", organ, "template", template);
+  await addTemplate(organ, template);
+  win.webContents.send("db-updated");
 });
 
-ipcMain.on("update-template", async (event, organ, templateID, template) => {
-  console.log("organ", organ, "templateID", templateID, "template", template);
+ipcMain.on("update-template", async (event, organ, template) => {
+  updateTemplate(organ, template);
+  win.webContents.send("db-updated");
 });
 
 ipcMain.on("delete-template", async (event, organ, templateID) => {
-  console.log("organ", organ, "templateID", templateID);
+  removeTemplate(organ, templateID);
+  win.webContents.send("db-updated");
 });
 
 ipcMain.on("get-staged-rcd", async (event, id) => {

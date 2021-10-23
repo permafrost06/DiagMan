@@ -294,6 +294,21 @@ export const updateRecord = async (record) => {
   }
 };
 
+export const addTemplate = async (organ, template) => {
+  const currentOrgan = await templates.get(organ);
+
+  template._id = Math.random()
+    .toString(36)
+    .substr(2, 9);
+  currentOrgan.templates.push(template);
+
+  try {
+    templates.put(currentOrgan);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addRecord = async (record) => {
   try {
     await db.put(record);
@@ -321,6 +336,20 @@ export const removeTest = async (id) => {
     } catch (error) {
       console.log(error);
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const removeTemplate = async (organ, templateID) => {
+  const currentOrgan = await templates.get(organ);
+
+  currentOrgan.templates = currentOrgan.templates.filter((temp) => {
+    return temp._id != templateID;
+  });
+
+  try {
+    templates.put(currentOrgan);
   } catch (error) {
     console.log(error);
   }
@@ -367,6 +396,22 @@ export const addOrgan = async (organ) => {
       organName: organ,
       templates: [],
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateTemplate = async (organ, template) => {
+  const currentOrgan = await templates.get(organ);
+
+  currentOrgan.templates = currentOrgan.templates.filter((temp) => {
+    return temp._id != template._id;
+  });
+
+  currentOrgan.templates.push(template);
+
+  try {
+    templates.put(currentOrgan);
   } catch (error) {
     console.log(error);
   }

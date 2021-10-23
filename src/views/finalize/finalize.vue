@@ -12,7 +12,7 @@
       <div class="row-right">
         <h3>Templates</h3>
         <p>
-          <select v-model="organ">
+          <select v-model="organ" @change="clearTemp">
             <option value="" selected hidden>Choose Organ</option>
             <option
               :value="organ._id"
@@ -58,8 +58,8 @@
             class="new-organ-field new-template"
             @keydown.enter="addTemplate"
           />
-          <button class="organ-button" @click="addTemplate" v-if="templateID">
-            Save Template As
+          <button class="organ-button" @click="addTemplate" v-if="organ">
+            {{ saveButtonText }}
           </button>
           <button
             class="organ-button"
@@ -109,9 +109,11 @@ export default {
       record: {},
       organ: "",
       templates: [],
+      currentTemp: {},
       newOrganName: "",
       newTemplateName: "",
-      templateID: 0,
+      templateID: "",
+      saveButtonText: "Save Template As",
     };
   },
   computed: {
@@ -125,9 +127,13 @@ export default {
       let template = this.templates
         .filter((organ) => organ._id == this.organ)[0]
         .templates.filter((temp) => temp._id == this.templateID)[0];
+      this.currentTemp = template;
       this.aspNote = template.aspNote;
       this.me = template.me;
       this.impression = template.impression;
+    },
+    clearTemp() {
+      this.templateID = "";
     },
     addRecord(event) {
       event.preventDefault();
@@ -161,6 +167,7 @@ export default {
       event.preventDefault();
       if (this.newTemplateName == "") {
         this.$refs.newTemplateField.style.display = "block";
+        this.saveButtonText = "Save Template";
         this.newTemplateName = this.impression;
         this.$refs.newTemplateField.focus();
       } else {
@@ -173,12 +180,14 @@ export default {
         this.$refs.newTemplateField.style.display = "none";
         this.newTemplateName = "";
         this.templates = ipc.sendSync("get-templates");
+        this.saveButtonText = "Save Template As";
       }
     },
     updateTemplate(event) {
       event.preventDefault();
-      ipc.send("update-template", this.organ, this.templateID, {
-        name: this.newTemplateName,
+      ipc.send("update-template", this.organ, {
+        _id: this.templateID,
+        name: this.currentTemp.name,
         aspNote: this.aspNote,
         me: this.me,
         impression: this.impression,
@@ -187,11 +196,19 @@ export default {
     deleteTemplate(event) {
       event.preventDefault();
       ipc.send("delete-template", this.organ, this.templateID);
+      this.clearTemp();
+    },
+    syncTemplates() {
+      this.templates = ipc.sendSync("get-templates");
     },
   },
   beforeMount() {
     this.record = ipc.sendSync("get-staged-rcd", this.$route.params.id);
-    this.templates = ipc.sendSync("get-templates");
+    this.syncTemplates();
+
+    ipc.on("db-updated", () => {
+      this.syncTemplates();
+    });
   },
 };
 </script>
