@@ -55,7 +55,7 @@
             type="text"
             ref="newTemplateField"
             v-model="newTemplateName"
-            class="new-organ-field"
+            class="new-organ-field new-template"
             @keydown.enter="addTemplate"
           />
           <button class="organ-button" @click="addTemplate" v-if="templateID">
@@ -160,7 +160,8 @@ export default {
     addTemplate(event) {
       event.preventDefault();
       if (this.newTemplateName == "") {
-        this.$refs.newTemplateField.style.display = "inline-block";
+        this.$refs.newTemplateField.style.display = "block";
+        this.newTemplateName = this.impression;
         this.$refs.newTemplateField.focus();
       } else {
         ipc.send("add-template", this.organ, {
@@ -227,5 +228,9 @@ textarea {
 .new-organ-field {
   display: none;
   width: 10rem;
+}
+
+.new-template {
+  width: 25rem;
 }
 </style>
