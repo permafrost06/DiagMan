@@ -74,7 +74,7 @@ export const seedStaged = () => {
   }
 };
 
-export const seedTemplates = () => {
+export const seedTemplates = async () => {
   const temps = [
     {
       _id: "parotid",
@@ -147,7 +147,7 @@ export const seedTemplates = () => {
     },
   ];
 
-  templates.allDocs({ include_docs: true }).then((result) => {
+  await templates.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {
       templates.remove(result.rows[i].doc);
     }
