@@ -95,6 +95,9 @@ export default {
     recordRow,
   },
   methods: {
+    getWidth() {
+      this.clientWidth = ipc.sendSync("get-width");
+    },
     updateData(ids) {
       var options = {};
 
@@ -205,7 +208,11 @@ export default {
     };
   },
   beforeMount() {
-    this.clientWidth = ipc.sendSync("get-width");
+    this.getWidth();
+    ipc.on("resized", () => {
+      this.getWidth();
+    });
+
     this.updateData();
 
     ipc.on("db-updated", () => {

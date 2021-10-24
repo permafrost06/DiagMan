@@ -67,6 +67,10 @@ if (!gotTheLock) {
     }
     createWindow();
     win.maximize();
+
+    win.on("resize", () => {
+      win.webContents.send("resized");
+    });
   });
 }
 
@@ -146,7 +150,7 @@ async function createWindow() {
           label: "Seed Templates",
           click: async () => {
             seedTemplates();
-            win.webContents.send("db-update");
+            win.webContents.send("db-updated");
           },
         },
         {
