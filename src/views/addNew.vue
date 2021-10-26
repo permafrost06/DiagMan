@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-v-for-template-key */
 <template>
   <form>
     Patient Name
