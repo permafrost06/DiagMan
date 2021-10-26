@@ -5,7 +5,7 @@
     <input v-model="patientName" />
     <br />
     Date
-    <input v-model="date" />
+    <input type="date" v-model="date" />
     <br />
     Age
     <input v-model="age" />
@@ -18,8 +18,15 @@
     <br />
     <div class="checkboxes">
       <div class="test-entry" v-for="test in tests" :key="test._id">
-        <input type="checkbox" :value="test._id" v-model="selectedTests" />
-        <div class="description">{{ test.name }} - BDT{{ test.cost }}</div>
+        <input
+          :id="'test-' + test._id"
+          type="checkbox"
+          :value="test._id"
+          v-model="selectedTests"
+        />
+        <label :for="'test-' + test._id" class="description"
+          >{{ test.name }} - BDT{{ test.cost }}</label
+        >
       </div>
     </div>
     <br />
@@ -37,7 +44,7 @@ export default {
   data() {
     return {
       patientName: "",
-      date: "",
+      date: new Date().toISOString().split("T")[0],
       age: "",
       specimen: "",
       referer: "",
