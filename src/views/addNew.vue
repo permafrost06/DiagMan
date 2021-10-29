@@ -14,7 +14,12 @@
     <input v-model="specimen" />
     <br />
     Referer
-    <input v-model="referer" />
+    <input list="doctors" v-model="referer" />
+    <datalist id="doctors">
+      <template v-for="doctor in doctorList" :key="doctor">
+        <option :value="doctor" />
+      </template>
+    </datalist>
     <br />
     <div class="checkboxes">
       <div class="test-entry" v-for="test in tests" :key="test._id">
@@ -50,6 +55,7 @@ export default {
       referer: "",
       tests: [],
       selectedTests: [],
+      doctorList: [],
     };
   },
   methods: {
@@ -68,6 +74,7 @@ export default {
   },
   beforeMount() {
     this.tests = ipc.sendSync("get-tests");
+    this.doctorList = ipc.sendSync("get-referers");
   },
 };
 </script>

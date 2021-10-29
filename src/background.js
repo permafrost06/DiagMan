@@ -359,6 +359,23 @@ ipcMain.on("get-records", async (event, options, filter) => {
   }
 });
 
+ipcMain.on("get-referers", async (event) => {
+  var doctors = [];
+
+  doctors.push(
+    ...(await getStaged({})).map((record) => {
+      return record.referer;
+    })
+  );
+  doctors.push(
+    ...(await getRecords({})).map((record) => {
+      return record.referer;
+    })
+  );
+
+  event.returnValue = [...new Set(doctors)];
+});
+
 ipcMain.on("export", async (event, ids) => {
   var csv;
 
