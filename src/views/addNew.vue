@@ -9,7 +9,10 @@
     Patient Name
     <input v-model="patientName" />
     <br />
-    Date
+    Sample Collection Date
+    <input type="date" v-model="collDate" />
+    <br />
+    Sample Receiption Date
     <input type="date" v-model="date" />
     <br />
     Age
@@ -66,6 +69,7 @@ export default {
     return {
       type: "cyto",
       patientName: "",
+      collDate: null,
       date: new Date().toISOString().split("T")[0],
       age: "",
       gender: "default",
@@ -83,6 +87,7 @@ export default {
       ipc.send("add-staged", {
         type: this.type,
         patientName: this.patientName,
+        collDate: this.collDate,
         date: this.date,
         age: this.age,
         gender: this.gender,
