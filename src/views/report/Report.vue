@@ -11,14 +11,15 @@
       <div class="box">
         <div>
           <div class="bold">ID No: {{ record._id }}</div>
-          <!-- <div>Collected: 01-01-2021</div>
-          <div>Received: 01-01-2021</div> -->
+          <div>Collected: {{ record.collDate }}</div>
+          <div>Received: {{ record.date }}</div>
           <div>Date: {{ record.date }}</div>
         </div>
         <div class="right">
           <div class="bold">Patient: {{ record.patientName }}</div>
           <div>Age: {{ record.age }}</div>
-          <!-- <div>Sex: Female</div> -->
+          <div>Gender: {{ record.gender }}</div>
+          <div>Contact No: {{ record.contactNo }}</div>
         </div>
       </div>
       <div class="reference">Referred by: {{ record.referer }}</div>

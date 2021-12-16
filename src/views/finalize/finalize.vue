@@ -4,8 +4,11 @@
       <div class="row-left">
         <p>ID: {{ record._id }}</p>
         <p><span class="bold">Patient Name:</span> {{ record.patientName }}</p>
-        <p><span class="bold">Date:</span> {{ record.date }}</p>
+        <p><span class="bold">Date Collected:</span> {{ record.collDate }}</p>
+        <p><span class="bold">Date Received:</span> {{ record.date }}</p>
         <p><span class="bold">Age:</span> {{ record.age }}</p>
+        <p><span class="bold">Gender:</span> {{ record.gender }}</p>
+        <p><span class="bold">Contact No:</span> {{ record.contactNo }}</p>
         <p><span class="bold">Specimen:</span> {{ record.specimen }}</p>
         <p><span class="bold">Referer:</span> {{ record.referer }}</p>
       </div>
@@ -140,9 +143,12 @@ export default {
       if (this.aspNote && this.me && this.impression)
         ipc.send("add-record", {
           _id: this.record._id,
+          collDate: this.record.collDate,
           date: this.record.date,
           patientName: this.record.patientName,
           age: this.record.age,
+          gender: this.record.gender,
+          contactNo: this.record.contactNo,
           referer: this.record.referer,
           specimen: this.record.specimen,
           aspNote: this.aspNote,
