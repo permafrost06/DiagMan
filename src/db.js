@@ -357,7 +357,10 @@ export const removeTemplate = async (organ, templateID) => {
 
 export const addStaged = async (record) => {
   let now = new Date();
-  record._id =
+
+  record._id = record.type == "cyto" ? "CYT" : "HIS";
+
+  record._id +=
     now
       .getFullYear()
       .toString()

@@ -1,6 +1,11 @@
 /* eslint-disable vue/no-v-for-template-key */
 <template>
   <form>
+    <select v-model="type">
+      <option value="cyto" selected>Cytopathology</option>
+      <option value="histo">Histopathology</option>
+    </select>
+    <br />
     Patient Name
     <input v-model="patientName" />
     <br />
@@ -9,6 +14,17 @@
     <br />
     Age
     <input v-model="age" />
+    <br />
+    Gender
+    <select v-model="gender">
+      <option value="default" selected hidden>Choose gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+    <br />
+    Contact No
+    <input type="number" v-model="contactNo" />
     <br />
     Specimen
     <input v-model="specimen" />
@@ -48,9 +64,12 @@ const ipc = window.ipcRenderer;
 export default {
   data() {
     return {
+      type: "cyto",
       patientName: "",
       date: new Date().toISOString().split("T")[0],
       age: "",
+      gender: "default",
+      contactNo: null,
       specimen: "",
       referer: "",
       tests: [],
@@ -62,9 +81,12 @@ export default {
     addToStaged(event) {
       event.preventDefault();
       ipc.send("add-staged", {
+        type: this.type,
         patientName: this.patientName,
         date: this.date,
         age: this.age,
+        gender: this.gender,
+        contactNo: this.contactNo,
         specimen: this.specimen,
         referer: this.referer,
         tests: JSON.stringify(this.selectedTests),
@@ -103,5 +125,12 @@ input {
   .description {
     display: inline-block;
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 </style>
