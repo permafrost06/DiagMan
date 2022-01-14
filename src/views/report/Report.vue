@@ -13,7 +13,6 @@
           <div class="bold">ID No: {{ record._id }}</div>
           <div>Collected: {{ record.collDate }}</div>
           <div>Received: {{ record.date }}</div>
-          <div>Date: {{ record.date }}</div>
         </div>
         <div class="right">
           <div class="bold">Patient: {{ record.patientName }}</div>
