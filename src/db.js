@@ -1,11 +1,21 @@
 import jsonData from "./components/records.js";
 import { app } from "electron";
+
 var PouchDB = require("pouchdb-node");
 
 var db = new PouchDB(`${app.getPath("userData")}/records.db`);
 var stagedDB = new PouchDB(`${app.getPath("userData")}/staged.db`);
 var tests = new PouchDB(`${app.getPath("userData")}/tests.db`);
 var templates = new PouchDB(`${app.getPath("userData")}/templates.db`);
+
+// seed functions
+export const seedRecords = () => {
+  for (let i = 0; i < jsonData.length; i++) {
+    db.put(jsonData[i]).catch((error) => {
+      console.log(error);
+    });
+  }
+};
 
 export const seedStaged = () => {
   try {
@@ -71,6 +81,60 @@ export const seedStaged = () => {
     ]);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const initTests = () => {
+  const tempTests = [
+    {
+      _id: "0001",
+      name: "CT Scan - Brain Plain",
+      cost: 4000,
+    },
+    {
+      _id: "0002",
+      name: "CT Scan - Chest",
+      cost: 6000,
+    },
+    {
+      _id: "0003",
+      name: "Urine R/M/E",
+      cost: 250,
+    },
+    {
+      _id: "0004",
+      name: "AST (SGOT) Blood",
+      cost: 300,
+    },
+    {
+      _id: "0005",
+      name: "ALT (SGPT) Blood",
+      cost: 300,
+    },
+    {
+      _id: "0006",
+      name: "Bilirubin Serum",
+      cost: 200,
+    },
+    {
+      _id: "0007",
+      name: "Creatinine Serum",
+      cost: 400,
+    },
+  ];
+
+  tests.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      tests.remove(result.rows[i].doc);
+    }
+  });
+
+  for (let i = 0; i <= tempTests.length; i++) {
+    try {
+      tests.put(tempTests[i]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
@@ -160,66 +224,13 @@ export const seedTemplates = async () => {
   }
 };
 
-export const initTests = () => {
-  const tempTests = [
-    {
-      _id: "0001",
-      name: "CT Scan - Brain Plain",
-      cost: 4000,
-    },
-    {
-      _id: "0002",
-      name: "CT Scan - Chest",
-      cost: 6000,
-    },
-    {
-      _id: "0003",
-      name: "Urine R/M/E",
-      cost: 250,
-    },
-    {
-      _id: "0004",
-      name: "AST (SGOT) Blood",
-      cost: 300,
-    },
-    {
-      _id: "0005",
-      name: "ALT (SGPT) Blood",
-      cost: 300,
-    },
-    {
-      _id: "0006",
-      name: "Bilirubin Serum",
-      cost: 200,
-    },
-    {
-      _id: "0007",
-      name: "Creatinine Serum",
-      cost: 400,
-    },
-  ];
-
-  tests.allDocs({ include_docs: true }).then((result) => {
+// print functions
+export const printRecords = () => {
+  db.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {
-      tests.remove(result.rows[i].doc);
+      console.log(result.rows[i].doc);
     }
   });
-
-  for (let i = 0; i <= tempTests.length; i++) {
-    try {
-      tests.put(tempTests[i]);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
-
-export const seedDatabase = () => {
-  for (let i = 0; i < jsonData.length; i++) {
-    db.put(jsonData[i]).catch((error) => {
-      console.log(error);
-    });
-  }
 };
 
 export const printTemps = async () => {
@@ -230,14 +241,7 @@ export const printTemps = async () => {
   });
 };
 
-export const printDB = () => {
-  db.allDocs({ include_docs: true }).then((result) => {
-    for (let i = 0; i < result.rows.length; i++) {
-      console.log(result.rows[i].doc);
-    }
-  });
-};
-
+// clear functions
 export const clearDB = () => {
   db.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {
@@ -254,215 +258,7 @@ export const clearStaged = () => {
   });
 };
 
-export const updateTest = async (test) => {
-  const getRev = async (recordID) => {
-    try {
-      const oldRecord = await tests.get(recordID);
-      return oldRecord._rev;
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
-
-  test._rev = await getRev(test._id);
-
-  try {
-    await tests.put(test);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const updateRecord = async (record) => {
-  const getRev = async (recordID) => {
-    try {
-      const oldRecord = await db.get(recordID);
-      return oldRecord._rev;
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
-
-  record._rev = await getRev(record._id);
-
-  try {
-    await db.put(record);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addTemplate = async (organ, template) => {
-  const currentOrgan = await templates.get(organ);
-
-  template._id = Math.random()
-    .toString(36)
-    .substr(2, 9);
-  currentOrgan.templates.push(template);
-
-  try {
-    templates.put(currentOrgan);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addRecord = async (record) => {
-  try {
-    await db.put(record);
-  } catch (error) {
-    console.log(error);
-  }
-
-  const stagedRecord = await stagedDB.get(record._id);
-  stagedDB.remove(stagedRecord._id, stagedRecord._rev);
-};
-
-export const addTest = async (test) => {
-  try {
-    await tests.put(test);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const removeTest = async (id) => {
-  try {
-    var test = await tests.get(id);
-    try {
-      tests.remove(test);
-    } catch (error) {
-      console.log(error);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const removeTemplate = async (organ, templateID) => {
-  const currentOrgan = await templates.get(organ);
-
-  currentOrgan.templates = currentOrgan.templates.filter((temp) => {
-    return temp._id != templateID;
-  });
-
-  try {
-    templates.put(currentOrgan);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addStaged = async (record) => {
-  let now = new Date();
-
-  record._id = record.type == "cyto" ? "CYT" : "HIS";
-
-  record._id +=
-    now
-      .getFullYear()
-      .toString()
-      .substr(-2) +
-    (now.getMonth() + 1).toString().padStart(2, "0") +
-    now
-      .getDate()
-      .toString()
-      .padStart(2, "0") +
-    now
-      .getHours()
-      .toString()
-      .padStart(2, "0") +
-    now
-      .getMinutes()
-      .toString()
-      .padStart(2, "0") +
-    now
-      .getSeconds()
-      .toString()
-      .padStart(2, "0");
-
-  record.tests = JSON.parse(record.tests);
-
-  try {
-    await stagedDB.put(record);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addOrgan = async (organ) => {
-  try {
-    await templates.put({
-      _id: organ.toLowerCase(),
-      organName: organ,
-      templates: [],
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const updateTemplate = async (organ, template) => {
-  const currentOrgan = await templates.get(organ);
-
-  currentOrgan.templates = currentOrgan.templates.filter((temp) => {
-    return temp._id != template._id;
-  });
-
-  currentOrgan.templates.push(template);
-
-  try {
-    templates.put(currentOrgan);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const updateStaged = async (record) => {
-  const getRev = async (recordID) => {
-    try {
-      const oldRecord = await stagedDB.get(recordID);
-      return oldRecord._rev;
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
-
-  record._rev = await getRev(record._id);
-
-  try {
-    await stagedDB.put(record);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getTests = async () => {
-  var allTests;
-  try {
-    const result = await tests.allDocs({ include_docs: true });
-    allTests = result.rows.map(({ doc }) => doc);
-  } catch (error) {
-    console.log(error);
-    allTests = [];
-  }
-  return allTests;
-};
-
-export const getTemplates = async () => {
-  var allTemplates;
-  try {
-    const result = await templates.allDocs({ include_docs: true });
-    allTemplates = result.rows.map(({ doc }) => doc);
-  } catch (error) {
-    console.log(error);
-    allTemplates = [];
-  }
-  return allTemplates;
-};
+// get functions
 
 export const getRecords = async (options, filter) => {
   options.include_docs = true;
@@ -542,5 +338,218 @@ export const getStaged = async (options, filter) => {
     }
   } else {
     return [];
+  }
+};
+
+export const getTests = async () => {
+  var allTests;
+  try {
+    const result = await tests.allDocs({ include_docs: true });
+    allTests = result.rows.map(({ doc }) => doc);
+  } catch (error) {
+    console.log(error);
+    allTests = [];
+  }
+  return allTests;
+};
+
+export const getTemplates = async () => {
+  var allTemplates;
+  try {
+    const result = await templates.allDocs({ include_docs: true });
+    allTemplates = result.rows.map(({ doc }) => doc);
+  } catch (error) {
+    console.log(error);
+    allTemplates = [];
+  }
+  return allTemplates;
+};
+
+// add functions
+export const addRecord = async (record) => {
+  try {
+    await db.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+
+  const stagedRecord = await stagedDB.get(record._id);
+  stagedDB.remove(stagedRecord._id, stagedRecord._rev);
+};
+
+export const addStaged = async (record) => {
+  let now = new Date();
+
+  record._id = record.type == "cyto" ? "CYT" : "HIS";
+
+  record._id +=
+    now
+      .getFullYear()
+      .toString()
+      .substr(-2) +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    now
+      .getDate()
+      .toString()
+      .padStart(2, "0") +
+    now
+      .getHours()
+      .toString()
+      .padStart(2, "0") +
+    now
+      .getMinutes()
+      .toString()
+      .padStart(2, "0") +
+    now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0");
+
+  record.tests = JSON.parse(record.tests);
+
+  try {
+    await stagedDB.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addTest = async (test) => {
+  try {
+    await tests.put(test);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addOrgan = async (organ) => {
+  try {
+    await templates.put({
+      _id: organ.toLowerCase(),
+      organName: organ,
+      templates: [],
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addTemplate = async (organ, template) => {
+  const currentOrgan = await templates.get(organ);
+
+  template._id = Math.random()
+    .toString(36)
+    .substr(2, 9);
+  currentOrgan.templates.push(template);
+
+  try {
+    templates.put(currentOrgan);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// update functions
+export const updateRecord = async (record) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await db.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  record._rev = await getRev(record._id);
+
+  try {
+    await db.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateStaged = async (record) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await stagedDB.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  record._rev = await getRev(record._id);
+
+  try {
+    await stagedDB.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateTest = async (test) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await tests.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  test._rev = await getRev(test._id);
+
+  try {
+    await tests.put(test);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateTemplate = async (organ, template) => {
+  const currentOrgan = await templates.get(organ);
+
+  currentOrgan.templates = currentOrgan.templates.filter((temp) => {
+    return temp._id != template._id;
+  });
+
+  currentOrgan.templates.push(template);
+
+  try {
+    templates.put(currentOrgan);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// remove functions
+export const removeTest = async (id) => {
+  try {
+    var test = await tests.get(id);
+    try {
+      tests.remove(test);
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const removeTemplate = async (organ, templateID) => {
+  const currentOrgan = await templates.get(organ);
+
+  currentOrgan.templates = currentOrgan.templates.filter((temp) => {
+    return temp._id != templateID;
+  });
+
+  try {
+    templates.put(currentOrgan);
+  } catch (error) {
+    console.log(error);
   }
 };
