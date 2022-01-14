@@ -2,30 +2,8 @@
 import { app, protocol, BrowserWindow, Menu, dialog, shell } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
-import {
-  seedRecords,
-  clearDB,
-  updateRecord,
-  getRecords,
-  seedStaged,
-  getStaged,
-  updateStaged,
-  addStaged,
-  clearStaged,
-  addRecord,
-  initTests,
-  getTests,
-  addTest,
-  updateTest,
-  removeTest,
-  seedTemplates,
-  printTemps,
-  getTemplates,
-  addOrgan,
-  addTemplate,
-  updateTemplate,
-  removeTemplate,
-} from "./db.js";
+import * as db from "./db.js";
+import * as dbDebug from "./db-debug.js";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 import * as sync from "./sync.js";
 const { ipcMain } = require("electron");
@@ -127,50 +105,50 @@ async function createWindow() {
         {
           label: "Initialize Settings",
           click: () => {
-            initTests();
+            dbDebug.initTests();
             win.webContents.send("db-update");
           },
         },
         {
           label: "Seed Staged",
           click: async () => {
-            await clearStaged();
-            await seedStaged();
+            await dbDebug.clearStaged();
+            await dbDebug.seedStaged();
             win.webContents.send("db-updated");
           },
         },
         {
           label: "Seed Records",
           click: async () => {
-            await clearDB();
-            await seedRecords();
+            await dbDebug.clearDB();
+            await dbDebug.seedRecords();
             win.webContents.send("db-updated");
           },
         },
         {
           label: "Seed Templates",
           click: async () => {
-            seedTemplates();
+            dbDebug.seedTemplates();
             win.webContents.send("db-updated");
           },
         },
         {
           label: "Print Templates",
           click: async () => {
-            printTemps();
+            dbDebug.printTemps();
           },
         },
         {
           label: "Clear Staged",
           click: async () => {
-            await clearStaged();
+            await dbDebug.clearStaged();
             win.webContents.send("db-updated");
           },
         },
         {
           label: "Clear Records",
           click: async () => {
-            await clearDB();
+            await dbDebug.clearDB();
             win.webContents.send("db-updated");
           },
         },
@@ -254,80 +232,80 @@ ipcMain.on("get-width", (event) => {
 });
 
 ipcMain.on("get-tests", async (event) => {
-  event.returnValue = await getTests();
+  event.returnValue = await db.getTests();
 });
 
 ipcMain.on("add-test", async (event, data) => {
-  await addTest(data);
+  await db.addTest(data);
   win.webContents.send("db-update");
 });
 
 ipcMain.on("add-record", async (event, data) => {
   try {
-    addRecord(data);
+    db.addRecord(data);
   } catch (error) {
     console.log(error);
   }
 });
 
 ipcMain.on("add-staged", async (event, data) => {
-  await addStaged(data);
+  await db.addStaged(data);
   win.webContents.send("db-update");
 });
 
 ipcMain.on("update-test", async (event, data) => {
-  await updateTest(data);
+  await db.updateTest(data);
   win.webContents.send("db-update");
 });
 
 ipcMain.on("test-delete", async (event, data) => {
-  await removeTest(data);
+  await db.removeTest(data);
   win.webContents.send("db-update");
 });
 
 ipcMain.on("record-update", (event, data) => {
-  updateRecord(data);
+  db.updateRecord(data);
   win.webContents.send("db-updated");
 });
 
 ipcMain.on("update-staged", (event, data) => {
-  updateStaged(data);
+  db.updateStaged(data);
   win.webContents.send("db-updated");
 });
 
 ipcMain.on("get-record", async (event, id) => {
-  const records = await getRecords({
+  const records = await db.getRecords({
     keys: [id],
   });
   event.returnValue = records[0];
 });
 
 ipcMain.on("get-templates", async (event) => {
-  const templates = await getTemplates();
+  const templates = await db.getTemplates();
   event.returnValue = templates;
 });
 
 ipcMain.on("add-organ", async (event, organName) => {
-  await addOrgan(organName);
+  await db.addOrgan(organName);
 });
 
 ipcMain.on("add-template", async (event, organ, template) => {
-  await addTemplate(organ, template);
+  await db.addTemplate(organ, template);
   win.webContents.send("db-updated");
 });
 
 ipcMain.on("update-template", async (event, organ, template) => {
-  updateTemplate(organ, template);
+  db.updateTemplate(organ, template);
   win.webContents.send("db-updated");
 });
 
 ipcMain.on("delete-template", async (event, organ, templateID) => {
-  removeTemplate(organ, templateID);
+  db.removeTemplate(organ, templateID);
   win.webContents.send("db-updated");
 });
 
 ipcMain.on("get-staged-rcd", async (event, id) => {
-  const records = await getStaged({
+  const records = await db.getStaged({
     keys: [id],
   });
   event.returnValue = records[0];
@@ -339,7 +317,7 @@ ipcMain.on("get-records", async (event, options, filter) => {
 
     if (options.lastID) {
       const { lastID, ...dbopt } = opt;
-      const records = await getRecords(dbopt, filter);
+      const records = await db.getRecords(dbopt, filter);
       const results = nextPage(records, lastID, limit);
 
       if (results.length) {
@@ -349,7 +327,7 @@ ipcMain.on("get-records", async (event, options, filter) => {
       }
     } else if (options.firstID) {
       const { firstID, ...dbopt } = opt;
-      const records = await getRecords(dbopt, filter);
+      const records = await db.getRecords(dbopt, filter);
       const results = prevPage(records, firstID, limit);
 
       if (results.length) {
@@ -358,11 +336,11 @@ ipcMain.on("get-records", async (event, options, filter) => {
         event.returnValue = limitTo(records, limit);
       }
     } else {
-      const records = await getRecords(opt, filter);
+      const records = await db.getRecords(opt, filter);
       event.returnValue = limitTo(records, limit);
     }
   } else {
-    event.returnValue = await getRecords(options, filter);
+    event.returnValue = await db.getRecords(options, filter);
   }
 });
 
@@ -370,12 +348,12 @@ ipcMain.on("get-referers", async (event) => {
   var doctors = [];
 
   doctors.push(
-    ...(await getStaged({})).map((record) => {
+    ...(await db.getStaged({})).map((record) => {
       return record.referer;
     })
   );
   doctors.push(
-    ...(await getRecords({})).map((record) => {
+    ...(await db.getRecords({})).map((record) => {
       return record.referer;
     })
   );
@@ -386,7 +364,7 @@ ipcMain.on("get-referers", async (event) => {
 ipcMain.on("export", async (event, ids) => {
   var csv;
 
-  var records = await getRecords({
+  var records = await db.getRecords({
     keys: JSON.parse(ids),
   });
 
@@ -437,7 +415,7 @@ ipcMain.on("get-staged", async (event, options, filter) => {
 
     if (options.lastID) {
       const { lastID, ...dbopt } = opt;
-      const records = (await getStaged(dbopt, filter)).reverse();
+      const records = (await db.getStaged(dbopt, filter)).reverse();
       const results = nextPage(records, lastID, limit);
 
       if (results.length) {
@@ -447,7 +425,7 @@ ipcMain.on("get-staged", async (event, options, filter) => {
       }
     } else if (options.firstID) {
       const { firstID, ...dbopt } = opt;
-      const records = (await getStaged(dbopt, filter)).reverse();
+      const records = (await db.getStaged(dbopt, filter)).reverse();
       const results = prevPage(records, firstID, limit);
 
       if (results.length) {
@@ -456,10 +434,10 @@ ipcMain.on("get-staged", async (event, options, filter) => {
         event.returnValue = limitTo(records, limit);
       }
     } else {
-      const records = (await getStaged(opt, filter)).reverse();
+      const records = (await db.getStaged(opt, filter)).reverse();
       event.returnValue = limitTo(records, limit);
     }
   } else {
-    event.returnValue = (await getStaged(options, filter)).reverse();
+    event.returnValue = (await db.getStaged(options, filter)).reverse();
   }
 });
