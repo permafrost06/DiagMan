@@ -3,7 +3,7 @@ import { app, protocol, BrowserWindow, Menu, dialog, shell } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
 import {
-  seedDatabase,
+  seedRecords,
   clearDB,
   updateRecord,
   getRecords,
@@ -142,7 +142,7 @@ async function createWindow() {
           label: "Seed Records",
           click: async () => {
             await clearDB();
-            await seedDatabase();
+            await seedRecords();
             win.webContents.send("db-updated");
           },
         },
