@@ -3,20 +3,12 @@ import { app } from "electron";
 
 var PouchDB = require("pouchdb-node");
 
-var db = new PouchDB(`${app.getPath("userData")}/records.db`);
 var stagedDB = new PouchDB(`${app.getPath("userData")}/staged.db`);
+var db = new PouchDB(`${app.getPath("userData")}/records.db`);
 var tests = new PouchDB(`${app.getPath("userData")}/tests.db`);
 var templates = new PouchDB(`${app.getPath("userData")}/templates.db`);
 
 // seed functions
-export const seedRecords = () => {
-  for (let i = 0; i < jsonData.length; i++) {
-    db.put(jsonData[i]).catch((error) => {
-      console.log(error);
-    });
-  }
-};
-
 export const seedStaged = () => {
   try {
     stagedDB.bulkDocs([
@@ -81,6 +73,14 @@ export const seedStaged = () => {
     ]);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const seedRecords = () => {
+  for (let i = 0; i < jsonData.length; i++) {
+    db.put(jsonData[i]).catch((error) => {
+      console.log(error);
+    });
   }
 };
 
@@ -242,14 +242,6 @@ export const printTemps = async () => {
 };
 
 // clear functions
-export const clearDB = () => {
-  db.allDocs({ include_docs: true }).then((result) => {
-    for (let i = 0; i < result.rows.length; i++) {
-      db.remove(result.rows[i].doc);
-    }
-  });
-};
-
 export const clearStaged = () => {
   stagedDB.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {
@@ -258,7 +250,49 @@ export const clearStaged = () => {
   });
 };
 
+export const clearDB = () => {
+  db.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      db.remove(result.rows[i].doc);
+    }
+  });
+};
+
 // get functions
+export const getStaged = async (options, filter) => {
+  options.include_docs = true;
+
+  const query = await stagedDB.allDocs(options);
+
+  if (query.rows && query.rows.length) {
+    const allRecords = query.rows.map(({ doc }) => doc);
+
+    if (filter) {
+      return allRecords
+        .filter((record) => {
+          return record.patientName
+            .toLowerCase()
+            .includes(filter.patientNameFilter);
+        })
+        .filter((record) => {
+          return record.date.toLowerCase().includes(filter.dateFilter);
+        })
+        .filter((record) => {
+          return record.age.toLowerCase().includes(filter.ageFilter);
+        })
+        .filter((record) => {
+          return record.specimen.toLowerCase().includes(filter.specimenFilter);
+        })
+        .filter((record) => {
+          return record.referer.toLowerCase().includes(filter.refererFilter);
+        });
+    } else {
+      return allRecords;
+    }
+  } else {
+    return [];
+  }
+};
 
 export const getRecords = async (options, filter) => {
   options.include_docs = true;
@@ -306,41 +340,6 @@ export const getRecords = async (options, filter) => {
   }
 };
 
-export const getStaged = async (options, filter) => {
-  options.include_docs = true;
-
-  const query = await stagedDB.allDocs(options);
-
-  if (query.rows && query.rows.length) {
-    const allRecords = query.rows.map(({ doc }) => doc);
-
-    if (filter) {
-      return allRecords
-        .filter((record) => {
-          return record.patientName
-            .toLowerCase()
-            .includes(filter.patientNameFilter);
-        })
-        .filter((record) => {
-          return record.date.toLowerCase().includes(filter.dateFilter);
-        })
-        .filter((record) => {
-          return record.age.toLowerCase().includes(filter.ageFilter);
-        })
-        .filter((record) => {
-          return record.specimen.toLowerCase().includes(filter.specimenFilter);
-        })
-        .filter((record) => {
-          return record.referer.toLowerCase().includes(filter.refererFilter);
-        });
-    } else {
-      return allRecords;
-    }
-  } else {
-    return [];
-  }
-};
-
 export const getTests = async () => {
   var allTests;
   try {
@@ -366,17 +365,6 @@ export const getTemplates = async () => {
 };
 
 // add functions
-export const addRecord = async (record) => {
-  try {
-    await db.put(record);
-  } catch (error) {
-    console.log(error);
-  }
-
-  const stagedRecord = await stagedDB.get(record._id);
-  stagedDB.remove(stagedRecord._id, stagedRecord._rev);
-};
-
 export const addStaged = async (record) => {
   let now = new Date();
 
@@ -412,6 +400,17 @@ export const addStaged = async (record) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const addRecord = async (record) => {
+  try {
+    await db.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+
+  const stagedRecord = await stagedDB.get(record._id);
+  stagedDB.remove(stagedRecord._id, stagedRecord._rev);
 };
 
 export const addTest = async (test) => {
@@ -450,26 +449,6 @@ export const addTemplate = async (organ, template) => {
 };
 
 // update functions
-export const updateRecord = async (record) => {
-  const getRev = async (recordID) => {
-    try {
-      const oldRecord = await db.get(recordID);
-      return oldRecord._rev;
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
-
-  record._rev = await getRev(record._id);
-
-  try {
-    await db.put(record);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const updateStaged = async (record) => {
   const getRev = async (recordID) => {
     try {
@@ -485,6 +464,26 @@ export const updateStaged = async (record) => {
 
   try {
     await stagedDB.put(record);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateRecord = async (record) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await db.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  record._rev = await getRev(record._id);
+
+  try {
+    await db.put(record);
   } catch (error) {
     console.log(error);
   }
@@ -527,6 +526,38 @@ export const updateTemplate = async (organ, template) => {
 };
 
 // remove functions
+export const removeStaged = async (id_doc, rev) => {
+  if (rev) {
+    try {
+      stagedDB.remove(id_doc, rev);
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    try {
+      stagedDB.remove(id_doc);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
+
+export const removeRecord = async (id_doc, rev) => {
+  if (rev) {
+    try {
+      db.remove(id_doc, rev);
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    try {
+      db.remove(id_doc);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
+
 export const removeTest = async (id) => {
   try {
     var test = await tests.get(id);
