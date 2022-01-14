@@ -27,6 +27,7 @@ import {
   removeTemplate,
 } from "./db.js";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
+import * as sync from "./sync.js";
 const { ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
@@ -171,6 +172,12 @@ async function createWindow() {
           click: async () => {
             await clearDB();
             win.webContents.send("db-updated");
+          },
+        },
+        {
+          label: "test sync",
+          click: async () => {
+            await sync.printDB();
           },
         },
       ],

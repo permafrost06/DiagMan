@@ -1,5 +1,6 @@
 import jsonData from "./components/records.js";
 import { app } from "electron";
+import * as sync from "./sync.js";
 
 var PouchDB = require("pouchdb-node");
 
@@ -399,6 +400,18 @@ export const addStaged = async (record) => {
     await stagedDB.put(record);
   } catch (error) {
     console.log(error);
+    return;
+  }
+
+  try {
+    const recordFromDB = await stagedDB.get(record._id);
+    sync.queueRecordSync({
+      db: "staged",
+      type: "add",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
   }
 };
 
@@ -407,10 +420,22 @@ export const addRecord = async (record) => {
     await db.put(record);
   } catch (error) {
     console.log(error);
+    return;
+  }
+
+  try {
+    const recordFromDB = await db.get(record._id);
+    sync.queueRecordSync({
+      db: "records",
+      type: "add",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
   }
 
   const stagedRecord = await stagedDB.get(record._id);
-  stagedDB.remove(stagedRecord._id, stagedRecord._rev);
+  removeStaged(stagedRecord._id, stagedRecord._rev);
 };
 
 export const addTest = async (test) => {
@@ -418,18 +443,44 @@ export const addTest = async (test) => {
     await tests.put(test);
   } catch (error) {
     console.log(error);
+    return;
+  }
+
+  try {
+    const recordFromDB = await tests.get(test._id);
+    sync.queueRecordSync({
+      db: "tests",
+      type: "add",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
   }
 };
 
 export const addOrgan = async (organ) => {
+  const organObj = {
+    _id: organ.toLowerCase(),
+    organName: organ,
+    templates: [],
+  };
+
   try {
-    await templates.put({
-      _id: organ.toLowerCase(),
-      organName: organ,
-      templates: [],
-    });
+    await templates.put(organObj);
   } catch (error) {
     console.log(error);
+    return;
+  }
+
+  try {
+    const recordFromDB = await templates.get(organObj._id);
+    sync.queueRecordSync({
+      db: "templates",
+      type: "add",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
   }
 };
 
@@ -445,6 +496,18 @@ export const addTemplate = async (organ, template) => {
     templates.put(currentOrgan);
   } catch (error) {
     console.log(error);
+    return;
+  }
+
+  try {
+    const recordFromDB = await templates.get(currentOrgan._id);
+    sync.queueRecordSync({
+      db: "templates",
+      type: "update",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
   }
 };
 
@@ -467,6 +530,17 @@ export const updateStaged = async (record) => {
   } catch (error) {
     console.log(error);
   }
+
+  try {
+    const recordFromDB = await stagedDB.get(record._id);
+    sync.queueRecordSync({
+      db: "staged",
+      type: "update",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
+  }
 };
 
 export const updateRecord = async (record) => {
@@ -486,6 +560,17 @@ export const updateRecord = async (record) => {
     await db.put(record);
   } catch (error) {
     console.log(error);
+  }
+
+  try {
+    const recordFromDB = await db.get(record._id);
+    sync.queueRecordSync({
+      db: "records",
+      type: "update",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
   }
 };
 
@@ -507,6 +592,17 @@ export const updateTest = async (test) => {
   } catch (error) {
     console.log(error);
   }
+
+  try {
+    const recordFromDB = await tests.get(test._id);
+    sync.queueRecordSync({
+      db: "tests",
+      type: "update",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
+  }
 };
 
 export const updateTemplate = async (organ, template) => {
@@ -523,49 +619,101 @@ export const updateTemplate = async (organ, template) => {
   } catch (error) {
     console.log(error);
   }
+
+  try {
+    const recordFromDB = await templates.get(currentOrgan._id);
+    sync.queueRecordSync({
+      db: "templates",
+      type: "update",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
+  }
 };
 
 // remove functions
 export const removeStaged = async (id_doc, rev) => {
+  let record;
+
   if (rev) {
+    try {
+      record = await stagedDB.get(id_doc);
+    } catch (e) {
+      console.log(e);
+    }
+
     try {
       stagedDB.remove(id_doc, rev);
     } catch (e) {
       console.log(e);
+      return;
     }
   } else {
+    record = id_doc;
     try {
       stagedDB.remove(id_doc);
     } catch (e) {
       console.log(e);
+      return;
     }
   }
+
+  sync.queueRecordSync({
+    db: "staged",
+    type: "remove",
+    object: record,
+  });
 };
 
 export const removeRecord = async (id_doc, rev) => {
+  let record;
+
   if (rev) {
+    try {
+      record = await db.get(id_doc);
+    } catch (e) {
+      console.log(e);
+    }
+
     try {
       db.remove(id_doc, rev);
     } catch (e) {
       console.log(e);
+      return;
     }
   } else {
+    record = id_doc;
     try {
       db.remove(id_doc);
     } catch (e) {
       console.log(e);
+      return;
     }
   }
+
+  sync.queueRecordSync({
+    db: "records",
+    type: "remove",
+    object: record,
+  });
 };
 
 export const removeTest = async (id) => {
   try {
-    var test = await tests.get(id);
+    let test = await tests.get(id);
     try {
       tests.remove(test);
     } catch (error) {
       console.log(error);
+      return;
     }
+
+    sync.queueRecordSync({
+      db: "tests",
+      type: "remove",
+      object: test,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -582,5 +730,17 @@ export const removeTemplate = async (organ, templateID) => {
     templates.put(currentOrgan);
   } catch (error) {
     console.log(error);
+    return;
+  }
+
+  try {
+    const recordFromDB = await templates.get(currentOrgan._id);
+    sync.queueRecordSync({
+      db: "templates",
+      type: "update",
+      object: recordFromDB,
+    });
+  } catch (e) {
+    console.log("Adding to sync queue falied", e);
   }
 };
