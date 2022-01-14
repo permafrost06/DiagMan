@@ -41,3 +41,11 @@ export const printDB = async () => {
     }
   });
 };
+
+export const clearDB = () => {
+  syncDB.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      syncDB.remove(result.rows[i].doc);
+    }
+  });
+};

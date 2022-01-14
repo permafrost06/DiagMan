@@ -158,6 +158,12 @@ async function createWindow() {
             await sync.printDB();
           },
         },
+        {
+          label: "clear sync queue",
+          click: async () => {
+            sync.clearDB();
+          },
+        },
       ],
     },
     {
