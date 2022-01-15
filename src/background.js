@@ -201,6 +201,10 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
   }
+
+  setTimeout(sendToFirebase, 1000 * 5); // call after 5 seconds
+
+  setInterval(sendToFirebase, 1000 * 60); // call every minute
 }
 
 // Quit when all windows are closed.
@@ -232,6 +236,17 @@ if (isDevelopment) {
     });
   }
 }
+
+const sendToFirebase = async () => {
+  const queue = await sync.getSyncQueue();
+  if (queue.length < 1) return;
+  win.webContents.send("send-to-firebase", queue[0]);
+
+  ipcMain.on("firebase-success", async () => {
+    await sync.dequeueItem();
+    await sendToFirebase();
+  });
+};
 
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];

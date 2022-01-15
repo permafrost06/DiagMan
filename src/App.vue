@@ -3,6 +3,18 @@
 </template>
 
 <script>
+import { initializeApp } from "firebase/app";
+import { initializeFirestore } from "firebase/firestore/lite";
+
+import {
+  deleteDoc,
+  doc,
+  setDoc,
+  getDocs,
+  collection,
+} from "firebase/firestore/lite";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 const ipc = window.ipcRenderer;
 
 export default {
@@ -16,6 +28,61 @@ export default {
     });
     ipc.on("show-past-reports", () => {
       this.$router.push({ name: "Records" });
+    });
+  },
+  async mounted() {
+    const firebaseConfig = {
+      apiKey: "AIzaSyCwzmIhPhUxB7uFsCHlWhARTiSzMylDn0A",
+      projectId: "casedb-29442120",
+      storageBucket: "casedb-29442120.appspot.com",
+      messagingSenderId: "354561150712",
+      appId: "1:354561150712:web:3db5b0d737be49a90bf50d",
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const db = initializeFirestore(firebaseApp);
+
+    const sendToFirebase = async (syncObject) => {
+      if (syncObject.type == "remove") {
+        try {
+          await deleteDoc(doc(db, syncObject.db, syncObject.object._id));
+          return true;
+        } catch (e) {
+          console.log(e);
+          return false;
+        }
+      } else {
+        try {
+          await setDoc(
+            doc(db, syncObject.db, syncObject.object._id),
+            syncObject.object
+          );
+          return true;
+        } catch (e) {
+          console.log(e);
+          return false;
+        }
+      }
+    };
+
+    const email = "finalconceptmedia@gmail.com";
+    const password = "casedb2618914";
+
+    const auth = getAuth();
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("login success", user);
+      })
+      .catch((error) => {
+        console.log("login error", error.code, error.message);
+      });
+
+    ipc.on("send-to-firebase", async (event, syncObject) => {
+      console.log(syncObject);
+      if (await sendToFirebase(syncObject)) {
+        ipc.send("firebase-success");
+      }
     });
   },
 };

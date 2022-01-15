@@ -9,7 +9,7 @@ export const queueRecordSync = async (syncObject) => {
   try {
     syncQueue = await syncDB.get("syncQueue");
   } catch (e) {
-    if (e.reason == "missing") {
+    if (e.reason == "missing" || e.reason == "deleted") {
       await syncDB.put({
         _id: "syncQueue",
         queue: [],
@@ -29,6 +29,29 @@ export const queueRecordSync = async (syncObject) => {
 
   try {
     await syncDB.put(syncQueue);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getSyncQueue = async () => {
+  try {
+    const queueDoc = await syncDB.get("syncQueue");
+    return queueDoc.queue;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const dequeueItem = async () => {
+  try {
+    const queueDoc = await syncDB.get("syncQueue");
+    queueDoc.queue.shift();
+    try {
+      await syncDB.put(queueDoc);
+    } catch (e) {
+      console.log(e);
+    }
   } catch (e) {
     console.log(e);
   }
