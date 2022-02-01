@@ -164,6 +164,12 @@ async function createWindow() {
             sync.clearDB();
           },
         },
+        {
+          label: "get from firebase",
+          click: () => {
+            win.webContents.send("get-from-firebase");
+          },
+        },
       ],
     },
     {
@@ -247,6 +253,10 @@ const sendToFirebase = async () => {
     await sendToFirebase();
   });
 };
+
+ipcMain.on("firebase-pull", (event, data) => {
+  sync.syncWithCloudData(data);
+});
 
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];

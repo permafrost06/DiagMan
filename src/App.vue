@@ -84,6 +84,16 @@ export default {
         ipc.send("firebase-success");
       }
     });
+
+    ipc.on("get-from-firebase", async () => {
+      const allData = {};
+      for (let coll of ["staged", "records", "tests", "templates"]) {
+        const collectionSnapshot = await getDocs(collection(db, coll));
+        const allDocs = collectionSnapshot.docs.map((doc) => doc.data());
+        allData[coll] = allDocs;
+      }
+      ipc.send("firebase-pull", allData);
+    });
   },
 };
 </script>
