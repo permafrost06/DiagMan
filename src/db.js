@@ -115,7 +115,7 @@ export const getTemplates = async () => {
 };
 
 // add functions
-export const addStaged = async (record) => {
+export const addStaged = async (record, skip_queue) => {
   let now = new Date();
 
   record._id = record.type == "cyto" ? "CYT" : "HIS";
@@ -152,19 +152,30 @@ export const addStaged = async (record) => {
     return;
   }
 
-  try {
-    const recordFromDB = await stagedDB.get(record._id);
-    sync.queueRecordSync({
-      db: "staged",
-      type: "add",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await stagedDB.get(record._id);
+      sync.queueRecordSync({
+        db: "staged",
+        type: "add",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };
 
-export const addRecord = async (record) => {
+export const addCloudStaged = async (record) => {
+  try {
+    await stagedDB.put(record);
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+};
+
+export const addRecord = async (record, skip_queue) => {
   try {
     await db.put(record);
   } catch (error) {
@@ -172,22 +183,24 @@ export const addRecord = async (record) => {
     return;
   }
 
-  try {
-    const recordFromDB = await db.get(record._id);
-    sync.queueRecordSync({
-      db: "records",
-      type: "add",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
-  }
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await db.get(record._id);
+      sync.queueRecordSync({
+        db: "records",
+        type: "add",
+        object: recordFromDB,
+      });
 
-  const stagedRecord = await stagedDB.get(record._id);
-  removeStaged(stagedRecord._id, stagedRecord._rev);
+      const stagedRecord = await stagedDB.get(record._id);
+      removeStaged(stagedRecord._id, stagedRecord._rev);
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
+  }
 };
 
-export const addTest = async (test) => {
+export const addTest = async (test, skip_queue) => {
   try {
     await tests.put(test);
   } catch (error) {
@@ -195,19 +208,21 @@ export const addTest = async (test) => {
     return;
   }
 
-  try {
-    const recordFromDB = await tests.get(test._id);
-    sync.queueRecordSync({
-      db: "tests",
-      type: "add",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await tests.get(test._id);
+      sync.queueRecordSync({
+        db: "tests",
+        type: "add",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };
 
-export const addOrgan = async (organ) => {
+export const addOrgan = async (organ, skip_queue) => {
   const organObj = {
     _id: organ.toLowerCase(),
     organName: organ,
@@ -221,19 +236,21 @@ export const addOrgan = async (organ) => {
     return;
   }
 
-  try {
-    const recordFromDB = await templates.get(organObj._id);
-    sync.queueRecordSync({
-      db: "templates",
-      type: "add",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await templates.get(organObj._id);
+      sync.queueRecordSync({
+        db: "templates",
+        type: "add",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };
 
-export const addTemplate = async (organ, template) => {
+export const addTemplate = async (organ, template, skip_queue) => {
   const currentOrgan = await templates.get(organ);
 
   template._id = Math.random()
@@ -248,20 +265,22 @@ export const addTemplate = async (organ, template) => {
     return;
   }
 
-  try {
-    const recordFromDB = await templates.get(currentOrgan._id);
-    sync.queueRecordSync({
-      db: "templates",
-      type: "update",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await templates.get(currentOrgan._id);
+      sync.queueRecordSync({
+        db: "templates",
+        type: "update",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };
 
 // update functions
-export const updateStaged = async (record) => {
+export const updateStaged = async (record, skip_queue) => {
   const getRev = async (recordID) => {
     try {
       const oldRecord = await stagedDB.get(recordID);
@@ -280,19 +299,21 @@ export const updateStaged = async (record) => {
     console.log(error);
   }
 
-  try {
-    const recordFromDB = await stagedDB.get(record._id);
-    sync.queueRecordSync({
-      db: "staged",
-      type: "update",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await stagedDB.get(record._id);
+      sync.queueRecordSync({
+        db: "staged",
+        type: "update",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };
 
-export const updateRecord = async (record) => {
+export const updateRecord = async (record, skip_queue) => {
   const getRev = async (recordID) => {
     try {
       const oldRecord = await db.get(recordID);
@@ -305,25 +326,29 @@ export const updateRecord = async (record) => {
 
   record._rev = await getRev(record._id);
 
+  record.tests = JSON.parse(record.tests);
+
   try {
     await db.put(record);
   } catch (error) {
     console.log(error);
   }
 
-  try {
-    const recordFromDB = await db.get(record._id);
-    sync.queueRecordSync({
-      db: "records",
-      type: "update",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await db.get(record._id);
+      sync.queueRecordSync({
+        db: "records",
+        type: "update",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };
 
-export const updateTest = async (test) => {
+export const updateTest = async (test, skip_queue) => {
   const getRev = async (recordID) => {
     try {
       const oldRecord = await tests.get(recordID);
@@ -342,15 +367,17 @@ export const updateTest = async (test) => {
     console.log(error);
   }
 
-  try {
-    const recordFromDB = await tests.get(test._id);
-    sync.queueRecordSync({
-      db: "tests",
-      type: "update",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await tests.get(test._id);
+      sync.queueRecordSync({
+        db: "tests",
+        type: "update",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };
 
@@ -382,7 +409,17 @@ export const updateTemplate = async (organ, template) => {
 };
 
 // remove functions
-export const removeStaged = async (id_doc, rev) => {
+export const removeStaged = async (id_doc, rev, skip_queue) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await stagedDB.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
   let record;
 
   if (rev) {
@@ -401,21 +438,33 @@ export const removeStaged = async (id_doc, rev) => {
   } else {
     record = id_doc;
     try {
-      stagedDB.remove(id_doc);
+      stagedDB.remove(id_doc._id, await getRev(id_doc._id));
     } catch (e) {
       console.log(e);
       return;
     }
   }
 
-  sync.queueRecordSync({
-    db: "staged",
-    type: "remove",
-    object: record,
-  });
+  if (!skip_queue) {
+    sync.queueRecordSync({
+      db: "staged",
+      type: "remove",
+      object: record,
+    });
+  }
 };
 
-export const removeRecord = async (id_doc, rev) => {
+export const removeRecord = async (id_doc, rev, skip_queue) => {
+  const getRev = async (recordID) => {
+    try {
+      const oldRecord = await db.get(recordID);
+      return oldRecord._rev;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
   let record;
 
   if (rev) {
@@ -434,21 +483,23 @@ export const removeRecord = async (id_doc, rev) => {
   } else {
     record = id_doc;
     try {
-      db.remove(id_doc);
+      db.remove(id_doc._id, await getRev(id_doc._id));
     } catch (e) {
       console.log(e);
       return;
     }
   }
 
-  sync.queueRecordSync({
-    db: "records",
-    type: "remove",
-    object: record,
-  });
+  if (!skip_queue) {
+    sync.queueRecordSync({
+      db: "records",
+      type: "remove",
+      object: record,
+    });
+  }
 };
 
-export const removeTest = async (id) => {
+export const removeTest = async (id, skip_queue) => {
   try {
     let test = await tests.get(id);
     try {
@@ -458,11 +509,13 @@ export const removeTest = async (id) => {
       return;
     }
 
-    sync.queueRecordSync({
-      db: "tests",
-      type: "remove",
-      object: test,
-    });
+    if (!skip_queue) {
+      sync.queueRecordSync({
+        db: "tests",
+        type: "remove",
+        object: test,
+      });
+    }
   } catch (error) {
     console.log(error);
   }

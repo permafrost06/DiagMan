@@ -121,13 +121,17 @@ export default {
   props: {
     _id: String,
     patientName: String,
+    collDate: String,
     date: String,
+    contactNo: String,
+    gender: String,
     age: String,
     specimen: String,
     referer: String,
     aspNote: String,
     me: String,
     impression: String,
+    tests: Array,
   },
   data() {
     return {
@@ -152,7 +156,10 @@ export default {
       return {
         _id: this._id,
         patientName: this.patientName,
+        collDate: this.collDate,
         date: this.date,
+        contactNo: this.contactNo,
+        gender: this.gender,
         age: this.age,
         specimen: this.specimen,
         referer: this.referer,
@@ -185,7 +192,10 @@ export default {
     },
     updateRecord() {
       if (this.modified) {
-        this.$emit("record-updated", this.updatedRecord);
+        this.$emit("record-updated", {
+          ...this.updatedRecord,
+          tests: JSON.stringify(this.tests),
+        });
         this.modified = false;
         this.edit = false;
       } else {

@@ -27,7 +27,7 @@ export const queueRecordSync = async (syncObject) => {
         console.log("can't get sync queue", error);
       }
     } else {
-      console.log(e);
+      console.log("can't get sync queue", e);
     }
   }
 
@@ -36,7 +36,7 @@ export const queueRecordSync = async (syncObject) => {
   try {
     await syncDB.put(syncQueue);
   } catch (e) {
-    console.log(e);
+    console.log("error updating sync queue", e);
   }
 };
 
@@ -45,7 +45,7 @@ export const getSyncQueue = async () => {
     const queueDoc = await syncDB.get("syncQueue");
     return queueDoc.queue;
   } catch (e) {
-    console.log(e);
+    console.log("can't get sync queue", e);
   }
 };
 
@@ -56,27 +56,11 @@ export const dequeueItem = async () => {
     try {
       await syncDB.put(queueDoc);
     } catch (e) {
-      console.log(e);
+      console.log("dequeue failed", e);
     }
   } catch (e) {
-    console.log(e);
+    console.log("can't get sync queue", e);
   }
-};
-
-export const printDB = async () => {
-  syncDB.allDocs({ include_docs: true }).then((result) => {
-    for (let i = 0; i < result.rows.length; i++) {
-      console.log(result.rows[i].doc);
-    }
-  });
-};
-
-export const clearDB = () => {
-  syncDB.allDocs({ include_docs: true }).then((result) => {
-    for (let i = 0; i < result.rows.length; i++) {
-      syncDB.remove(result.rows[i].doc);
-    }
-  });
 };
 
 /**
@@ -125,46 +109,44 @@ const getArrayDelta = (o, n) => {
 };
 
 export const syncWithCloudData = async (data) => {
-  // console.log("data", data);
-  for (const dbName in data) {
-    let localData;
+  const stagedLocal = (await db.getStaged({})).map((doc) => {
+    // eslint-disable-next-line no-unused-vars
+    const { _rev, ...newDoc } = doc;
+    return newDoc;
+  });
+  const recordsLocal = (await db.getRecords({})).map((doc) => {
+    // eslint-disable-next-line no-unused-vars
+    const { _rev, ...newDoc } = doc;
+    return newDoc;
+  });
+  const testsLocal = (await db.getTests()).map((doc) => {
+    // eslint-disable-next-line no-unused-vars
+    const { _rev, ...newDoc } = doc;
+    return newDoc;
+  });
 
-    if (dbName == "staged") {
-      localData = await db.getStaged({});
-    } else if (dbName == "records") {
-      localData = await db.getRecords({});
-    } else if (dbName == "tests") {
-      localData = await db.getTests();
-    } else {
-      localData = await db.getTemplates();
-    }
+  const stagedDelta = getArrayDelta(stagedLocal, data.staged);
+  const recordsDelta = getArrayDelta(recordsLocal, data.records);
+  const testsDelta = getArrayDelta(testsLocal, data.tests);
+  // const templatesDelta = getArrayDelta(templatesLocal, data.templates);
 
-    localData = localData.map((doc) => {
-      // eslint-disable-next-line no-unused-vars
-      const { _rev, ...newDoc } = doc;
-      return newDoc;
-    });
+  stagedDelta.added.forEach(async (doc) => await db.addCloudStaged(doc, true));
+  stagedDelta.changed.forEach(async (doc) => await db.updateStaged(doc, true));
+  stagedDelta.deleted.forEach(
+    async (doc) => await db.removeStaged(doc, null, true)
+  );
 
-    // console.log("localdata", localData);
-    // console.log("cloud data", data[dbName]);
-    const delta = getArrayDelta(localData, data[dbName]);
-    console.log(delta);
+  recordsDelta.added.forEach(async (doc) => await db.addRecord(doc, true));
+  recordsDelta.changed.forEach(async (doc) => await db.updateRecord(doc, true));
+  recordsDelta.deleted.forEach(
+    async (doc) => await db.removeRecord(doc, null, true)
+  );
 
-    // delta["added"].forEach(async (doc) => {
-    //   switch (dbName) {
-    //     case "staged":
-    //       await db.addStaged(doc);
-    //       break;
-    //     case "records":
-    //       await db.addRecord(doc);
-    //       break;
-    //     case "tests":
-    //       await db.addTest(doc);
-    //       break;
-    //     case "templates":
-    //       await db.addTemplate(doc);
-    //       break;
-    //   }
-    // })
-  }
+  testsDelta.added.forEach(async (doc) => await db.addTest(doc, true));
+  testsDelta.changed.forEach(async (doc) => await db.updateTest(doc, true));
+  testsDelta.deleted.forEach(async (doc) => await db.removeTest(doc._id, true));
+
+  // templatesDelta.added.forEach(async (doc) => await db.addTemplate(doc, true));
+  // templatesDelta.changed.forEach(async (doc) => await db.updateTemplate(doc, true));
+  // templatesDelta.deleted.forEach(async (doc) => await db.removeTemplate(doc._id, true));
 };

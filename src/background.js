@@ -208,9 +208,9 @@ async function createWindow() {
     win.loadURL("app://./index.html");
   }
 
-  setTimeout(sendToFirebase, 1000 * 5); // call after 5 seconds
+  setTimeout(syncWithFirebase, 1000 * 5); // call after 5 seconds
 
-  setInterval(sendToFirebase, 1000 * 60); // call every minute
+  setInterval(syncWithFirebase, 1000 * 20); // call every minute
 }
 
 // Quit when all windows are closed.
@@ -242,6 +242,11 @@ if (isDevelopment) {
     });
   }
 }
+
+const syncWithFirebase = async () => {
+  await sendToFirebase();
+  win.webContents.send("get-from-firebase");
+};
 
 const sendToFirebase = async () => {
   const queue = await sync.getSyncQueue();
