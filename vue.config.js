@@ -5,6 +5,7 @@ module.exports = {
       preload: "src/preload.js",
       nodeIntegration: true,
       builderOptions: {
+        publish: ["github"],
         appId: "com.finalconcept.caseDB",
         nsis: {
           oneClick: false,

@@ -15,7 +15,9 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@firebase/storage": "^0.9.2",
     "core-js": "^3.6.5",
+    "electron-updater": "^4.6.1",
     "firebase": "^9.6.5",
     "lodash": "^4.17.21",
     "pouchdb": "^7.2.2",

@@ -1,5 +1,6 @@
 "use strict";
 import { app, protocol, BrowserWindow, Menu, dialog, shell } from "electron";
+import { autoUpdater } from "electron-updater";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
 import * as db from "./db.js";
@@ -206,6 +207,7 @@ async function createWindow() {
     createProtocol("app");
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
+    autoUpdater.checkForUpdatesAndNotify();
   }
 
   setTimeout(syncWithFirebase, 1000 * 5); // call after 5 seconds
