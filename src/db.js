@@ -200,6 +200,15 @@ export const addRecord = async (record, skip_queue) => {
   }
 };
 
+export const addCloudRecord = async (record) => {
+  try {
+    await db.put(record);
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+};
+
 export const addTest = async (test, skip_queue) => {
   try {
     await tests.put(test);

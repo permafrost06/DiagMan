@@ -136,7 +136,7 @@ export const syncWithCloudData = async (data) => {
     async (doc) => await db.removeStaged(doc, null, true)
   );
 
-  recordsDelta.added.forEach(async (doc) => await db.addRecord(doc, true));
+  recordsDelta.added.forEach(async (doc) => await db.addCloudRecord(doc, true));
   recordsDelta.changed.forEach(async (doc) => await db.updateRecord(doc, true));
   recordsDelta.deleted.forEach(
     async (doc) => await db.removeRecord(doc, null, true)
