@@ -16,7 +16,7 @@
       <span v-if="add">
         <input placeholder="Test ID" v-model="newTestid" />
         <input placeholder="Test Name" v-model="newTestName" />
-        <input placeholder="Test Cost" v-model="newTestCost" />
+        <input placeholder="Test Cost" type="number" v-model="newTestCost" />
         <button @click="addTestToDB">Add</button>
       </span>
       <button v-else @click="addTest">Add New Test</button>
@@ -36,7 +36,7 @@ export default {
       tests: [],
       newTestid: "",
       newTestName: "",
-      newTestCost: "",
+      newTestCost: 0,
     };
   },
   methods: {
@@ -56,11 +56,11 @@ export default {
       ipc.send("add-test", {
         _id: this.newTestid,
         name: this.newTestName,
-        cost: this.newTestCost,
+        cost: Number(this.newTestCost),
       });
       this.newTestid = "";
       this.newTestName = "";
-      this.newTestCost = "";
+      this.newTestCost = 0;
       this.add = false;
     },
   },
