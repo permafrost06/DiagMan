@@ -40,6 +40,9 @@
       </template>
     </datalist>
     <br />
+    Attach files
+    <input type="file" multiple ref="fileEl" />
+    <br />
     <div class="checkboxes">
       <div class="test-entry" v-for="test in tests" :key="test._id">
         <input
@@ -83,6 +86,10 @@ export default {
   },
   methods: {
     addToStaged(event) {
+      const fileList = [];
+      this.$refs.fileEl.files.forEach((file) => {
+        fileList.push(file.path);
+      });
       event.preventDefault();
       ipc.send("add-staged", {
         type: this.type,
@@ -95,6 +102,7 @@ export default {
         specimen: this.specimen,
         referer: this.referer,
         tests: JSON.stringify(this.selectedTests),
+        files: JSON.stringify(fileList),
       });
       this.$router.push({ name: "Pending" });
     },

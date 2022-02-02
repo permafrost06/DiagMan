@@ -1,5 +1,6 @@
 import { app } from "electron";
 import * as sync from "./sync.js";
+import { copyFile } from "fs/promises";
 
 var PouchDB = require("pouchdb-node");
 
@@ -144,6 +145,26 @@ export const addStaged = async (record, skip_queue) => {
       .padStart(2, "0");
 
   record.tests = JSON.parse(record.tests);
+  record.files = JSON.parse(record.files);
+
+  const newFiles = [];
+
+  for (let i = 0; i < record.files.length; i++) {
+    const newFile = `${app.getPath("userData")}/files/${record._id}-${String(
+      i
+    ).padStart(2, "0")}.${record.files[i].split(".").pop()}`;
+
+    newFiles.push(newFile);
+
+    try {
+      await copyFile(record.files[i], newFile);
+    } catch (e) {
+      console.log("file copying error", e);
+    }
+  }
+
+  record.files = newFiles;
+  console.log(record.files);
 
   try {
     await stagedDB.put(record);
@@ -176,6 +197,9 @@ export const addCloudStaged = async (record) => {
 };
 
 export const addRecord = async (record, skip_queue) => {
+  record.tests = JSON.parse(record.tests);
+  record.files = JSON.parse(record.files);
+
   try {
     await db.put(record);
   } catch (error) {

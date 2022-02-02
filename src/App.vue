@@ -46,22 +46,22 @@ export default {
       if (syncObject.type == "remove") {
         try {
           await deleteDoc(doc(db, syncObject.db, syncObject.object._id));
-          return true;
         } catch (e) {
           console.log(e);
           return false;
         }
+        return true;
       } else {
         try {
           await setDoc(
             doc(db, syncObject.db, syncObject.object._id),
             syncObject.object
           );
-          return true;
         } catch (e) {
           console.log(e);
           return false;
         }
+        return true;
       }
     };
 

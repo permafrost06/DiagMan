@@ -151,6 +151,8 @@ export default {
           contactNo: this.record.contactNo,
           referer: this.record.referer,
           specimen: this.record.specimen,
+          tests: JSON.stringify(this.record.tests),
+          files: JSON.stringify(this.record.files),
           aspNote: this.aspNote,
           me: this.me,
           impression: this.impression,
