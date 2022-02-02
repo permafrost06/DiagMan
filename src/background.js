@@ -6,7 +6,6 @@ import * as db from "./db.js";
 import * as dbDebug from "./db-debug.js";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 import * as sync from "./sync.js";
-import { existsSync, mkdirSync } from "fs";
 const { ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
@@ -244,8 +243,8 @@ if (isDevelopment) {
   }
 }
 
-if (!existsSync(`${app.getPath("userData")}/files`)) {
-  mkdirSync(`${app.getPath("userData")}/files`);
+if (!fs.existsSync(`${app.getPath("userData")}/files`)) {
+  fs.mkdirSync(`${app.getPath("userData")}/files`);
 }
 
 const syncWithFirebase = async () => {
