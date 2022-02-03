@@ -64,7 +64,7 @@
     </tbody>
   </table>
 
-  <button
+  <!-- <button
     style="width: auto; margin: 1rem; padding: .25rem 1rem;"
     @click="prevPage"
   >
@@ -75,7 +75,7 @@
     @click="nextPage"
   >
     Next
-  </button>
+  </button> -->
 </template>
 
 <script>
@@ -105,9 +105,7 @@ export default {
         options = ids;
       }
 
-      if (this.limit) {
-        options.limit = this.limit;
-      }
+      options.limit = null;
 
       this.records = ipc.sendSync("get-staged", options, {
         patientNameFilter: this.patientNameFilter,
@@ -168,16 +166,16 @@ export default {
       }
       this.updateData();
     },
-    nextPage() {
-      this.updateData({
-        lastID: this.records[this.records.length - 1]._id,
-      });
-    },
-    prevPage() {
-      this.updateData({
-        firstID: this.records[0]._id,
-      });
-    },
+    // nextPage() {
+    //   this.updateData({
+    //     lastID: this.records[this.records.length - 1]._id,
+    //   });
+    // },
+    // prevPage() {
+    //   this.updateData({
+    //     firstID: this.records[0]._id,
+    //   });
+    // },
   },
   computed: {
     cssVars() {
@@ -204,7 +202,6 @@ export default {
       refererFilter: "",
       selectedRecords: [],
       records: [],
-      limit: 10,
     };
   },
   beforeMount() {
