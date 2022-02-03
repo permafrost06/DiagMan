@@ -97,6 +97,7 @@ export default {
 @media print {
   div.page {
     margin: 10mm; /* Browser will apply the correct margins when it prints */
+    margin-top: 1.8in;
   }
 
   button {
