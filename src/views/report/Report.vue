@@ -51,9 +51,9 @@ export default {
   beforeMount() {
     this.record = ipc.sendSync("get-record", this.$route.params.id);
   },
-  mounted() {
-    this.print();
-  },
+  // mounted() {
+  //   this.print();
+  // },
 };
 </script>
 
