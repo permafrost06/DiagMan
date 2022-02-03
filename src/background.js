@@ -199,6 +199,12 @@ async function createWindow() {
             console.log(win.getSize());
           },
         },
+        {
+          label: "DevTools",
+          click() {
+            win.webContents.openDevTools();
+          },
+        },
       ],
     },
   ]);
