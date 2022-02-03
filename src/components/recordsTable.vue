@@ -56,8 +56,8 @@
           @record-selection="updateSelection"
         />
         <router-link :to="{ name: 'Report', params: { id: record._id } }">
-          <button class="invoice-button">
-            Invoice
+          <button class="report-button">
+            Report
           </button>
         </router-link>
       </tableRow>
@@ -334,7 +334,7 @@ table {
   );
 }
 
-.invoice-button {
+.report-button {
   margin-top: 1.4rem;
 }
 </style>
