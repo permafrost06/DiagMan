@@ -1,8 +1,10 @@
 <template>
+  <password v-show="locked" @unlocked="unlock" />
   <router-view />
 </template>
 
 <script>
+import password from "./components/password.vue";
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore/lite";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
@@ -20,6 +22,19 @@ const ipc = window.ipcRenderer;
 
 export default {
   name: "App",
+  components: {
+    password,
+  },
+  data() {
+    return {
+      locked: true,
+    };
+  },
+  methods: {
+    unlock() {
+      this.locked = false;
+    },
+  },
   beforeMount() {
     ipc.on("open-settings", () => {
       this.$router.push({ name: "Settings" });
