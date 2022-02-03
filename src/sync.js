@@ -64,6 +64,16 @@ export const dequeueItem = async () => {
   }
 };
 
+export const isQueueEmpty = async () => {
+  try {
+    const queueDoc = await syncDB.get("syncQueue");
+    if (queueDoc.queue.length > 0) return false;
+    else return true;
+  } catch (e) {
+    console.log("error getting syncQueue", e);
+  }
+};
+
 /**
  * Creates a map out of an array be choosing what property to key by
  * @param {object[]} array Array that will be converted into a map

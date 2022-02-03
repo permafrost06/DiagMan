@@ -271,8 +271,11 @@ const sendToFirebase = async () => {
   win.webContents.send("send-to-firebase", queue[0]);
 
   ipcMain.on("firebase-success", async () => {
-    await sync.dequeueItem();
-    await sendToFirebase();
+    win.webContents.send("db-updated");
+    if (!(await sync.isQueueEmpty())) {
+      await sync.dequeueItem();
+      await sendToFirebase();
+    }
   });
 };
 
