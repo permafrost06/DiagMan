@@ -306,7 +306,7 @@ ipcMain.on("add-record", async (event, data) => {
 
 ipcMain.on("add-staged", async (event, data) => {
   await db.addStaged(data);
-  win.webContents.send("db-update");
+  win.webContents.send("db-updated");
 });
 
 ipcMain.on("update-test", async (event, data) => {
@@ -316,12 +316,12 @@ ipcMain.on("update-test", async (event, data) => {
 
 ipcMain.on("delete-staged", async (event, data) => {
   await db.removeStaged(data._id, data._rev);
-  win.webContents.send("db-update");
+  win.webContents.send("db-updated");
 });
 
 ipcMain.on("delete-record", async (event, data) => {
   await db.removeRecord(data._id, data._rev);
-  win.webContents.send("db-update");
+  win.webContents.send("db-updated");
 });
 
 ipcMain.on("test-delete", async (event, data) => {
