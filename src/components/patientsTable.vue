@@ -1,5 +1,5 @@
 <template>
-  <h1 style="display:inline-block;margin: 1rem">Pending Patients | New version</h1>
+  <h1 style="display:inline-block;margin: 1rem">Pending Patients</h1>
   <router-link :to="{ name: 'AddRecord' }">
     <button style="width: auto; margin: 1rem; padding: .25rem 1rem;">
       Add Patient
