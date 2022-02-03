@@ -64,6 +64,22 @@ export const dequeueItem = async () => {
   }
 };
 
+export const printDB = async () => {
+  syncDB.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      console.log(result.rows[i].doc);
+    }
+  });
+};
+
+export const clearDB = () => {
+  syncDB.allDocs({ include_docs: true }).then((result) => {
+    for (let i = 0; i < result.rows.length; i++) {
+      syncDB.remove(result.rows[i].doc);
+    }
+  });
+};
+
 export const isQueueEmpty = async () => {
   try {
     const queueDoc = await syncDB.get("syncQueue");
