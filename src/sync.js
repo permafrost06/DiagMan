@@ -157,5 +157,5 @@ export const syncFiles = async () => {
   const filesArray = fs
     .readdirSync(path)
     .filter((file) => fs.lstatSync(path + file).isFile());
-  console.log(filesArray);
+  // console.log(filesArray);
 };
