@@ -5,6 +5,7 @@
 <script>
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore/lite";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 import {
   deleteDoc,
@@ -41,6 +42,7 @@ export default {
 
     const firebaseApp = initializeApp(firebaseConfig);
     const db = initializeFirestore(firebaseApp);
+    const storage = getStorage();
 
     const sendToFirebase = async (syncObject) => {
       if (syncObject.type == "remove") {
@@ -93,6 +95,13 @@ export default {
         allData[coll] = allDocs;
       }
       ipc.send("firebase-pull", allData);
+    });
+
+    ipc.on("send-blob", async (event, buffer) => {
+      const storageRef = ref(storage, "test.pdf");
+      uploadBytes(storageRef, buffer).then((snap) =>
+        console.log("array uploaded!", snap)
+      );
     });
   },
 };

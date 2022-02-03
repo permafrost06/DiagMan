@@ -2,6 +2,7 @@ import { app } from "electron";
 import * as db from "./db.js";
 var PouchDB = require("pouchdb-node");
 var _ = require("lodash");
+const fs = require("fs");
 
 var syncDB = new PouchDB(`${app.getPath("userData")}/syncs.db`);
 
@@ -149,4 +150,12 @@ export const syncWithCloudData = async (data) => {
   // templatesDelta.added.forEach(async (doc) => await db.addTemplate(doc, true));
   // templatesDelta.changed.forEach(async (doc) => await db.updateTemplate(doc, true));
   // templatesDelta.deleted.forEach(async (doc) => await db.removeTemplate(doc._id, true));
+};
+
+export const syncFiles = async () => {
+  const path = `${app.getPath("userData")}/files`;
+  const filesArray = fs
+    .readdirSync(path)
+    .filter((file) => fs.lstatSync(path + file).isFile());
+  console.log(filesArray);
 };

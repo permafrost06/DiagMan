@@ -171,6 +171,12 @@ async function createWindow() {
             win.webContents.send("get-from-firebase");
           },
         },
+        {
+          label: "create blob",
+          click: () => {
+            createBlob();
+          },
+        },
       ],
     },
     {
@@ -248,6 +254,11 @@ if (isDevelopment) {
 if (!fs.existsSync(`${app.getPath("userData")}/files`)) {
   fs.mkdirSync(`${app.getPath("userData")}/files`);
 }
+
+const createBlob = () => {
+  // win.webContents.send("send-blob", fs.readFileSync("d:/documents/report.pdf"));
+  sync.syncFiles();
+};
 
 const syncWithFirebase = async () => {
   await sendToFirebase();
