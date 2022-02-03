@@ -9,10 +9,10 @@
     Patient Name
     <input v-model="patientName" />
     <br />
-    Sample Collection Date
+    Specimen Collection Date
     <input type="date" v-model="collDate" />
     <br />
-    Sample Receiption Date
+    Specimen Receiving Date
     <input type="date" v-model="date" />
     <br />
     Age
@@ -40,6 +40,9 @@
       </template>
     </datalist>
     <br />
+    Delivery Date
+    <input type="date" v-model="deliveryDate" />
+    <br />
     Attach files
     <input type="file" multiple ref="fileEl" />
     <br />
@@ -57,6 +60,18 @@
       </div>
     </div>
     <br />
+    Subtotal: {{ subtotal }}
+    <br />
+    Discount
+    <input type="number" v-model="discount" />
+    <br />
+    Net Payable: {{ netPay }}
+    <br />
+    Advance paid
+    <input type="number" v-model="advance" />
+    <br />
+    Due: {{ due }}
+    <br />
     <button @click="addToStaged" style="width:8rem;">Add</button>
     <router-link to="/">
       <button style="width:8rem;">Cancel</button>
@@ -72,7 +87,7 @@ export default {
     return {
       type: "cyto",
       patientName: "",
-      collDate: null,
+      collDate: new Date().toISOString().split("T")[0],
       date: new Date().toISOString().split("T")[0],
       age: "",
       gender: "default",
@@ -82,7 +97,31 @@ export default {
       tests: [],
       selectedTests: [],
       doctorList: [],
+      deliveryDate: new Date(
+        Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 6
+      )
+        .toISOString()
+        .split("T")[0],
+      discount: 0,
+      advance: 0,
     };
+  },
+  computed: {
+    subtotal() {
+      let total = 0;
+      for (let test in this.selectedTests) {
+        const testid = this.selectedTests[test];
+        const testObj = this.tests.filter((t) => t._id == testid);
+        total += testObj[0].cost;
+      }
+      return total;
+    },
+    netPay() {
+      return this.subtotal - this.discount;
+    },
+    due() {
+      return this.netPay - this.advance;
+    },
   },
   methods: {
     addToStaged(event) {
@@ -101,8 +140,14 @@ export default {
         contactNo: this.contactNo,
         specimen: this.specimen,
         referer: this.referer,
+        deliveryDate: this.deliveryDate,
         tests: JSON.stringify(this.selectedTests),
         files: JSON.stringify(fileList),
+        subtotal: this.subtotal,
+        discount: this.discount,
+        netPay: this.netPay,
+        advance: this.advance,
+        due: this.due,
       });
       this.$router.push({ name: "Pending" });
     },

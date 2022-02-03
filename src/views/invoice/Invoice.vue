@@ -24,7 +24,7 @@
         <p class="capital">{{ record.gender }}</p>
       </div>
       <div class="box">
-        <div><span class="left">Specimen</span>: Submental lymph node</div>
+        <div><span class="left">Specimen</span>: {{ record.specimen }}</div>
         <div>Collection Date: {{ record.collDate }}</div>
       </div>
       <div><span class="left">Referred by</span>: {{ record.referer }}</div>
@@ -32,7 +32,7 @@
         <span class="left">Receiving Date</span>: {{ record.date }}
       </div>
       <div class="bold">
-        <span class="left">Delivery Date</span>: 2022-02-09
+        <span class="left">Delivery Date</span>: {{ record.deliveryDate }}
       </div>
       <table class="invoice-table">
         <thead>
@@ -54,48 +54,37 @@
             <td></td>
             <td></td>
             <td class="right">
-              <!-- Sub total: <span class="spaced">{{ testTotalCost }}</span> -->
-              Sub total: <span class="spaced">1300</span>
+              Sub total: <span class="spaced">{{ record.subtotal }}</span>
             </td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td class="right">
-              Discount: <span class="spaced">{{ 200 }}</span>
+              Discount: <span class="spaced">{{ record.discount }}</span>
             </td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td class="right">
-              Net Payable: <span class="spaced">{{ 1100 }}</span>
+              Net Payable: <span class="spaced">{{ record.netPay }}</span>
             </td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td class="right">
-              Advance: <span class="spaced">{{ 500 }}</span>
+              Advance: <span class="spaced">{{ record.advance }}</span>
             </td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td class="right">
-              Due: <span class="spaced">{{ 600 }}</span>
+              Due: <span class="spaced">{{ record.due }}</span>
             </td>
           </tr>
-          <!-- <tr>
-            <td></td>
-            <td></td>
-            <td class="right">Discount: <span class="spaced">0</span></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td class="right">Net payable: <span class="spaced">450</span></td>
-          </tr> -->
         </tfoot>
       </table>
     </div>
@@ -117,15 +106,6 @@ export default {
       return this.allTests.filter(
         (test) => this.record.tests.indexOf(test._id) >= 0
       );
-    },
-    testTotalCost() {
-      var total = 0;
-
-      this.tests.forEach((test) => {
-        total += test.cost;
-      });
-
-      return total;
     },
   },
   methods: {
