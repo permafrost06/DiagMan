@@ -11,15 +11,29 @@
       <div>Money Receipt</div>
       <div class="box bold">
         <div><span class="left">ID No</span>: {{ record._id }}</div>
-        <div>Date: {{ record.date }}</div>
       </div>
-      <div><span class="left">Name</span>: {{ record.patientName }}</div>
+      <div>
+        <span class="left">Patient Name</span>: {{ record.patientName }}
+      </div>
       <div class="box">
         <div><span class="left">Age</span>: {{ record.age }}</div>
         <div>Contact No: {{ record.contactNo }}</div>
       </div>
-      <div><span class="left">Gender</span>: {{ record.gender }}</div>
+      <div>
+        <span class="left">Gender</span>:
+        <p class="capital">{{ record.gender }}</p>
+      </div>
+      <div class="box">
+        <div><span class="left">Specimen</span>: Submental lymph node</div>
+        <div>Collection Date: {{ record.collDate }}</div>
+      </div>
       <div><span class="left">Referred by</span>: {{ record.referer }}</div>
+      <div class="gap-top bold">
+        <span class="left">Receiving Date</span>: {{ record.date }}
+      </div>
+      <div class="bold">
+        <span class="left">Delivery Date</span>: 2022-02-09
+      </div>
       <table class="invoice-table">
         <thead>
           <tr>
@@ -40,7 +54,36 @@
             <td></td>
             <td></td>
             <td class="right">
-              Sub total: <span class="spaced">{{ testTotalCost }}</span>
+              <!-- Sub total: <span class="spaced">{{ testTotalCost }}</span> -->
+              Sub total: <span class="spaced">1300</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="right">
+              Discount: <span class="spaced">{{ 200 }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="right">
+              Net Payable: <span class="spaced">{{ 1100 }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="right">
+              Advance: <span class="spaced">{{ 500 }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="right">
+              Due: <span class="spaced">{{ 600 }}</span>
             </td>
           </tr>
           <!-- <tr>
@@ -102,15 +145,13 @@ export default {
 
 <style lang="scss" scoped>
 .report {
-  height: 145mm;
-  // width: 100mm;
-  // height: 210mm; /* DIN A4 standard paper size */
+  height: 210mm;
   width: 297mm;
 }
 
 .page {
   font-family: "Calibri";
-  line-height: 1.2rem;
+  line-height: 1.6rem;
 
   margin: 0;
   /* you don't really have to explicitly set it to 0 unless it's already set to something else */
@@ -119,11 +160,11 @@ export default {
     text-align: center;
     text-transform: uppercase;
     text-decoration: underline;
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-bottom: 1.5rem;
   }
 
-  font-size: 1rem;
+  font-size: 1.25rem;
 }
 
 .bold {
@@ -132,7 +173,7 @@ export default {
 
 .left {
   display: inline-block;
-  width: 5rem;
+  width: 9rem;
 }
 
 .right {
@@ -146,14 +187,14 @@ export default {
 
 @media screen {
   div.page {
-    margin: 10mm 3in 0 3in; /* Browser will apply the correct margins when it prints */
+    margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
     // margin: 1in 1in 1.2in 1in; /* printers usually have a bigger bottom margin*/
   }
 }
 
 @media print {
   div.page {
-    margin: 10mm 3in 0 3in; /* Browser will apply the correct margins when it prints */
+    margin: 30mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
     // margin-top: 1.8in;
   }
 
@@ -184,7 +225,7 @@ h3 {
 
 .spaced {
   display: inline-block;
-  width: 5rem;
+  width: 3rem;
 }
 
 .invoice-table {
@@ -215,7 +256,7 @@ h3 {
   }
 
   .col-1 {
-    width: 5rem;
+    width: 15rem;
   }
 
   .col-2 {
@@ -224,6 +265,17 @@ h3 {
 
   .col-3 {
     width: 20rem;
+  }
+}
+
+.gap-top {
+  margin-top: 0.5rem;
+}
+
+.capital {
+  display: inline-block;
+  &::first-letter {
+    text-transform: capitalize;
   }
 }
 </style>
