@@ -25,14 +25,15 @@
       </div>
       <div class="box">
         <div><span class="left">Specimen</span>: {{ record.specimen }}</div>
-        <div>Collection Date: {{ record.collDate }}</div>
+        <div>Collection Date: {{ dateRearr(record.collDate) }}</div>
       </div>
       <div><span class="left">Referred by</span>: {{ record.referer }}</div>
       <div class="gap-top bold">
-        <span class="left">Receiving Date</span>: {{ record.date }}
+        <span class="left">Receiving Date</span>: {{ dateRearr(record.date) }}
       </div>
       <div class="bold">
-        <span class="left">Delivery Date</span>: {{ record.deliveryDate }}
+        <span class="left">Delivery Date</span>:
+        {{ dateRearr(record.deliveryDate) }}
       </div>
       <table class="invoice-table">
         <thead>
@@ -109,6 +110,10 @@ export default {
     },
   },
   methods: {
+    dateRearr(date) {
+      const dateArr = date.split("-");
+      return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
+    },
     print() {
       window.print();
     },

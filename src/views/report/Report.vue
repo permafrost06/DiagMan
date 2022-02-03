@@ -12,8 +12,8 @@
       <div class="box">
         <div>
           <div class="bold">ID No: {{ record._id }}</div>
-          <div>Collected: {{ record.collDate }}</div>
-          <div>Received: {{ record.date }}</div>
+          <div>Collected: {{ dateRearr(record.collDate) }}</div>
+          <div>Received: {{ dateRearr(record.date) }}</div>
         </div>
         <div class="right">
           <div class="bold">Patient: {{ record.patientName }}</div>
@@ -48,6 +48,10 @@ export default {
     };
   },
   methods: {
+    dateRearr(date) {
+      const dateArr = date.split("-");
+      return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
+    },
     print() {
       window.print();
     },

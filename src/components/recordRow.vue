@@ -12,7 +12,7 @@
     <small>{{ _id }}</small>
   </tableField>
   <tableField>
-    {{ readableDate }}
+    {{ dateRearr(date) }}
   </tableField>
   <tableField>
     {{ age }}
@@ -78,11 +78,12 @@ export default {
         ? this.impression.slice(0, 50) + "..."
         : this.impression;
     },
-    readableDate() {
-      return this.date;
-    },
   },
   methods: {
+    dateRearr(date) {
+      const dateArr = date.split("-");
+      return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
+    },
     handleSelection() {
       if (this.selected) {
         this.$emit("record-selection", {
