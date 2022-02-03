@@ -32,6 +32,8 @@
       {{ record.aspNote }}
       <h3>M/E:</h3>
       {{ record.me }}
+      <h3>Note:</h3>
+      {{ record.note }}
     </div>
   </div>
 </template>

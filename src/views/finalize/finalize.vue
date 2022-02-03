@@ -93,6 +93,10 @@
       <span class="bold">Impression</span>
       <textarea v-model="impression" />
     </p>
+    <p>
+      <span class="bold">Note</span>
+      <textarea v-model="note" />
+    </p>
     <button @click="addRecord" style="width:8rem;">Add</button>
     <router-link :to="{ name: 'Pending' }">
       <button style="width:8rem;">Cancel</button>
@@ -109,6 +113,7 @@ export default {
       aspNote: "",
       me: "",
       impression: "",
+      note: "",
       record: {},
       organ: "",
       templates: [],
@@ -157,6 +162,7 @@ export default {
           aspNote: this.aspNote,
           me: this.me,
           impression: this.impression,
+          note: this.note,
         });
       this.$router.push({ name: "Report", params: { id: this.record._id } });
     },
