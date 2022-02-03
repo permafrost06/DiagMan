@@ -205,6 +205,10 @@ async function createWindow() {
 
   Menu.setApplicationMenu(menu);
 
+  setTimeout(syncWithFirebase, 1000 * 5); // call after 5 seconds
+
+  setInterval(syncWithFirebase, 1000 * 20); // call every minute
+
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
@@ -215,10 +219,6 @@ async function createWindow() {
     win.loadURL("app://./index.html");
     autoUpdater.checkForUpdatesAndNotify();
   }
-
-  setTimeout(syncWithFirebase, 1000 * 5); // call after 5 seconds
-
-  setInterval(syncWithFirebase, 1000 * 20); // call every minute
 }
 
 // Quit when all windows are closed.
@@ -279,8 +279,9 @@ const sendToFirebase = async () => {
   });
 };
 
-ipcMain.on("firebase-pull", (event, data) => {
-  sync.syncWithCloudData(data);
+ipcMain.on("firebase-pull", async (event, data) => {
+  await sync.syncWithCloudData(data);
+  win.webContents.send("db-updated");
 });
 
 ipcMain.on("get-width", (event) => {
