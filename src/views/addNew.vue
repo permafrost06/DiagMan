@@ -126,9 +126,9 @@ export default {
   methods: {
     addToStaged(event) {
       const fileList = [];
-      this.$refs.fileEl.files.forEach((file) => {
-        fileList.push(file.path);
-      });
+      for (let i = 0; i < this.$refs.fileEl.files.length; i++) {
+        fileList.push(this.$refs.fileEl.files[i].path);
+      }
       event.preventDefault();
       ipc.send("add-staged", {
         type: this.type,
