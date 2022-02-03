@@ -13,6 +13,7 @@
           @test-delete="deleteTest"
         />
       </ul>
+      <br />
       <span v-if="add">
         <input placeholder="Test ID" v-model="newTestid" />
         <input placeholder="Test Name" v-model="newTestName" />
