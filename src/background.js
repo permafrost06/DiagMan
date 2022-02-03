@@ -211,9 +211,7 @@ async function createWindow() {
 
   Menu.setApplicationMenu(menu);
 
-  setTimeout(syncWithFirebase, 1000 * 5); // call after 5 seconds
-
-  setInterval(syncWithFirebase, 1000 * 20); // call every minute
+  setInterval(syncWithFirebase, 1000 * 5); // call every five seconds
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
