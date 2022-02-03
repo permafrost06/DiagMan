@@ -52,9 +52,14 @@
       <tableRow v-for="record in records" :key="record._id">
         <recordRow
           v-bind="record"
-          @record-updated="updateRecord"
+          @delete="deleteRecord"
           @record-selection="updateSelection"
         />
+        <router-link :to="{ name: 'Report', params: { id: record._id } }">
+          <button class="invoice-button">
+            Invoice
+          </button>
+        </router-link>
       </tableRow>
     </tbody>
   </table>
@@ -135,6 +140,9 @@ export default {
       this.exportRecords();
       this.selectedRecords = currentSelection;
     },
+    deleteRecord(data) {
+      ipc.send("delete-record", data);
+    },
     exportRecords() {
       ipc.send("export", JSON.stringify(this.selectedRecords));
     },
@@ -146,9 +154,6 @@ export default {
           (record) => record !== data.record_id
         );
       }
-    },
-    updateRecord(data) {
-      ipc.send("record-update", data);
     },
     search(data) {
       const cat = data.cat;
@@ -216,6 +221,7 @@ export default {
         "--col8w": this.clientWidth * 0.2 + "px",
         "--col9w": this.clientWidth * 0.2 + "px",
         "--col10w": this.clientWidth * 0.05 + "px",
+        "--col11w": this.clientWidth * 0.05 + "px",
       };
     },
   },
@@ -310,6 +316,10 @@ table th:nth-of-type(10),
 table td:nth-of-type(10) {
   width: var(--col10w);
 }
+table th:nth-of-type(11),
+table td:nth-of-type(11) {
+  width: var(--col11w);
+}
 
 table {
   max-width: 72rem;
@@ -319,7 +329,12 @@ table {
   table-layout: fixed;
   width: calc(
     var(--col1w) + var(--col2w) + var(--col3w) + var(--col4w) + var(--col5w) +
-      var(--col6w) + var(--col7w) + var(--col8w) + var(--col9w) + var(--col10w)
+      var(--col6w) + var(--col7w) + var(--col8w) + var(--col9w) + var(--col10w) +
+      var(--col11w)
   );
+}
+
+.invoice-button {
+  margin-top: 1.4rem;
 }
 </style>

@@ -314,6 +314,16 @@ ipcMain.on("update-test", async (event, data) => {
   win.webContents.send("db-update");
 });
 
+ipcMain.on("delete-staged", async (event, data) => {
+  await db.removeStaged(data._id, data._rev);
+  win.webContents.send("db-update");
+});
+
+ipcMain.on("delete-record", async (event, data) => {
+  await db.removeRecord(data._id, data._rev);
+  win.webContents.send("db-update");
+});
+
 ipcMain.on("test-delete", async (event, data) => {
   await db.removeTest(data);
   win.webContents.send("db-update");

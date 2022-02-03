@@ -44,8 +44,8 @@
       <tableRow v-for="record in records" :key="record._id">
         <recordRow
           v-bind="record"
-          @record-updated="updateStaged"
           @record-selection="updateSelection"
+          @delete="deleteStaged"
         >
           <router-link :to="{ name: 'Invoice', params: { id: record._id } }">
             <button>
@@ -133,8 +133,8 @@ export default {
         );
       }
     },
-    updateStaged(data) {
-      ipc.send("update-staged", data);
+    deleteStaged(data) {
+      ipc.send("delete-staged", data);
     },
     search(data) {
       const cat = data.cat;
