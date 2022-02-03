@@ -6,7 +6,8 @@
   <div class="report">
     <div class="page">
       <header>
-        <h1>Histopathology Report</h1>
+        <h1 v-if="record.type === 'histo'">Histopathology Report</h1>
+        <h1 v-else>Cytopathology Report</h1>
       </header>
       <div class="box">
         <div>
@@ -26,7 +27,8 @@
       {{ record.impression }}
       <h3>Specimen</h3>
       {{ record.specimen }}
-      <h3>Aspiration Note:</h3>
+      <h3 v-if="record.type === 'histo'">Gross Examination:</h3>
+      <h3 v-else>Aspiration Note:</h3>
       {{ record.aspNote }}
       <h3>M/E:</h3>
       {{ record.me }}

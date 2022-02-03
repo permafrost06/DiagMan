@@ -143,6 +143,7 @@ export default {
       if (this.aspNote && this.me && this.impression)
         ipc.send("add-record", {
           _id: this.record._id,
+          type: this.record.type,
           collDate: this.record.collDate,
           date: this.record.date,
           patientName: this.record.patientName,
