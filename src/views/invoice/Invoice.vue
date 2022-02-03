@@ -16,9 +16,9 @@
       <div><span class="left">Name</span>: {{ record.patientName }}</div>
       <div class="box">
         <div><span class="left">Age</span>: {{ record.age }}</div>
-        <div>Gender: {{ record.gender }}</div>
         <div>Contact No: {{ record.contactNo }}</div>
       </div>
+      <div><span class="left">Gender</span>: {{ record.gender }}</div>
       <div><span class="left">Referred by</span>: {{ record.referer }}</div>
       <table class="invoice-table">
         <thead>
@@ -102,13 +102,15 @@ export default {
 
 <style lang="scss" scoped>
 .report {
-  height: 210mm; /* DIN A4 standard paper size */
+  height: 145mm;
+  // width: 100mm;
+  // height: 210mm; /* DIN A4 standard paper size */
   width: 297mm;
 }
 
 .page {
   font-family: "Calibri";
-  line-height: 2.5rem;
+  line-height: 1.2rem;
 
   margin: 0;
   /* you don't really have to explicitly set it to 0 unless it's already set to something else */
@@ -117,11 +119,11 @@ export default {
     text-align: center;
     text-transform: uppercase;
     text-decoration: underline;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
   }
 
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .bold {
@@ -130,7 +132,7 @@ export default {
 
 .left {
   display: inline-block;
-  width: 8rem;
+  width: 5rem;
 }
 
 .right {
@@ -144,14 +146,15 @@ export default {
 
 @media screen {
   div.page {
-    margin: 1in 1in 1.2in 1in; /* printers usually have a bigger bottom margin*/
+    margin: 10mm 3in 0 3in; /* Browser will apply the correct margins when it prints */
+    // margin: 1in 1in 1.2in 1in; /* printers usually have a bigger bottom margin*/
   }
 }
 
 @media print {
   div.page {
-    margin: 10mm; /* Browser will apply the correct margins when it prints */
-    margin-top: 1.8in;
+    margin: 10mm 3in 0 3in; /* Browser will apply the correct margins when it prints */
+    // margin-top: 1.8in;
   }
 
   button {
@@ -198,7 +201,7 @@ h3 {
   }
 
   th {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 800;
     text-align: left;
   }
