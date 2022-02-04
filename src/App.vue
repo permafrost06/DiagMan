@@ -100,6 +100,7 @@ export default {
       if (await sendToFirebase(syncObject)) {
         ipc.send("firebase-success");
       }
+      // try to catch error here and send some other ipc message to return function
     });
 
     ipc.on("get-from-firebase", async () => {

@@ -78,6 +78,12 @@ async function createWindow() {
             app.quit();
           },
         },
+        {
+          label: "Sync with cloud",
+          click() {
+            syncWithFirebase();
+          },
+        },
       ],
     },
     {
@@ -211,7 +217,7 @@ async function createWindow() {
 
   Menu.setApplicationMenu(menu);
 
-  setInterval(syncWithFirebase, 1000 * 5); // call every five seconds
+  // setInterval(syncWithFirebase, 1000 * 5); // call every five seconds
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -273,15 +279,12 @@ const sendToFirebase = async () => {
   const queue = await sync.getSyncQueue();
   if (queue.length < 1) return;
   win.webContents.send("send-to-firebase", queue[0]);
-
-  ipcMain.on("firebase-success", async () => {
-    win.webContents.send("db-updated");
-    if (!(await sync.isQueueEmpty())) {
-      await sync.dequeueItem();
-      await sendToFirebase();
-    }
-  });
 };
+
+ipcMain.on("firebase-success", async () => {
+  await sync.dequeueItem();
+  await sendToFirebase();
+});
 
 ipcMain.on("firebase-pull", async (event, data) => {
   await sync.syncWithCloudData(data);
