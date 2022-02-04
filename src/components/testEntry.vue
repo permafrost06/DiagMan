@@ -37,7 +37,7 @@ export default {
       this.$emit("test-update", {
         _id: this._id,
         name: this.newName,
-        cost: this.newCost,
+        cost: Number(this.newCost),
       });
       this.edit = false;
     },
