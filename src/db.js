@@ -283,6 +283,18 @@ export const addOrgan = async (organ, skip_queue) => {
   }
 };
 
+export const addCloudTemplate = async (organ, template) => {
+  const currentOrgan = await templates.get(organ);
+
+  currentOrgan.templates.push(template);
+
+  try {
+    templates.put(currentOrgan);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addTemplate = async (organ, template, skip_queue) => {
   const currentOrgan = await templates.get(organ);
 
@@ -554,7 +566,7 @@ export const removeTest = async (id, skip_queue) => {
   }
 };
 
-export const removeTemplate = async (organ, templateID) => {
+export const removeTemplate = async (organ, templateID, skip_queue) => {
   const currentOrgan = await templates.get(organ);
 
   currentOrgan.templates = currentOrgan.templates.filter((temp) => {
@@ -568,14 +580,16 @@ export const removeTemplate = async (organ, templateID) => {
     return;
   }
 
-  try {
-    const recordFromDB = await templates.get(currentOrgan._id);
-    sync.queueRecordSync({
-      db: "templates",
-      type: "update",
-      object: recordFromDB,
-    });
-  } catch (e) {
-    console.log("Adding to sync queue falied", e);
+  if (!skip_queue) {
+    try {
+      const recordFromDB = await templates.get(currentOrgan._id);
+      sync.queueRecordSync({
+        db: "templates",
+        type: "update",
+        object: recordFromDB,
+      });
+    } catch (e) {
+      console.log("Adding to sync queue falied", e);
+    }
   }
 };

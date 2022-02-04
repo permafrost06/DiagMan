@@ -155,7 +155,6 @@ export const syncWithCloudData = async (data) => {
   const stagedDelta = getArrayDelta(stagedLocal, data.staged);
   const recordsDelta = getArrayDelta(recordsLocal, data.records);
   const testsDelta = getArrayDelta(testsLocal, data.tests);
-  // const templatesDelta = getArrayDelta(templatesLocal, data.templates);
 
   stagedDelta.added.forEach(async (doc) => await db.addCloudStaged(doc, true));
   stagedDelta.changed.forEach(async (doc) => await db.updateStaged(doc, true));
@@ -173,9 +172,34 @@ export const syncWithCloudData = async (data) => {
   testsDelta.changed.forEach(async (doc) => await db.updateTest(doc, true));
   testsDelta.deleted.forEach(async (doc) => await db.removeTest(doc._id, true));
 
-  // templatesDelta.added.forEach(async (doc) => await db.addTemplate(doc, true));
-  // templatesDelta.changed.forEach(async (doc) => await db.updateTemplate(doc, true));
-  // templatesDelta.deleted.forEach(async (doc) => await db.removeTemplate(doc._id, true));
+  const templatesLocal = (await db.getTemplates()).map((doc) => {
+    // eslint-disable-next-line no-unused-vars
+    const { _rev, ...newDoc } = doc;
+    return newDoc;
+  });
+  const templatesLocalMap = mapFromArray(templatesLocal, "_id");
+  const templatesCloudMap = mapFromArray(data.templates, "_id");
+
+  for (let organ in templatesCloudMap) {
+    if (!templatesLocalMap[organ]) {
+      db.addOrgan(organ, true);
+    }
+
+    const templatesDelta = getArrayDelta(
+      templatesLocalMap[organ].templates,
+      templatesCloudMap[organ].templates
+    );
+
+    templatesDelta.added.forEach(
+      async (doc) => await db.addCloudTemplate(organ, doc, true)
+    );
+    templatesDelta.changed.forEach(
+      async (doc) => await db.updateTemplate(organ, doc, true)
+    );
+    templatesDelta.deleted.forEach(
+      async (doc) => await db.removeTemplate(organ, doc._id)
+    );
+  }
 };
 
 export const syncFiles = async () => {
