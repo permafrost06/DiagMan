@@ -7,6 +7,7 @@
         @keydown.enter="verifyPassword"
         type="password"
         v-model="password"
+        ref="passField"
       />
       <p v-show="warning" class="warning">Wrong password!</p>
       <button @click="verifyPassword">Unlock</button>
@@ -34,6 +35,9 @@ export default {
     hideWarn() {
       this.warning = false;
     },
+  },
+  mounted() {
+    this.$refs.passField.focus();
   },
 };
 </script>
