@@ -5,13 +5,6 @@
       Add Patient
     </button>
   </router-link>
-  <button
-    class="left"
-    @click="startSync"
-    style="width: auto; margin: 1rem; padding: .25rem 1rem; position: absolute; top: 0; right: 0"
-  >
-    Sync
-  </button>
   <table :style="cssVars">
     <thead>
       <tableRow>
