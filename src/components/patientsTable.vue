@@ -19,23 +19,23 @@
         </tableHeader>
         <tableHeader>
           <div>Patient Name</div>
-          <categorySearch catName="patientName" @cat-search="search" />
+          <!-- <categorySearch catName="patientName" @cat-search="search" /> -->
         </tableHeader>
         <tableHeader>
           <div>Date</div>
-          <categorySearch catName="date" @cat-search="search" />
+          <!-- <categorySearch catName="date" @cat-search="search" /> -->
         </tableHeader>
         <tableHeader>
           <div>Age</div>
-          <categorySearch catName="age" @cat-search="search" />
+          <!-- <categorySearch catName="age" @cat-search="search" /> -->
         </tableHeader>
         <tableHeader>
           <div>Specimen</div>
-          <categorySearch catName="specimen" @cat-search="search" />
+          <!-- <categorySearch catName="specimen" @cat-search="search" /> -->
         </tableHeader>
         <tableHeader>
           <div>Referer</div>
-          <categorySearch catName="referer" @cat-search="search" />
+          <!-- <categorySearch catName="referer" @cat-search="search" /> -->
         </tableHeader>
         <tableHeader />
       </tableRow>
@@ -81,7 +81,7 @@
 <script>
 import tableRow from "./tableRow.vue";
 import tableHeader from "./tableHeader.vue";
-import categorySearch from "./categorySearch.vue";
+// import categorySearch from "./categorySearch.vue";
 import recordRow from "./recordRow.vue";
 
 const ipc = window.ipcRenderer;
@@ -90,7 +90,7 @@ export default {
   name: "recordsTable",
   components: {
     tableHeader,
-    categorySearch,
+    // categorySearch,
     tableRow,
     recordRow,
   },
@@ -136,36 +136,39 @@ export default {
     deleteStaged(data) {
       ipc.send("delete-staged", data);
     },
-    search(data) {
-      const cat = data.cat;
-      const value = data.value;
-
-      switch (cat) {
-        case "patientName":
-          this.patientNameFilter = value;
-          break;
-
-        case "date":
-          this.dateFilter = value;
-          break;
-
-        case "age":
-          this.ageFilter = value;
-          break;
-
-        case "specimen":
-          this.specimenFilter = value;
-          break;
-
-        case "referer":
-          this.refererFilter = value;
-          break;
-
-        default:
-          break;
-      }
-      this.updateData();
+    startSync() {
+      ipc.send("start-sync");
     },
+    // search(data) {
+    //   const cat = data.cat;
+    //   const value = data.value;
+
+    //   switch (cat) {
+    //     case "patientName":
+    //       this.patientNameFilter = value;
+    //       break;
+
+    //     case "date":
+    //       this.dateFilter = value;
+    //       break;
+
+    //     case "age":
+    //       this.ageFilter = value;
+    //       break;
+
+    //     case "specimen":
+    //       this.specimenFilter = value;
+    //       break;
+
+    //     case "referer":
+    //       this.refererFilter = value;
+    //       break;
+
+    //     default:
+    //       break;
+    //   }
+    //   this.updateData();
+    // },
     // nextPage() {
     //   this.updateData({
     //     lastID: this.records[this.records.length - 1]._id,
@@ -288,5 +291,9 @@ table {
     var(--col1w) + var(--col2w) + var(--col3w) + var(--col4w) + var(--col5w) +
       var(--col6w) + var(--col7w) + var(--col8w)
   );
+
+  thead {
+    border-bottom: 2px solid #c0c0c080;
+  }
 }
 </style>
