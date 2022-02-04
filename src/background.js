@@ -303,11 +303,9 @@ ipcMain.on("add-test", async (event, data) => {
 });
 
 ipcMain.on("add-record", async (event, data) => {
-  try {
-    db.addRecord(data);
-  } catch (error) {
-    console.log(error);
-  }
+  await db.addRecord(data);
+
+  win.webContents.send("db-updated");
 });
 
 ipcMain.on("add-staged", async (event, data) => {
