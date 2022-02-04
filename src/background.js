@@ -73,15 +73,15 @@ async function createWindow() {
       label: "File",
       submenu: [
         {
-          label: "Exit",
-          click() {
-            app.quit();
-          },
-        },
-        {
           label: "Sync with cloud",
           click() {
             syncWithFirebase();
+          },
+        },
+        {
+          label: "Exit",
+          click() {
+            app.quit();
           },
         },
       ],
@@ -271,19 +271,17 @@ const createBlob = () => {
 };
 
 const syncWithFirebase = async () => {
-  await sendToFirebase();
-  win.webContents.send("get-from-firebase");
-};
-
-const sendToFirebase = async () => {
   const queue = await sync.getSyncQueue();
-  if (queue.length < 1) return;
+  if (queue.length < 1) {
+    win.webContents.send("get-from-firebase");
+    return;
+  }
   win.webContents.send("send-to-firebase", queue[0]);
 };
 
 ipcMain.on("firebase-success", async () => {
   await sync.dequeueItem();
-  await sendToFirebase();
+  await syncWithFirebase();
 });
 
 ipcMain.on("firebase-pull", async (event, data) => {
