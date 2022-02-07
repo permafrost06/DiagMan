@@ -290,7 +290,7 @@ ipcMain.on("firebase-success", async () => {
 
 ipcMain.on("firebase-pull", async (event, data) => {
   await sync.syncWithCloudData(data);
-  win.webContents.send("db-updated");
+  win.webContents.send("sync-complete");
 });
 
 ipcMain.on("get-width", (event) => {
