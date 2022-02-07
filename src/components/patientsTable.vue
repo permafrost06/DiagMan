@@ -7,8 +7,8 @@
     >
       Add Patient
     </button>
-    <template v-if="syncing">Syncing. Please wait...</template>
   </router-link>
+  <template v-if="syncing">Syncing. Please wait...</template>
   <table :style="cssVars">
     <thead>
       <tableRow>
