@@ -136,8 +136,29 @@ export default {
     deleteStaged(data) {
       ipc.send("delete-staged", data);
     },
-    startSync() {
+    async connectedToInternet() {
+      let response;
+      try {
+        response = await fetch(
+          "https://upload.wikimedia.org/wikipedia/commons/a/a6/Brandenburger_Tor_abends.jpg",
+          { cache: "no-store" }
+        );
+      } catch (e) {
+        return false;
+      }
+
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    async startSync() {
+      if (await this.connectedToInternet()) {
+        this.syncing = true;
       ipc.send("start-sync");
+        console.log("connection online")
+      } else console.log("connection offline");
     },
     // search(data) {
     //   const cat = data.cat;
@@ -205,6 +226,8 @@ export default {
       refererFilter: "",
       selectedRecords: [],
       records: [],
+      timer: null,
+      syncing: false,
     };
   },
   beforeMount() {
@@ -218,6 +241,24 @@ export default {
     ipc.on("db-updated", () => {
       this.updateData();
     });
+
+    ipc.on("sync-complete", () => {
+      this.syncing = false;
+      this.updateData();
+    });
+
+    ipc.on("sync-error", () => {
+      this.syncing = false;
+      console.log("sync error!");
+    });
+  },
+  mounted() {
+    this.timer = setInterval(() => {
+      this.startSync();
+    }, 20 * 1000);
+  },
+  beforeUnmount() {
+    clearInterval(this.timer);
   },
 };
 </script>
