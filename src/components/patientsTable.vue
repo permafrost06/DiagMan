@@ -1,9 +1,13 @@
 <template>
   <h1 style="display:inline-block;margin: 1rem">Pending Patients</h1>
   <router-link :to="{ name: 'AddRecord' }">
-    <button style="width: auto; margin: 1rem; padding: .25rem 1rem;">
+    <button
+      style="width: auto; margin: 1rem; padding: .25rem 1rem;"
+      :disabled="syncing"
+    >
       Add Patient
     </button>
+    <template v-if="syncing">Syncing. Please wait...</template>
   </router-link>
   <table :style="cssVars">
     <thead>
@@ -156,8 +160,8 @@ export default {
     async startSync() {
       if (await this.connectedToInternet()) {
         this.syncing = true;
-      ipc.send("start-sync");
-        console.log("connection online")
+        ipc.send("start-sync");
+        console.log("connection online");
       } else console.log("connection offline");
     },
     // search(data) {
@@ -336,5 +340,10 @@ table {
   thead {
     border-bottom: 2px solid #c0c0c080;
   }
+}
+
+button:disabled {
+  color: gray;
+  background: #0f3842;
 }
 </style>
