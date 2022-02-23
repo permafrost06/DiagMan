@@ -3,6 +3,7 @@ import * as db from "./db.js";
 var PouchDB = require("pouchdb-node");
 var _ = require("lodash");
 const fs = require("fs");
+const log = require("electron-log");
 
 var syncDB = new PouchDB(`${app.getPath("userData")}/syncs.db`);
 
@@ -25,10 +26,10 @@ export const queueRecordSync = async (syncObject) => {
       try {
         syncQueue = await syncDB.get("syncQueue");
       } catch (error) {
-        console.log("can't get sync queue", error);
+        log.error("can't get sync queue", error);
       }
     } else {
-      console.log("can't get sync queue", e);
+      log.error("can't get sync queue", e);
     }
   }
 
@@ -37,7 +38,7 @@ export const queueRecordSync = async (syncObject) => {
   try {
     await syncDB.put(syncQueue);
   } catch (e) {
-    console.log("error updating sync queue", e);
+    log.error("error updating sync queue", e);
   }
 };
 
@@ -46,7 +47,7 @@ export const getSyncQueue = async () => {
     const queueDoc = await syncDB.get("syncQueue");
     return queueDoc.queue;
   } catch (e) {
-    console.log("can't get sync queue", e);
+    log.error("can't get sync queue", e);
   }
 };
 
@@ -57,17 +58,17 @@ export const dequeueItem = async () => {
     try {
       await syncDB.put(queueDoc);
     } catch (e) {
-      console.log("dequeue failed", e);
+      log.error("dequeue failed", e);
     }
   } catch (e) {
-    console.log("can't get sync queue", e);
+    log.error("can't get sync queue", e);
   }
 };
 
 export const printDB = async () => {
   syncDB.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {
-      console.log(result.rows[i].doc);
+      log.debug(result.rows[i].doc);
     }
   });
 };
@@ -86,7 +87,7 @@ export const isQueueEmpty = async () => {
     if (queueDoc.queue.length > 0) return false;
     else return true;
   } catch (e) {
-    console.log("error getting syncQueue", e);
+    log.error("error getting syncQueue", e);
   }
 };
 

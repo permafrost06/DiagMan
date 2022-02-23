@@ -1,6 +1,8 @@
 import jsonData from "./components/records.js";
 import { app } from "electron";
 
+const log = require("electron-log");
+
 var PouchDB = require("pouchdb-node");
 
 var stagedDB = new PouchDB(`${app.getPath("userData")}/staged.db`);
@@ -72,14 +74,14 @@ export const seedStaged = () => {
       },
     ]);
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 };
 
 export const seedRecords = () => {
   for (let i = 0; i < jsonData.length; i++) {
     db.put(jsonData[i]).catch((error) => {
-      console.log(error);
+      log.error(error);
     });
   }
 };
@@ -133,7 +135,7 @@ export const initTests = () => {
     try {
       tests.put(tempTests[i]);
     } catch (error) {
-      console.log(error);
+      log.error(error);
     }
   }
 };
@@ -220,7 +222,7 @@ export const seedTemplates = async () => {
   try {
     templates.bulkDocs(temps);
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 };
 
@@ -228,7 +230,7 @@ export const seedTemplates = async () => {
 export const printRecords = () => {
   db.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {
-      console.log(result.rows[i].doc);
+      log.debug(result.rows[i].doc);
     }
   });
 };
@@ -236,7 +238,7 @@ export const printRecords = () => {
 export const printTemps = async () => {
   templates.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {
-      console.log(result.rows[i].doc);
+      log.debug(result.rows[i].doc);
     }
   });
 };

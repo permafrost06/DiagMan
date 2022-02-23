@@ -2,6 +2,8 @@ import { app } from "electron";
 import * as sync from "./sync.js";
 import { copyFile } from "fs/promises";
 
+const log = require("electron-log");
+
 var PouchDB = require("pouchdb-node");
 
 var stagedDB = new PouchDB(`${app.getPath("userData")}/staged.db`);
@@ -97,7 +99,7 @@ export const getTests = async () => {
     const result = await tests.allDocs({ include_docs: true });
     allTests = result.rows.map(({ doc }) => doc);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     allTests = [];
   }
   return allTests;
@@ -109,7 +111,7 @@ export const getTemplates = async () => {
     const result = await templates.allDocs({ include_docs: true });
     allTemplates = result.rows.map(({ doc }) => doc);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     allTemplates = [];
   }
   return allTemplates;
@@ -159,17 +161,17 @@ export const addStaged = async (record, skip_queue) => {
     try {
       await copyFile(record.files[i], newFile);
     } catch (e) {
-      console.log("file copying error", e);
+      log.error("file copying error", e);
     }
   }
 
   record.files = newFiles;
-  // console.log(record.files);
+  // log.error(record.files);
 
   try {
     await stagedDB.put(record);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 
@@ -182,7 +184,7 @@ export const addStaged = async (record, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -191,7 +193,7 @@ export const addCloudStaged = async (record) => {
   try {
     await stagedDB.put(record);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 };
@@ -203,7 +205,7 @@ export const addRecord = async (record, skip_queue) => {
   try {
     await db.put(record);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 
@@ -219,7 +221,7 @@ export const addRecord = async (record, skip_queue) => {
       const stagedRecord = await stagedDB.get(record._id);
       removeStaged(stagedRecord._id, stagedRecord._rev);
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -228,7 +230,7 @@ export const addCloudRecord = async (record) => {
   try {
     await db.put(record);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 };
@@ -237,7 +239,7 @@ export const addTest = async (test, skip_queue) => {
   try {
     await tests.put(test);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 
@@ -250,7 +252,7 @@ export const addTest = async (test, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -265,7 +267,7 @@ export const addOrgan = async (organ, skip_queue) => {
   try {
     await templates.put(organObj);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 
@@ -278,7 +280,7 @@ export const addOrgan = async (organ, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -291,7 +293,7 @@ export const addCloudTemplate = async (organ, template) => {
   try {
     templates.put(currentOrgan);
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 };
 
@@ -306,7 +308,7 @@ export const addTemplate = async (organ, template, skip_queue) => {
   try {
     templates.put(currentOrgan);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 
@@ -319,7 +321,7 @@ export const addTemplate = async (organ, template, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -331,7 +333,7 @@ export const updateStaged = async (record, skip_queue) => {
       const oldRecord = await stagedDB.get(recordID);
       return oldRecord._rev;
     } catch (error) {
-      console.log(error);
+      log.error(error);
       return;
     }
   };
@@ -341,7 +343,7 @@ export const updateStaged = async (record, skip_queue) => {
   try {
     await stagedDB.put(record);
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 
   if (!skip_queue) {
@@ -353,7 +355,7 @@ export const updateStaged = async (record, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -364,7 +366,7 @@ export const updateRecord = async (record, skip_queue) => {
       const oldRecord = await db.get(recordID);
       return oldRecord._rev;
     } catch (error) {
-      console.log(error);
+      log.error(error);
       return;
     }
   };
@@ -376,7 +378,7 @@ export const updateRecord = async (record, skip_queue) => {
   try {
     await db.put(record);
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 
   if (!skip_queue) {
@@ -388,7 +390,7 @@ export const updateRecord = async (record, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -399,7 +401,7 @@ export const updateTest = async (test, skip_queue) => {
       const oldRecord = await tests.get(recordID);
       return oldRecord._rev;
     } catch (error) {
-      console.log(error);
+      log.error(error);
       return;
     }
   };
@@ -409,7 +411,7 @@ export const updateTest = async (test, skip_queue) => {
   try {
     await tests.put(test);
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 
   if (!skip_queue) {
@@ -421,7 +423,7 @@ export const updateTest = async (test, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };
@@ -438,7 +440,7 @@ export const updateTemplate = async (organ, template) => {
   try {
     templates.put(currentOrgan);
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 
   try {
@@ -449,7 +451,7 @@ export const updateTemplate = async (organ, template) => {
       object: recordFromDB,
     });
   } catch (e) {
-    console.log("Adding to sync queue falied", e);
+    log.error("Adding to sync queue falied", e);
   }
 };
 
@@ -460,7 +462,7 @@ export const removeStaged = async (id_doc, rev, skip_queue) => {
       const oldRecord = await stagedDB.get(recordID);
       return oldRecord._rev;
     } catch (error) {
-      console.log(error);
+      log.error(error);
       return;
     }
   };
@@ -471,13 +473,13 @@ export const removeStaged = async (id_doc, rev, skip_queue) => {
     try {
       record = await stagedDB.get(id_doc);
     } catch (e) {
-      console.log(e);
+      log.error(e);
     }
 
     try {
       stagedDB.remove(id_doc, rev);
     } catch (e) {
-      console.log(e);
+      log.error(e);
       return;
     }
   } else {
@@ -485,7 +487,7 @@ export const removeStaged = async (id_doc, rev, skip_queue) => {
     try {
       stagedDB.remove(id_doc._id, await getRev(id_doc._id));
     } catch (e) {
-      console.log(e);
+      log.error(e);
       return;
     }
   }
@@ -505,7 +507,7 @@ export const removeRecord = async (id_doc, rev, skip_queue) => {
       const oldRecord = await db.get(recordID);
       return oldRecord._rev;
     } catch (error) {
-      console.log(error);
+      log.error(error);
       return;
     }
   };
@@ -516,13 +518,13 @@ export const removeRecord = async (id_doc, rev, skip_queue) => {
     try {
       record = await db.get(id_doc);
     } catch (e) {
-      console.log(e);
+      log.error(e);
     }
 
     try {
       db.remove(id_doc, rev);
     } catch (e) {
-      console.log(e);
+      log.error(e);
       return;
     }
   } else {
@@ -530,7 +532,7 @@ export const removeRecord = async (id_doc, rev, skip_queue) => {
     try {
       db.remove(id_doc._id, await getRev(id_doc._id));
     } catch (e) {
-      console.log(e);
+      log.error(e);
       return;
     }
   }
@@ -550,7 +552,7 @@ export const removeTest = async (id, skip_queue) => {
     try {
       tests.remove(test);
     } catch (error) {
-      console.log(error);
+      log.error(error);
       return;
     }
 
@@ -562,7 +564,7 @@ export const removeTest = async (id, skip_queue) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    log.error(error);
   }
 };
 
@@ -576,7 +578,7 @@ export const removeTemplate = async (organ, templateID, skip_queue) => {
   try {
     templates.put(currentOrgan);
   } catch (error) {
-    console.log(error);
+    log.error(error);
     return;
   }
 
@@ -589,7 +591,7 @@ export const removeTemplate = async (organ, templateID, skip_queue) => {
         object: recordFromDB,
       });
     } catch (e) {
-      console.log("Adding to sync queue falied", e);
+      log.error("Adding to sync queue falied", e);
     }
   }
 };

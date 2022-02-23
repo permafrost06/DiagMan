@@ -89,6 +89,7 @@ import tableHeader from "./tableHeader.vue";
 import recordRow from "./recordRow.vue";
 
 const ipc = window.ipcRenderer;
+const log = require("electron-log");
 
 export default {
   name: "recordsTable",
@@ -161,8 +162,8 @@ export default {
       if (await this.connectedToInternet()) {
         this.syncing = true;
         ipc.send("start-sync");
-        console.log("connection online");
-      } else console.log("connection offline");
+        log.info("connection online, starting sync");
+      } else log.warn("connection offline, sync cancelled");
     },
     // search(data) {
     //   const cat = data.cat;
@@ -253,7 +254,7 @@ export default {
 
     ipc.on("sync-error", () => {
       this.syncing = false;
-      console.log("sync error!");
+      log.error("sync error!");
     });
   },
   mounted() {

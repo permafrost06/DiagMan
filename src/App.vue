@@ -19,6 +19,7 @@ import {
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const ipc = window.ipcRenderer;
+const log = require("electron-log");
 
 export default {
   name: "App",
@@ -64,7 +65,7 @@ export default {
         try {
           await deleteDoc(doc(db, syncObject.db, syncObject.object._id));
         } catch (e) {
-          console.log(e);
+          log.error(e);
           return false;
         }
         return true;
@@ -75,7 +76,7 @@ export default {
             syncObject.object
           );
         } catch (e) {
-          console.log(e);
+          log.error(e);
           return false;
         }
         return true;
@@ -89,14 +90,14 @@ export default {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log("login success", user);
+        log.info("login success", user);
       })
       .catch((error) => {
-        console.log("login error", error.code, error.message);
+        log.error("login error", error.code, error.message);
       });
 
     ipc.on("send-to-firebase", async (event, syncObject) => {
-      console.log(syncObject);
+      log.info("Sync object", syncObject);
       if (await sendToFirebase(syncObject)) {
         ipc.send("firebase-success");
       }
@@ -116,7 +117,7 @@ export default {
     ipc.on("send-blob", async (event, buffer) => {
       const storageRef = ref(storage, "test.pdf");
       uploadBytes(storageRef, buffer).then((snap) =>
-        console.log("array uploaded!", snap)
+        log.info("array uploaded!", snap)
       );
     });
   },

@@ -10,6 +10,7 @@ import * as sync from "./sync.js";
 const { ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
+const log = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Scheme must be registered before the app is ready
@@ -454,7 +455,7 @@ ipcMain.on("export", async (event, ids) => {
 
       shell.openPath(app.getPath("desktop") + "\\Exported Report.csv");
     } catch (e) {
-      console.log(e);
+      log.error(e);
       dialog.showMessageBox(win, {
         message:
           "Failed to save the file!\nThe file might already be open in another program. Please close it first.",
