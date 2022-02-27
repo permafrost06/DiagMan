@@ -7,11 +7,7 @@
       <div class="test test-name bold">Test Name</div>
       <div class="test test-cost bold">Cost</div>
       <ul v-for="test in tests" :key="test._id">
-        <testEntry
-          v-bind="test"
-          @test-update="updateTest"
-          @test-delete="deleteTest"
-        />
+        <testEntry v-bind="test" @test-delete="deleteTest" />
       </ul>
       <br />
       <span v-if="add">
@@ -44,9 +40,6 @@ export default {
   methods: {
     refreshTests() {
       this.tests = ipc.sendSync("get-tests");
-    },
-    updateTest(data) {
-      ipc.send("update-test", data);
     },
     deleteTest(id) {
       ipc.send("test-delete", id);
