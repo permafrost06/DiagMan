@@ -166,7 +166,7 @@ export const addStaged = async (record, skip_queue) => {
   }
 
   record.files = newFiles;
-  // log.error(record.files);
+  // log.debug(record.files);
 
   try {
     await stagedDB.put(record);
