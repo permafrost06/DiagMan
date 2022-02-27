@@ -2,6 +2,8 @@
   <li>
     <div class="test test-code">{{ _id }}</div>
     <div class="test test-name">{{ name }}</div>
+    <div class="test test-type">{{ type }}</div>
+    <div class="test test-size">{{ size }}</div>
     <div class="test test-cost">{{ cost }}</div>
     <button @click="deleteEntry">Delete</button>
   </li>
@@ -13,6 +15,8 @@ export default {
     _id: String,
     name: String,
     cost: Number,
+    type: String,
+    size: String,
   },
   methods: {
     deleteEntry() {

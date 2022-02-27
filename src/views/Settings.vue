@@ -5,17 +5,44 @@
       <h2>Tests</h2>
       <div class="test test-code bold">Code</div>
       <div class="test test-name bold">Test Name</div>
+      <div class="test test-type bold">Test Type</div>
+      <div class="test test-size bold">Test Size</div>
       <div class="test test-cost bold">Cost</div>
       <ul v-for="test in tests" :key="test._id">
         <testEntry v-bind="test" @test-delete="deleteTest" />
       </ul>
       <br />
       <span v-if="add">
-        <input placeholder="Test ID" v-model="newTestid" />
-        <input placeholder="Test Name" v-model="newTestName" />
-        <input placeholder="Test Cost" type="number" v-model="newTestCost" />
-        <button @click="addTestToDB">Add</button>
-        <button @click="cancelAdd">Cancel</button>
+        <input
+          class="test test-code"
+          placeholder="Test ID"
+          v-model="newTestid"
+        />
+        <input
+          class="test test-name"
+          placeholder="Test Name"
+          v-model="newTestName"
+        />
+        <select class="test test-type" v-model="newTestType">
+          <option value="default" selected hidden>Choose Test Type</option>
+          <option value="Cyto">Cytopathology</option>
+          <option value="Histo">Histopathology</option>
+        </select>
+        <select class="test test-size" v-model="newTestSize">
+          <option value="default" selected hidden>Choose Test Size</option>
+          <option value="Complex">Complex</option>
+          <option value="Large">Large</option>
+          <option value="Medium">Medium</option>
+          <option value="Small">Small</option>
+        </select>
+        <input
+          class="test test-cost"
+          placeholder="Test Cost"
+          type="number"
+          v-model="newTestCost"
+        />
+        <button style="margin-left: .25rem;" @click="addTestToDB">Add</button>
+        <button style="margin-left: .25rem;" @click="cancelAdd">Cancel</button>
       </span>
       <button v-else @click="addTest">Add New Test</button>
     </div>
@@ -35,6 +62,8 @@ export default {
       newTestid: "",
       newTestName: "",
       newTestCost: 0,
+      newTestType: "default",
+      newTestSize: "default",
     };
   },
   methods: {
@@ -54,10 +83,14 @@ export default {
       ipc.send("add-test", {
         _id: this.newTestid,
         name: this.newTestName,
+        type: this.newTestType,
+        size: this.newTestSize,
         cost: Number(this.newTestCost),
       });
       this.newTestid = "";
       this.newTestName = "";
+      this.newTestType = "";
+      this.newTestSize = "";
       this.newTestCost = 0;
       this.add = false;
     },
