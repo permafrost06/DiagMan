@@ -19,6 +19,7 @@
         <input placeholder="Test Name" v-model="newTestName" />
         <input placeholder="Test Cost" type="number" v-model="newTestCost" />
         <button @click="addTestToDB">Add</button>
+        <button @click="cancelAdd">Cancel</button>
       </span>
       <button v-else @click="addTest">Add New Test</button>
     </div>
@@ -52,6 +53,9 @@ export default {
     },
     addTest() {
       this.add = true;
+    },
+    cancelAdd() {
+      this.add = false;
     },
     addTestToDB() {
       ipc.send("add-test", {
