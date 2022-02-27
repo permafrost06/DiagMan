@@ -26,10 +26,10 @@ export const queueRecordSync = async (syncObject) => {
       try {
         syncQueue = await syncDB.get("syncQueue");
       } catch (error) {
-        log.error("can't get sync queue", error);
+        log.error("Sync.js: can't get sync queue", error);
       }
     } else {
-      log.error("can't get sync queue", e);
+      log.error("Sync.js: can't get sync queue", e);
     }
   }
 
@@ -38,7 +38,7 @@ export const queueRecordSync = async (syncObject) => {
   try {
     await syncDB.put(syncQueue);
   } catch (e) {
-    log.error("error updating sync queue", e);
+    log.error("Sync.js: error updating sync queue", e);
   }
 };
 
@@ -47,7 +47,7 @@ export const getSyncQueue = async () => {
     const queueDoc = await syncDB.get("syncQueue");
     return queueDoc.queue;
   } catch (e) {
-    log.error("can't get sync queue", e);
+    log.error("Sync.js: can't get sync queue", e);
   }
 };
 
@@ -58,10 +58,10 @@ export const dequeueItem = async () => {
     try {
       await syncDB.put(queueDoc);
     } catch (e) {
-      log.error("dequeue failed", e);
+      log.error("Sync.js: dequeue failed", e);
     }
   } catch (e) {
-    log.error("can't get sync queue", e);
+    log.error("Sync.js: can't get sync queue", e);
   }
 };
 
@@ -87,7 +87,7 @@ export const isQueueEmpty = async () => {
     if (queueDoc.queue.length > 0) return false;
     else return true;
   } catch (e) {
-    log.error("error getting syncQueue", e);
+    log.error("Sync.js: error getting syncQueue", e);
   }
 };
 

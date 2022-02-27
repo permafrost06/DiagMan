@@ -162,8 +162,8 @@ export default {
       if (await this.connectedToInternet()) {
         this.syncing = true;
         ipc.send("start-sync");
-        log.info("connection online, starting sync");
-      } else log.warn("connection offline, sync cancelled");
+        log.info("patientsTable.vue: connection online, starting sync");
+      } else log.warn("patientsTable.vue: connection offline, sync cancelled");
     },
     // search(data) {
     //   const cat = data.cat;
@@ -254,7 +254,7 @@ export default {
 
     ipc.on("sync-error", () => {
       this.syncing = false;
-      log.error("sync error!");
+      log.error("patientsTable.vue: sync error!");
     });
   },
   mounted() {

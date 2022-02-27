@@ -65,7 +65,7 @@ export default {
         try {
           await deleteDoc(doc(db, syncObject.db, syncObject.object._id));
         } catch (e) {
-          log.error(e);
+          log.error("App.vue: Firestore doc delete error", e);
           return false;
         }
         return true;
@@ -76,7 +76,7 @@ export default {
             syncObject.object
           );
         } catch (e) {
-          log.error(e);
+          log.error("App.vue: Firestore doc setting error", e);
           return false;
         }
         return true;
@@ -90,14 +90,14 @@ export default {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        log.info("login success", user);
+        log.info("App.vue: Firebase login success", user);
       })
       .catch((error) => {
-        log.error("login error", error.code, error.message);
+        log.error("App.vue: Firebase login error", error.code, error.message);
       });
 
     ipc.on("send-to-firebase", async (event, syncObject) => {
-      log.info("Sync object", syncObject);
+      log.info("App.vue: Sync object", syncObject);
       if (await sendToFirebase(syncObject)) {
         ipc.send("firebase-success");
       }
@@ -117,7 +117,7 @@ export default {
     ipc.on("send-blob", async (event, buffer) => {
       const storageRef = ref(storage, "test.pdf");
       uploadBytes(storageRef, buffer).then((snap) =>
-        log.info("array uploaded!", snap)
+        log.debug("App.vue: file array uploaded!", snap)
       );
     });
   },

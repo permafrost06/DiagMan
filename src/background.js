@@ -455,7 +455,7 @@ ipcMain.on("export", async (event, ids) => {
 
       shell.openPath(app.getPath("desktop") + "\\Exported Report.csv");
     } catch (e) {
-      log.error(e);
+      log.error("Background.js: File write error", e);
       dialog.showMessageBox(win, {
         message:
           "Failed to save the file!\nThe file might already be open in another program. Please close it first.",

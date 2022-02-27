@@ -74,14 +74,14 @@ export const seedStaged = () => {
       },
     ]);
   } catch (error) {
-    log.error(error);
+    log.error("db-debug.js: seedStaged failed", error);
   }
 };
 
 export const seedRecords = () => {
   for (let i = 0; i < jsonData.length; i++) {
     db.put(jsonData[i]).catch((error) => {
-      log.error(error);
+      log.error("db-debug.js: seedRecords failed", error);
     });
   }
 };
@@ -135,7 +135,7 @@ export const initTests = () => {
     try {
       tests.put(tempTests[i]);
     } catch (error) {
-      log.error(error);
+      log.error("db-debug.js: initTests failed", error);
     }
   }
 };
@@ -222,7 +222,7 @@ export const seedTemplates = async () => {
   try {
     templates.bulkDocs(temps);
   } catch (error) {
-    log.error(error);
+    log.error("db-debug: seedTemplates failed", error);
   }
 };
 
