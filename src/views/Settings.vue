@@ -77,6 +77,11 @@ export default {
       this.add = true;
     },
     cancelAdd() {
+      this.newTestid = "";
+      this.newTestName = "";
+      this.newTestType = "";
+      this.newTestSize = "";
+      this.newTestCost = 0;
       this.add = false;
     },
     addTestToDB() {
