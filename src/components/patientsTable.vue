@@ -260,7 +260,7 @@ export default {
   mounted() {
     this.timer = setInterval(() => {
       this.startSync();
-    }, 20 * 1000);
+    }, 60 * 1000);
   },
   beforeUnmount() {
     clearInterval(this.timer);
