@@ -6,6 +6,9 @@
       <option value="histo">Histopathology</option>
     </select>
     <br />
+    ID
+    <input v-model="id" />
+    <br />
     Patient Name
     <input v-model="patientName" />
     <br />
@@ -85,6 +88,7 @@ const ipc = window.ipcRenderer;
 export default {
   data() {
     return {
+      id: "",
       type: "cyto",
       patientName: "",
       collDate: new Date().toISOString().split("T")[0],
@@ -131,6 +135,7 @@ export default {
       }
       event.preventDefault();
       ipc.send("add-staged", {
+        _id: this.id,
         type: this.type,
         patientName: this.patientName,
         collDate: this.collDate,

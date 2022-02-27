@@ -119,32 +119,32 @@ export const getTemplates = async () => {
 
 // add functions
 export const addStaged = async (record, skip_queue) => {
-  let now = new Date();
+  // let now = new Date();
 
-  record._id = record.type == "cyto" ? "CYT" : "HIS";
+  // record._id = record.type == "cyto" ? "CYT" : "HIS";
 
-  record._id +=
-    now
-      .getFullYear()
-      .toString()
-      .substr(-2) +
-    (now.getMonth() + 1).toString().padStart(2, "0") +
-    now
-      .getDate()
-      .toString()
-      .padStart(2, "0") +
-    now
-      .getHours()
-      .toString()
-      .padStart(2, "0") +
-    now
-      .getMinutes()
-      .toString()
-      .padStart(2, "0") +
-    now
-      .getSeconds()
-      .toString()
-      .padStart(2, "0");
+  // record._id +=
+  //   now
+  //     .getFullYear()
+  //     .toString()
+  //     .substr(-2) +
+  //   (now.getMonth() + 1).toString().padStart(2, "0") +
+  //   now
+  //     .getDate()
+  //     .toString()
+  //     .padStart(2, "0") +
+  //   now
+  //     .getHours()
+  //     .toString()
+  //     .padStart(2, "0") +
+  //   now
+  //     .getMinutes()
+  //     .toString()
+  //     .padStart(2, "0") +
+  //   now
+  //     .getSeconds()
+  //     .toString()
+  //     .padStart(2, "0");
 
   record.tests = JSON.parse(record.tests);
   record.files = JSON.parse(record.files);
