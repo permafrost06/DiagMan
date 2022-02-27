@@ -121,8 +121,8 @@ export default {
   }
 
   input {
-    width: 10rem;
-    margin: 0.5rem;
+    font-size: 1rem;
+    padding: 0.15rem 0.25rem;
   }
 }
 
@@ -131,15 +131,23 @@ export default {
 }
 
 .test-code {
-  width: 3rem;
+  width: 5rem;
 }
 
 .test-name {
   width: 15rem;
 }
 
+.test-type {
+  width: 10rem;
+}
+
+.test-size {
+  width: 8rem;
+}
+
 .test-cost {
-  width: 3rem;
+  width: 5rem;
   text-align: right;
 }
 </style>
