@@ -163,7 +163,10 @@ export default {
         this.syncing = true;
         ipc.send("start-sync");
         log.info("patientsTable.vue: connection online, starting sync");
-      } else log.warn("patientsTable.vue: connection offline, sync cancelled");
+      } else {
+        log.warn("patientsTable.vue: connection offline, sync cancelled");
+        this.syncing = false;
+      }
     },
     // search(data) {
     //   const cat = data.cat;
