@@ -294,6 +294,24 @@ ipcMain.on("firebase-pull", async (event, data) => {
   win.webContents.send("sync-complete");
 });
 
+ipcMain.on("check-id-collision", async (event, id) => {
+  var record = await db.getStaged({
+    keys: [id],
+  });
+
+  log.debug("staged record containing id", id, record[0]);
+
+  if (record[0]) win.webContents.send("id-conflict");
+  else {
+    record = await db.getRecords({
+      keys: [id],
+    });
+    log.debug("saved record containing id", id, record[0]);
+    if (record[0]) win.webContents.send("id-conflict");
+    else win.webContents.send("id-safe");
+  }
+});
+
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
 });

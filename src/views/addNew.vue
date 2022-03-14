@@ -6,8 +6,13 @@
       <option value="histo">Histopathology</option>
     </select>
     <br />
+    <div class="flex">
     ID
-    <input v-model="id" />
+      <input v-model="id" @keyup="checkID" />
+      <okay-svg v-if="id && !idCollision" />
+      <error-svg v-if="id && idCollision" />
+    </div>
+
     <br />
     Patient Name
     <input v-model="patientName" />
@@ -75,7 +80,9 @@
     <br />
     Due: {{ due }}
     <br />
-    <button @click="addToStaged" style="width:8rem;">Add</button>
+    <button :disabled="idCollision" @click="addToStaged" style="width:8rem;">
+      Add
+    </button>
     <router-link to="/">
       <button style="width:8rem;">Cancel</button>
     </router-link>
@@ -83,12 +90,19 @@
 </template>
 
 <script>
+import okaySvg from "../components/okay-svg.vue";
+import errorSvg from "../components/error-svg.vue";
 const ipc = window.ipcRenderer;
 
 export default {
+  components: {
+    okaySvg,
+    errorSvg,
+  },
   data() {
     return {
       id: "",
+      idCollision: false,
       type: "cyto",
       patientName: "",
       collDate: new Date().toISOString().split("T")[0],
@@ -156,15 +170,29 @@ export default {
       });
       this.$router.push({ name: "Pending" });
     },
+    checkID() {
+      ipc.send("check-id-collision", this.id);
+    },
   },
   beforeMount() {
     this.tests = ipc.sendSync("get-tests");
     this.doctorList = ipc.sendSync("get-referers");
+    ipc.on("id-conflict", () => {
+      this.idCollision = true;
+    });
+    ipc.on("id-safe", () => {
+      this.idCollision = false;
+    });
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.flex {
+  display: flex;
+  align-items: center;
+}
+
 input {
   width: 50vw;
 }
@@ -188,6 +216,11 @@ input {
   .description {
     display: inline-block;
   }
+}
+
+button:disabled {
+  color: gray;
+  background: #0f3842;
 }
 
 input::-webkit-outer-spin-button,
