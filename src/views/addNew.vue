@@ -7,7 +7,7 @@
     </select>
     <br />
     <div class="flex">
-    ID
+      ID
       <input v-model="id" @keyup="checkID" />
       <okay-svg v-if="id && !idCollision" />
       <error-svg v-if="id && idCollision" />
@@ -54,19 +54,14 @@
     Attach files
     <input type="file" multiple ref="fileEl" />
     <br />
-    <div class="checkboxes">
-      <div class="test-entry" v-for="test in tests" :key="test._id">
-        <input
-          :id="'test-' + test._id"
-          type="checkbox"
-          :value="test._id"
-          v-model="selectedTests"
-        />
-        <label :for="'test-' + test._id" class="description"
-          >{{ test.name }} - BDT{{ test.cost }}</label
-        >
-      </div>
-    </div>
+    Tests:
+    <testSelector
+      :tests="filteredTests"
+      @updated="updateTestList"
+      @tests-updated="updateTests"
+    />
+    <!-- add option to add test directly from dropdown
+    suggest best match with specimen -->
     <br />
     Subtotal: {{ subtotal }}
     <br />
@@ -92,12 +87,14 @@
 <script>
 import okaySvg from "../components/okay-svg.vue";
 import errorSvg from "../components/error-svg.vue";
+import testSelector from "../components/testSelector.vue";
 const ipc = window.ipcRenderer;
 
 export default {
   components: {
     okaySvg,
     errorSvg,
+    testSelector,
   },
   data() {
     return {
@@ -113,6 +110,7 @@ export default {
       specimen: "",
       referer: "",
       tests: [],
+      testList: [],
       selectedTests: [],
       doctorList: [],
       deliveryDate: new Date(
@@ -125,6 +123,9 @@ export default {
     };
   },
   computed: {
+    filteredTests() {
+      return this.tests.filter((test) => test.type.toLowerCase() == this.type);
+    },
     subtotal() {
       let total = 0;
       for (let test in this.selectedTests) {
@@ -172,6 +173,12 @@ export default {
     },
     checkID() {
       ipc.send("check-id-collision", this.id);
+    },
+    updateTestList(tests) {
+      this.selectedTests = tests;
+    },
+    updateTests() {
+      this.tests = ipc.sendSync("get-tests");
     },
   },
   beforeMount() {
