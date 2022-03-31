@@ -255,6 +255,8 @@ export const addTest = async (test, skip_queue) => {
       log.error("db.js: addTest failed - error adding to sync queue", e);
     }
   }
+
+  return test._id;
 };
 
 export const addOrgan = async (organ, skip_queue) => {
