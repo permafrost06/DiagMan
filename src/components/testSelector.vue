@@ -16,7 +16,10 @@
           :key="test._id"
           :value="test._id"
         >
+          <template v-if="test.size">
           {{ test.name }} - {{ test.size }} : BDT{{ test.cost }}
+          </template>
+          <template v-else> {{ test.name }} : BDT{{ test.cost }} </template>
         </option>
         <option v-if="index == testList.length" value="addNew"
           >Add new test...</option
