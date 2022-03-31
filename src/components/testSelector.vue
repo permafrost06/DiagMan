@@ -17,7 +17,7 @@
           :value="test._id"
         >
           <template v-if="test.size">
-          {{ test.name }} - {{ test.size }} : BDT{{ test.cost }}
+            {{ test.name }} - {{ test.size }} : BDT{{ test.cost }}
           </template>
           <template v-else> {{ test.name }} : BDT{{ test.cost }} </template>
         </option>
@@ -40,10 +40,10 @@
         placeholder="Test Name"
         v-model="newTestName"
       />
-      <select class="test test-type" v-model="newTestType">
+      <select class="test test-type" disabled v-model="newTestType">
         <option value="" selected hidden>Choose Test Type</option>
-        <option value="Cyto">Cytopathology</option>
-        <option value="Histo">Histopathology</option>
+        <option value="cyto">Cytopathology</option>
+        <option value="histo">Histopathology</option>
       </select>
       <select class="test test-size" v-model="newTestSize">
         <option value="" selected hidden>Choose Test Size</option>
@@ -71,6 +71,7 @@ export default {
   name: "testSelector",
   props: {
     tests: Array,
+    patientType: String,
   },
   data() {
     return {
@@ -79,7 +80,7 @@ export default {
       newTestid: "",
       newTestName: "",
       newTestCost: 0,
-      newTestType: "",
+      newTestType: this.patientType,
       newTestSize: "",
     };
   },
@@ -93,7 +94,7 @@ export default {
     cancelAdd() {
       this.newTestid = "";
       this.newTestName = "";
-      this.newTestType = "";
+      this.newTestType = this.patientType;
       this.newTestSize = "";
       this.newTestCost = 0;
       this.add = false;
@@ -109,7 +110,7 @@ export default {
       });
       this.newTestid = "";
       this.newTestName = "";
-      this.newTestType = "";
+      this.newTestType = this.patientType;
       this.newTestSize = "";
       this.newTestCost = 0;
       this.add = false;
@@ -146,6 +147,8 @@ export default {
     });
   },
   updated() {
+    this.newTestType = this.patientType;
+
     if (this.testList.includes("addNew")) {
       this.add = true;
       const selectEls = this.$refs.parentEl.querySelectorAll(

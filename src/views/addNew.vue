@@ -56,6 +56,7 @@
     <br />
     Tests:
     <testSelector
+      :patientType="type"
       :tests="filteredTests"
       @updated="updateTestList"
       @tests-updated="updateTests"
