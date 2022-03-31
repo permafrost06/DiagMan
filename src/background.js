@@ -312,6 +312,20 @@ ipcMain.on("check-id-collision", async (event, id) => {
   }
 });
 
+ipcMain.on("check-test-id-collision", async (event, id) => {
+  var tests = await db.getTests();
+
+  tests = tests.filter((test) => test._id == id);
+
+  log.debug("existing test containing id", id, tests);
+
+  if (tests.length) {
+    win.webContents.send("test-id-conflict");
+  } else {
+    win.webContents.send("test-id-safe");
+  }
+});
+
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
 });

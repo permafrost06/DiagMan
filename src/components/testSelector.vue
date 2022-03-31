@@ -34,7 +34,13 @@
       </button>
     </div>
     <div class="add-new-test" v-if="add">
-      <input class="test test-code" placeholder="Test ID" v-model="newTestid" />
+      <input
+        class="test test-code"
+        placeholder="Test ID"
+        v-model="newTestid"
+        @keyup="checkID"
+      />
+      <template v-if="idCollision">ID already exists</template>
       <input
         class="test test-name"
         placeholder="Test Name"
@@ -58,7 +64,13 @@
         type="number"
         v-model="newTestCost"
       />
-      <button style="margin-left: .25rem;" @click="addTestToDB">Add</button>
+      <button
+        style="margin-left: .25rem;"
+        :disabled="idCollision"
+        @click="addTestToDB"
+      >
+        Add
+      </button>
       <button style="margin-left: .25rem;" @click="cancelAdd">Cancel</button>
     </div>
   </div>
@@ -82,6 +94,7 @@ export default {
       newTestCost: 0,
       newTestType: this.patientType,
       newTestSize: "",
+      idCollision: false,
     };
   },
   methods: {
@@ -139,11 +152,20 @@ export default {
       selectEls[selectEls.length - 1].style.display = "block";
       selectEls[selectEls.length - 2].style.display = "block";
     },
+    checkID() {
+      ipc.send("check-test-id-collision", this.newTestid);
+    },
   },
   mounted() {
     ipc.on("test-added", (event, newTestID) => {
       this.emitTestsUpdate();
       this.testList.push(newTestID);
+    });
+    ipc.on("test-id-conflict", () => {
+      this.idCollision = true;
+    });
+    ipc.on("test-id-safe", () => {
+      this.idCollision = false;
     });
   },
   updated() {
