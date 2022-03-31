@@ -322,6 +322,7 @@ ipcMain.on("get-tests", async (event) => {
 
 ipcMain.on("add-test", async (event, data) => {
   const newTestID = await db.addTest(data);
+  win.webContents.send("test-added", newTestID);
   win.webContents.send("db-update");
 });
 

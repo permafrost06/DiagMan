@@ -136,6 +136,12 @@ export default {
       selectEls[selectEls.length - 2].style.display = "block";
     },
   },
+  mounted() {
+    ipc.on("test-added", (event, newTestID) => {
+      this.emitTestsUpdate();
+      this.testList.push(newTestID);
+    });
+  },
   updated() {
     if (this.testList.includes("addNew")) {
       this.add = true;
