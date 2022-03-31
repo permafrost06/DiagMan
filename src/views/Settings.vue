@@ -24,12 +24,12 @@
           v-model="newTestName"
         />
         <select class="test test-type" v-model="newTestType">
-          <option value="default" selected hidden>Choose Test Type</option>
+          <option value="" selected hidden>Choose Test Type</option>
           <option value="Cyto">Cytopathology</option>
           <option value="Histo">Histopathology</option>
         </select>
         <select class="test test-size" v-model="newTestSize">
-          <option value="default" selected hidden>Choose Test Size</option>
+          <option value="" selected hidden>Choose Test Size</option>
           <option value="Complex">Complex</option>
           <option value="Large">Large</option>
           <option value="Medium">Medium</option>
@@ -62,8 +62,8 @@ export default {
       newTestid: "",
       newTestName: "",
       newTestCost: 0,
-      newTestType: "default",
-      newTestSize: "default",
+      newTestType: "",
+      newTestSize: "",
     };
   },
   methods: {
