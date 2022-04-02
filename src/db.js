@@ -375,7 +375,9 @@ export const updateRecord = async (record, skip_queue) => {
 
   record._rev = await getRev(record._id);
 
-  record.tests = JSON.parse(record.tests);
+  if (!skip_queue) {
+    record.tests = JSON.parse(record.tests);
+  }
 
   try {
     await db.put(record);
