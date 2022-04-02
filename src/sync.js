@@ -1,5 +1,7 @@
-import { app } from "electron";
+import { app, ipcMain } from "electron";
 import * as db from "./db.js";
+import { win } from "./background";
+
 var PouchDB = require("pouchdb-node");
 var _ = require("lodash");
 const fs = require("fs");
@@ -205,8 +207,32 @@ export const syncWithCloudData = async (data) => {
 
 export const syncFiles = async () => {
   const path = `${app.getPath("userData")}/files`;
+  // eslint-disable-next-line no-unused-vars
   const filesArray = fs
     .readdirSync(path)
     .filter((file) => fs.lstatSync(path + file).isFile());
   // console.log(filesArray);
 };
+
+const syncWithFirebase = async () => {
+  const queue = await getSyncQueue();
+  if (queue.length < 1) {
+    win.webContents.send("get-from-firebase");
+    return;
+  }
+  win.webContents.send("send-to-firebase", queue[0]);
+};
+
+ipcMain.on("start-sync", async () => {
+  await syncWithFirebase();
+});
+
+ipcMain.on("firebase-success", async () => {
+  await dequeueItem();
+  await syncWithFirebase();
+});
+
+ipcMain.on("firebase-pull", async (event, data) => {
+  await syncWithCloudData(data);
+  win.webContents.send("sync-complete");
+});
