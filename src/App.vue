@@ -1,9 +1,11 @@
 <template>
   <password v-show="locked" @unlocked="unlock" />
+  <about v-show="about" @close="closeAbout" />
   <router-view />
 </template>
 
 <script>
+import about from "./components/about.vue";
 import password from "./components/password.vue";
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore/lite";
@@ -24,14 +26,19 @@ const log = require("electron-log");
 export default {
   name: "App",
   components: {
+    about,
     password,
   },
   data() {
     return {
+      about: false,
       locked: true,
     };
   },
   methods: {
+    closeAbout() {
+      this.about = false;
+    },
     unlock() {
       this.locked = false;
     },
@@ -48,6 +55,9 @@ export default {
     });
     ipc.on("show-monthly-summary", () => {
       this.$router.push({ name: "Summary" });
+    });
+    ipc.on("show-about", () => {
+      this.about = true;
     });
   },
   async mounted() {

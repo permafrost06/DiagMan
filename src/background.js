@@ -207,7 +207,7 @@ async function createWindow() {
         {
           label: "About",
           click() {
-            console.log(win.getSize());
+            win.webContents.send("show-about");
           },
         },
         {
