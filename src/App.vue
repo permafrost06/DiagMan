@@ -46,6 +46,9 @@ export default {
     ipc.on("show-past-reports", () => {
       this.$router.push({ name: "Records" });
     });
+    ipc.on("show-monthly-summary", () => {
+      this.$router.push({ name: "Summary" });
+    });
   },
   async mounted() {
     const firebaseConfig = {

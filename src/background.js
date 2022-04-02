@@ -103,6 +103,12 @@ async function createWindow() {
             win.webContents.send("show-past-reports");
           },
         },
+        {
+          label: "Monthly Summary",
+          click: () => {
+            win.webContents.send("show-monthly-summary");
+          },
+        },
       ],
     },
     {

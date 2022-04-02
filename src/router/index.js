@@ -6,6 +6,7 @@ import finalize from "../views/finalize/finalize.vue";
 import Report from "../views/report/Report.vue";
 import Invoice from "../views/invoice/Invoice.vue";
 import Settings from "../views/Settings.vue";
+import Summary from "../views/Summary.vue";
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: "/settings/",
     name: "Settings",
     component: Settings,
+  },
+  {
+    path: "/summary/",
+    name: "Summary",
+    component: Summary,
   },
 ];
 
