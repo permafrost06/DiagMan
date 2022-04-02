@@ -220,7 +220,7 @@ async function createWindow() {
     },
   ]);
 
-  Menu.setApplicationMenu(menu);
+  win.setMenu(menu);
 
   // setInterval(syncWithFirebase, 1000 * 5); // call every five seconds
 
