@@ -16,6 +16,8 @@
 </template>
 
 <script>
+const ipc = window.ipcRenderer;
+
 export default {
   name: "password",
   data() {
@@ -38,6 +40,7 @@ export default {
   },
   mounted() {
     this.$refs.passField.focus();
+    ipc.on("testing-disable-password", () => this.$emit("unlocked"));
   },
 };
 </script>
