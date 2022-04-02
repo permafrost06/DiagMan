@@ -92,7 +92,6 @@ async function createWindow() {
       submenu: [
         {
           label: "Pending Patients",
-          type: "radio",
           click: () => {
             win.webContents.send("show-pending-patients");
           },
@@ -100,7 +99,6 @@ async function createWindow() {
         },
         {
           label: "Past Reports",
-          type: "radio",
           click: () => {
             win.webContents.send("show-past-reports");
           },
