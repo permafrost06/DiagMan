@@ -40,7 +40,7 @@
         v-model="newTestid"
         @keyup="checkID"
       />
-      <template v-if="idCollision">ID already exists</template>
+      <span class="warning-msg" v-if="idCollision">ID already exists</span>
       <input
         class="test test-name"
         placeholder="Test Name"
@@ -206,5 +206,9 @@ export default {
   select {
     margin: 0 0.25rem;
   }
+}
+
+.warning-msg {
+  color: red;
 }
 </style>
