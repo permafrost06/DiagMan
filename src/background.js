@@ -1,12 +1,13 @@
 "use strict";
-import { app, protocol, BrowserWindow, Menu, dialog, shell } from "electron";
+import { app, protocol, BrowserWindow, dialog, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
 import * as db from "./db.js";
-import * as dbDebug from "./db-debug.js";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 import * as sync from "./sync.js";
+import { menu, debugMenu } from "./menus.js";
+
 const { ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
@@ -18,7 +19,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
-let win = null;
+export let win = null;
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
@@ -69,157 +70,6 @@ async function createWindow() {
     },
   });
 
-  var menu = Menu.buildFromTemplate([
-    {
-      label: "File",
-      submenu: [
-        {
-          label: "Sync with cloud",
-          click() {
-            syncWithFirebase();
-          },
-        },
-        {
-          label: "Exit",
-          click() {
-            app.quit();
-          },
-        },
-      ],
-    },
-    {
-      label: "View",
-      submenu: [
-        {
-          label: "Pending Patients",
-          click: () => {
-            win.webContents.send("show-pending-patients");
-          },
-          checked: true,
-        },
-        {
-          label: "Past Reports",
-          click: () => {
-            win.webContents.send("show-past-reports");
-          },
-        },
-        {
-          label: "Monthly Summary",
-          click: () => {
-            win.webContents.send("show-monthly-summary");
-          },
-        },
-      ],
-    },
-    {
-      label: "Database",
-      submenu: [
-        {
-          label: "Initialize Settings",
-          click: () => {
-            dbDebug.initTests();
-            win.webContents.send("db-update");
-          },
-        },
-        {
-          label: "Seed Staged",
-          click: async () => {
-            await dbDebug.clearStaged();
-            await dbDebug.seedStaged();
-            win.webContents.send("db-updated");
-          },
-        },
-        {
-          label: "Seed Records",
-          click: async () => {
-            await dbDebug.clearDB();
-            await dbDebug.seedRecords();
-            win.webContents.send("db-updated");
-          },
-        },
-        {
-          label: "Seed Templates",
-          click: async () => {
-            dbDebug.seedTemplates();
-            win.webContents.send("db-updated");
-          },
-        },
-        {
-          label: "Print Templates",
-          click: async () => {
-            dbDebug.printTemps();
-          },
-        },
-        {
-          label: "Clear Staged",
-          click: async () => {
-            await dbDebug.clearStaged();
-            win.webContents.send("db-updated");
-          },
-        },
-        {
-          label: "Clear Records",
-          click: async () => {
-            await dbDebug.clearDB();
-            win.webContents.send("db-updated");
-          },
-        },
-        {
-          label: "test sync",
-          click: async () => {
-            await sync.printDB();
-          },
-        },
-        {
-          label: "clear sync queue",
-          click: async () => {
-            sync.clearDB();
-          },
-        },
-        {
-          label: "get from firebase",
-          click: () => {
-            win.webContents.send("get-from-firebase");
-          },
-        },
-        {
-          label: "create blob",
-          click: () => {
-            createBlob();
-          },
-        },
-      ],
-    },
-    {
-      label: "Settings",
-      submenu: [
-        {
-          label: "Tests",
-          click() {
-            win.webContents.send("open-settings");
-          },
-        },
-      ],
-    },
-    {
-      label: "Help",
-      submenu: [
-        {
-          label: "About",
-          click() {
-            win.webContents.send("show-about");
-          },
-        },
-        {
-          label: "DevTools",
-          click() {
-            win.webContents.openDevTools();
-          },
-        },
-      ],
-    },
-  ]);
-
   win.setMenu(menu);
 
   // setInterval(syncWithFirebase, 1000 * 5); // call every five seconds
@@ -230,6 +80,7 @@ async function createWindow() {
     if (!process.env.IS_TEST) {
       win.webContents.openDevTools();
       win.webContents.send("testing-disable-password");
+      win.setMenu(debugMenu);
     }
   } else {
     createProtocol("app");
@@ -273,11 +124,6 @@ if (!fs.existsSync(`${app.getPath("userData")}/files`)) {
   fs.mkdirSync(`${app.getPath("userData")}/files`);
 }
 
-const createBlob = () => {
-  // win.webContents.send("send-blob", fs.readFileSync("d:/documents/report.pdf"));
-  sync.syncFiles();
-};
-
 const syncWithFirebase = async () => {
   const queue = await sync.getSyncQueue();
   if (queue.length < 1) {
@@ -286,6 +132,10 @@ const syncWithFirebase = async () => {
   }
   win.webContents.send("send-to-firebase", queue[0]);
 };
+
+ipcMain.on("debug-mode-enabled", () => {
+  win.setMenu(debugMenu);
+});
 
 ipcMain.on("start-sync", async () => {
   await syncWithFirebase();
