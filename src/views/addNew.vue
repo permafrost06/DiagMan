@@ -61,8 +61,6 @@
       @updated="updateTestList"
       @tests-updated="updateTests"
     />
-    <!-- add option to add test directly from dropdown
-    suggest best match with specimen -->
     <br />
     Subtotal: {{ subtotal }}
     <br />
