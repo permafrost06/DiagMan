@@ -159,7 +159,7 @@ export default {
           specimen: this.record.specimen,
           tests: JSON.stringify(this.record.tests),
           files: JSON.stringify(this.record.files),
-          discount: this.record.discount,
+          discount: Number(this.record.discount),
           aspNote: this.aspNote,
           me: this.me,
           impression: this.impression,

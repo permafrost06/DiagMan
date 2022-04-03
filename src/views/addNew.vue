@@ -197,7 +197,7 @@ export default {
         tests: JSON.stringify(this.selectedTests),
         files: JSON.stringify(fileList),
         subtotal: this.subtotal,
-        discount: this.discount,
+        discount: Number(this.discount),
         netPay: this.netPay,
         advance: this.advance,
         due: this.due,
