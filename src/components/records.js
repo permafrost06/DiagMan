@@ -9024,11 +9024,11 @@ export const getRandomName = () => {
 export const getRandomDate = () => {
   return (
     "20" +
-    String(random(22)).padStart(2, 0) +
+    String(random(21) + 1).padStart(2, 0) +
     "-" +
-    String(random(13)).padStart(2, 0) +
+    String(random(12) + 1).padStart(2, 0) +
     "-" +
-    String(random(28)).padStart(2, 0)
+    String(random(27) + 1).padStart(2, 0)
   );
 };
 
