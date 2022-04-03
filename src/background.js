@@ -20,6 +20,7 @@ protocol.registerSchemesAsPrivileged([
 
 export let win = null;
 const gotTheLock = app.requestSingleInstanceLock();
+let prod_debug = false;
 
 if (!gotTheLock) {
   app.quit();
@@ -77,6 +78,7 @@ async function createWindow() {
     if (!process.env.IS_TEST) {
       win.webContents.openDevTools();
       win.webContents.send("testing-disable-password");
+      prod_debug = true;
       win.setMenu(debugMenu);
     }
   } else {
@@ -123,7 +125,10 @@ if (!fs.existsSync(`${app.getPath("userData")}/files`)) {
 
 ipcMain.on("debug-mode-enabled", () => {
   win.setMenu(debugMenu);
+  prod_debug = true;
 });
+
+ipcMain.on("check-debug", (event) => (event.returnValue = prod_debug));
 
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
