@@ -143,7 +143,6 @@ export default {
       specimen: "",
       referer: "",
       tests: [],
-      testList: [],
       selectedTests: [],
       doctorList: [],
       deliveryDate: new Date(
@@ -262,6 +261,14 @@ export default {
           this.specimen = random.getRandomSpecimen();
           this.referer = random.getRandomReferer();
           this.deliveryDate = random.getRandomDate();
+          this.selectedTests = Array.from(
+            new Set(
+              [...Array(4)].map(
+                () => ~~((Math.random() * 40) % this.filteredTests.length)
+              )
+            )
+          ).map((x) => this.filteredTests[x]._id);
+          this.discount = random.random(this.subtotal);
           break;
       }
     },
