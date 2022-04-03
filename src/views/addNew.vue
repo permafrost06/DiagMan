@@ -1,30 +1,46 @@
 /* eslint-disable vue/no-v-for-template-key */
 <template>
-  <form>
+  <div>
     <select v-model="type">
       <option value="cyto" selected>Cytopathology</option>
       <option value="histo">Histopathology</option>
     </select>
+    <button class="random-gen" v-if="debug" @click="randomGen()">
+      Generate random patient
+    </button>
     <br />
     <div class="flex">
       ID
       <input v-model="id" @keyup="checkID" />
       <okay-svg v-if="id && !idCollision" />
       <error-svg v-if="id && idCollision" />
+      <button class="random-gen" v-if="debug" @click="randomGen('id')">
+        O
+      </button>
     </div>
 
     <br />
     Patient Name
     <input v-model="patientName" />
+    <button class="random-gen" v-if="debug" @click="randomGen('name')">
+      O
+    </button>
     <br />
     Specimen Collection Date
     <input type="date" v-model="collDate" />
+    <button class="random-gen" v-if="debug" @click="randomGen('collDate')">
+      O
+    </button>
     <br />
     Specimen Receiving Date
     <input type="date" v-model="date" />
+    <button class="random-gen" v-if="debug" @click="randomGen('date')">
+      O
+    </button>
     <br />
     Age
     <input v-model="age" />
+    <button class="random-gen" v-if="debug" @click="randomGen('age')">O</button>
     <br />
     Gender
     <select v-model="gender">
@@ -33,15 +49,27 @@
       <option value="female">Female</option>
       <option value="other">Other</option>
     </select>
+    <button class="random-gen" v-if="debug" @click="randomGen('gender')">
+      O
+    </button>
     <br />
     Contact No
     <input type="number" v-model="contactNo" />
+    <button class="random-gen" v-if="debug" @click="randomGen('contact')">
+      O
+    </button>
     <br />
     Specimen
     <input v-model="specimen" />
+    <button class="random-gen" v-if="debug" @click="randomGen('specimen')">
+      O
+    </button>
     <br />
     Referer
     <input list="doctors" v-model="referer" />
+    <button class="random-gen" v-if="debug" @click="randomGen('referer')">
+      O
+    </button>
     <datalist id="doctors">
       <template v-for="doctor in doctorList" :key="doctor">
         <option :value="doctor" />
@@ -50,6 +78,9 @@
     <br />
     Delivery Date
     <input type="date" v-model="deliveryDate" />
+    <button class="random-gen" v-if="debug" @click="randomGen('deliveryDate')">
+      O
+    </button>
     <br />
     Attach files
     <input type="file" multiple ref="fileEl" />
@@ -80,13 +111,16 @@
     <router-link to="/">
       <button style="width:8rem;">Cancel</button>
     </router-link>
-  </form>
+  </div>
 </template>
 
 <script>
 import okaySvg from "../components/okay-svg.vue";
 import errorSvg from "../components/error-svg.vue";
 import testSelector from "../components/testSelector.vue";
+
+import * as random from "../components/records.js";
+
 const ipc = window.ipcRenderer;
 
 export default {
@@ -119,6 +153,7 @@ export default {
         .split("T")[0],
       discount: 0,
       advance: 0,
+      debug: false,
     };
   },
   computed: {
@@ -179,6 +214,57 @@ export default {
     updateTests() {
       this.tests = ipc.sendSync("get-tests");
     },
+    randomGen(field) {
+      switch (field) {
+        case "id":
+          this.id = Math.random()
+            .toString(36)
+            .substr(2, 9);
+          break;
+        case "name":
+          this.patientName = random.getRandomName();
+          break;
+        case "collDate":
+          this.collDate = random.getRandomDate();
+          break;
+        case "date":
+          this.date = random.getRandomDate();
+          break;
+        case "age":
+          this.age = String(random.random(100));
+          break;
+        case "gender":
+          this.gender = random.getRandomGender();
+          break;
+        case "contact":
+          this.contactNo = random.getRandomContact();
+          break;
+        case "specimen":
+          this.specimen = random.getRandomSpecimen();
+          break;
+        case "referer":
+          this.referer = random.getRandomReferer();
+          break;
+        case "deliveryDate":
+          this.deliveryDate = random.getRandomDate();
+          break;
+
+        default:
+          this.id = Math.random()
+            .toString(36)
+            .substr(2, 9);
+          this.patientName = random.getRandomName();
+          this.collDate = random.getRandomDate();
+          this.date = random.getRandomDate();
+          this.age = String(random.random(100));
+          this.gender = random.getRandomGender();
+          this.contactNo = random.getRandomContact();
+          this.specimen = random.getRandomSpecimen();
+          this.referer = random.getRandomReferer();
+          this.deliveryDate = random.getRandomDate();
+          break;
+      }
+    },
   },
   beforeMount() {
     this.tests = ipc.sendSync("get-tests");
@@ -189,6 +275,7 @@ export default {
     ipc.on("id-safe", () => {
       this.idCollision = false;
     });
+    this.debug = ipc.sendSync("check-debug");
   },
 };
 </script>
@@ -227,6 +314,11 @@ input {
 button:disabled {
   color: gray;
   background: #0f3842;
+}
+
+button.random-gen {
+  width: auto;
+  padding: 0.25rem 0.5rem;
 }
 
 input::-webkit-outer-spin-button,
