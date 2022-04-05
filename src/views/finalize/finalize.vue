@@ -97,6 +97,10 @@
       <span class="bold">Note</span>
       <textarea v-model="note" />
     </p>
+    <p>
+      <input :disabled="debug" type="checkbox" id="sms" v-model="sms" />
+      <label for="sms">Send SMS</label>
+    </p>
     <button :disabled="!filled" @click="addRecord" style="width:8rem;">
       Add
     </button>
@@ -124,6 +128,7 @@ export default {
       newTemplateName: "",
       templateID: "",
       saveButtonText: "Save Template As",
+      sms: true,
       debug: false,
     };
   },
@@ -171,6 +176,7 @@ export default {
         impression: this.impression,
         note: this.note,
       });
+      if (this.sms) ipc.send("send-sms", this.record._id);
       this.$router.push({ name: "Report", params: { id: this.record._id } });
     },
     addOrgan(event) {
@@ -232,6 +238,9 @@ export default {
       this.syncTemplates();
     });
     this.debug = ipc.sendSync("check-debug");
+  },
+  updated() {
+    this.debug ? (this.sms = false) : (this.sms = true);
   },
 };
 </script>
