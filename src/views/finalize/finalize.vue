@@ -97,7 +97,9 @@
       <span class="bold">Note</span>
       <textarea v-model="note" />
     </p>
-    <button @click="addRecord" style="width:8rem;">Add</button>
+    <button :disabled="!filled" @click="addRecord" style="width:8rem;">
+      Add
+    </button>
     <router-link :to="{ name: 'Pending' }">
       <button style="width:8rem;">Cancel</button>
     </router-link>
@@ -128,6 +130,10 @@ export default {
     filteredTemps() {
       return this.templates.filter((organ) => organ._id == this.organ);
     },
+    filled() {
+      if (this.aspNote && this.me && this.impression) return true;
+      else return false;
+    },
   },
   methods: {
     template(event) {
@@ -145,26 +151,25 @@ export default {
     },
     addRecord(event) {
       event.preventDefault();
-      if (this.aspNote && this.me && this.impression)
-        ipc.send("add-record", {
-          _id: this.record._id,
-          type: this.record.type,
-          collDate: this.record.collDate,
-          date: this.record.date,
-          patientName: this.record.patientName,
-          age: this.record.age,
-          gender: this.record.gender,
-          contactNo: this.record.contactNo,
-          referer: this.record.referer,
-          specimen: this.record.specimen,
-          tests: JSON.stringify(this.record.tests),
-          files: JSON.stringify(this.record.files),
-          discount: Number(this.record.discount),
-          aspNote: this.aspNote,
-          me: this.me,
-          impression: this.impression,
-          note: this.note,
-        });
+      ipc.send("add-record", {
+        _id: this.record._id,
+        type: this.record.type,
+        collDate: this.record.collDate,
+        date: this.record.date,
+        patientName: this.record.patientName,
+        age: this.record.age,
+        gender: this.record.gender,
+        contactNo: this.record.contactNo,
+        referer: this.record.referer,
+        specimen: this.record.specimen,
+        tests: JSON.stringify(this.record.tests),
+        files: JSON.stringify(this.record.files),
+        discount: Number(this.record.discount),
+        aspNote: this.aspNote,
+        me: this.me,
+        impression: this.impression,
+        note: this.note,
+      });
       this.$router.push({ name: "Report", params: { id: this.record._id } });
     },
     addOrgan(event) {
@@ -265,5 +270,10 @@ textarea {
 
 .new-template {
   width: 25rem;
+}
+
+button:disabled {
+  color: gray;
+  background: #0f3842;
 }
 </style>
