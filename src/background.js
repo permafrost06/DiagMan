@@ -139,7 +139,6 @@ ipcMain.on("get-width", (event) => {
 
 ipcMain.on("sms-token", (event, token) => {
   sms_token = token;
-  console.log(token, sms_token);
 });
 
 ipcMain.on("send-sms", (event, contactNo) => {
