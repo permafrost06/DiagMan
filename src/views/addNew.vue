@@ -44,7 +44,7 @@
     <br />
     Gender
     <select v-model="gender">
-      <option value="default" selected hidden>Choose gender</option>
+      <option value="" selected hidden>Choose gender</option>
       <option value="male">Male</option>
       <option value="female">Female</option>
       <option value="other">Other</option>
@@ -138,7 +138,7 @@ export default {
       collDate: new Date().toISOString().split("T")[0],
       date: new Date().toISOString().split("T")[0],
       age: "",
-      gender: "default",
+      gender: "",
       contactNo: null,
       specimen: "",
       referer: "",
