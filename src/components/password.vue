@@ -17,6 +17,7 @@
 
 <script>
 const ipc = window.ipcRenderer;
+var bcrypt = require("bcryptjs");
 
 export default {
   name: "password",
@@ -28,7 +29,13 @@ export default {
   },
   methods: {
     verifyPassword() {
-      if (this.password == "dsib2022") this.$emit("unlocked");
+      if (
+        bcrypt.compareSync(
+          this.password,
+          "$2a$12$U2aCzjMAkzMYt7hvVOQNkeRuYiX.33BCosr1I582/S8QsGM4vEaaS"
+        )
+      )
+        this.$emit("unlocked");
       else {
         this.password = "";
         this.warning = true;
