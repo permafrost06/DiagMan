@@ -5,6 +5,7 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
 import * as db from "./db.js";
 import { menu, debugMenu } from "./menus.js";
+import { sendSMS } from "./sms.js";
 import "./ipc";
 
 const { ipcMain } = require("electron");
@@ -21,6 +22,8 @@ protocol.registerSchemesAsPrivileged([
 export let win = null;
 const gotTheLock = app.requestSingleInstanceLock();
 let prod_debug = false;
+
+export var sms_token = "";
 
 if (!gotTheLock) {
   app.quit();
@@ -132,6 +135,15 @@ ipcMain.on("check-debug", (event) => (event.returnValue = prod_debug));
 
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
+});
+
+ipcMain.on("sms-token", (event, token) => {
+  sms_token = token;
+  console.log(token, sms_token);
+});
+
+ipcMain.on("send-sms", (event, contactNo) => {
+  sendSMS(contactNo, sms_token);
 });
 
 ipcMain.on("export", async (event, ids) => {

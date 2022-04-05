@@ -12,6 +12,7 @@ import { initializeFirestore } from "firebase/firestore/lite";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 import {
+  getDoc,
   deleteDoc,
   doc,
   setDoc,
@@ -101,9 +102,11 @@ export default {
 
     const auth = getAuth();
     await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
         log.info("App.vue: Firebase login success", user);
+        const sms_token = await getDoc(doc(db, "token", "sms"));
+        ipc.send("sms-token", sms_token.data().token);
       })
       .catch((error) => {
         log.error("App.vue: Firebase login error", error.code, error.message);

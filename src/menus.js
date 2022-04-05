@@ -1,7 +1,8 @@
 import { app, Menu } from "electron";
 import * as dbDebug from "./db-debug";
 import * as sync from "./sync";
-import { win } from "./background";
+import { sms_token, win } from "./background";
+import { sendSMS } from "./sms";
 
 export const debugMenu = Menu.buildFromTemplate([
   {
@@ -114,6 +115,12 @@ export const debugMenu = Menu.buildFromTemplate([
         label: "create blob",
         click: () => {
           createBlob();
+        },
+      },
+      {
+        label: "send test sms",
+        click: () => {
+          sendSMS("01843768635", sms_token);
         },
       },
     ],
