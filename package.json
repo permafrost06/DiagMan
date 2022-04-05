@@ -17,6 +17,7 @@
   "dependencies": {
     "@firebase/storage": "^0.9.2",
     "axios": "^0.26.1",
+    "bcryptjs": "^2.4.3",
     "core-js": "^3.6.5",
     "electron-log": "^4.4.6",
     "electron-updater": "^4.6.1",
