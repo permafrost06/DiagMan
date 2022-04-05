@@ -176,7 +176,7 @@ export default {
         impression: this.impression,
         note: this.note,
       });
-      if (this.sms) ipc.send("send-sms", this.record._id);
+      if (this.sms) ipc.send("send-sms", this.record.contactNo);
       this.$router.push({ name: "Report", params: { id: this.record._id } });
     },
     addOrgan(event) {
