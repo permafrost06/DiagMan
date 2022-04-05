@@ -105,7 +105,11 @@
     <br />
     Due: {{ due }}
     <br />
-    <button :disabled="idCollision" @click="addToStaged" style="width:8rem;">
+    <button
+      :disabled="idCollision || !filled"
+      @click="addToStaged"
+      style="width:8rem;"
+    >
       Add
     </button>
     <router-link to="/">
@@ -173,6 +177,20 @@ export default {
     },
     due() {
       return this.netPay - this.advance;
+    },
+    filled() {
+      if (
+        this.id &&
+        this.patientName &&
+        this.age &&
+        this.gender &&
+        this.contactNo &&
+        this.specimen &&
+        this.referer &&
+        this.selectedTests.length
+      )
+        return true;
+      else return false;
     },
   },
   methods: {
