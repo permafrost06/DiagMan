@@ -167,6 +167,7 @@ export default {
         gender: this.record.gender,
         contactNo: this.record.contactNo,
         referer: this.record.referer,
+        deliveryDate: this.record.deliveryDate,
         specimen: this.record.specimen,
         tests: JSON.stringify(this.record.tests),
         files: JSON.stringify(this.record.files),
