@@ -124,6 +124,7 @@ export default {
       newTemplateName: "",
       templateID: "",
       saveButtonText: "Save Template As",
+      debug: false,
     };
   },
   computed: {
@@ -230,6 +231,7 @@ export default {
     ipc.on("db-updated", () => {
       this.syncTemplates();
     });
+    this.debug = ipc.sendSync("check-debug");
   },
 };
 </script>
