@@ -9,8 +9,8 @@
         <p><span class="bold">Age:</span> {{ record.age }}</p>
         <p><span class="bold">Gender:</span> {{ record.gender }}</p>
         <p><span class="bold">Contact No:</span> {{ record.contactNo }}</p>
-        <p><span class="bold">Specimen:</span> {{ record.specimen }}</p>
         <p><span class="bold">Referer:</span> {{ record.referer }}</p>
+        <p><span class="bold">Specimen:</span> {{ record.specimen }}</p>
       </div>
       <div class="row-right">
         <h3>Templates</h3>
@@ -82,7 +82,8 @@
       </div>
     </div>
     <p>
-      <span class="bold">Aspiration Note</span>
+      <span v-if="record.type == 'cyto'" class="bold">Aspiration Note</span>
+      <span v-if="record.type == 'histo'" class="bold">Gross Examination</span>
       <textarea v-model="aspNote" />
     </p>
     <p>
@@ -241,7 +242,7 @@ export default {
     this.debug = ipc.sendSync("check-debug");
   },
   updated() {
-    this.debug ? (this.sms = false) : (this.sms = true);
+    if (this.debug) this.sms = false;
   },
 };
 </script>
