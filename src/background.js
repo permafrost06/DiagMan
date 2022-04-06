@@ -3,9 +3,8 @@ import { app, protocol, BrowserWindow, dialog, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension from "electron-devtools-installer";
-import * as db from "./db.js";
-import { menu, debugMenu } from "./menus.js";
-import { sendSMS } from "./sms.js";
+import * as db from "./db";
+import { menu, debugMenu } from "./menus";
 import "./ipc";
 
 const { ipcMain } = require("electron");
