@@ -1,24 +1,6 @@
 # casedb
+A software mainly for managing patient records of a diagnostic centre for future use.
 
-## Project setup
-```
-npm install
-```
+**Other functionalities include:** invoice generation, report generation, sms notification to patients, cloud sync, **basic** financial statement generation.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Built using `Electron Builder` and `Vue.js 3` using [Vue CLI Plugin Electron Builder](https://github.com/nklayman/vue-cli-plugin-electron-builder/)
