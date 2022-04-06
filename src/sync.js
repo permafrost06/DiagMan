@@ -20,6 +20,7 @@ export const queueRecordSync = async (syncObject) => {
     syncQueue = await syncDB.get("syncQueue");
   } catch (e) {
     if (e.reason == "missing" || e.reason == "deleted") {
+      log.debug('Sync.js: sync queue is "missing" or "deleted"');
       await syncDB.put({
         _id: "syncQueue",
         queue: [],
