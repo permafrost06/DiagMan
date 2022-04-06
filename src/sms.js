@@ -1,7 +1,21 @@
+import { ipcMain } from "electron";
+
 var axios = require("axios");
 const https = require("https");
 
-export const sendSMS = (contactNo, sms_token) => {
+var sms_token = "";
+var sms_message = "";
+
+ipcMain.on("sms-settings", (event, settings) => {
+  sms_token = settings.token;
+  sms_message = settings.message;
+});
+
+ipcMain.on("send-sms", (event, contactNo) => {
+  sendSMS(contactNo);
+});
+
+export const sendSMS = (contactNo) => {
   if (!sms_token) {
     console.log("no sms token");
   }
@@ -14,7 +28,7 @@ export const sendSMS = (contactNo, sms_token) => {
 
   const data = JSON.stringify({
     receiver: contactNo,
-    message: "মুঠোফান টেস্ট এসএমএস",
+    message: sms_message,
     remove_duplicate: true,
   });
 

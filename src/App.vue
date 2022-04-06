@@ -105,8 +105,8 @@ export default {
       .then(async (userCredential) => {
         const user = userCredential.user;
         log.info("App.vue: Firebase login success", user);
-        const sms_token = await getDoc(doc(db, "token", "sms"));
-        ipc.send("sms-token", sms_token.data().token);
+        const sms_settings = await getDoc(doc(db, "settings", "sms"));
+        ipc.send("sms-settings", sms_settings.data());
       })
       .catch((error) => {
         log.error("App.vue: Firebase login error", error.code, error.message);

@@ -6,6 +6,7 @@ import installExtension from "electron-devtools-installer";
 import * as db from "./db";
 import { menu, debugMenu } from "./menus";
 import "./ipc";
+import "./sms";
 
 const { ipcMain } = require("electron");
 const path = require("path");
@@ -134,14 +135,6 @@ ipcMain.on("check-debug", (event) => (event.returnValue = prod_debug));
 
 ipcMain.on("get-width", (event) => {
   event.returnValue = win.getSize()[0];
-});
-
-ipcMain.on("sms-token", (event, token) => {
-  sms_token = token;
-});
-
-ipcMain.on("send-sms", (event, contactNo) => {
-  sendSMS(contactNo, sms_token);
 });
 
 ipcMain.on("export", async (event, ids) => {
