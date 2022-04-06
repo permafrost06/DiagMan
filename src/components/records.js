@@ -9023,8 +9023,8 @@ export const getRandomName = () => {
 
 export const getRandomDate = () => {
   return (
-    "20" +
-    String(random(21) + 1).padStart(2, 0) +
+    "202" +
+    String(random(2) + 1).padStart(2, 0) +
     "-" +
     String(random(12) + 1).padStart(2, 0) +
     "-" +
