@@ -20,7 +20,9 @@ export const queueRecordSync = async (syncObject) => {
     syncQueue = await syncDB.get("syncQueue");
   } catch (e) {
     if (e.reason == "missing" || e.reason == "deleted") {
-      log.debug('Sync.js: sync queue is "missing" or "deleted"');
+      log.debug(
+        'Sync.js: queueRecordSync() -> sync queue is "missing" or "deleted"'
+      );
       await syncDB.put({
         _id: "syncQueue",
         queue: [],
@@ -29,10 +31,10 @@ export const queueRecordSync = async (syncObject) => {
       try {
         syncQueue = await syncDB.get("syncQueue");
       } catch (error) {
-        log.error("Sync.js: can't get sync queue", error);
+        log.error("Sync.js: queueRecordSync() -> can't get sync queue", error);
       }
     } else {
-      log.error("Sync.js: can't get sync queue", e);
+      log.error("Sync.js: queueRecordSync() -> can't get sync queue", e);
     }
   }
 
@@ -41,17 +43,35 @@ export const queueRecordSync = async (syncObject) => {
   try {
     await syncDB.put(syncQueue);
   } catch (e) {
-    log.error("Sync.js: error updating sync queue", e);
+    log.error("Sync.js: queueRecordSync() -> error updating sync queue", e);
   }
 };
 
 export const getSyncQueue = async () => {
+  let queueDoc;
+
   try {
-    const queueDoc = await syncDB.get("syncQueue");
-    return queueDoc.queue;
+    queueDoc = await syncDB.get("syncQueue");
   } catch (e) {
-    log.error("Sync.js: can't get sync queue", e);
+    if (e.reason == "missing" || e.reason == "deleted") {
+      log.debug(
+        'Sync.js: getSyncQueue() -> sync queue is "missing" or "deleted"'
+      );
+      await syncDB.put({
+        _id: "syncQueue",
+        queue: [],
+      });
+
+      try {
+        queueDoc = await syncDB.get("syncQueue");
+      } catch (error) {
+        log.error("Sync.js: getSyncQueue() -> can't get sync queue", error);
+      }
+    } else {
+      log.error("Sync.js: getSyncQueue() -> can't get sync queue", e);
+    }
   }
+  return queueDoc.queue;
 };
 
 export const dequeueItem = async () => {
