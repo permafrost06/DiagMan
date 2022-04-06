@@ -205,14 +205,16 @@ export const syncWithCloudData = async (data) => {
   const templatesCloudMap = mapFromArray(data.templates, "_id");
 
   for (let organ in templatesCloudMap) {
+    var templatesDelta;
     if (!templatesLocalMap[organ]) {
       db.addOrgan(organ, true);
+      templatesDelta = getArrayDelta([], templatesCloudMap[organ].templates);
+    } else {
+      templatesDelta = getArrayDelta(
+        templatesLocalMap[organ].templates,
+        templatesCloudMap[organ].templates
+      );
     }
-
-    const templatesDelta = getArrayDelta(
-      templatesLocalMap[organ].templates,
-      templatesCloudMap[organ].templates
-    );
 
     templatesDelta.added.forEach(
       async (doc) => await db.addCloudTemplate(organ, doc, true)
