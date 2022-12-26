@@ -26,18 +26,6 @@
       O
     </button>
     <br />
-    Specimen Collection Date
-    <input type="date" v-model="collDate" />
-    <button class="random-gen" v-if="debug" @click="randomGen('collDate')">
-      O
-    </button>
-    <br />
-    Specimen Receiving Date
-    <input type="date" v-model="date" />
-    <button class="random-gen" v-if="debug" @click="randomGen('date')">
-      O
-    </button>
-    <br />
     Age
     <input v-model="age" />
     <button class="random-gen" v-if="debug" @click="randomGen('age')">O</button>
@@ -75,6 +63,18 @@
         <option :value="doctor" />
       </template>
     </datalist>
+    <br />
+    Specimen Collection Date
+    <input type="date" v-model="collDate" />
+    <button class="random-gen" v-if="debug" @click="randomGen('collDate')">
+      O
+    </button>
+    <br />
+    Specimen Receiving Date
+    <input type="date" v-model="date" />
+    <button class="random-gen" v-if="debug" @click="randomGen('date')">
+      O
+    </button>
     <br />
     Delivery Date
     <input type="date" v-model="deliveryDate" />
