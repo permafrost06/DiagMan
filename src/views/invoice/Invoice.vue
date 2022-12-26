@@ -8,7 +8,6 @@
       <header>
         <h1>Invoice</h1>
       </header>
-      <div>Money Receipt</div>
       <div class="box bold">
         <div><span class="left">ID No</span>: {{ record._id }}</div>
       </div>
