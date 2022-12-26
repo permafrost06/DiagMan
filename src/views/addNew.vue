@@ -11,15 +11,16 @@
     <br />
     <div class="flex">
       ID
-      <input v-model="id" @keyup="checkID" />
-      <okay-svg v-if="id && !idCollision" />
-      <error-svg v-if="id && idCollision" />
+      <input v-model="id" @keydown="preventSlash" @keyup="checkID" />
+      <okay-svg v-if="id && !idCollision && !slashError" />
+      <error-svg v-if="(id && idCollision) || slashError" />
       <button class="random-gen" v-if="debug" @click="randomGen('id')">
         O
       </button>
     </div>
 
-    <br />
+    <p v-if="slashError" class="slash-error">ID Cannot contain slash</p>
+
     Patient Name
     <input v-model="patientName" />
     <button class="random-gen" v-if="debug" @click="randomGen('name')">
@@ -157,6 +158,7 @@ export default {
       discount: 0,
       advance: 0,
       debug: false,
+      slashError: false,
     };
   },
   computed: {
@@ -224,6 +226,13 @@ export default {
     },
     checkID() {
       ipc.send("check-id-collision", this.id);
+    },
+    preventSlash(event) {
+      this.slashError = false;
+      if (event.key === "/" || event.key === "\\") {
+        event.preventDefault();
+        this.slashError = true;
+      }
     },
     updateTestList(tests) {
       this.selectedTests = tests;
@@ -351,5 +360,12 @@ input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
   -webkit-appearance: none;
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.slash-error {
+  background-color: red;
+  color: white;
+  width: 11.4rem;
+  padding: 0.25rem 0.4rem;
 }
 </style>
