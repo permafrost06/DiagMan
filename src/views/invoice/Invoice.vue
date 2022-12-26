@@ -6,8 +6,24 @@
   <div class="report">
     <div class="page">
       <header>
-        <h1>Invoice</h1>
+        <div class="header-left">
+          <p class="logo">The Opinion</p>
+          <p><strong>Dr. Md. Saiful Islam</strong></p>
+          <p>Cyto and Histopathology Specialist</p>
+          <p>Associate Professor</p>
+          <p>Department of Pathology</p>
+          <p>Rangamati Medical College</p>
+        </div>
+        <div class="header-right">
+          <p class="logo">দি অপিনিয়ন</p>
+          <p><strong>ডা. মোঃ সাইফুল ইসলাম</strong></p>
+          <p>সাইটো এবং হিস্টোপ্যাথলজি বিশেষজ্ঞ</p>
+          <p>সহযোগী অধ্যাপক</p>
+          <p>প্যাথলজি বিভাগ</p>
+          <p>রাঙ্গামাটি মেডিকেল কলেজ</p>
+        </div>
       </header>
+      <h1>Invoice</h1>
       <div class="box bold">
         <div><span class="left">ID No</span>: {{ record._id }}</div>
       </div>
@@ -87,6 +103,11 @@
           </tr>
         </tfoot>
       </table>
+      <footer>
+        <p>125 KB Fazlul Kader Road, Chawkbazar</p>
+        <p>Chattogram</p>
+        <p>Mobile: 01883569391</p>
+      </footer>
     </div>
   </div>
 </template>
@@ -139,16 +160,27 @@ export default {
 
   margin: 0;
   /* you don't really have to explicitly set it to 0 unless it's already set to something else */
-  header h1 {
-    color: black;
-    text-align: center;
-    text-transform: uppercase;
-    text-decoration: underline;
-    font-size: 2.2rem;
-    margin-bottom: 1.5rem;
-  }
-
   font-size: 1.25rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-right {
+  text-align: right;
+  font-family: "SolaimanLipi";
+}
+
+h1 {
+  margin-top: 1.5rem;
+  color: black;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .bold {
@@ -178,7 +210,7 @@ export default {
 
 @media print {
   div.page {
-    margin: 30mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
+    margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
     // margin-top: 1.8in;
   }
 
@@ -261,5 +293,16 @@ h3 {
   &::first-letter {
     text-transform: capitalize;
   }
+}
+
+footer {
+  position: absolute;
+  top: 60rem;
+}
+
+.logo {
+  font-size: 1.8em;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 </style>
