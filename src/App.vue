@@ -57,6 +57,9 @@ export default {
     ipc.on("show-monthly-summary", () => {
       this.$router.push({ name: "Summary" });
     });
+    ipc.on("show-sync-queue", () => {
+      this.$router.push({ name: "[debug] sync queue" });
+    });
     ipc.on("show-about", () => {
       this.about = true;
     });

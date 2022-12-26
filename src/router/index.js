@@ -7,6 +7,7 @@ import Report from "../views/report/Report.vue";
 import Invoice from "../views/invoice/Invoice.vue";
 import Settings from "../views/Settings.vue";
 import Summary from "../views/Summary.vue";
+import syncQueue from "../views/syncQueue.vue";
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
     path: "/summary/",
     name: "Summary",
     component: Summary,
+  },
+  {
+    path: "/sync-queue",
+    name: "[debug] sync queue",
+    component: syncQueue,
   },
 ];
 

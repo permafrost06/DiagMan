@@ -88,6 +88,22 @@ export const dequeueItem = async () => {
   }
 };
 
+export const removeItem = async (id) => {
+  try {
+    const queueDoc = await syncDB.get("syncQueue");
+    console.log(queueDoc.queue.map(({ object }) => object._id));
+    queueDoc.queue = queueDoc.queue.filter(({ object }) => object._id != id);
+    console.log(queueDoc.queue.map(({ object }) => object._id));
+    try {
+      await syncDB.put(queueDoc);
+    } catch (e) {
+      log.error("Sync.js: item removal failed", e);
+    }
+  } catch (e) {
+    log.error("Sync.js: can't get sync queue", e);
+  }
+};
+
 export const printDB = async () => {
   syncDB.allDocs({ include_docs: true }).then((result) => {
     for (let i = 0; i < result.rows.length; i++) {

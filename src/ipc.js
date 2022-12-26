@@ -2,6 +2,7 @@ import { ipcMain } from "electron";
 import * as db from "./db";
 import { win } from "./background";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
+import { getSyncQueue, removeItem } from "./sync";
 
 const log = require("electron-log");
 
@@ -207,4 +208,12 @@ ipcMain.on("get-referers", async (event) => {
   );
 
   event.returnValue = [...new Set(doctors)];
+});
+
+ipcMain.on("get-sync-queue", async (event) => {
+  event.returnValue = await getSyncQueue();
+});
+
+ipcMain.on("remove-queue-item", async (event, id) => {
+  await removeItem(id);
 });

@@ -38,6 +38,12 @@ export const debugMenu = Menu.buildFromTemplate([
           win.webContents.send("show-monthly-summary");
         },
       },
+      {
+        label: "Sync Queue",
+        click: () => {
+          win.webContents.send("show-sync-queue");
+        },
+      },
     ],
   },
   {
