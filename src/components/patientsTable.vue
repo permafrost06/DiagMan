@@ -15,6 +15,14 @@
     Sync Now
   </button>
   <template v-if="syncing">Syncing. Please wait...</template>
+  <div class="id-search-container">
+    <input
+      class="id-search"
+      type="text"
+      placeholder="Filter patients by ID"
+      v-model="search_id"
+    />
+  </div>
   <table :style="cssVars">
     <thead>
       <tableRow>
@@ -51,7 +59,7 @@
       </tableRow>
     </thead>
     <tbody>
-      <tableRow v-for="record in records" :key="record._id">
+      <tableRow v-for="record in filteredPatients" :key="record._id">
         <recordRow
           v-bind="record"
           @record-selection="updateSelection"
@@ -232,6 +240,11 @@ export default {
         "--col8w": this.clientWidth * 0.06 + "px",
       };
     },
+    filteredPatients() {
+      return this.records.filter((record) =>
+        record._id.toLowerCase().includes(this.search_id.toLowerCase())
+      );
+    },
   },
   data() {
     return {
@@ -246,6 +259,7 @@ export default {
       records: [],
       timer: null,
       syncing: false,
+      search_id: "",
     };
   },
   beforeMount() {

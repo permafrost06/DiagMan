@@ -1,6 +1,14 @@
 <template>
   <!-- Total {{ records.length }} records found -->
   <h1 style="margin: 1rem; margin-bottom: 2.25rem">Past Reports</h1>
+  <div class="id-search-container">
+    <input
+      class="id-search"
+      type="text"
+      placeholder="Filter patients by ID"
+      v-model="search_id"
+    />
+  </div>
   <table :style="cssVars">
     <thead>
       <tableRow>
@@ -49,7 +57,7 @@
       </tableRow>
     </thead>
     <tbody>
-      <tableRow v-for="record in records" :key="record._id">
+      <tableRow v-for="record in filteredRecords" :key="record._id">
         <recordRow
           v-bind="record"
           @delete="deleteRecord"
@@ -228,6 +236,11 @@ export default {
         "--col11w": this.clientWidth * 0.05 + "px",
       };
     },
+    filteredRecords() {
+      return this.records.filter((record) =>
+        record._id.toLowerCase().includes(this.search_id.toLowerCase())
+      );
+    },
   },
   data() {
     return {
@@ -243,6 +256,7 @@ export default {
       impressionFilter: "",
       selectedRecords: [],
       records: [],
+      search_id: "",
     };
   },
   beforeMount() {

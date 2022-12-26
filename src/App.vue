@@ -266,4 +266,12 @@ small {
   color: black;
   background: white;
 }
+
+.id-search {
+  margin-left: 1rem;
+  height: 1.7rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid black;
+}
 </style>
