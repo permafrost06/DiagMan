@@ -84,19 +84,19 @@
     <p>
       <span v-if="record.type == 'cyto'" class="bold">Aspiration Note</span>
       <span v-if="record.type == 'histo'" class="bold">Gross Examination</span>
-      <textarea v-model="aspNote" />
+      <editor v-model="aspNote" />
     </p>
     <p>
       <span class="bold">Microscopic Examination</span>
-      <textarea v-model="me" />
+      <editor v-model="me" />
     </p>
     <p>
       <span class="bold">Impression</span>
-      <textarea v-model="impression" />
+      <editor v-model="impression" />
     </p>
     <p>
       <span class="bold">Note</span>
-      <textarea v-model="note" />
+      <editor v-model="note" />
     </p>
     <p>
       <input :disabled="debug" type="checkbox" id="sms" v-model="sms" />
@@ -112,9 +112,14 @@
 </template>
 
 <script>
+import editor from "../../components/editor.vue";
 const ipc = window.ipcRenderer;
 
 export default {
+  components: {
+    editor,
+  },
+
   data() {
     return {
       aspNote: "",

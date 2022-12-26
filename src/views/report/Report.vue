@@ -24,16 +24,16 @@
       </div>
       <div class="reference">Referred by: {{ record.referer }}</div>
       <h3>Impression:</h3>
-      {{ record.impression }}
+      <div v-html="record.impression"></div>
       <h3>Specimen</h3>
       {{ record.specimen }}
       <h3 v-if="record.type === 'histo'">Gross Examination:</h3>
       <h3 v-else>Aspiration Note:</h3>
-      {{ record.aspNote }}
+      <div v-html="record.aspNote"></div>
       <h3>M/E:</h3>
-      {{ record.me }}
+      <div v-html="record.me"></div>
       <h3>Note:</h3>
-      {{ record.note }}
+      <div v-html="record.note"></div>
     </div>
   </div>
 </template>
