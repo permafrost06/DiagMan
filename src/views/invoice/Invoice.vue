@@ -104,9 +104,17 @@
         </tfoot>
       </table>
       <footer>
-        <p>125 KB Fazlul Kader Road, Chawkbazar</p>
-        <p>Chattogram</p>
-        <p>Mobile: 01883569391</p>
+        <div class="footer-left">
+          <p>১২৫ কে বি ফজলুল কাদের রোড</p>
+          <p>চকবাজার, চট্টগ্রাম</p>
+          <p>(পিপলস হাসপাতাল-এর পাশে)</p>
+        </div>
+        <div class="footer-right">
+          <p>রিপোর্টের জন্য যোগাযোগ</p>
+          <p>ফোন: <span class="escape">01883569391</span></p>
+          <p>সকাল ১০টা থেকে রাত ০৯টা</p>
+          <p>শুক্রবার বন্ধ</p>
+        </div>
       </footer>
     </div>
   </div>
@@ -298,11 +306,27 @@ h3 {
 footer {
   position: absolute;
   top: 60rem;
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    font-family: "SolaimanLipi";
+  }
+
+  .footer-right {
+    text-align: right;
+    margin-left: 12.6rem;
+    font-family: "SolaimanLipi";
+  }
 }
 
 .logo {
   font-size: 1.8em;
   font-weight: 700;
   margin-bottom: 0.25rem;
+}
+
+.escape {
+  font-family: auto;
 }
 </style>
