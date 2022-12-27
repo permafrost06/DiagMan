@@ -124,7 +124,7 @@ import okaySvg from "../components/okay-svg.vue";
 import errorSvg from "../components/error-svg.vue";
 import testSelector from "../components/testSelector.vue";
 
-import * as random from "../components/records.js";
+import * as random from "../records.js";
 
 const ipc = window.ipcRenderer;
 
