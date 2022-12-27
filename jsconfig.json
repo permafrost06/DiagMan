@@ -2,6 +2,6 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "src/records.js"],
   "exclude": ["node_modules", "dist_electron"]
 }

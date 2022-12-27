@@ -1,45 +1,40 @@
 <template>
-  <tableField v-bind="$attrs">
+  <td v-bind="$attrs">
     <h5>{{ patientName }}</h5>
     <small>{{ _id }}</small>
-  </tableField>
-  <tableField>
+  </td>
+  <td>
     {{ dateRearr(date) }}
-  </tableField>
-  <tableField>
+  </td>
+  <td>
     {{ age }}
-  </tableField>
-  <tableField>
+  </td>
+  <td>
     {{ specimen }}
-  </tableField>
-  <tableField>
+  </td>
+  <td>
     {{ referer }}
-  </tableField>
-  <tableField v-if="aspNote">
+  </td>
+  <td v-if="aspNote">
     {{ aspNote }}
-  </tableField>
-  <tableField v-if="me">
+  </td>
+  <td v-if="me">
     {{ meShort }}
-  </tableField>
-  <tableField v-if="impression">
+  </td>
+  <td v-if="impression">
     {{ impressionShort }}
-  </tableField>
-  <tableField>
+  </td>
+  <td>
     <button @click="deleteRecord" class="delete-button">Delete</button>
-  </tableField>
-  <tableField>
+  </td>
+  <td>
     <slot></slot>
-  </tableField>
+  </td>
 </template>
 
 <script>
-import tableField from "./tableField.vue";
-
 export default {
   name: "recordRow",
-  components: {
-    tableField,
-  },
   props: {
     _id: String,
     patientName: String,
