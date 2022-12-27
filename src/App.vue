@@ -297,4 +297,8 @@ th div {
 tbody tr {
   border-bottom: 2px solid #c0c0c080;
 }
+
+td {
+  padding: 1em;
+}
 </style>

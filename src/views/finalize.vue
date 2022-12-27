@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import editor from "../../components/editor.vue";
+import editor from "../components/editor.vue";
 const ipc = window.ipcRenderer;
 
 export default {
