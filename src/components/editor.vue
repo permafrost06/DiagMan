@@ -1,39 +1,16 @@
 <template>
-  <div id="app">
-    <tiny-editor
-      :init="{
-        height: 200,
+  <tiny-editor
+    :init="{
+      height: 200,
 
-        menubar: false,
-        statusbar: false,
+      menubar: false,
+      statusbar: false,
 
-        plugins: [
-          'advlist',
-          'autolink',
-
-          'lists',
-          'link',
-          'image',
-          'charmap',
-          'preview',
-          'anchor',
-          'searchreplace',
-          'visualblocks',
-
-          'fullscreen',
-          'insertdatetime',
-          'media',
-          'table',
-          'help',
-          'wordcount',
-        ],
-
-        toolbar:
-          'undo redo | bold italic underline backcolor | outdent indent | removeformat',
-      }"
-      v-model="value"
-    />
-  </div>
+      toolbar:
+        'undo redo | bold italic underline backcolor | outdent indent | removeformat',
+    }"
+    v-model="value"
+  />
 </template>
 
 <script>
