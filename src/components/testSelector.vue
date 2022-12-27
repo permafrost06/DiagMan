@@ -21,9 +21,9 @@
           </template>
           <template v-else> {{ test.name }} : BDT{{ test.cost }} </template>
         </option>
-        <option v-if="index == testList.length" value="addNew"
-          >Add new test...</option
-        >
+        <option v-if="index == testList.length" value="addNew">
+          Add new test...
+        </option>
       </select>
       <button
         class="cross-button"
