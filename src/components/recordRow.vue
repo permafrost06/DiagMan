@@ -1,13 +1,5 @@
 <template>
   <tableField v-bind="$attrs">
-    <input
-      type="checkbox"
-      class="check"
-      v-model="selected"
-      @change="handleSelection"
-    />
-  </tableField>
-  <tableField>
     <h5>{{ patientName }}</h5>
     <small>{{ _id }}</small>
   </tableField>
@@ -35,7 +27,9 @@
   <tableField>
     <button @click="deleteRecord" class="delete-button">Delete</button>
   </tableField>
-  <slot></slot>
+  <tableField>
+    <slot></slot>
+  </tableField>
 </template>
 
 <script>
@@ -62,13 +56,6 @@ export default {
     tests: Array,
     _rev: String,
   },
-  data() {
-    return {
-      selected: false,
-      modified: false,
-      edit: false,
-    };
-  },
   computed: {
     meShort() {
       return this.me.length > 50 ? this.me.slice(0, 50) + "..." : this.me;
@@ -83,19 +70,6 @@ export default {
     dateRearr(date) {
       const dateArr = date.split("-");
       return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
-    },
-    handleSelection() {
-      if (this.selected) {
-        this.$emit("record-selection", {
-          operation: "add",
-          record_id: this._id,
-        });
-      } else {
-        this.$emit("record-selection", {
-          operation: "remove",
-          record_id: this._id,
-        });
-      }
     },
     deleteRecord() {
       this.$emit("delete", {
@@ -118,6 +92,6 @@ button {
 }
 
 .delete-button {
-  width: 3rem;
+  padding: 0px 0.5rem;
 }
 </style>

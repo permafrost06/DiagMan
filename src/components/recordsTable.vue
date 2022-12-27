@@ -1,5 +1,4 @@
 <template>
-  <!-- Total {{ records.length }} records found -->
   <h1 style="margin: 1rem; margin-bottom: 2.25rem">Past Reports</h1>
   <div class="id-search-container">
     <input
@@ -11,101 +10,55 @@
   </div>
   <table :style="cssVars">
     <thead>
-      <tableRow>
-        <tableHeader>
-          <input
-            style="display:none"
-            type="checkbox"
-            class="check"
-            v-model="selectAll"
-            @change="handleSelectAll"
-          />
-        </tableHeader>
-        <tableHeader>
+      <tr>
+        <th>
           <div>Patient Name</div>
-          <categorySearch catName="patientName" @cat-search="search" />
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Date</div>
-          <categorySearch catName="date" @cat-search="search" />
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Age</div>
-          <categorySearch catName="age" @cat-search="search" />
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Specimen</div>
-          <categorySearch catName="specimen" @cat-search="search" />
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Referer</div>
-          <categorySearch catName="referer" @cat-search="search" />
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Aspiration Note</div>
-          <categorySearch catName="aspNote" @cat-search="search" />
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Microscopic Examination</div>
-          <categorySearch catName="me" @cat-search="search" />
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Impression</div>
-          <categorySearch catName="impression" @cat-search="search" />
-        </tableHeader>
-        <tableHeader />
-      </tableRow>
+        </th>
+        <th />
+      </tr>
     </thead>
     <tbody>
-      <tableRow v-for="record in filteredRecords" :key="record._id">
-        <recordRow
-          v-bind="record"
-          @delete="deleteRecord"
-          @record-selection="updateSelection"
-        />
+      <tr v-for="record in filteredRecords" :key="record._id">
+        <recordRow v-bind="record" @delete="deleteRecord" />
         <router-link :to="{ name: 'Report', params: { id: record._id } }">
           <button class="report-button">
             Report
           </button>
         </router-link>
-      </tableRow>
+      </tr>
     </tbody>
   </table>
 
-  <!-- <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="prevPage"
-  >
-    Previous
-  </button>
-  <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="nextPage"
-  >
-    Next
-  </button> -->
-
-  <br />
-
-  <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="exportRecords"
-    v-if="selectedRecords.length"
-  >
-    Export selected
-  </button>
   <button
     style="width: auto; margin: 1rem; padding: .25rem 1rem;"
     @click="handleSelectAll"
   >
-    Export all visible
+    Export all reports
   </button>
 </template>
 
 <script>
-import tableRow from "./tableRow.vue";
-import tableHeader from "./tableHeader.vue";
-import categorySearch from "./categorySearch.vue";
 import recordRow from "./recordRow.vue";
 
 const ipc = window.ipcRenderer;
@@ -113,9 +66,6 @@ const ipc = window.ipcRenderer;
 export default {
   name: "recordsTable",
   components: {
-    tableHeader,
-    categorySearch,
-    tableRow,
     recordRow,
   },
   methods: {
@@ -146,94 +96,26 @@ export default {
         patient_a._id.toLowerCase().localeCompare(patient_b._id.toLowerCase());
       });
     },
-    handleSelectAll() {
-      const currentSelection = this.selectedRecords;
-      this.selectedRecords = this.records.map((record) => record._id);
-      this.exportRecords();
-      this.selectedRecords = currentSelection;
-    },
     deleteRecord(data) {
       ipc.send("delete-record", data);
     },
     exportRecords() {
       ipc.send("export", JSON.stringify(this.selectedRecords));
     },
-    updateSelection(data) {
-      if (data.operation == "add") {
-        this.selectedRecords.push(data.record_id);
-      } else {
-        this.selectedRecords = this.selectedRecords.filter(
-          (record) => record !== data.record_id
-        );
-      }
-    },
-    search(data) {
-      const cat = data.cat;
-      const value = data.value;
-
-      switch (cat) {
-        case "patientName":
-          this.patientNameFilter = value;
-          break;
-
-        case "date":
-          this.dateFilter = value;
-          break;
-
-        case "age":
-          this.ageFilter = value;
-          break;
-
-        case "specimen":
-          this.specimenFilter = value;
-          break;
-
-        case "referer":
-          this.refererFilter = value;
-          break;
-
-        case "aspNote":
-          this.aspNoteFilter = value;
-          break;
-
-        case "me":
-          this.meFilter = value;
-          break;
-
-        case "impression":
-          this.impressionFilter = value;
-          break;
-
-        default:
-          break;
-      }
-      this.updateData();
-    },
-    // nextPage() {
-    //   this.updateData({
-    //     lastID: this.records[this.records.length - 1]._id,
-    //   });
-    // },
-    // prevPage() {
-    //   this.updateData({
-    //     firstID: this.records[0]._id,
-    //   });
-    // },
   },
   computed: {
     cssVars() {
       return {
-        "--col1w": 42 + "px",
-        "--col2w": this.clientWidth * 0.2 + "px",
+        "--col1w": this.clientWidth * 0.2 + "px",
+        "--col2w": this.clientWidth * 0.1 + "px",
         "--col3w": this.clientWidth * 0.1 + "px",
-        "--col4w": this.clientWidth * 0.1 + "px",
+        "--col4w": this.clientWidth * 0.2 + "px",
         "--col5w": this.clientWidth * 0.2 + "px",
         "--col6w": this.clientWidth * 0.2 + "px",
         "--col7w": this.clientWidth * 0.2 + "px",
         "--col8w": this.clientWidth * 0.2 + "px",
-        "--col9w": this.clientWidth * 0.2 + "px",
+        "--col9w": this.clientWidth * 0.05 + "px",
         "--col10w": this.clientWidth * 0.05 + "px",
-        "--col11w": this.clientWidth * 0.05 + "px",
       };
     },
     filteredRecords() {
@@ -271,25 +153,10 @@ export default {
       this.updateData();
     });
   },
-  // mounted() {
-  // },
 };
 </script>
 
 <style lang="scss" scoped>
-// :root {
-//   --col1w: 42px;
-//   --col2w: 250px;
-//   --col3w: 140px;
-//   --col4w: 110px;
-//   --col5w: 250px;
-//   --col6w: 220px;
-//   --col7w: 70px;
-//   --col8w: 140px;
-// }
-
-// table column widths
-
 table td,
 table th {
   overflow: hidden;
