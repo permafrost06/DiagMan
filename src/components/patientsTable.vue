@@ -126,17 +126,17 @@ export default {
 
       options.limit = null;
 
-      this.records = ipc
-        .sendSync("get-staged", options, {
-          patientNameFilter: this.patientNameFilter,
-          dateFilter: this.dateFilter,
-          ageFilter: this.ageFilter,
-          specimenFilter: this.specimenFilter,
-          refererFilter: this.refererFilter,
-        })
-        .sort((patient_a, patient_b) => {
-          patient_a._id - patient_b._id;
-        });
+      this.records = ipc.sendSync("get-staged", options, {
+        patientNameFilter: this.patientNameFilter,
+        dateFilter: this.dateFilter,
+        ageFilter: this.ageFilter,
+        specimenFilter: this.specimenFilter,
+        refererFilter: this.refererFilter,
+      });
+
+      this.records.sort((patient_a, patient_b) => {
+        patient_a._id.toLowerCase().localeCompare(patient_b._id.toLowerCase());
+      });
     },
     handleSelectAll() {
       const currentSelection = this.selectedRecords;
