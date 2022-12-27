@@ -1,17 +1,11 @@
 <template>
-  <h1 style="display:inline-block;margin: 1rem">Pending Patients</h1>
+  <h1 class="heading">Pending Patients</h1>
   <router-link :to="{ name: 'AddRecord' }">
-    <button
-      style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-      :disabled="syncing"
-    >
+    <button class="add-button" :disabled="syncing">
       Add Patient
     </button>
   </router-link>
-  <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="startSync"
-  >
+  <button class="sync-button" @click="startSync">
     Sync Now
   </button>
   <template v-if="syncing">Syncing. Please wait...</template>
@@ -25,81 +19,48 @@
   </div>
   <table :style="cssVars">
     <thead>
-      <tableRow>
-        <tableHeader>
-          <input
-            style="display:none"
-            type="checkbox"
-            class="check"
-            v-model="selectAll"
-            @change="handleSelectAll"
-          />
-        </tableHeader>
-        <tableHeader>
+      <tr>
+        <th>
           <div>Patient Name</div>
-          <!-- <categorySearch catName="patientName" @cat-search="search" /> -->
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Date</div>
-          <!-- <categorySearch catName="date" @cat-search="search" /> -->
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Age</div>
-          <!-- <categorySearch catName="age" @cat-search="search" /> -->
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Specimen</div>
-          <!-- <categorySearch catName="specimen" @cat-search="search" /> -->
-        </tableHeader>
-        <tableHeader>
+        </th>
+        <th>
           <div>Referer</div>
-          <!-- <categorySearch catName="referer" @cat-search="search" /> -->
-        </tableHeader>
-        <tableHeader />
-      </tableRow>
+        </th>
+        <th />
+        <th />
+      </tr>
     </thead>
     <tbody>
-      <tableRow v-for="record in filteredPatients" :key="record._id">
-        <recordRow
-          v-bind="record"
-          @record-selection="updateSelection"
-          @delete="deleteStaged"
-        >
+      <tr v-for="record in filteredPatients" :key="record._id">
+        <recordRow v-bind="record" @delete="deleteStaged">
           <router-link :to="{ name: 'Invoice', params: { id: record._id } }">
-            <button>
+            <button style="padding: 0px .5rem">
               Invoice
             </button>
           </router-link>
           <router-link
             :to="{ name: 'finalizeRecord', params: { id: record._id } }"
           >
-            <button style="margin-top: .75rem;">
+            <button style="margin-top: .75rem;padding: 0px .5rem">
               Finalize
             </button>
           </router-link>
         </recordRow>
-      </tableRow>
+      </tr>
     </tbody>
   </table>
-
-  <!-- <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="prevPage"
-  >
-    Previous
-  </button>
-  <button
-    style="width: auto; margin: 1rem; padding: .25rem 1rem;"
-    @click="nextPage"
-  >
-    Next
-  </button> -->
 </template>
 
 <script>
-import tableRow from "./tableRow.vue";
-import tableHeader from "./tableHeader.vue";
-// import categorySearch from "./categorySearch.vue";
 import recordRow from "./recordRow.vue";
 
 const ipc = window.ipcRenderer;
@@ -108,9 +69,6 @@ const log = require("electron-log");
 export default {
   name: "recordsTable",
   components: {
-    tableHeader,
-    // categorySearch,
-    tableRow,
     recordRow,
   },
   methods: {
@@ -147,15 +105,6 @@ export default {
     exportRecords() {
       ipc.send("export", JSON.stringify(this.selectedRecords));
     },
-    updateSelection(data) {
-      if (data.operation == "add") {
-        this.selectedRecords.push(data.record_id);
-      } else {
-        this.selectedRecords = this.selectedRecords.filter(
-          (record) => record !== data.record_id
-        );
-      }
-    },
     deleteStaged(data) {
       ipc.send("delete-staged", data);
     },
@@ -186,58 +135,17 @@ export default {
         this.syncing = false;
       }
     },
-    // search(data) {
-    //   const cat = data.cat;
-    //   const value = data.value;
-
-    //   switch (cat) {
-    //     case "patientName":
-    //       this.patientNameFilter = value;
-    //       break;
-
-    //     case "date":
-    //       this.dateFilter = value;
-    //       break;
-
-    //     case "age":
-    //       this.ageFilter = value;
-    //       break;
-
-    //     case "specimen":
-    //       this.specimenFilter = value;
-    //       break;
-
-    //     case "referer":
-    //       this.refererFilter = value;
-    //       break;
-
-    //     default:
-    //       break;
-    //   }
-    //   this.updateData();
-    // },
-    // nextPage() {
-    //   this.updateData({
-    //     lastID: this.records[this.records.length - 1]._id,
-    //   });
-    // },
-    // prevPage() {
-    //   this.updateData({
-    //     firstID: this.records[0]._id,
-    //   });
-    // },
   },
   computed: {
     cssVars() {
       return {
-        "--col1w": 42 + "px",
-        "--col2w": this.clientWidth * 0.2 + "px",
+        "--col1w": this.clientWidth * 0.2 + "px",
+        "--col2w": this.clientWidth * 0.1 + "px",
         "--col3w": this.clientWidth * 0.1 + "px",
-        "--col4w": this.clientWidth * 0.1 + "px",
+        "--col4w": this.clientWidth * 0.2 + "px",
         "--col5w": this.clientWidth * 0.2 + "px",
-        "--col6w": this.clientWidth * 0.2 + "px",
+        "--col6w": this.clientWidth * 0.05 + "px",
         "--col7w": this.clientWidth * 0.05 + "px",
-        "--col8w": this.clientWidth * 0.06 + "px",
       };
     },
     filteredPatients() {
@@ -255,7 +163,6 @@ export default {
       ageFilter: "",
       specimenFilter: "",
       refererFilter: "",
-      selectedRecords: [],
       records: [],
       timer: null,
       syncing: false,
@@ -296,19 +203,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// :root {
-//   --col1w: 42px;
-//   --col2w: 250px;
-//   --col3w: 140px;
-//   --col4w: 110px;
-//   --col5w: 250px;
-//   --col6w: 220px;
-//   --col7w: 70px;
-//   --col8w: 140px;
-// }
-
-// table column widths
-
 table td,
 table th {
   overflow: hidden;
@@ -368,10 +262,28 @@ table {
   thead {
     border-bottom: 2px solid #c0c0c080;
   }
+  margin-inline: auto;
 }
 
 button:disabled {
   color: gray;
   background: #0f3842;
+}
+
+.sync-button {
+  width: auto;
+  margin: 1rem;
+  padding: 0.25rem 1rem;
+}
+
+.add-button {
+  width: auto;
+  margin: 1rem;
+  padding: 0.25rem 1rem;
+}
+
+.heading {
+  display: inline-block;
+  margin: 1rem;
 }
 </style>
