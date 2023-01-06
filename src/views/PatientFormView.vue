@@ -153,12 +153,7 @@
         <fieldset>
             <p>
                 Tests:
-                <testSelector
-                    :patientType="type"
-                    :tests="filteredTests"
-                    @updated="updateTestList"
-                    @tests-updated="updateTests"
-                />
+                <TestSelector v-model="selectedTests" :type="type" />
             </p>
             <p>
                 <label for="subtotal">Subtotal:</label>
@@ -210,7 +205,7 @@
 </template>
 
 <script>
-import testSelector from "../components/TestSelectorComponent.vue";
+import TestSelector from "../components/TestSelectorComponent.vue";
 import idInput from "../components/IDInputComponent.vue";
 import RandomGen from "../mixins/RandomGen";
 
@@ -218,7 +213,7 @@ const ipc = window.ipcRenderer;
 
 export default {
     components: {
-        testSelector,
+        TestSelector,
         idInput,
     },
     mixins: [RandomGen],
