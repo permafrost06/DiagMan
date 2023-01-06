@@ -1,4 +1,4 @@
-import * as random from "../records.js";
+import * as random from "../electron/debug/records.js";
 
 export default {
     methods: {

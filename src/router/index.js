@@ -1,13 +1,13 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import Pending from "../views/Pending.vue";
-import Records from "../views/Records.vue";
-import patientForm from "../views/patientForm.vue";
-import finalize from "../views/finalize.vue";
-import Report from "../views/Report.vue";
-import Invoice from "../views/Invoice.vue";
-import Settings from "../views/Settings.vue";
-import Summary from "../views/Summary.vue";
-import syncQueue from "../views/syncQueue.vue";
+import Pending from "../views/PendingView.vue";
+import Records from "../views/RecordsView.vue";
+import patientForm from "../views/PatientFormView.vue";
+import finalize from "../views/FinalizeView.vue";
+import Report from "../views/ReportView.vue";
+import Invoice from "../views/InvoiceView.vue";
+import Settings from "../views/SettingsView.vue";
+import Summary from "../views/SummaryView.vue";
+import syncQueue from "../views/SyncQueueView.vue";
 
 const routes = [
     {

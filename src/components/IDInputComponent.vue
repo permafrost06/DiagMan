@@ -1,9 +1,7 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <template>
     <p>
-<label for="id_input">
-        ID
-</label>
+        <label for="id_input">ID</label>
         <input id="id_input" v-model="id" @keydown="preventSlash" @keyup="checkID" />
         <okay-svg v-if="id && !idCollision && !slashError" />
         <error-svg v-if="(id && idCollision) || slashError" />
@@ -14,8 +12,8 @@
 </template>
 
 <script>
-import okaySvg from "../components/okay-svg.vue";
-import errorSvg from "../components/error-svg.vue";
+import okaySvg from "./IconOkayComponent.vue";
+import errorSvg from "./IconErrorComponent.vue";
 const ipc = window.ipcRenderer;
 
 export default {

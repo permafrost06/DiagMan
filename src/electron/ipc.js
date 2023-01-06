@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import * as db from "./db";
-import { win } from "./background";
+import { win } from "../background";
 import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 import { getSyncQueue, removeItem } from "./sync";
 

@@ -210,7 +210,7 @@
 </template>
 
 <script>
-import testSelector from "../components/testSelector.vue";
+import testSelector from "../components/TestSelectorComponent.vue";
 import idInput from "../components/IDInputComponent.vue";
 import RandomGen from "../mixins/RandomGen";
 
