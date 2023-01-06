@@ -1,7 +1,6 @@
 import { ipcMain } from "electron";
 import * as db from "./db";
 import { win } from "../background";
-import { limitTo, lastPage, nextPage, prevPage } from "./pagination.js";
 import { getSyncQueue, removeItem } from "./sync";
 
 const log = require("electron-log");
@@ -139,69 +138,11 @@ ipcMain.on("get-staged-rcd", async (event, id) => {
 });
 
 ipcMain.on("get-records", async (event, options, filter) => {
-    if (options.limit) {
-        const { limit, ...opt } = options;
-
-        if (options.lastID) {
-            const { lastID, ...dbopt } = opt;
-            const records = await db.getRecords(dbopt, filter);
-            const results = nextPage(records, lastID, limit);
-
-            if (results.length) {
-                event.returnValue = results;
-            } else {
-                event.returnValue = lastPage(records, limit);
-            }
-        } else if (options.firstID) {
-            const { firstID, ...dbopt } = opt;
-            const records = await db.getRecords(dbopt, filter);
-            const results = prevPage(records, firstID, limit);
-
-            if (results.length) {
-                event.returnValue = results;
-            } else {
-                event.returnValue = limitTo(records, limit);
-            }
-        } else {
-            const records = await db.getRecords(opt, filter);
-            event.returnValue = limitTo(records, limit);
-        }
-    } else {
-        event.returnValue = await db.getRecords(options, filter);
-    }
+    event.returnValue = await db.getRecords(options, filter);
 });
 
 ipcMain.on("get-staged", async (event, options, filter) => {
-    if (options.limit) {
-        const { limit, ...opt } = options;
-
-        if (options.lastID) {
-            const { lastID, ...dbopt } = opt;
-            const records = (await db.getStaged(dbopt, filter)).reverse();
-            const results = nextPage(records, lastID, limit);
-
-            if (results.length) {
-                event.returnValue = results;
-            } else {
-                event.returnValue = lastPage(records, limit);
-            }
-        } else if (options.firstID) {
-            const { firstID, ...dbopt } = opt;
-            const records = (await db.getStaged(dbopt, filter)).reverse();
-            const results = prevPage(records, firstID, limit);
-
-            if (results.length) {
-                event.returnValue = results;
-            } else {
-                event.returnValue = limitTo(records, limit);
-            }
-        } else {
-            const records = (await db.getStaged(opt, filter)).reverse();
-            event.returnValue = limitTo(records, limit);
-        }
-    } else {
-        event.returnValue = (await db.getStaged(options, filter)).reverse();
-    }
+    event.returnValue = (await db.getStaged(options, filter)).reverse();
 });
 
 ipcMain.on("get-referers", async (event) => {

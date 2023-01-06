@@ -1,4 +1,4 @@
-import jsonData from "./records.js";
+import jsonData from "./records.json";
 import { app } from "electron";
 
 const log = require("electron-log");
