@@ -15,39 +15,17 @@
                 v-model="id"
                 v-model:collision="idCollision"
                 :update="update"
-            >
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('id')"
-                >
-                    O
-                </button>
-            </id-input>
+            />
         </fieldset>
 
         <fieldset>
             <p>
                 <label for="patient_name">Patient Name</label>
                 <input id="patient_name" v-model="patientName" />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('name')"
-                >
-                    O
-                </button>
             </p>
             <p>
                 <label for="age">Age</label>
                 <input type="number" id="age" v-model="age" />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('age')"
-                >
-                    O
-                </button>
             </p>
             <p>
                 <label for="gender">Gender</label>
@@ -57,13 +35,6 @@
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                 </select>
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('gender')"
-                >
-                    O
-                </button>
             </p>
             <p>
                 <label for="contact">Contact No</label>
@@ -73,13 +44,6 @@
                     placeholder="01XXXXXXXXX"
                     v-model="contactNo"
                 />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('contact')"
-                >
-                    O
-                </button>
             </p>
         </fieldset>
 
@@ -87,24 +51,10 @@
             <p>
                 <label for="specimen">Specimen</label>
                 <input id="specimen" v-model="specimen" />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('specimen')"
-                >
-                    O
-                </button>
             </p>
             <p>
                 <label for="referer">Referer</label>
                 <input id="referer" list="doctors" v-model="referer" />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('referer')"
-                >
-                    O
-                </button>
             </p>
         </fieldset>
 
@@ -118,35 +68,14 @@
             <p>
                 <label for="collection_date">Specimen Collection Date</label>
                 <input id="collection_date" type="date" v-model="collDate" />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('collDate')"
-                >
-                    O
-                </button>
             </p>
             <p>
                 <label for="receiving_date">Specimen Receiving Date</label>
                 <input id="receiving_date" type="date" v-model="date" />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('date')"
-                >
-                    O
-                </button>
             </p>
             <p>
                 <label for="delivery_date">Report Delivery Date</label>
                 <input id="delivery_date" type="date" v-model="deliveryDate" />
-                <button
-                    class="random-gen"
-                    v-if="debug"
-                    @click="randomGen('deliveryDate')"
-                >
-                    O
-                </button>
             </p>
         </fieldset>
 
@@ -283,10 +212,6 @@ export default {
     },
     methods: {
         addToStaged(event) {
-            const fileList = [];
-            for (let i = 0; i < this.$refs.fileEl.files.length; i++) {
-                fileList.push(this.$refs.fileEl.files[i].path);
-            }
             event.preventDefault();
             ipc.send("add-staged", {
                 _id: this.id,
@@ -301,7 +226,29 @@ export default {
                 referer: this.referer,
                 deliveryDate: this.deliveryDate,
                 tests: JSON.stringify(this.selectedTests),
-                files: JSON.stringify(fileList),
+                subtotal: this.subtotal,
+                discount: Number(this.discount),
+                netPay: this.netPay,
+                advance: this.advance,
+                due: this.due,
+            });
+            this.$router.push({ name: "Pending" });
+        },
+        updateStaged(event) {
+            event.preventDefault();
+            ipc.send("update-staged", {
+                _id: this.id,
+                type: this.type,
+                patientName: this.patientName,
+                collDate: this.collDate,
+                date: this.date,
+                age: this.age,
+                gender: this.gender,
+                contactNo: this.contactNo,
+                specimen: this.specimen,
+                referer: this.referer,
+                deliveryDate: this.deliveryDate,
+                tests: JSON.stringify(this.selectedTests),
                 subtotal: this.subtotal,
                 discount: Number(this.discount),
                 netPay: this.netPay,
@@ -326,6 +273,24 @@ export default {
         this.debug = ipc.sendSync("check-debug");
         if (this.$route.params.id) {
             this.update = true;
+            const oldRecord = ipc.sendSync(
+                "get-staged-rcd",
+                this.$route.params.id
+            );
+            this.type = oldRecord.type;
+            this.id = oldRecord._id;
+            this.patientName = oldRecord.patientName;
+            this.age = oldRecord.age.split(" ")[0];
+            this.gender = oldRecord.gender;
+            this.contactNo = oldRecord.contactNo;
+            this.specimen = oldRecord.specimen;
+            this.referer = oldRecord.referer;
+            this.collDate = oldRecord.collDate;
+            this.date = oldRecord.date;
+            this.deliveryDate = oldRecord.deliveryDate;
+            this.selectedTests = oldRecord.tests;
+            this.discount = oldRecord.discount;
+            this.advance = oldRecord.advance;
         }
     },
 };

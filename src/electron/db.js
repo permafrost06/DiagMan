@@ -1,6 +1,5 @@
 import { app } from "electron";
 import * as sync from "./sync.js";
-import { copyFile } from "fs/promises";
 
 const log = require("electron-log");
 
@@ -161,26 +160,6 @@ export const addStaged = async (record, skip_queue) => {
     //     .padStart(2, "0");
 
     record.tests = JSON.parse(record.tests);
-    record.files = JSON.parse(record.files);
-
-    const newFiles = [];
-
-    for (let i = 0; i < record.files.length; i++) {
-        const newFile = `${app.getPath("userData")}/files/${
-            record._id
-        }-${String(i).padStart(2, "0")}.${record.files[i].split(".").pop()}`;
-
-        newFiles.push(newFile);
-
-        try {
-            await copyFile(record.files[i], newFile);
-        } catch (e) {
-            log.error("db.js: file copying error", e);
-        }
-    }
-
-    record.files = newFiles;
-    // log.debug(record.files);
 
     try {
         await stagedDB.put(record);
@@ -214,7 +193,6 @@ export const addCloudStaged = async (record) => {
 
 export const addRecord = async (record, skip_queue) => {
     record.tests = JSON.parse(record.tests);
-    record.files = JSON.parse(record.files);
 
     try {
         await db.put(record);
@@ -362,6 +340,10 @@ export const updateStaged = async (record, skip_queue) => {
     };
 
     record._rev = await getRev(record._id);
+
+    if (!skip_queue) {
+        record.tests = JSON.parse(record.tests);
+    }
 
     try {
         await stagedDB.put(record);

@@ -21,7 +21,7 @@ const routes = [
         component: Records,
     },
     {
-        path: "/add-record",
+        path: "/add-record/:id?",
         name: "AddRecord",
         component: patientForm,
     },
