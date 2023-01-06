@@ -309,4 +309,9 @@ tbody tr {
 td {
     padding: 1em;
 }
+
+.svg-container {
+    position: absolute;
+    display: inline-block;
+}
 </style>
