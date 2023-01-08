@@ -126,13 +126,19 @@
             <editor v-model="note" />
         </p>
         <p>
-            <input :disabled="debug" type="checkbox" id="sms" v-model="sms" />
+            <input
+                :disabled="debug || update"
+                type="checkbox"
+                id="sms"
+                v-model="sms"
+            />
             <label for="sms">Send SMS</label>
         </p>
         <p>SMS Remaining: {{ smsStatus.balance / 0.43 }}</p>
         <p>Expires on: {{ dateRearr(smsStatus.expiry.split("T")[0]) }}</p>
         <button :disabled="!filled" @click="addRecord" style="width: 8rem">
-            Add
+            <template v-if="update">Update</template>
+            <template v-else>Add</template>
         </button>
         <router-link :to="{ name: 'Pending' }">
             <button style="width: 8rem">Cancel</button>
@@ -169,6 +175,7 @@ export default {
                 balance: 0,
                 expiry: "0-0-0T",
             },
+            update: false,
         };
     },
     computed: {
@@ -200,7 +207,8 @@ export default {
         },
         addRecord(event) {
             event.preventDefault();
-            ipc.send("add-record", {
+            const ipcMsg = this.update ? "record-update" : "add-record";
+            ipc.send(ipcMsg, {
                 _id: this.record._id,
                 type: this.record.type,
                 collDate: this.record.collDate,
@@ -278,7 +286,17 @@ export default {
         },
     },
     beforeMount() {
-        this.record = ipc.sendSync("get-staged-rcd", this.$route.params.id);
+        const record = ipc.sendSync("get-record", this.$route.params.id);
+        if (record) {
+            this.update = true;
+            this.record = record;
+            this.aspNote = record.aspNote;
+            this.me = record.me;
+            this.impression = record.impression;
+            this.note = record.note;
+        } else {
+            this.record = ipc.sendSync("get-staged-rcd", this.$route.params.id);
+        }
         this.syncTemplates();
 
         ipc.on("db-updated", () => {

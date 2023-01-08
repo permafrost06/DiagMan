@@ -26,7 +26,7 @@
     </td>
     <td>
         <button @click="deleteRecord" class="delete-button">Delete</button>
-        <button @click="editRecord" class="edit-button">Edit</button>
+        <button @click="editRecord" class="edit-button">Edit Patient</button>
     </td>
     <td>
         <slot></slot>

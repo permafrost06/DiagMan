@@ -115,7 +115,7 @@
             <button
                 v-if="update"
                 :disabled="idCollision || !filled"
-                @click="updateStaged"
+                @click="updatePatient"
             >
                 Update Patient
             </button>
@@ -172,6 +172,8 @@ export default {
             advance: 0,
             debug: false,
             update: false,
+            report: {},
+            notStaged: false,
         };
     },
     computed: {
@@ -234,8 +236,12 @@ export default {
             });
             this.$router.push({ name: "Pending" });
         },
-        updateStaged(event) {
+        updatePatient(event) {
             event.preventDefault();
+            if (this.notStaged) this.updateRecord();
+            this.updateStaged();
+        },
+        updateStaged() {
             ipc.send("update-staged", {
                 _id: this.id,
                 type: this.type,
@@ -257,6 +263,31 @@ export default {
             });
             this.$router.push({ name: "Pending" });
         },
+        updateRecord() {
+            ipc.send("record-update", {
+                _id: this.id,
+                type: this.type,
+                patientName: this.patientName,
+                collDate: this.collDate,
+                date: this.date,
+                age: this.age,
+                gender: this.gender,
+                contactNo: this.contactNo,
+                specimen: this.specimen,
+                referer: this.referer,
+                deliveryDate: this.deliveryDate,
+                tests: JSON.stringify(this.selectedTests),
+                subtotal: this.subtotal,
+                discount: Number(this.discount),
+                netPay: this.netPay,
+                advance: this.advance,
+                due: this.due,
+                aspNote: this.report.aspNote,
+                me: this.report.me,
+                impression: this.report.impression,
+                note: this.report.note,
+            });
+        },
         checkID() {
             ipc.send("check-id-collision", this.id, this.update);
         },
@@ -273,10 +304,20 @@ export default {
         this.debug = ipc.sendSync("check-debug");
         if (this.$route.params.id) {
             this.update = true;
-            const oldRecord = ipc.sendSync(
+            let oldRecord = ipc.sendSync(
                 "get-staged-rcd",
                 this.$route.params.id
             );
+            if (!oldRecord) {
+                oldRecord = ipc.sendSync("get-record", this.$route.params.id);
+                this.notStaged = true;
+                this.report = {
+                    aspNote: oldRecord.aspNote,
+                    me: oldRecord.me,
+                    impression: oldRecord.impression,
+                    note: oldRecord.note,
+                };
+            }
             this.type = oldRecord.type;
             this.id = oldRecord._id;
             this.patientName = oldRecord.patientName;
