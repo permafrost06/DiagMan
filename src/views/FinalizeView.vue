@@ -129,6 +129,8 @@
             <input :disabled="debug" type="checkbox" id="sms" v-model="sms" />
             <label for="sms">Send SMS</label>
         </p>
+        <p>SMS Remaining: {{ smsStatus.balance / 0.43 }}</p>
+        <p>Expires on: {{ dateRearr(smsStatus.expiry.split("T")[0]) }}</p>
         <button :disabled="!filled" @click="addRecord" style="width: 8rem">
             Add
         </button>
@@ -163,6 +165,10 @@ export default {
             saveButtonText: "Save Template As",
             sms: true,
             debug: false,
+            smsStatus: {
+                balance: 0,
+                expiry: "0-0-0T",
+            },
         };
     },
     computed: {
@@ -175,6 +181,10 @@ export default {
         },
     },
     methods: {
+        dateRearr(date) {
+            const dateArr = date.split("-");
+            return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
+        },
         template(event) {
             this.templateID = event.target.value;
             let template = this.templates
@@ -275,6 +285,7 @@ export default {
             this.syncTemplates();
         });
         this.debug = ipc.sendSync("check-debug");
+        this.smsStatus = ipc.sendSync("get-sms-balance");
     },
     updated() {
         if (this.debug) this.sms = false;
