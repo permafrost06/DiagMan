@@ -1,7 +1,7 @@
 <template>
     <h1 class="heading">Past Reports</h1>
     <router-link :to="{ name: 'Pending' }">
-        <button class="secondary" :disabled="syncing">Go To Patients</button>
+        <button class="secondary">Go To Patients</button>
     </router-link>
     <div class="id-search-container">
         <input
