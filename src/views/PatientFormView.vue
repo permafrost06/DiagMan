@@ -239,7 +239,7 @@ export default {
         updatePatient(event) {
             event.preventDefault();
             if (this.notStaged) this.updateRecord();
-            this.updateStaged();
+            else this.updateStaged();
         },
         updateStaged() {
             ipc.send("update-staged", {
@@ -287,6 +287,7 @@ export default {
                 impression: this.report.impression,
                 note: this.report.note,
             });
+            this.$router.push({ name: "Records" });
         },
         checkID() {
             ipc.send("check-id-collision", this.id, this.update);
