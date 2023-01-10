@@ -7,22 +7,15 @@
 <script>
 import about from "./components/AboutComponent.vue";
 import password from "./components/PasswordComponent.vue";
-import { initializeApp } from "firebase/app";
-import { initializeFirestore } from "firebase/firestore/lite";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-
 import {
-    getDoc,
-    deleteDoc,
-    doc,
-    setDoc,
-    getDocs,
-    collection,
-} from "firebase/firestore/lite";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+    firebaseSignIn,
+    getSMSSettings,
+    sendToFirebase,
+    getAllFirestoreData,
+} from "./firebase";
 
-const ipc = window.ipcRenderer;
 const log = require("electron-log");
+const ipc = window.ipcRenderer;
 
 export default {
     name: "App",
@@ -65,87 +58,35 @@ export default {
         });
     },
     async mounted() {
-        const firebaseConfig = {
-            apiKey: "AIzaSyCwzmIhPhUxB7uFsCHlWhARTiSzMylDn0A",
-            projectId: "casedb-29442120",
-            storageBucket: "casedb-29442120.appspot.com",
-            messagingSenderId: "354561150712",
-            appId: "1:354561150712:web:3db5b0d737be49a90bf50d",
-        };
+        try {
+            await firebaseSignIn();
+        } catch (e) {
+            log.error(e);
+        }
 
-        const firebaseApp = initializeApp(firebaseConfig);
-        const db = initializeFirestore(firebaseApp);
-        const storage = getStorage();
-
-        const sendToFirebase = async (syncObject) => {
-            if (syncObject.type == "remove") {
-                try {
-                    await deleteDoc(
-                        doc(db, syncObject.db, syncObject.object._id)
-                    );
-                } catch (e) {
-                    log.error("App.vue: Firestore doc delete error", e);
-                    return false;
-                }
-                return true;
-            } else {
-                try {
-                    await setDoc(
-                        doc(db, syncObject.db, syncObject.object._id),
-                        syncObject.object
-                    );
-                } catch (e) {
-                    log.error("App.vue: Firestore doc setting error", e);
-                    return false;
-                }
-                return true;
-            }
-        };
-
-        const email = "finalconceptmedia@gmail.com";
-        const password = "casedb2618914";
-
-        const auth = getAuth();
-        await signInWithEmailAndPassword(auth, email, password)
-            .then(async (userCredential) => {
-                const user = userCredential.user;
-                log.info("App.vue: Firebase login success", user);
-                const sms_settings = await getDoc(doc(db, "settings", "sms"));
-                ipc.send("sms-settings", sms_settings.data());
-            })
-            .catch((error) => {
-                log.error(
-                    "App.vue: Firebase login error",
-                    error.code,
-                    error.message
-                );
-            });
+        try {
+            ipc.send("sms-settings", await getSMSSettings());
+        } catch (e) {
+            log.error(e);
+        }
 
         ipc.on("send-to-firebase", async (event, syncObject) => {
             log.info("App.vue: Sync object", syncObject);
+            try {
                 if (await sendToFirebase(syncObject)) {
                     ipc.send("firebase-success");
                 }
-            // try to catch error here and send some other ipc message to return function
+            } catch (error) {
+                log.error(error);
+            }
         });
 
         ipc.on("get-from-firebase", async () => {
-                const allData = {};
-                for (let coll of ["staged", "records", "tests", "templates"]) {
-                const collectionSnapshot = await getDocs(collection(db, coll));
-                    const allDocs = collectionSnapshot.docs.map((doc) =>
-                        doc.data()
-                    );
-                    allData[coll] = allDocs;
-                }
-                ipc.send("firebase-pull", allData);
-        });
-
-        ipc.on("send-blob", async (event, buffer) => {
-            const storageRef = ref(storage, "test.pdf");
-            uploadBytes(storageRef, buffer).then((snap) =>
-                log.debug("App.vue: file array uploaded!", snap)
-            );
+            try {
+                ipc.send("firebase-pull", await getAllFirestoreData());
+            } catch (error) {
+                log.error(error);
+            }
         });
     },
 };

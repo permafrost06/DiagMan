@@ -69,6 +69,7 @@
 
 <script>
 import recordRow from "../components/RecordRowComponent.vue";
+import { connectedToInternet, checkFirestoreQuota } from "../firebase";
 
 const ipc = window.ipcRenderer;
 const log = require("electron-log");
@@ -114,32 +115,26 @@ export default {
         deleteStaged(data) {
             ipc.send("delete-staged", data);
         },
-        async connectedToInternet() {
-            let response;
-            try {
-                response = await fetch(
-                    "https://upload.wikimedia.org/wikipedia/commons/a/a6/Brandenburger_Tor_abends.jpg",
-                    { cache: "no-store" }
-                );
-            } catch (e) {
-                return false;
-            }
-
-            if (response.ok) {
-                return true;
-            } else {
-                return false;
-            }
-        },
         async startSync() {
-            if (await this.connectedToInternet()) {
+            try {
+                await connectedToInternet();
+                await checkFirestoreQuota();
                 this.syncing = true;
                 ipc.send("start-sync");
                 log.info("patientsTable.vue: connection online, starting sync");
-            } else {
-                log.warn(
-                    "patientsTable.vue: connection offline, sync cancelled"
-                );
+            } catch (e) {
+                if (e.message === "No internet connection") {
+                    log.warn(
+                        "patientsTable.vue: connection offline, sync cancelled"
+                    );
+                }
+
+                if (e.message === "Firestore quota reached") {
+                    log.warn(
+                        "patientsTable.vue: firestore quota reached, cannot sync"
+                    );
+                }
+
                 this.syncing = false;
             }
         },
