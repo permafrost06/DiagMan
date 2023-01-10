@@ -1,26 +1,39 @@
 <template>
-    <form>
+    <form class="finalize-form">
         <div class="row">
             <div class="row-left">
-                <p>ID: {{ record._id }}</p>
-                <p>
-                    <span class="bold">Patient Name:</span>
-                    {{ record.patientName }}
+                <p class="bold">
+                    <span class="field-name">ID:</span> {{ record._id }}
                 </p>
                 <p>
-                    <span class="bold">Date Collected:</span>
-                    {{ record.collDate }}
+                    <span class="bold field-name">Patient Name:</span
+                    >{{ record.patientName }}
                 </p>
                 <p>
-                    <span class="bold">Date Received:</span> {{ record.date }}
+                    <span class="bold field-name">Date Collected:</span
+                    >{{ record.collDate }}
                 </p>
-                <p><span class="bold">Age:</span> {{ record.age }}</p>
-                <p><span class="bold">Gender:</span> {{ record.gender }}</p>
                 <p>
-                    <span class="bold">Contact No:</span> {{ record.contactNo }}
+                    <span class="bold field-name">Date Received:</span
+                    >{{ record.date }}
                 </p>
-                <p><span class="bold">Referer:</span> {{ record.referer }}</p>
-                <p><span class="bold">Specimen:</span> {{ record.specimen }}</p>
+                <p><span class="bold field-name">Age:</span>{{ record.age }}</p>
+                <p>
+                    <span class="bold field-name">Gender:</span
+                    >{{ displayGender(record.gender) }}
+                </p>
+                <p>
+                    <span class="bold field-name">Contact No:</span
+                    >{{ record.contactNo }}
+                </p>
+                <p>
+                    <span class="bold field-name">Referer:</span
+                    >{{ record.referer }}
+                </p>
+                <p>
+                    <span class="bold field-name">Specimen:</span
+                    >{{ record.specimen }}
+                </p>
             </div>
             <div class="row-right">
                 <h3>Templates</h3>
@@ -104,27 +117,29 @@
                 </p>
             </div>
         </div>
-        <p>
-            <span v-if="record.type == 'cyto'" class="bold"
-                >Aspiration Note</span
-            >
-            <span v-if="record.type == 'histo'" class="bold"
-                >Gross Examination</span
-            >
-            <editor v-model="aspNote" />
-        </p>
-        <p>
-            <span class="bold">Microscopic Examination</span>
-            <editor v-model="me" />
-        </p>
-        <p>
-            <span class="bold">Impression</span>
-            <editor v-model="impression" />
-        </p>
-        <p>
-            <span class="bold">Note</span>
-            <editor v-model="note" />
-        </p>
+        <div class="editors-container">
+            <p>
+                <span v-if="record.type == 'cyto'" class="bold"
+                    >Aspiration Note</span
+                >
+                <span v-if="record.type == 'histo'" class="bold"
+                    >Gross Examination</span
+                >
+                <editor v-model="aspNote" />
+            </p>
+            <p>
+                <span class="bold">Microscopic Examination</span>
+                <editor v-model="me" />
+            </p>
+            <p>
+                <span class="bold">Impression</span>
+                <editor v-model="impression" />
+            </p>
+            <p>
+                <span class="bold">Note</span>
+                <editor v-model="note" />
+            </p>
+        </div>
         <p>
             <input
                 :disabled="debug || update"
@@ -136,13 +151,15 @@
         </p>
         <p>SMS Remaining: {{ smsStatus.balance / 0.43 }}</p>
         <p>Expires on: {{ dateRearr(smsStatus.expiry.split("T")[0]) }}</p>
-        <button :disabled="!filled" @click="addRecord" style="width: 8rem">
-            <template v-if="update">Update</template>
-            <template v-else>Add</template>
-        </button>
-        <router-link :to="{ name: 'Pending' }">
-            <button style="width: 8rem">Cancel</button>
-        </router-link>
+        <div class="action-buttons-holder">
+            <button :disabled="!filled" @click="addRecord">
+                <template v-if="update">Update</template>
+                <template v-else>Add</template>
+            </button>
+            <router-link :to="{ name: 'Pending' }">
+                <button class="secondary">Cancel</button>
+            </router-link>
+        </div>
     </form>
 </template>
 
@@ -191,6 +208,11 @@ export default {
         dateRearr(date) {
             const dateArr = date.split("-");
             return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
+        },
+        displayGender(str) {
+            if (str === "male") return "Male";
+            if (str === "female") return "Female";
+            return str;
         },
         template(event) {
             this.templateID = event.target.value;
@@ -312,18 +334,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-textarea {
-    font-family: "Ubuntu";
-    width: 50vw;
-    height: 10ch;
-    width: 100%;
-    border: 1px solid #c4c4c4;
-    border-radius: 4px;
-    padding-left: 0.5rem;
+.finalize-form {
+    margin: 1rem;
+
+    p {
+        margin: 0.5rem 0;
+    }
 }
 
-* {
-    margin: 0.5rem 0.25rem;
+.field-name {
+    display: inline-block;
+    width: 8rem;
+    margin: 0;
 }
 
 .row {
@@ -336,8 +358,6 @@ textarea {
 
 .organ-button {
     display: inline-block;
-    width: auto;
-    padding: 0 0.5rem;
 }
 
 .new-organ-field {
@@ -349,8 +369,8 @@ textarea {
     width: 25rem;
 }
 
-button:disabled {
-    color: gray;
-    background: #0f3842;
+.editors-container span {
+    display: inline-block;
+    margin: 0 0 0.5rem 0.5rem;
 }
 </style>

@@ -1,9 +1,12 @@
 <template>
     <h1 class="heading">Pending Patients</h1>
     <router-link :to="{ name: 'AddRecord' }">
-        <button class="add-button" :disabled="syncing">Add Patient</button>
+        <button :disabled="syncing">Add Patient</button>
     </router-link>
-    <button class="sync-button" @click="startSync">Sync Now</button>
+    <router-link :to="{ name: 'Records' }">
+        <button class="secondary" :disabled="syncing">Go To Reports</button>
+    </router-link>
+    <button @click="startSync">Sync Now</button>
     <template v-if="syncing">Syncing. Please wait...</template>
     <div class="id-search-container">
         <input
@@ -13,26 +16,31 @@
             v-model="search_id"
         />
     </div>
-    <table :style="cssVars">
+    <table>
         <thead>
             <tr>
-                <th>
+                <th class="col-1">
                     <div>Patient Name</div>
                 </th>
-                <th>
+                <th class="col-2">
                     <div>Date</div>
                 </th>
-                <th>
+                <th class="col-3">
                     <div>Age</div>
                 </th>
-                <th>
+                <th class="col-4">
+                    <div>Contact</div>
+                </th>
+                <th class="col-5">
                     <div>Specimen</div>
                 </th>
-                <th>
+                <th class="col-6">
                     <div>Referer</div>
                 </th>
-                <th />
-                <th />
+                <th class="col-8">
+                    <div>Actions</div>
+                </th>
+                <th class="col-9" />
             </tr>
         </thead>
         <tbody>
@@ -41,7 +49,7 @@
                     <router-link
                         :to="{ name: 'Invoice', params: { id: record._id } }"
                     >
-                        <button style="padding: 0px 0.5rem">Invoice</button>
+                        <button>Invoice</button>
                     </router-link>
                     <router-link
                         :to="{
@@ -49,9 +57,7 @@
                             params: { id: record._id },
                         }"
                     >
-                        <button
-                            style="margin-top: 0.75rem; padding: 0px 0.5rem"
-                        >
+                        <button>
                             Finalize
                         </button>
                     </router-link>
@@ -142,17 +148,6 @@ export default {
         },
     },
     computed: {
-        cssVars() {
-            return {
-                "--col1w": this.clientWidth * 0.2 + "px",
-                "--col2w": this.clientWidth * 0.1 + "px",
-                "--col3w": this.clientWidth * 0.1 + "px",
-                "--col4w": this.clientWidth * 0.2 + "px",
-                "--col5w": this.clientWidth * 0.2 + "px",
-                "--col6w": this.clientWidth * 0.05 + "px",
-                "--col7w": this.clientWidth * 0.05 + "px",
-            };
-        },
         filteredPatients() {
             return this.records.filter((record) =>
                 record._id.toLowerCase().includes(this.search_id.toLowerCase())
@@ -199,7 +194,7 @@ export default {
     mounted() {
         this.timer = setInterval(() => {
             this.startSync();
-        }, 60 * 1000);
+        }, 60 * 60 * 1000);
     },
     beforeUnmount() {
         clearInterval(this.timer);
@@ -207,88 +202,28 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-table td,
-table th {
-    overflow: hidden;
-}
-table th:nth-of-type(1),
-table td:nth-of-type(1) {
-    width: var(--col1w);
-}
-table th:nth-of-type(2),
-table td:nth-of-type(2) {
-    width: var(--col2w);
-}
-table th:nth-of-type(3),
-table td:nth-of-type(3) {
-    width: var(--col3w);
-}
-table th:nth-of-type(4),
-table td:nth-of-type(4) {
-    width: var(--col4w);
-}
-table th:nth-of-type(5),
-table td:nth-of-type(5) {
-    width: var(--col5w);
-}
-table th:nth-of-type(6),
-table td:nth-of-type(6) {
-    width: var(--col6w);
-}
-table th:nth-of-type(7),
-table td:nth-of-type(7) {
-    width: var(--col7w);
-}
-table th:nth-of-type(8),
-table td:nth-of-type(8) {
-    width: var(--col8w);
-}
-table th:nth-of-type(9),
-table td:nth-of-type(9) {
-    width: var(--col9w);
-}
-table th:nth-of-type(10),
-table td:nth-of-type(10) {
-    width: var(--col10w);
+<style>
+.col-1 {
+    width: 17vw;
 }
 
-table {
-    max-width: 72rem;
-    margin-top: 20px;
-    border-top: 2px solid #c0c0c080;
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: calc(
-        var(--col1w) + var(--col2w) + var(--col3w) + var(--col4w) + var(--col5w) +
-            var(--col6w) + var(--col7w) + var(--col8w)
-    );
-
-    thead {
-        border-bottom: 2px solid #c0c0c080;
-    }
-    margin-inline: auto;
+.col-2 {
+    width: 9vw;
 }
 
-button:disabled {
-    color: gray;
-    background: #0f3842;
+.col-3 {
+    width: 8vw;
 }
 
-.sync-button {
-    width: auto;
-    margin: 1rem;
-    padding: 0.25rem 1rem;
+.col-4 {
+    width: 11vw;
 }
 
-.add-button {
-    width: auto;
-    margin: 1rem;
-    padding: 0.25rem 1rem;
+.col-7 {
+    width: 8vw;
 }
 
-.heading {
-    display: inline-block;
-    margin: 1rem;
+.col-8 {
+    width: 6vw;
 }
 </style>

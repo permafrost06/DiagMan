@@ -123,22 +123,22 @@ export default {
 
         ipc.on("send-to-firebase", async (event, syncObject) => {
             log.info("App.vue: Sync object", syncObject);
-            if (await sendToFirebase(syncObject)) {
-                ipc.send("firebase-success");
-            }
+                if (await sendToFirebase(syncObject)) {
+                    ipc.send("firebase-success");
+                }
             // try to catch error here and send some other ipc message to return function
         });
 
         ipc.on("get-from-firebase", async () => {
-            const allData = {};
-            for (let coll of ["staged", "records", "tests", "templates"]) {
+                const allData = {};
+                for (let coll of ["staged", "records", "tests", "templates"]) {
                 const collectionSnapshot = await getDocs(collection(db, coll));
-                const allDocs = collectionSnapshot.docs.map((doc) =>
-                    doc.data()
-                );
-                allData[coll] = allDocs;
-            }
-            ipc.send("firebase-pull", allData);
+                    const allDocs = collectionSnapshot.docs.map((doc) =>
+                        doc.data()
+                    );
+                    allData[coll] = allDocs;
+                }
+                ipc.send("firebase-pull", allData);
         });
 
         ipc.on("send-blob", async (event, buffer) => {
@@ -151,7 +151,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @font-face {
     font-family: "Ubuntu";
     src: url("~@/assets/Ubuntu-BoldItalic.ttf") format("truetype");
@@ -241,6 +241,32 @@ h5 {
     font-size: 1rem;
 }
 
+button {
+    color: white;
+    background: #17768d;
+    border-radius: 4px;
+    border-style: none;
+    margin: 1rem;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+
+    &:disabled {
+        color: gray;
+        background: #0f3842;
+    }
+}
+
+button.secondary {
+    color: #17768d;
+    background: white;
+    border: 1px solid #17768d;
+
+    &:disabled {
+        color: gray;
+        background: white;
+    }
+}
+
 small {
     color: #a2a2a2;
     font-size: 0.8rem;
@@ -250,40 +276,39 @@ small {
     font-weight: 800;
 }
 
-.sm-button {
-    width: auto;
-    margin: 1rem;
-    padding: 0.25rem 1rem;
-}
-
-#nav {
-    padding: 1.5rem;
-    padding-bottom: 1rem;
-    width: 100vw;
-    background: #1b91af;
-}
-
-#nav a {
-    text-decoration: none;
-    color: white;
-    padding: 1rem;
-    padding-bottom: 3rem;
-    border: 1px solid white;
-    border-radius: 15px;
-    border-bottom: none;
-}
-
-#nav .router-link-active {
-    color: black;
-    background: white;
-}
-
 .id-search {
     margin-left: 1rem;
     height: 1.7rem;
     padding: 0.5rem;
     border-radius: 4px;
     border: 1px solid black;
+}
+
+table td,
+table th {
+    overflow: hidden;
+}
+
+table {
+    margin-top: 20px;
+    border-top: 2px solid #c0c0c080;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 97vw;
+
+    thead {
+        border-bottom: 2px solid #c0c0c080;
+    }
+
+    margin-inline: 1vw;
+}
+
+.buttons-cell {
+    text-align: center;
+
+    button {
+        margin: 0.2rem 0;
+    }
 }
 
 thead {
@@ -307,11 +332,29 @@ tbody tr {
 }
 
 td {
-    padding: 1em;
+    padding: 0.2rem 0.5rem;
 }
 
 .svg-container {
     position: absolute;
+    display: inline-block;
+}
+
+.action-buttons-holder {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    button {
+        font-size: 1.3rem;
+        height: auto;
+        width: auto;
+        padding: 0.5rem 1rem;
+    }
+}
+
+.heading {
+    margin: 1rem;
     display: inline-block;
 }
 </style>
