@@ -111,7 +111,7 @@
             </p>
         </fieldset>
 
-        <div class="buttons-holder">
+        <div class="action-buttons-holder">
             <button
                 v-if="update"
                 :disabled="idCollision || !filled"
@@ -127,7 +127,7 @@
                 Add Patient
             </button>
             <router-link to="/">
-                <button>Cancel</button>
+                <button class="secondary">Cancel</button>
             </router-link>
         </div>
     </div>
@@ -379,24 +379,6 @@ export default {
     p {
         margin: 0.5rem 0;
     }
-
-    .buttons-holder {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-
-        button {
-            font-size: 1.3rem;
-            height: auto;
-            width: auto;
-            padding: 0.5rem 1rem;
-        }
-    }
-}
-
-button:disabled {
-    color: gray;
-    background: #0f3842;
 }
 
 button.random-gen {

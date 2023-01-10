@@ -1,34 +1,31 @@
 <template>
-    <td v-bind="$attrs">
+    <td class="col-1" v-bind="$attrs">
         <h5>{{ patientName }}</h5>
         <small>{{ _id }}</small>
     </td>
-    <td>
+    <td class="col-2">
         {{ dateRearr(date) }}
     </td>
-    <td>
+    <td :class="[{ 'col-3': !aspNote }]" v-if="!aspNote">
         {{ age }}
     </td>
-    <td>
+    <td :class="[{ 'col-4': !aspNote }]" v-if="!aspNote">
+        {{ contactNo }}
+    </td>
+    <td :class="[{ 'col-5': !aspNote }, { 'col-3': aspNote }]">
         {{ specimen }}
     </td>
-    <td>
+    <td :class="[{ 'col-6': !aspNote }]" v-if="!aspNote">
         {{ referer }}
     </td>
-    <td v-if="aspNote">
-        {{ aspNote }}
+    <td class="col-4" v-if="aspNote" v-html="aspNote" />
+    <td class="col-5" v-if="me" v-html="meShort" />
+    <td class="col-6" v-if="impression" v-html="impressionShort" />
+    <td class="col-7 buttons-cell">
+        <button @click="deleteRecord" class="secondary">Delete</button>
+        <button @click="editRecord">Edit Patient</button>
     </td>
-    <td v-if="me">
-        {{ meShort }}
-    </td>
-    <td v-if="impression">
-        {{ impressionShort }}
-    </td>
-    <td>
-        <button @click="deleteRecord" class="delete-button">Delete</button>
-        <button @click="editRecord" class="edit-button">Edit Patient</button>
-    </td>
-    <td>
+    <td class="col-8 buttons-cell">
         <slot></slot>
     </td>
 </template>
@@ -79,18 +76,3 @@ export default {
     },
 };
 </script>
-
-<style lang="scss">
-button {
-    color: white;
-    background: #17768d;
-    border-radius: 4px;
-    height: 1.5rem;
-    width: 100%;
-    border-style: none;
-}
-
-.delete-button {
-    padding: 0px 0.5rem;
-}
-</style>

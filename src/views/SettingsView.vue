@@ -41,10 +41,10 @@
                     type="number"
                     v-model="newTestCost"
                 />
-                <button style="margin-left: 0.25rem" @click="addTestToDB">
+                <button @click="addTestToDB">
                     Add
                 </button>
-                <button style="margin-left: 0.25rem" @click="cancelAdd">
+                <button @click="cancelAdd">
                     Cancel
                 </button>
             </span>
