@@ -42,17 +42,17 @@
             <tr v-for="record in filteredRecords" :key="record._id">
                 <recordRow v-bind="record" @delete="deleteRecord">
                     <router-link
+                        :to="{ name: 'Report', params: { id: record._id } }"
+                    >
+                        <button>Report</button>
+                    </router-link>
+                    <router-link
                         :to="{
                             name: 'finalizeRecord',
                             params: { id: record._id },
                         }"
                     >
-                        <button>Edit report</button>
-                    </router-link>
-                    <router-link
-                        :to="{ name: 'Report', params: { id: record._id } }"
-                    >
-                        <button>Report</button>
+                        <button class="secondary">Edit report</button>
                     </router-link>
                 </recordRow>
             </tr>

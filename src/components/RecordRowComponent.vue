@@ -22,8 +22,8 @@
     <td class="col-5" v-if="me" v-html="meShort" />
     <td class="col-6" v-if="impression" v-html="impressionShort" />
     <td class="col-7 buttons-cell">
-        <button @click="deleteRecord" class="secondary">Delete</button>
-        <button @click="editRecord">Edit Patient</button>
+        <button @click="deleteRecord" class="danger">Delete</button>
+        <button @click="editRecord" class="secondary">Edit Patient</button>
     </td>
     <td class="col-8 buttons-cell">
         <slot></slot>

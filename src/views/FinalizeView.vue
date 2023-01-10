@@ -108,7 +108,7 @@
                         Update Template
                     </button>
                     <button
-                        class="organ-button"
+                        class="organ-button danger"
                         @click="deleteTemplate"
                         v-if="templateID"
                     >

@@ -208,6 +208,10 @@ button.secondary {
     }
 }
 
+button.danger {
+    background: #ef0f17;
+}
+
 small {
     color: #a2a2a2;
     font-size: 0.8rem;

@@ -5,7 +5,7 @@
         <div class="test test-type">{{ type }}</div>
         <div class="test test-size">{{ size }}</div>
         <div class="test test-cost">{{ cost }}</div>
-        <button @click="deleteEntry">Delete</button>
+        <button @click="deleteEntry" class="danger">Delete</button>
     </li>
 </template>
 
