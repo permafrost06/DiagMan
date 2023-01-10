@@ -52,10 +52,6 @@ if (!gotTheLock) {
         }
         createWindow();
         win.maximize();
-
-        win.on("resize", () => {
-            win.webContents.send("resized");
-        });
     });
 }
 
@@ -132,10 +128,6 @@ ipcMain.on("debug-mode-enabled", () => {
 });
 
 ipcMain.on("check-debug", (event) => (event.returnValue = prod_debug));
-
-ipcMain.on("get-width", (event) => {
-    event.returnValue = win.getSize()[0];
-});
 
 ipcMain.on("export", async (event, ids) => {
     var csv;
