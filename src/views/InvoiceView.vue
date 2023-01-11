@@ -1,7 +1,7 @@
 <template>
     <button>Print</button>
     <router-link :to="{ name: 'Pending' }">
-        <button>Go back</button>
+        <button class="secondary">Go back</button>
     </router-link>
     <div class="report">
         <div class="page">
