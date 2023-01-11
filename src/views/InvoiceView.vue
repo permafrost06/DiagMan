@@ -1,5 +1,5 @@
 <template>
-    <button>Print</button>
+    <button @click="print">Print</button>
     <router-link :to="{ name: 'Pending' }">
         <button>Go back</button>
     </router-link>
