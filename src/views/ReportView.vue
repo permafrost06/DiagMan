@@ -1,5 +1,5 @@
 <template>
-    <button>Print</button>
+    <button @click="print">Print</button>
     <router-link :to="{ name: 'Pending' }">
         <button class="secondary">Go back</button>
     </router-link>
@@ -59,9 +59,6 @@ export default {
     beforeMount() {
         this.record = ipc.sendSync("get-record", this.$route.params.id);
     },
-    // mounted() {
-    //   this.print();
-    // },
 };
 </script>
 
