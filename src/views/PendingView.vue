@@ -16,7 +16,7 @@
             v-model="search_id"
         />
     </div>
-    <table>
+    <table class="case-table">
         <thead>
             <tr>
                 <th class="col-1">

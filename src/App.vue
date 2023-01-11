@@ -229,12 +229,12 @@ small {
     border: 1px solid black;
 }
 
-table td,
-table th {
+table.case-table td,
+table.case-table th {
     overflow: hidden;
 }
 
-table {
+table.case-table {
     margin-top: 20px;
     border-top: 2px solid #c0c0c080;
     border-collapse: collapse;
