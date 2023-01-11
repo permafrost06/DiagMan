@@ -159,9 +159,6 @@ export default {
         this.record = ipc.sendSync("get-staged-rcd", this.$route.params.id);
         this.allTests = ipc.sendSync("get-tests");
     },
-    // mounted() {
-    //   this.print();
-    // },
 };
 </script>
 
@@ -221,14 +218,12 @@ h1 {
 @media screen {
     div.page {
         margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
-        // margin: 1in 1in 1.2in 1in; /* printers usually have a bigger bottom margin*/
     }
 }
 
 @media print {
     div.page {
         margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
-        // margin-top: 1.8in;
     }
 
     button {
