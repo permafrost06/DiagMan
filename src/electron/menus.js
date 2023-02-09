@@ -44,6 +44,12 @@ export const debugMenu = Menu.buildFromTemplate([
                     win.webContents.send("show-sync-queue");
                 },
             },
+            {
+                label: "Timestamp Fix",
+                click: () => {
+                    win.webContents.send("show-timestamp-fix");
+                },
+            },
         ],
     },
     {

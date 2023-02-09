@@ -1,5 +1,6 @@
 <template>
     <div>
+        <button @click="addTimeStampsToAll">Add Timestamps</button>
         <div v-for="(rec, idx) in records" :key="rec._id">
             {{ idx + ": " + rec._id }}
         </div>
@@ -27,10 +28,10 @@ export default {
                 await new Promise((resolve) => {
                     setTimeout(() => {
                         resolve(true);
-                    }, 90);
+                    }, 1500);
                 });
                 console.log(staged[i]._id);
-                addTimestamp(staged[i]);
+                await addTimestamp(staged[i]);
             }
 
             const unstamped = [];
@@ -63,7 +64,7 @@ export default {
                 await new Promise((resolve) => {
                     setTimeout(() => {
                         resolve(true);
-                    }, 90);
+                    }, 1500);
                 });
 
                 if (rec) {

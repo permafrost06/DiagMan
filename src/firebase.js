@@ -115,7 +115,7 @@ export const connectedToInternet = async () => {
     }
 };
 
-export const getAllStaged = async () => {
+export const getStagedSorted = async () => {
     const stagedRef = collection(db, "staged");
     const q = query(stagedRef, orderBy("timestamp", "desc"));
 
@@ -127,6 +127,11 @@ export const getAllStaged = async () => {
     });
 
     return ret;
+};
+
+export const getAllStaged = async () => {
+    const stagedSnapshot = await getDocs(collection(db, "staged"));
+    return stagedSnapshot.docs.map((doc) => doc.data());
 };
 
 export const addTimestamp = async (document) => {

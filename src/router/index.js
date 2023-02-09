@@ -12,7 +12,7 @@ import timestampFix from "../views/timestampFix.vue";
 
 const routes = [
     {
-        path: "/pending",
+        path: "/",
         name: "Pending",
         component: Pending,
     },
@@ -57,7 +57,7 @@ const routes = [
         component: syncQueue,
     },
     {
-        path: "/",
+        path: "/fix-timestamps",
         name: "[debug] add timestamps",
         component: timestampFix,
     },
