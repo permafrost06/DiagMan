@@ -7,7 +7,11 @@ import {
     doc,
     setDoc,
     getDocs,
+    updateDoc,
     collection,
+    serverTimestamp,
+    orderBy,
+    query,
 } from "firebase/firestore/lite";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -109,4 +113,25 @@ export const connectedToInternet = async () => {
     } catch (e) {
         throw new Error("No internet connection", { cause: e });
     }
+};
+
+export const getAllStaged = async () => {
+    const stagedRef = collection(db, "staged");
+    const q = query(stagedRef, orderBy("timestamp", "desc"));
+
+    const querySnapshot = await getDocs(q);
+
+    const ret = [];
+    querySnapshot.forEach((doc) => {
+        ret.push(doc.data());
+    });
+
+    return ret;
+};
+
+export const addTimestamp = async (document) => {
+    const docRef = doc(db, "staged", document._id);
+    await updateDoc(docRef, {
+        timestamp: serverTimestamp(),
+    });
 };

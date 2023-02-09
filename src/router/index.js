@@ -8,10 +8,11 @@ import Invoice from "../views/InvoiceView.vue";
 import Settings from "../views/SettingsView.vue";
 import Summary from "../views/SummaryView.vue";
 import syncQueue from "../views/SyncQueueView.vue";
+import timestampFix from "../views/timestampFix.vue";
 
 const routes = [
     {
-        path: "/",
+        path: "/pending",
         name: "Pending",
         component: Pending,
     },
@@ -54,6 +55,11 @@ const routes = [
         path: "/sync-queue",
         name: "[debug] sync queue",
         component: syncQueue,
+    },
+    {
+        path: "/",
+        name: "[debug] add timestamps",
+        component: timestampFix,
     },
 ];
 
