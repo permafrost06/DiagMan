@@ -137,6 +137,7 @@
 import TestSelector from "../components/TestSelectorComponent.vue";
 import idInput from "../components/IDInputComponent.vue";
 import RandomGen from "../mixins/RandomGen";
+import { getTimestamp } from "../firebase";
 
 const ipc = window.ipcRenderer;
 
@@ -233,6 +234,7 @@ export default {
                 netPay: this.netPay,
                 advance: this.advance,
                 due: this.due,
+                timestamp: getTimestamp(),
             });
             this.$router.push({ name: "Pending" });
         },

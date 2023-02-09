@@ -245,6 +245,10 @@ export default {
                 tests: JSON.stringify(this.record.tests),
                 files: JSON.stringify(this.record.files),
                 discount: Number(this.record.discount),
+                timestamp: {
+                    seconds: this.record.timestamp.seconds,
+                    nanoseconds: this.record.timestamp.nanoseconds,
+                },
                 aspNote: this.aspNote,
                 me: this.me,
                 impression: this.impression,

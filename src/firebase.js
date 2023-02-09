@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { initializeFirestore } from "firebase/firestore/lite";
+import { initializeFirestore, Timestamp } from "firebase/firestore/lite";
 
 import {
     getDoc,
@@ -39,6 +39,9 @@ export const sendToFirebase = async (syncObject) => {
         return true;
     } else {
         try {
+            const { seconds, nanoseconds } = syncObject.object.timestamp;
+            syncObject.object.timestamp = new Timestamp(seconds, nanoseconds);
+
             await setDoc(
                 doc(db, syncObject.db, syncObject.object._id),
                 syncObject.object
@@ -127,6 +130,10 @@ export const getStagedSorted = async () => {
     });
 
     return ret;
+};
+
+export const getTimestamp = () => {
+    return Timestamp.now();
 };
 
 export const getAllStaged = async () => {
