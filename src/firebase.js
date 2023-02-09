@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { initializeFirestore } from "firebase/firestore/lite";
+import { initializeFirestore, Timestamp } from "firebase/firestore/lite";
 
 import {
     getDoc,
@@ -7,7 +7,11 @@ import {
     doc,
     setDoc,
     getDocs,
+    updateDoc,
     collection,
+    serverTimestamp,
+    orderBy,
+    query,
 } from "firebase/firestore/lite";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -35,6 +39,9 @@ export const sendToFirebase = async (syncObject) => {
         return true;
     } else {
         try {
+            const { seconds, nanoseconds } = syncObject.object.timestamp;
+            syncObject.object.timestamp = new Timestamp(seconds, nanoseconds);
+
             await setDoc(
                 doc(db, syncObject.db, syncObject.object._id),
                 syncObject.object
@@ -110,4 +117,34 @@ export const connectedToInternet = async () => {
     } catch (e) {
         throw new Error("No internet connection", { cause: e });
     }
+};
+
+export const getStagedSorted = async () => {
+    const stagedRef = collection(db, "staged");
+    const q = query(stagedRef, orderBy("timestamp", "desc"));
+
+    const querySnapshot = await getDocs(q);
+
+    const ret = [];
+    querySnapshot.forEach((doc) => {
+        ret.push(doc.data());
+    });
+
+    return ret;
+};
+
+export const getTimestamp = () => {
+    return Timestamp.now();
+};
+
+export const getAllStaged = async () => {
+    const stagedSnapshot = await getDocs(collection(db, "staged"));
+    return stagedSnapshot.docs.map((doc) => doc.data());
+};
+
+export const addTimestamp = async (document) => {
+    const docRef = doc(db, "staged", document._id);
+    await updateDoc(docRef, {
+        timestamp: serverTimestamp(),
+    });
 };

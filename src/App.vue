@@ -53,6 +53,9 @@ export default {
         ipc.on("show-sync-queue", () => {
             this.$router.push({ name: "[debug] sync queue" });
         });
+        ipc.on("show-timestamp-fix", () => {
+            this.$router.push({ name: "[debug] add timestamps" });
+        });
         ipc.on("show-about", () => {
             this.about = true;
         });

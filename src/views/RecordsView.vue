@@ -84,7 +84,7 @@ export default {
 
             options.limit = null;
 
-            this.records = ipc.sendSync("get-records", options, {
+            const records = ipc.sendSync("get-records", options, {
                 patientNameFilter: this.patientNameFilter,
                 dateFilter: this.dateFilter,
                 ageFilter: this.ageFilter,
@@ -94,12 +94,9 @@ export default {
                 meFilter: this.meFilter,
                 impressionFilter: this.impressionFilter,
             });
+            records.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
 
-            this.records.sort((patient_a, patient_b) => {
-                patient_a._id
-                    .toLowerCase()
-                    .localeCompare(patient_b._id.toLowerCase());
-            });
+            this.records = records;
         },
         deleteRecord(data) {
             ipc.send("delete-record", data);
