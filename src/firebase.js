@@ -73,6 +73,7 @@ export const getSMSSettings = async () => {
         return sms_settings.data();
     } catch (e) {
         log.error("App.vue: SMS or Firestore error", e);
+        throw e;
     }
 };
 
