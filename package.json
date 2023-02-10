@@ -1,6 +1,6 @@
 {
     "name": "casedb",
-    "version": "2.4.1",
+    "version": "2.5.0",
     "description": "Patient/disease case management software",
     "author": "Finalconcept Media/permafrost06",
     "private": true,
