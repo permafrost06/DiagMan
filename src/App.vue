@@ -224,12 +224,28 @@ small {
     font-weight: 800;
 }
 
-.id-search {
+.filter-controls {
     margin-left: 1rem;
-    height: 1.7rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid black;
+
+    div {
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+
+    label {
+        display: block;
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+    }
+
+    input,
+    select {
+        height: 1.7rem;
+        width: 10rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid black;
+    }
 }
 
 table.case-table td,
