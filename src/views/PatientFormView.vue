@@ -26,6 +26,7 @@
             <p>
                 <label for="age">Age</label>
                 <input type="number" id="age" v-model="age" />
+                Years
             </p>
             <p>
                 <label for="gender">Gender</label>
