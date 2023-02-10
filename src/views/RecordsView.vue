@@ -3,13 +3,25 @@
     <router-link :to="{ name: 'Pending' }">
         <button class="secondary">Go To Patients</button>
     </router-link>
-    <div class="id-search-container">
-        <input
-            class="id-search"
-            type="text"
-            placeholder="Filter patients by ID"
-            v-model="search_id"
-        />
+    <div class="filter-controls">
+        <div>
+            <label for="idFilterSelect">Filter patients by ID</label>
+            <input
+                class="id-search"
+                id="idFilterSelect"
+                type="text"
+                placeholder="Filter patients by ID"
+                v-model="search_id"
+            />
+        </div>
+        <div>
+            <label for="typeFilterSelect">Filter patients by type</label>
+            <select v-model="typeFilter" id="typeFilterSelect">
+                <option value="all" selected>All</option>
+                <option value="cyto">Cytopathology</option>
+                <option value="histo">Histopathology</option>
+            </select>
+        </div>
     </div>
     <table class="case-table">
         <thead>
@@ -107,9 +119,18 @@ export default {
     },
     computed: {
         filteredRecords() {
-            return this.records.filter((record) =>
-                record._id.toLowerCase().includes(this.search_id.toLowerCase())
-            );
+            return this.records
+                .filter((record) =>
+                    record._id
+                        .toLowerCase()
+                        .includes(this.search_id.toLowerCase())
+                )
+                .filter(({ type }) => {
+                    if (this.typeFilter === "all") return true;
+
+                    if (type === this.typeFilter) return true;
+                    else return false;
+                });
         },
     },
     data() {
@@ -127,6 +148,7 @@ export default {
             selectedRecords: [],
             records: [],
             search_id: "",
+            typeFilter: "all",
         };
     },
     beforeMount() {
