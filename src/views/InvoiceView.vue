@@ -31,7 +31,10 @@
                 <span class="left">Patient Name</span>: {{ record.patientName }}
             </div>
             <div class="box">
-                <div><span class="left">Age</span>: {{ record.age }}</div>
+                <div>
+                    <span class="left">Age</span>:
+                    {{ record.age.toLowerCase().split(" years")[0] + " Years" }}
+                </div>
                 <div>Contact No: {{ record.contactNo }}</div>
             </div>
             <div>

@@ -17,7 +17,13 @@
                 </div>
                 <div class="right">
                     <div class="bold">Patient: {{ record.patientName }}</div>
-                    <div>Age: {{ record.age }}</div>
+                    <div>
+                        Age:
+                        {{
+                            record.age.toLowerCase().split(" years")[0] +
+                                " Years"
+                        }}
+                    </div>
                     <div>Gender: {{ record.gender }}</div>
                     <div>Contact No: {{ record.contactNo }}</div>
                 </div>

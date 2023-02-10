@@ -7,7 +7,7 @@
         {{ dateRearr(date) }}
     </td>
     <td :class="[{ 'col-3': !aspNote }]" v-if="!aspNote">
-        {{ age }}
+        {{ age.toLowerCase().split(" years")[0] + " Years" }}
     </td>
     <td :class="[{ 'col-4': !aspNote }]" v-if="!aspNote">
         {{ contactNo }}
