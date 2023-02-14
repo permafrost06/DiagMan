@@ -1,6 +1,7 @@
 <template>
     <div>
         <button @click="addTimeStampsToAll">Add Timestamps</button>
+        <button @click="addNewTimestamps">Add New Timestamps</button>
         <div v-for="(rec, idx) in records" :key="rec._id">
             {{ idx + ": " + rec._id }}
         </div>
@@ -18,7 +19,8 @@ export default {
         };
     },
     async mounted() {
-        this.records = await getAllStaged();
+        const staged = await getAllStaged();
+        this.records = staged.filter((record) => !record.timestamp);
     },
     methods: {
         async addTimeStampsToAll() {
@@ -71,6 +73,17 @@ export default {
                     console.log(rec._id);
                     await addTimestamp(rec);
                 }
+            }
+        },
+        async addNewTimestamps() {
+            for (const record of this.records) {
+                await new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve(true);
+                    }, 1500);
+                });
+                console.log(record._id);
+                await addTimestamp(record);
             }
         },
     },
