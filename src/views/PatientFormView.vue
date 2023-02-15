@@ -176,6 +176,7 @@ export default {
             update: false,
             report: {},
             notStaged: false,
+            timestamp: {},
         };
     },
     computed: {
@@ -263,6 +264,7 @@ export default {
                 netPay: this.netPay,
                 advance: this.advance,
                 due: this.due,
+                timestamp: this.useValue(this.timestamp),
             });
             this.$router.push({ name: "Pending" });
         },
@@ -285,12 +287,16 @@ export default {
                 netPay: this.netPay,
                 advance: this.advance,
                 due: this.due,
+                timestamp: this.useValue(this.timestamp),
                 aspNote: this.report.aspNote,
                 me: this.report.me,
                 impression: this.report.impression,
                 note: this.report.note,
             });
             this.$router.push({ name: "Records" });
+        },
+        useValue(proxy) {
+            return JSON.parse(JSON.stringify(proxy));
         },
         checkID() {
             ipc.send("check-id-collision", this.id, this.update);
@@ -336,6 +342,7 @@ export default {
             this.selectedTests = oldRecord.tests;
             this.discount = oldRecord.discount;
             this.advance = oldRecord.advance;
+            this.timestamp = oldRecord.timestamp;
         }
     },
 };
