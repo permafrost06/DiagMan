@@ -1,0 +1,17 @@
+:root{
+    /* -------- Colors ----------*/
+    --clr-one: #F7C8E0; 
+    --clr-two: #DFFFD8;
+    --clr-three: #B4E4FF;
+    --clr-four: #95BDFF;
+
+    /* ------ Typography ------- */
+    --fs-base: 18px;
+    --fs-lg: 1.2rem; 
+    --fs-sm: 0.7rem;
+    --fs-xs: 0.5rem;
+}
+
+html, body{
+    font-size: var(--fs-base);
+}
