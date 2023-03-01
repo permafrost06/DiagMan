@@ -23,7 +23,7 @@ const cols = ref<TableCol[]>(props.cols);
 
 onMounted(() => {
     window.addEventListener("mouseup", dragEnd);
-    setEvts();
+    setupResize();
 });
 
 onUnmounted(() => {
@@ -31,15 +31,16 @@ onUnmounted(() => {
 });
 
 onUpdated(() => {
-    setEvts();
+    setupResize();
 });
 
-function setEvts() {
+function setupResize() {
     if (!tableRef.value) {
         return;
     }
-    const expandors = tableRef.value.querySelectorAll("th .resizer");
-    expandors.forEach((el) => {
+
+    const resizer = tableRef.value.querySelectorAll("th .resizer");
+    resizer.forEach((el) => {
         el.addEventListener("mousedown", dragStart);
     });
 }
@@ -48,32 +49,35 @@ let initialX = 0,
     initialWidth = 0,
     activeEl: HTMLTableCellElement;
 
-function changeWidth(evt: MouseEvent) {
-    evt.preventDefault();
-    const distance = evt.x - initialX;
+const changeWidth = (event: MouseEvent) => {
+    event.preventDefault();
+    const distance = event.x - initialX;
     activeEl.style.width = initialWidth + distance + "px";
-}
+};
 
-function dragStart(this: HTMLDivElement, evt: any) {
-    evt.preventDefault();
-    initialX = evt.x;
-    activeEl = this.parentElement as HTMLTableCellElement;
-    this.style.height = tableRef.value?.getBoundingClientRect().height + "px";
-    this.classList.add("active");
+const dragStart = (event: Event) => {
+    event.preventDefault();
+
+    const target = event.target as HTMLDivElement;
+
+    initialX = (event as MouseEvent).x;
+    activeEl = target.parentElement as HTMLTableCellElement;
+    target.style.height = tableRef.value?.getBoundingClientRect().height + "px";
+    target.classList.add("active");
 
     initialWidth = activeEl.getBoundingClientRect().width;
 
     window.addEventListener("mousemove", changeWidth);
-}
+};
 
-function dragEnd() {
+const dragEnd = () => {
     if (initialX > 0) {
         initialX = 0;
         activeEl.lastElementChild?.removeAttribute("style");
         activeEl.lastElementChild?.classList.remove("active");
         window.removeEventListener("mousemove", changeWidth);
     }
-}
+};
 </script>
 
 <template>
