@@ -27,5 +27,5 @@ const TableInfo = {
 };
 </script>
 <template>
-    <TableX :cols="TableInfo.cols" :data="TableInfo.data"/>
+    <TableX :cols="TableInfo.cols" :data="TableInfo.data" style="width: 80vw;" />
 </template>

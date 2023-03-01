@@ -1,7 +1,42 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue';
+
+export type TableCol = {
+    label: string,
+    name: string,
+    className?: string,
+    thClass?: string,
+    width?: string
+};
+
+export interface TableXProps {
+    cols: TableCol[],
+    data: any[]
+}
+
+let initialX = 0, initialWidth = 0, activeEl:HTMLTableCellElement;
+function drag(evt: MouseEvent){
+    const distance = evt.x - initialX;
+    activeEl.style.width = (initialWidth + distance) + 'px';
+}
+
+function dragStart(this:HTMLDivElement, evt: any){
+    initialX = evt.x;
+    activeEl = this.parentElement as HTMLTableCellElement;
+
+    initialWidth = activeEl.getBoundingClientRect().width;
+
+    window.addEventListener('mousemove', drag);
+}
+
+function dragEnd(){
+    if(initialX > 0){
+        initialX = 0;
+        window.removeEventListener('mousemove', drag);
+    }
+}
 
 const tableRef = ref<HTMLTableElement>();
-
 
 withDefaults<TableXProps, {}>(defineProps<TableXProps>(), {
     width: 'auto'
@@ -21,8 +56,6 @@ onMounted(()=>{
 onUnmounted(()=>{
     window.removeEventListener('mouseup', dragEnd);
 });
-
-
 </script>
 
 <template>
@@ -68,42 +101,4 @@ th, td{
     background: red;
 }
 </style>
-<script lang="ts">
-/*Declearations had to be separated because of volar error*/
-
-import { onMounted, onUnmounted, ref } from 'vue';
-
-type TableCol = {
-    label: string,
-    name: string,
-    className?: string,
-    thClass?: string,
-    width?: string
-};
-interface TableXProps{
-    cols: TableCol[],
-    data: any[]
-}
-let initialX = 0, initialWidth = 0, activeEl:HTMLTableCellElement;
-function drag(evt: MouseEvent){
-    const distance = evt.x - initialX;
-    activeEl.style.width = (initialWidth + distance) + 'px';
-}
-
-function dragStart(this:HTMLDivElement, evt: any){
-    initialX = evt.x;
-    activeEl = this.parentElement as HTMLTableCellElement;
-
-    initialWidth = activeEl.getBoundingClientRect().width;
-
-    window.addEventListener('mousemove', drag);
-}
-
-function dragEnd(){
-    if(initialX > 0){
-        initialX = 0;
-        window.removeEventListener('mousemove', drag);
-    }
-}
-
-</script>
+<script lang="ts"></script>
