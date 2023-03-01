@@ -65,7 +65,12 @@ const dragStart = (event: Event) => {
     target.style.height = tableRef.value?.getBoundingClientRect().height + "px";
     target.classList.add("active");
 
-    initialWidth = activeEl.getBoundingClientRect().width;
+    const totalPadding = window
+        .getComputedStyle(activeEl)
+        .paddingInline.split(" ")
+        .reduce((acc, pad) => acc + Number(pad.split("px")[0]), 0);
+
+    initialWidth = activeEl.clientWidth - totalPadding;
 
     window.addEventListener("mousemove", changeWidth);
 };
