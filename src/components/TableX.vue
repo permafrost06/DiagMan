@@ -34,7 +34,6 @@ onUpdated(() => {
     setEvts();
 });
 
-
 function setEvts() {
     if (!tableRef.value) {
         return;
@@ -48,6 +47,7 @@ function setEvts() {
 let initialX = 0,
     initialWidth = 0,
     activeEl: HTMLTableCellElement;
+
 function changeWidth(evt: MouseEvent) {
     evt.preventDefault();
     const distance = evt.x - initialX;
@@ -55,6 +55,7 @@ function changeWidth(evt: MouseEvent) {
 }
 
 function dragStart(this: HTMLDivElement, evt: any) {
+    evt.preventDefault();
     initialX = evt.x;
     activeEl = this.parentElement as HTMLTableCellElement;
     this.style.height = tableRef.value?.getBoundingClientRect().height + "px";
@@ -127,7 +128,7 @@ td {
     border-right: 2px solid rgb(64, 64, 255);
 }
 
-th:last-of-type .resizer{
+th:last-of-type .resizer {
     display: none;
 }
 </style>
