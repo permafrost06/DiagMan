@@ -1,8 +1,5 @@
 <script setup lang="ts">
 
-const tableRef = ref<HTMLTableElement>();
-
-
 withDefaults<TableXProps, {}>(defineProps<TableXProps>(), {
     width: 'auto'
 });
@@ -30,7 +27,7 @@ onUnmounted(()=>{
         <table cellspacing="0" ref="tableRef">
             <thead>
                 <tr>
-                    <th v-for="cprops in cols" :style="`width: ${cprops.width}`" :class="cprops.thClass">
+                    <th v-for="cprops, idx in cols" :style="`width: ${cprops.width}`" :class="cprops.thClass">
                         {{ cprops.label }}
                         <div class="expander"></div>
                     </th>
@@ -65,8 +62,12 @@ th, td{
     height: 100%;
     width: 5px;
     z-index: 1;
-    background: red;
+    border-right: 1px solid #a7a7a7;
 }
+.expander.active{
+    border-right: 2px solid rgb(64, 64, 255);
+}
+
 </style>
 <script lang="ts">
 /*Declearations had to be separated because of volar error*/
@@ -84,6 +85,9 @@ interface TableXProps{
     cols: TableCol[],
     data: any[]
 }
+
+const tableRef = ref<HTMLTableElement>();
+
 let initialX = 0, initialWidth = 0, activeEl:HTMLTableCellElement;
 function drag(evt: MouseEvent){
     const distance = evt.x - initialX;
@@ -93,6 +97,8 @@ function drag(evt: MouseEvent){
 function dragStart(this:HTMLDivElement, evt: any){
     initialX = evt.x;
     activeEl = this.parentElement as HTMLTableCellElement;
+    this.style.height = tableRef.value?.getBoundingClientRect().height + 'px';
+    this.classList.add('active');
 
     initialWidth = activeEl.getBoundingClientRect().width;
 
@@ -102,6 +108,8 @@ function dragStart(this:HTMLDivElement, evt: any){
 function dragEnd(){
     if(initialX > 0){
         initialX = 0;
+        activeEl.lastElementChild?.removeAttribute('style');
+        activeEl.lastElementChild?.classList.remove('active');
         window.removeEventListener('mousemove', drag);
     }
 }
