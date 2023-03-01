@@ -49,6 +49,7 @@ let initialX = 0,
     initialWidth = 0,
     activeEl: HTMLTableCellElement;
 function changeWidth(evt: MouseEvent) {
+    evt.preventDefault();
     const distance = evt.x - initialX;
     activeEl.style.width = initialWidth + distance + "px";
 }
