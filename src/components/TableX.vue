@@ -34,22 +34,6 @@ onUpdated(() => {
     setEvts();
 });
 
-function addCol(evt: Event) {
-    //@ts-ignore
-    const idx = parseInt(evt.target.parentElement.getAttribute("data-id")) + 1;
-    const newArr = [];
-    for (let i = 0; i < idx; i++) {
-        newArr.push(cols.value[i]);
-    }
-    newArr.push({
-        label: "New Col",
-        name: "new_col",
-    });
-    for (let i = idx; i < cols.value.length; i++) {
-        newArr.push(cols.value[i]);
-    }
-    cols.value = newArr;
-}
 
 function setEvts() {
     if (!tableRef.value) {
@@ -102,9 +86,6 @@ function dragEnd() {
                         :data-id="idx"
                     >
                         {{ cprops.label }}
-                        <button class="new-col" type="button" @click="addCol">
-                            +
-                        </button>
                         <div class="resizer"></div>
                     </th>
                 </tr>
@@ -145,25 +126,4 @@ td {
     border-right: 2px solid rgb(64, 64, 255);
 }
 
-.new-col {
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    padding: 0;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    box-shadow: 0 0 2px rgb(63, 63, 63);
-    z-index: 2;
-    cursor: pointer;
-    margin-left: 5px;
-    transition: all 300ms ease-in-out;
-}
-.new-col:hover {
-    box-shadow: 0 0 3px black;
-}
 </style>
