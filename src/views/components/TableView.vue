@@ -13,8 +13,7 @@ const tableCols = ref([
     },
     {
         name: "email",
-        label: "Email",
-        width: "50%",
+        label: "Email"
     },
 ]);
 
