@@ -127,4 +127,7 @@ td {
     border-right: 2px solid rgb(64, 64, 255);
 }
 
+th:last-of-type .resizer{
+    display: none;
+}
 </style>
