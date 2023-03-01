@@ -1,60 +1,66 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from "vue";
 
 export type TableCol = {
-    label: string,
-    name: string,
-    className?: string,
-    thClass?: string,
-    width?: string
+    label: string;
+    name: string;
+    className?: string;
+    thClass?: string;
+    width?: string;
 };
 
 export interface TableXProps {
-    cols: TableCol[],
-    data: any[]
+    cols: TableCol[];
+    data: any[];
 }
 
-let initialX = 0, initialWidth = 0, activeEl:HTMLTableCellElement;
-function drag(evt: MouseEvent){
+let initialX = 0,
+    initialWidth = 0,
+    activeEl: HTMLTableCellElement;
+
+const changeWidth = (evt: MouseEvent) => {
     const distance = evt.x - initialX;
-    activeEl.style.width = (initialWidth + distance) + 'px';
-}
+    activeEl.style.width = initialWidth + distance + "px";
+};
 
-function dragStart(this:HTMLDivElement, evt: any){
-    initialX = evt.x;
-    activeEl = this.parentElement as HTMLTableCellElement;
+const dragStart = (evt: Event) => {
+    initialX = (evt as MouseEvent).x;
+    activeEl = (evt.target as HTMLTableCellElement)
+        .parentElement as HTMLTableCellElement;
 
     initialWidth = activeEl.getBoundingClientRect().width;
 
-    window.addEventListener('mousemove', drag);
-}
+    window.addEventListener("mousemove", changeWidth);
+};
 
-function dragEnd(){
-    if(initialX > 0){
+const dragEnd = () => {
+    if (initialX > 0) {
         initialX = 0;
-        window.removeEventListener('mousemove', drag);
+        window.removeEventListener("mousemove", changeWidth);
     }
-}
+};
 
 const tableRef = ref<HTMLTableElement>();
 
 withDefaults<TableXProps, {}>(defineProps<TableXProps>(), {
-    width: 'auto'
+    width: "auto",
 });
 
-onMounted(()=>{
-    window.addEventListener('mouseup', dragEnd);
-    if(!tableRef.value){
+onMounted(() => {
+    window.addEventListener("mouseup", dragEnd);
+
+    if (!tableRef.value) {
         return;
     }
-    const expandors = tableRef.value.querySelectorAll('th .expander');
-    expandors.forEach(el=>{
-        el.addEventListener('mousedown', dragStart);
-    })
+
+    const resizers = tableRef.value.querySelectorAll("th .resizer");
+    resizers.forEach((el) => {
+        el.addEventListener("mousedown", dragStart);
+    });
 });
 
-onUnmounted(()=>{
-    window.removeEventListener('mouseup', dragEnd);
+onUnmounted(() => {
+    window.removeEventListener("mouseup", dragEnd);
 });
 </script>
 
@@ -63,9 +69,13 @@ onUnmounted(()=>{
         <table cellspacing="0" ref="tableRef">
             <thead>
                 <tr>
-                    <th v-for="cprops in cols" :style="`width: ${cprops.width}`" :class="cprops.thClass">
+                    <th
+                        v-for="cprops in cols"
+                        :style="`width: ${cprops.width}`"
+                        :class="cprops.thClass"
+                    >
                         {{ cprops.label }}
-                        <div class="expander"></div>
+                        <div class="resizer"></div>
                     </th>
                 </tr>
             </thead>
@@ -79,18 +89,22 @@ onUnmounted(()=>{
         </table>
     </div>
 </template>
+
 <style scoped>
-.table-wrapper{
+.table-wrapper {
     width: max-content;
     position: relative;
 }
-th, td{
+
+th,
+td {
     position: relative;
     padding: 0;
     padding-right: 5px;
     margin: 0;
 }
-.expander{
+
+.resizer {
     cursor: col-resize;
     position: absolute;
     right: 0;
@@ -101,4 +115,3 @@ th, td{
     background: red;
 }
 </style>
-<script lang="ts"></script>
