@@ -14,7 +14,7 @@ async function checkCmp() {
     }
     cmp.value = (
         await import(
-            /* @vite-ignore */ `@/views/components/${route.params?.name}.vue`
+            /* @vite-ignore */ `@/views/components/${route.params?.name}View.vue`
         )
     ).default;
 }
