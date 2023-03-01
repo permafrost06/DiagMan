@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { onMounted, onUnmounted, onUpdated, ref } from "vue";
 
 export type TableCol = {
@@ -9,7 +8,7 @@ export type TableCol = {
     thClass?: string;
     width?: string;
 };
-export interface TableXProps{
+export interface TableXProps {
     cols: TableCol[];
     data: any[];
 }
@@ -17,78 +16,78 @@ export interface TableXProps{
 const tableRef = ref<HTMLTableElement>();
 
 const props = withDefaults<TableXProps, {}>(defineProps<TableXProps>(), {
-    width: 'auto'
+    width: "auto",
 });
 
 const cols = ref<TableCol[]>(props.cols);
 
-onMounted(()=>{
-    window.addEventListener('mouseup', dragEnd);
+onMounted(() => {
+    window.addEventListener("mouseup", dragEnd);
     setEvts();
 });
 
-onUnmounted(()=>{
-    window.removeEventListener('mouseup', dragEnd);
+onUnmounted(() => {
+    window.removeEventListener("mouseup", dragEnd);
 });
 
-onUpdated(()=>{
+onUpdated(() => {
     setEvts();
 });
 
-function addCol(evt: Event){
+function addCol(evt: Event) {
     //@ts-ignore
-    const idx = parseInt(evt.target.parentElement.getAttribute('data-id')) + 1;
+    const idx = parseInt(evt.target.parentElement.getAttribute("data-id")) + 1;
     const newArr = [];
-    for(let i = 0; i < idx; i++){
+    for (let i = 0; i < idx; i++) {
         newArr.push(cols.value[i]);
     }
     newArr.push({
-        label: 'New Col',
-        name: 'new_col'
+        label: "New Col",
+        name: "new_col",
     });
-    for(let i = idx; i < cols.value.length;i++){
+    for (let i = idx; i < cols.value.length; i++) {
         newArr.push(cols.value[i]);
     }
     cols.value = newArr;
 }
 
-
-function setEvts(){
-    if(!tableRef.value){
+function setEvts() {
+    if (!tableRef.value) {
         return;
     }
-    const expandors = tableRef.value.querySelectorAll('th .resizer');
-    expandors.forEach(el=>{
-        el.addEventListener('mousedown', dragStart);
-    })
+    const expandors = tableRef.value.querySelectorAll("th .resizer");
+    expandors.forEach((el) => {
+        el.addEventListener("mousedown", dragStart);
+    });
 }
 
-let initialX = 0, initialWidth = 0, activeEl:HTMLTableCellElement;
-function changeWidth(evt: MouseEvent){
+let initialX = 0,
+    initialWidth = 0,
+    activeEl: HTMLTableCellElement;
+function changeWidth(evt: MouseEvent) {
     const distance = evt.x - initialX;
-    activeEl.style.width = (initialWidth + distance) + 'px';
+    activeEl.style.width = initialWidth + distance + "px";
 }
 
-function dragStart(this:HTMLDivElement, evt: any){
+function dragStart(this: HTMLDivElement, evt: any) {
     initialX = evt.x;
     activeEl = this.parentElement as HTMLTableCellElement;
-    this.style.height = tableRef.value?.getBoundingClientRect().height + 'px';
-    this.classList.add('active');
+    this.style.height = tableRef.value?.getBoundingClientRect().height + "px";
+    this.classList.add("active");
 
     initialWidth = activeEl.getBoundingClientRect().width;
 
-    window.addEventListener('mousemove', changeWidth);
+    window.addEventListener("mousemove", changeWidth);
 }
 
-function dragEnd(){
-    if(initialX > 0){
+function dragEnd() {
+    if (initialX > 0) {
         initialX = 0;
-        activeEl.lastElementChild?.removeAttribute('style');
-        activeEl.lastElementChild?.classList.remove('active');
-        window.removeEventListener('mousemove', changeWidth);
+        activeEl.lastElementChild?.removeAttribute("style");
+        activeEl.lastElementChild?.classList.remove("active");
+        window.removeEventListener("mousemove", changeWidth);
     }
 }
-
 </script>
 
 <template>
@@ -96,15 +95,16 @@ function dragEnd(){
         <table ref="tableRef" v-bind="$attrs">
             <thead>
                 <tr>
-                    <th v-for="cprops, idx in cols"
+                    <th
+                        v-for="(cprops, idx) in cols"
                         :style="`width: ${cprops.width}`"
                         :class="cprops.thClass"
-                        :data-id="idx">
+                        :data-id="idx"
+                    >
                         {{ cprops.label }}
-                        <button
-                            class="new-col"
-                            type="button"
-                            @click="addCol">+</button>
+                        <button class="new-col" type="button" @click="addCol">
+                            +
+                        </button>
                         <div class="resizer"></div>
                     </th>
                 </tr>
@@ -141,11 +141,11 @@ td {
     z-index: 1;
     border-right: 1px solid #a7a7a7;
 }
-.resizer.active{
+.resizer.active {
     border-right: 2px solid rgb(64, 64, 255);
 }
 
-.new-col{
+.new-col {
     position: absolute;
     left: 100%;
     top: 50%;
@@ -163,7 +163,7 @@ td {
     margin-left: 5px;
     transition: all 300ms ease-in-out;
 }
-.new-col:hover{
+.new-col:hover {
     box-shadow: 0 0 3px black;
 }
 </style>
