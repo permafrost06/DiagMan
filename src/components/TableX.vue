@@ -1,17 +1,17 @@
 <script setup lang="ts">
 
-import { onMounted, onUnmounted, onUpdated, ref } from 'vue';
+import { onMounted, onUnmounted, onUpdated, ref } from "vue";
 
 export type TableCol = {
-    label: string,
-    name: string,
-    className?: string,
-    thClass?: string,
-    width?: string
+    label: string;
+    name: string;
+    className?: string;
+    thClass?: string;
+    width?: string;
 };
 export interface TableXProps{
-    cols: TableCol[],
-    data: any[]
+    cols: TableCol[];
+    data: any[];
 }
 
 const tableRef = ref<HTMLTableElement>();
@@ -57,14 +57,14 @@ function setEvts(){
     if(!tableRef.value){
         return;
     }
-    const expandors = tableRef.value.querySelectorAll('th .expander');
+    const expandors = tableRef.value.querySelectorAll('th .resizer');
     expandors.forEach(el=>{
         el.addEventListener('mousedown', dragStart);
     })
 }
 
 let initialX = 0, initialWidth = 0, activeEl:HTMLTableCellElement;
-function drag(evt: MouseEvent){
+function changeWidth(evt: MouseEvent){
     const distance = evt.x - initialX;
     activeEl.style.width = (initialWidth + distance) + 'px';
 }
@@ -77,7 +77,7 @@ function dragStart(this:HTMLDivElement, evt: any){
 
     initialWidth = activeEl.getBoundingClientRect().width;
 
-    window.addEventListener('mousemove', drag);
+    window.addEventListener('mousemove', changeWidth);
 }
 
 function dragEnd(){
@@ -85,7 +85,7 @@ function dragEnd(){
         initialX = 0;
         activeEl.lastElementChild?.removeAttribute('style');
         activeEl.lastElementChild?.classList.remove('active');
-        window.removeEventListener('mousemove', drag);
+        window.removeEventListener('mousemove', changeWidth);
     }
 }
 
@@ -93,7 +93,7 @@ function dragEnd(){
 
 <template>
     <div class="table-wrapper">
-        <table cellspacing="0" ref="tableRef">
+        <table ref="tableRef" v-bind="$attrs">
             <thead>
                 <tr>
                     <th v-for="cprops, idx in cols"
@@ -105,7 +105,7 @@ function dragEnd(){
                             class="new-col"
                             type="button"
                             @click="addCol">+</button>
-                        <div class="expander"></div>
+                        <div class="resizer"></div>
                     </th>
                 </tr>
             </thead>
@@ -131,7 +131,7 @@ td {
     padding-left: 25px;
 }
 
-.expander {
+.resizer {
     cursor: col-resize;
     position: absolute;
     right: 0;
@@ -141,7 +141,7 @@ td {
     z-index: 1;
     border-right: 1px solid #a7a7a7;
 }
-.expander.active{
+.resizer.active{
     border-right: 2px solid rgb(64, 64, 255);
 }
 
