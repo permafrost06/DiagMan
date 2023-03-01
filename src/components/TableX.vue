@@ -15,11 +15,7 @@ export interface TableXProps {
 
 const tableRef = ref<HTMLTableElement>();
 
-const props = withDefaults<TableXProps, {}>(defineProps<TableXProps>(), {
-    width: "auto",
-});
-
-const cols = ref<TableCol[]>(props.cols);
+defineProps<TableXProps>();
 
 onMounted(() => {
     window.addEventListener("mouseup", dragEnd);
@@ -93,10 +89,9 @@ const dragEnd = () => {
             <thead>
                 <tr>
                     <th
-                        v-for="(cprops, idx) in cols"
+                        v-for="cprops in cols"
                         :style="`width: ${cprops.width}`"
                         :class="cprops.thClass"
-                        :data-id="idx"
                     >
                         {{ cprops.label }}
                         <div class="resizer"></div>
@@ -122,11 +117,9 @@ const dragEnd = () => {
 th,
 td {
     position: relative;
-    padding: 0;
-    padding-right: 5px;
+    padding: 5px;
     margin: 0;
     text-align: left;
-    padding-left: 25px;
 }
 
 .resizer {
