@@ -72,6 +72,7 @@ const dragStart = (event: Event) => {
 
     initialWidth = activeEl.clientWidth - totalPadding;
 
+    tableRef.value?.classList.add("resize-active");
     window.addEventListener("mousemove", changeWidth);
 };
 
@@ -80,6 +81,7 @@ const dragEnd = () => {
         initialX = 0;
         activeEl.lastElementChild?.removeAttribute("style");
         activeEl.lastElementChild?.classList.remove("active");
+        tableRef.value?.classList.remove("resize-active");
         window.removeEventListener("mousemove", changeWidth);
     }
 };
@@ -113,6 +115,10 @@ const dragEnd = () => {
 </template>
 
 <style scoped>
+.resize-active {
+    cursor: col-resize;
+}
+
 th,
 td {
     position: relative;
