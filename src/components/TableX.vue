@@ -1,5 +1,21 @@
 <script setup lang="ts">
 
+import { onMounted, onUnmounted, onUpdated, ref } from 'vue';
+
+export type TableCol = {
+    label: string,
+    name: string,
+    className?: string,
+    thClass?: string,
+    width?: string
+};
+export interface TableXProps{
+    cols: TableCol[],
+    data: any[]
+}
+
+const tableRef = ref<HTMLTableElement>();
+
 const props = withDefaults<TableXProps, {}>(defineProps<TableXProps>(), {
     width: 'auto'
 });
@@ -35,103 +51,7 @@ function addCol(evt: Event){
     }
     cols.value = newArr;
 }
-</script>
 
-<template>
-    <div class="table-wrapper">
-        <table cellspacing="0" ref="tableRef">
-            <thead>
-                <tr>
-                    <th v-for="cprops, idx in cols"
-                        :style="`width: ${cprops.width}`"
-                        :class="cprops.thClass"
-                        :data-id="idx">
-                        {{ cprops.label }}
-                        <button
-                            class="new-col"
-                            type="button"
-                            @click="addCol">+</button>
-                        <div class="expander"></div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="row in data">
-                    <td v-for="cprops in cols" :class="cprops.className">
-                        {{ row[cprops.name] }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</template>
-<style scoped>
-.table-wrapper{
-    width: max-content;
-    position: relative;
-}
-th, td{
-    position: relative;
-    padding: 0;
-    padding-right: 5px;
-    margin: 0;
-    text-align: left;
-    padding-left: 25px;
-}
-.expander{
-    cursor: col-resize;
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 5px;
-    z-index: 1;
-    border-right: 1px solid #a7a7a7;
-}
-.expander.active{
-    border-right: 2px solid rgb(64, 64, 255);
-}
-
-.new-col{
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    padding: 0;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    box-shadow: 0 0 2px rgb(63, 63, 63);
-    z-index: 2;
-    cursor: pointer;
-    margin-left: 5px;
-    transition: all 300ms ease-in-out;
-}
-.new-col:hover{
-    box-shadow: 0 0 3px black;
-}
-</style>
-<script lang="ts">
-/*Declearations had to be separated because of volar error*/
-
-import { nextTick, onMounted, onUnmounted, onUpdated, ref } from 'vue';
-
-type TableCol = {
-    label: string,
-    name: string,
-    className?: string,
-    thClass?: string,
-    width?: string
-};
-interface TableXProps{
-    cols: TableCol[],
-    data: any[]
-}
-
-const tableRef = ref<HTMLTableElement>();
 
 function setEvts(){
     if(!tableRef.value){
@@ -170,3 +90,80 @@ function dragEnd(){
 }
 
 </script>
+
+<template>
+    <div class="table-wrapper">
+        <table cellspacing="0" ref="tableRef">
+            <thead>
+                <tr>
+                    <th v-for="cprops, idx in cols"
+                        :style="`width: ${cprops.width}`"
+                        :class="cprops.thClass"
+                        :data-id="idx">
+                        {{ cprops.label }}
+                        <button
+                            class="new-col"
+                            type="button"
+                            @click="addCol">+</button>
+                        <div class="expander"></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="row in data">
+                    <td v-for="cprops in cols" :class="cprops.className">
+                        {{ row[cprops.name] }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<style scoped>
+th,
+td {
+    position: relative;
+    padding: 0;
+    padding-right: 5px;
+    margin: 0;
+    text-align: left;
+    padding-left: 25px;
+}
+
+.expander {
+    cursor: col-resize;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    z-index: 1;
+    border-right: 1px solid #a7a7a7;
+}
+.expander.active{
+    border-right: 2px solid rgb(64, 64, 255);
+}
+
+.new-col{
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    box-shadow: 0 0 2px rgb(63, 63, 63);
+    z-index: 2;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: all 300ms ease-in-out;
+}
+.new-col:hover{
+    box-shadow: 0 0 3px black;
+}
+</style>
