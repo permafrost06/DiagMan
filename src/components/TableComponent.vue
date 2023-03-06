@@ -8,14 +8,14 @@ export type TableCol = {
     thClass?: string;
     width?: string;
 };
-export interface TableXProps {
+export interface TableProps {
     cols: TableCol[];
     data: any[];
 }
 
 const tableRef = ref<HTMLTableElement>();
 
-defineProps<TableXProps>();
+defineProps<TableProps>();
 
 onMounted(() => {
     window.addEventListener("mouseup", dragEnd);

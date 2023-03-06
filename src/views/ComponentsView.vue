@@ -18,7 +18,7 @@ async function checkCmp() {
         )
     ).default;
 }
-const components: string[] = ["Table"];
+const components: string[] = ["TableComponent"];
 </script>
 <template>
     <header>Components</header>

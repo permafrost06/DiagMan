@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import TableX from "@/components/TableX.vue";
+import TableComponent from "@/components/TableComponent.vue";
 
 const tableCols = ref([
     {
@@ -13,7 +13,7 @@ const tableCols = ref([
     },
     {
         name: "email",
-        label: "Email"
+        label: "Email",
     },
 ]);
 
@@ -27,5 +27,5 @@ const tableData = ref([
 </script>
 
 <template>
-    <TableX :cols="tableCols" :data="tableData" style="width: 80vw" />
+    <TableComponent :cols="tableCols" :data="tableData" style="width: 80vw" />
 </template>
