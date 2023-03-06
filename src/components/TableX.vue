@@ -89,9 +89,10 @@ const dragEnd = () => {
             <thead>
                 <tr>
                     <th
-                        v-for="cprops in cols"
+                        v-for="(cprops, idx) in cols"
                         :style="`width: ${cprops.width}`"
                         :class="cprops.thClass"
+                        :key="idx"
                     >
                         {{ cprops.label }}
                         <div class="resizer"></div>
@@ -99,8 +100,12 @@ const dragEnd = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="row in data">
-                    <td v-for="cprops in cols" :class="cprops.className">
+                <tr v-for="(row, row_idx) in data" :key="row_idx">
+                    <td
+                        v-for="(cprops, col_idx) in cols"
+                        :class="cprops.className"
+                        :key="col_idx"
+                    >
                         {{ row[cprops.name] }}
                     </td>
                 </tr>
