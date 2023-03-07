@@ -1,38 +1,41 @@
 <script setup lang="ts">
-import CmpLink from '@/components/CmpLink.vue';
-import { ref, shallowRef, watch, type Component } from 'vue';
-import { useRoute } from 'vue-router';
+import CmpLink from "@/components/CmpLink.vue";
+import { shallowRef, watch, type Component } from "vue";
+import { useRoute } from "vue-router";
 const route = useRoute();
 const cmp = shallowRef<Component>();
 
 checkCmp();
-watch(route, checkCmp)
-async function checkCmp(){
-    if(!route.params?.name){
+watch(route, checkCmp);
+async function checkCmp() {
+    if (!route.params?.name) {
         cmp.value = undefined;
         return;
     }
-    cmp.value = (await import(/* @vite-ignore */ `@/views/components/${route.params?.name}.vue`)).default;
+    cmp.value = (
+        await import(
+            /* @vite-ignore */ `@/views/components/${route.params?.name}View.vue`
+        )
+    ).default;
 }
-const components:string[] = [
-    'Table'
-];
+const components: string[] = ["TableComponent"];
 </script>
 <template>
-    <header>
-        Components
-    </header>
+    <header>Components</header>
     <main v-if="!cmp" class="cmps">
         <CmpLink
             v-for="cmp of components"
-            :name="cmp">{{ cmp }}</CmpLink>
+            :name="cmp"
+            :key="`cmp_link_${cmp}`"
+            >{{ cmp }}</CmpLink
+        >
     </main>
     <main class="cmp" v-else>
         <component :is="cmp" />
     </main>
 </template>
 <style scoped>
-header{
+header {
     position: sticky;
     top: 0;
     box-shadow: 0 1px 3px gray;
@@ -40,20 +43,20 @@ header{
     margin: 0;
     font-size: var(--fs-lg);
 }
-.cmps{
+.cmps {
     display: grid;
     padding: 10px;
 }
-.cmps a{
+.cmps a {
     padding: 10px;
     border: 1px solid rgb(0, 0, 0);
 }
 
-.cmp{
+.cmp {
     padding: 10px;
 }
-@media (min-width: 500px)  {
-    .cmps{
+@media (min-width: 500px) {
+    .cmps {
         grid-auto-columns: 50%;
         padding: 50px 100px;
     }
