@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, onUpdated, ref } from "vue";
+import {
+    onMounted,
+    onUnmounted,
+    onUpdated,
+    ref,
+    type TableHTMLAttributes,
+} from "vue";
 
 export type TableCol = {
     label: string;
@@ -8,7 +14,7 @@ export type TableCol = {
     thClass?: string;
     width?: string;
 };
-export interface TableProps {
+export interface TableProps extends TableHTMLAttributes {
     cols: TableCol[];
     data: any[];
 }
@@ -85,7 +91,7 @@ const dragEnd = () => {
 
 <template>
     <div class="table-wrapper">
-        <table ref="tableRef" v-bind="$attrs">
+        <table ref="tableRef" v-bind="$attrs" class="tablex">
             <thead>
                 <tr>
                     <th
@@ -118,13 +124,50 @@ const dragEnd = () => {
 .resize-active {
     cursor: col-resize;
 }
+table {
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
 
 th,
 td {
     position: relative;
-    padding: 5px;
+    padding: 18.5px 5px;
     margin: 0;
-    text-align: left;
+    text-align: center;
+    background: var(--tblx-bg);
+    color: var(--tblx-text);
+}
+
+th:first-child,
+td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+th:last-child,
+td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+th::after {
+    content: "";
+    height: var(--fs-md);
+    width: 1px;
+    background: var(--tblx-border);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+th:last-child::after {
+    display: none;
+}
+
+th {
+    font-size: var(--fs-md);
+    padding: 21px 5px;
+    font-weight: 600;
 }
 
 .resizer {
@@ -135,7 +178,6 @@ td {
     height: 100%;
     width: 5px;
     z-index: 1;
-    border-right: 1px solid #a7a7a7;
 }
 .resizer.active {
     border-right: 2px solid rgb(64, 64, 255);

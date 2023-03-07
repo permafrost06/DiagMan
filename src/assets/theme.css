@@ -1,15 +1,28 @@
 :root{
     /* -------- Colors ----------*/
+    --clr-bg: #F5F5F5;
     --clr-one: #F7C8E0; 
     --clr-two: #DFFFD8;
     --clr-three: #B4E4FF;
     --clr-four: #95BDFF;
 
     /* ------ Typography ------- */
-    --fs-base: 18px;
-    --fs-lg: 1.2rem; 
+    --fs-base: 16px;
+    --fs-md: 1.25rem;
+    --fs-lg: 1.5rem; 
     --fs-sm: 0.7rem;
     --fs-xs: 0.5rem;
+
+
+    /* --------- TableX -------- */
+
+    --tblx-bg: #F7F9FE;
+    --tblx-text: #606060;
+    --tblx-border: #DEDADA;
+}
+
+*{
+    font-family: 'Poppins', sans-serif;
 }
 
 html, body{
