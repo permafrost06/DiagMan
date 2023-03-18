@@ -13,26 +13,55 @@ export type TableCol = {
     className?: string;
     thClass?: string;
     width?: string;
+    break?: boolean;
+    doNotRemove?: boolean;
 };
+
+export interface RowAction {
+    text: string;
+    onClick: (row: any, evt: Event) => void;
+}
+
 export interface TableProps extends TableHTMLAttributes {
     cols: TableCol[];
     data: any[];
+    mobileView?: "moveable" | "collapsed" | "transformed" | "shorten";
+    breakpoint?: number;
+    actions?: RowAction[];
 }
 
+const props = withDefaults(defineProps<TableProps>(), {
+    mobileView: "moveable",
+    breakpoint: 600,
+});
+
 const tableRef = ref<HTMLTableElement>();
+const curCols = ref<TableCol[]>(props.cols);
+const windowSize = ref<number>(0);
 const checkBoxRef = ref<HTMLInputElement>();
 const checkBoxState = ref<boolean | "indeterminate">(false);
 
-const props = defineProps<TableProps>();
 const data = ref<any[]>(props.data);
 
 onMounted(() => {
     window.addEventListener("mouseup", dragEnd);
+    windowSize.value = window.innerWidth;
     setupResize();
+
+    if (props.mobileView === "shorten") {
+        window.addEventListener("resize", shortenEvt);
+    } else if (props.mobileView === "transformed") {
+        window.addEventListener("resize", () => {
+            windowSize.value = window.innerWidth;
+        });
+    }
 });
 
 onUnmounted(() => {
     window.removeEventListener("mouseup", dragEnd);
+    if (props.mobileView === "shorten") {
+        window.removeEventListener("resize", shortenEvt);
+    }
 });
 
 onUpdated(() => {
@@ -44,10 +73,35 @@ function setupResize() {
         return;
     }
 
+    const thEls = tableRef.value.querySelectorAll("th");
+    thEls.forEach((th) => {
+        if (th.style.minWidth) {
+            return;
+        }
+        const w = th.clientWidth + "px";
+        th.style.minWidth = w;
+    });
+
     const resizer = tableRef.value.querySelectorAll("th .resizer");
     resizer.forEach((el) => {
         el.addEventListener("mousedown", dragStart);
     });
+}
+
+let lastShortenExec: number = 0;
+function shortenEvt() {
+    if (lastShortenExec) {
+        clearTimeout(lastShortenExec);
+    }
+    lastShortenExec = setTimeout(hideColOnScreenWidthChange, 1000);
+}
+
+function hideColOnScreenWidthChange() {
+    curCols.value.pop();
+    /**
+     * Other strategies i.e. using importance hireachy,
+     * largest col first can be used to remove columngs
+     */
 }
 
 let initialX = 0,
@@ -57,7 +111,9 @@ let initialX = 0,
 const changeWidth = (event: MouseEvent) => {
     event.preventDefault();
     const distance = event.x - initialX;
-    activeEl.style.width = initialWidth + distance + "px";
+    const width = initialWidth + distance + "px";
+    activeEl.style.minWidth = width;
+    activeEl.style.maxHeight = width;
 };
 
 const dragStart = (event: Event) => {
@@ -131,8 +187,19 @@ const bulkCheckChange = (evt: Event) => {
 </script>
 
 <template>
-    <div class="table-wrapper">
-        <table ref="tableRef" v-bind="$attrs" class="tablex">
+    <div
+        :class="{
+            'table-wrapper': mobileView !== 'transformed',
+            moveable: mobileView === 'moveable',
+            collapsed: mobileView === 'collapsed',
+        }"
+    >
+        <table
+            v-if="mobileView !== 'transformed' || windowSize > breakpoint"
+            ref="tableRef"
+            v-bind="$attrs"
+            class="tablex"
+        >
             <thead>
                 <tr>
                     <th>
@@ -145,7 +212,7 @@ const bulkCheckChange = (evt: Event) => {
                         />
                     </th>
                     <th
-                        v-for="(cprops, idx) in cols"
+                        v-for="(cprops, idx) in curCols"
                         :style="`width: ${cprops.width}`"
                         :class="cprops.thClass"
                         :key="idx"
@@ -153,6 +220,7 @@ const bulkCheckChange = (evt: Event) => {
                         {{ cprops.label }}
                         <div class="resizer"></div>
                     </th>
+                    <th v-if="actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -165,25 +233,84 @@ const bulkCheckChange = (evt: Event) => {
                         />
                     </td>
                     <td
-                        v-for="(cprops, col_idx) in cols"
+                        v-for="(cprops, col_idx) in curCols"
                         :class="cprops.className"
                         :key="col_idx"
                     >
-                        {{ row[cprops.name] }}
+                        <p
+                            :class="{
+                                'no-wrap': !cprops.break,
+                                'break-words': cprops.break,
+                            }"
+                        >
+                            {{ row[cprops.name] }}
+                        </p>
+                    </td>
+                    <td v-if="actions">
+                        <button
+                            v-for="(action, aidx) in actions"
+                            :key="aidx"
+                            @click="(evt) => action.onClick(row, evt)"
+                        >
+                            {{ action.text }}
+                        </button>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <template v-else>
+            <h3>
+                <input
+                    type="checkbox"
+                    :checked="checkBoxState === true"
+                    :indeterminate="checkBoxState === 'indeterminate'"
+                    @click="bulkCheckChange"
+                    ref="checkBoxRef"
+                />
+                Items
+            </h3>
+            <div class="items">
+                <div v-for="(row, row_idx) in data" :key="row_idx" class="item">
+                    <input
+                        type="checkbox"
+                        :checked="row.checked"
+                        @change="(evt) => onRowCheckBoxChange(evt, row_idx)"
+                    />
+                    <p v-for="(cprops, col_idx) in curCols" :key="col_idx">
+                        <b>{{ cprops.label }}: </b>
+                        {{ row[cprops.name] }}
+                    </p>
+                    <div v-if="actions">
+                        <button
+                            v-for="(action, aidx) in actions"
+                            :key="aidx"
+                            @click="(evt) => action.onClick(row, evt)"
+                        >
+                            {{ action.text }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 
 <style scoped>
+.table-wrapper {
+    position: relative;
+}
+.moveable {
+    max-width: 100%;
+    overflow-x: auto;
+}
 .resize-active {
     cursor: col-resize;
 }
 table {
     border-collapse: separate;
     border-spacing: 0 4px;
+    table-layout: fixed;
+    width: auto;
 }
 
 th,
@@ -227,6 +354,23 @@ th {
     font-weight: 600;
 }
 
+.collapsed {
+    overflow: auto;
+}
+.collapsed table th:nth-of-type(2),
+.collapsed table td:nth-of-type(2) {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+}
+
+.collapsed table th:last-child,
+.collapsed table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+}
+
 .resizer {
     cursor: col-resize;
     position: absolute;
@@ -242,5 +386,39 @@ th {
 
 th:last-of-type .resizer {
     display: none;
+}
+
+@media screen and (max-width: 400px) {
+    table {
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    th {
+        border-bottom: 1px solid var(--clr-bg);
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    td {
+        border-radius: 0 !important;
+    }
+    tr:last-child td:first-child {
+        border-bottom-left-radius: 8px !important;
+    }
+    tr:last-child td:last-child {
+        border-bottom-right-radius: 8px !important;
+    }
+}
+
+h3 {
+    padding: 1rem;
+    margin: 0 1rem;
+}
+.items .item {
+    margin: 1rem;
+    background: white;
+    border-radius: 1rem;
+    padding: 1rem;
 }
 </style>

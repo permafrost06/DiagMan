@@ -42,6 +42,8 @@ header {
     padding: 15px 15px;
     margin: 0;
     font-size: var(--fs-lg);
+    z-index: 999;
+    background: var(--clr-bg);
 }
 .cmps {
     display: grid;
