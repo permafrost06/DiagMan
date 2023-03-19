@@ -99,7 +99,7 @@ const changeWidth = (event: MouseEvent) => {
     const distance = event.x - initialX;
     const width = initialWidth + distance + "px";
     activeEl.style.minWidth = width;
-    activeEl.style.minWidth = width;
+    activeEl.style.maxWidth = width;
 };
 
 const dragStart = (event: Event) => {
