@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import TableComponent from "@/components/TableComponent.vue";
+import TableComponent, {
+    type TableProps,
+} from "@/components/TableComponent.vue";
 
 const tableCols = ref([
     {
@@ -173,16 +175,44 @@ const tableData = ref([
     },
 ]);
 
+const mobileView = ref<TableProps["mobileView"]>("transformed");
+
 const actionOne = (data: any) => {
     console.log(data);
 };
 </script>
 
 <template>
+    <div class="flex flex-center flex-wrap">
+        <button
+            :class="{ active: mobileView === 'transformed' }"
+            @click="mobileView = 'transformed'"
+        >
+            Transformed
+        </button>
+        <button
+            :class="{ active: mobileView === 'moveable' }"
+            @click="mobileView = 'moveable'"
+        >
+            Moveable
+        </button>
+        <button
+            :class="{ active: mobileView === 'collapsed' }"
+            @click="mobileView = 'collapsed'"
+        >
+            Collapsed
+        </button>
+        <button
+            :class="{ active: mobileView === 'shorten' }"
+            @click="mobileView = 'shorten'"
+        >
+            Shorten
+        </button>
+    </div>
     <TableComponent
         :cols="tableCols"
         :data="tableData"
-        mobile-view="collapsed"
+        :mobile-view="mobileView"
         :actions="[
             {
                 text: 'Finalize',
@@ -195,3 +225,9 @@ const actionOne = (data: any) => {
         ]"
     />
 </template>
+
+<style scoped>
+.active {
+    color: blue;
+}
+</style>

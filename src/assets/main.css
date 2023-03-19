@@ -6,11 +6,25 @@ html, body{
   padding: 0;
   background: var(--clr-bg);
 }
-
+p{
+  margin: 0;
+  padding: 0;
+}
 .no-wrap {
     white-space: nowrap;
 }
 
 .break-word {
     word-break: break-word;
+}
+.flex {
+  display: flex;
+}
+.flex-center{
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-wrap{
+  flex-wrap: wrap;
 }
