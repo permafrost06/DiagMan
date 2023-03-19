@@ -113,7 +113,7 @@ const changeWidth = (event: MouseEvent) => {
     const distance = event.x - initialX;
     const width = initialWidth + distance + "px";
     activeEl.style.minWidth = width;
-    activeEl.style.maxHeight = width;
+    activeEl.style.minWidth = width;
 };
 
 const dragStart = (event: Event) => {
@@ -189,7 +189,8 @@ const bulkCheckChange = (evt: Event) => {
 <template>
     <div
         :class="{
-            'table-wrapper': mobileView !== 'transformed',
+            'table-wrapper': true,
+            transformed: mobileView === 'transformed',
             moveable: mobileView === 'moveable',
             collapsed: mobileView === 'collapsed',
         }"
@@ -198,7 +199,6 @@ const bulkCheckChange = (evt: Event) => {
             v-if="mobileView !== 'transformed' || windowSize > breakpoint"
             ref="tableRef"
             v-bind="$attrs"
-            class="tablex"
         >
             <thead>
                 <tr>
@@ -298,10 +298,8 @@ const bulkCheckChange = (evt: Event) => {
 <style scoped>
 .table-wrapper {
     position: relative;
-}
-.moveable {
     max-width: 100%;
-    overflow-x: auto;
+    overflow: hidden;
 }
 .resize-active {
     cursor: col-resize;
@@ -354,7 +352,8 @@ th {
     font-weight: 600;
 }
 
-.collapsed {
+.collapsed,
+.moveable {
     overflow: auto;
 }
 .collapsed table th:nth-of-type(2),
@@ -369,6 +368,10 @@ th {
     position: sticky;
     right: 0;
     z-index: 3;
+}
+
+.transformed table {
+    max-width: 100%;
 }
 
 .resizer {
@@ -391,7 +394,6 @@ th:last-of-type .resizer {
 @media screen and (max-width: 400px) {
     table {
         border-spacing: 0;
-        width: 100%;
     }
 
     th {
