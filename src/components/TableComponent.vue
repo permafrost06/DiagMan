@@ -14,12 +14,18 @@ export type TableCol = {
     thClass?: string;
     width?: string;
     break?: boolean;
-    doNotRemove?: boolean;
 };
 
 export interface RowAction {
     text: string;
     onClick: (row: any, evt: Event) => void;
+}
+
+export interface ShortenCol {
+    cols: number[];
+    thClass?: string;
+    className?: string;
+    title?: string;
 }
 
 export interface TableProps extends TableHTMLAttributes {
@@ -28,6 +34,7 @@ export interface TableProps extends TableHTMLAttributes {
     mobileView?: "moveable" | "collapsed" | "transformed" | "shorten";
     breakpoint?: number;
     actions?: RowAction[];
+    shorten?: Array<ShortenCol>;
 }
 
 const props = withDefaults(defineProps<TableProps>(), {
@@ -36,7 +43,6 @@ const props = withDefaults(defineProps<TableProps>(), {
 });
 
 const tableRef = ref<HTMLTableElement>();
-const curCols = ref<TableCol[]>(props.cols);
 const windowSize = ref<number>(0);
 const checkBoxRef = ref<HTMLInputElement>();
 const checkBoxState = ref<boolean | "indeterminate">(false);
@@ -48,20 +54,12 @@ onMounted(() => {
     windowSize.value = window.innerWidth;
     setupResize();
 
-    if (props.mobileView === "shorten") {
-        window.addEventListener("resize", shortenEvt);
-    } else if (props.mobileView === "transformed") {
-        window.addEventListener("resize", () => {
-            windowSize.value = window.innerWidth;
-        });
-    }
+    window.addEventListener("resize", windowResizeEvt);
 });
 
 onUnmounted(() => {
     window.removeEventListener("mouseup", dragEnd);
-    if (props.mobileView === "shorten") {
-        window.removeEventListener("resize", shortenEvt);
-    }
+    window.removeEventListener("resize", windowResizeEvt);
 });
 
 onUpdated(() => {
@@ -88,20 +86,8 @@ function setupResize() {
     });
 }
 
-let lastShortenExec: number = 0;
-function shortenEvt() {
-    if (lastShortenExec) {
-        clearTimeout(lastShortenExec);
-    }
-    lastShortenExec = setTimeout(hideColOnScreenWidthChange, 1000);
-}
-
-function hideColOnScreenWidthChange() {
-    curCols.value.pop();
-    /**
-     * Other strategies i.e. using importance hireachy,
-     * largest col first can be used to remove columngs
-     */
+function windowResizeEvt() {
+    windowSize.value = window.innerWidth;
 }
 
 let initialX = 0,
@@ -193,6 +179,7 @@ const bulkCheckChange = (evt: Event) => {
             transformed: mobileView === 'transformed',
             moveable: mobileView === 'moveable',
             collapsed: mobileView === 'collapsed',
+            shorten: mobileView === 'shorten',
         }"
     >
         <table
@@ -211,19 +198,47 @@ const bulkCheckChange = (evt: Event) => {
                             ref="checkBoxRef"
                         />
                     </th>
-                    <th
-                        v-for="(cprops, idx) in curCols"
-                        :style="`width: ${cprops.width}`"
-                        :class="cprops.thClass"
-                        :key="idx"
+                    <template
+                        v-if="
+                            mobileView !== 'shorten' ||
+                            windowSize > breakpoint ||
+                            !shorten
+                        "
                     >
-                        {{ cprops.label }}
-                        <div class="resizer"></div>
-                    </th>
+                        <th
+                            v-for="(cprops, idx) in cols"
+                            :style="`width: ${cprops.width}`"
+                            :class="cprops.thClass"
+                            :key="idx"
+                        >
+                            {{ cprops.label }}
+                            <div class="resizer"></div>
+                        </th>
+                    </template>
+                    <template v-else>
+                        <th
+                            v-for="(group, gidx) in shorten"
+                            :class="group.thClass"
+                            :key="gidx"
+                        >
+                            {{
+                                group.title ||
+                                group.cols
+                                    .map((cidx) => cols[cidx].label)
+                                    .join(" / ")
+                            }}
+                        </th>
+                    </template>
                     <th v-if="actions">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody
+                v-if="
+                    mobileView !== 'shorten' ||
+                    windowSize > breakpoint ||
+                    !shorten
+                "
+            >
                 <tr v-for="(row, row_idx) in data" :key="row_idx">
                     <td>
                         <input
@@ -233,7 +248,7 @@ const bulkCheckChange = (evt: Event) => {
                         />
                     </td>
                     <td
-                        v-for="(cprops, col_idx) in curCols"
+                        v-for="(cprops, col_idx) in cols"
                         :class="cprops.className"
                         :key="col_idx"
                     >
@@ -244,6 +259,38 @@ const bulkCheckChange = (evt: Event) => {
                             }"
                         >
                             {{ row[cprops.name] }}
+                        </p>
+                    </td>
+                    <td v-if="actions">
+                        <button
+                            v-for="(action, aidx) in actions"
+                            :key="aidx"
+                            @click="(evt) => action.onClick(row, evt)"
+                        >
+                            {{ action.text }}
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else>
+                <tr v-for="(row, row_idx) in data" :key="row_idx">
+                    <td>
+                        <input
+                            type="checkbox"
+                            :checked="row.checked"
+                            @change="(evt) => onRowCheckBoxChange(evt, row_idx)"
+                        />
+                    </td>
+                    <td
+                        v-for="(gprops, col_idx) in shorten"
+                        :class="gprops.className"
+                        :key="col_idx"
+                    >
+                        <p v-for="cidx in gprops.cols" :key="cidx">
+                            <b v-if="gprops.cols.length > 1"
+                                >{{ cols[cidx].label }}:
+                            </b>
+                            {{ row[cols[cidx].name] }}
                         </p>
                     </td>
                     <td v-if="actions">
@@ -276,7 +323,7 @@ const bulkCheckChange = (evt: Event) => {
                         :checked="row.checked"
                         @change="(evt) => onRowCheckBoxChange(evt, row_idx)"
                     />
-                    <p v-for="(cprops, col_idx) in curCols" :key="col_idx">
+                    <p v-for="(cprops, col_idx) in cols" :key="col_idx">
                         <b>{{ cprops.label }}: </b>
                         {{ row[cprops.name] }}
                     </p>
@@ -370,8 +417,9 @@ th {
     z-index: 3;
 }
 
-.transformed table {
-    max-width: 100%;
+.transformed table,
+.shorten table {
+    width: 100%;
 }
 
 .resizer {

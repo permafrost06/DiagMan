@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import TableComponent, {
+    type ShortenCol,
     type TableProps,
 } from "@/components/TableComponent.vue";
 
@@ -177,6 +178,16 @@ const tableData = ref([
 
 const mobileView = ref<TableProps["mobileView"]>("transformed");
 
+const shorten: ShortenCol[] = [
+    {
+        cols: [0],
+    },
+    {
+        title: "Patient",
+        cols: [2, 3],
+    },
+];
+
 const actionOne = (data: any) => {
     console.log(data);
 };
@@ -223,6 +234,7 @@ const actionOne = (data: any) => {
                 onClick: actionOne,
             },
         ]"
+        :shorten="shorten"
     />
 </template>
 
