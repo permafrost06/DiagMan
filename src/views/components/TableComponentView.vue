@@ -24,8 +24,29 @@ const tableData = ref([
     { no: 4, name: "Some user", email: "someuser@gmail.com" },
     { no: 5, name: "Some user", email: "someuser@gmail.com" },
 ]);
+
+const checked = ref<number[]>([2, 3]);
+
+const changeChecked = () => {
+    const index = checked.value.indexOf(3);
+    if (index > -1) {
+        checked.value.splice(index, 1);
+    } else {
+        checked.value.push(3);
+    }
+};
+const logValue = () => {
+    console.log([...checked.value]);
+};
 </script>
 
 <template>
-    <TableComponent :cols="tableCols" :data="tableData" style="width: 80vw" />
+    <button @click="changeChecked">Toggle 3</button>
+    <button @click="logValue">Log Value</button>
+    <TableComponent
+        :cols="tableCols"
+        :data="tableData"
+        v-model:checked="checked"
+        checkbox-index="no"
+    />
 </template>
