@@ -92,14 +92,24 @@ function windowResizeEvt() {
 
 let initialX = 0,
     initialWidth = 0,
+    initialTableWidth = 0,
     activeEl: HTMLTableCellElement;
 
 const changeWidth = (event: MouseEvent) => {
     event.preventDefault();
+
+    if (!tableRef.value) {
+        return;
+    }
+
     const distance = event.x - initialX;
     const width = initialWidth + distance + "px";
     activeEl.style.minWidth = width;
     activeEl.style.maxWidth = width;
+
+    const tableWidth = initialTableWidth + distance + "px";
+    tableRef.value.style.minWidth = tableWidth;
+    tableRef.value.style.maxWidth = tableWidth;
 };
 
 const dragStart = (event: Event) => {
@@ -112,12 +122,13 @@ const dragStart = (event: Event) => {
     target.style.height = tableRef.value?.getBoundingClientRect().height + "px";
     target.classList.add("active");
 
-    const totalPadding = window
-        .getComputedStyle(activeEl)
-        .paddingInline.split(" ")
-        .reduce((acc, pad) => acc + Number(pad.split("px")[0]), 0);
+    const computedStyle = window.getComputedStyle(activeEl);
+    const totalPadding =
+        parseInt(computedStyle.paddingLeft) +
+        parseInt(computedStyle.paddingRight);
 
     initialWidth = activeEl.clientWidth - totalPadding;
+    initialTableWidth = tableRef.value?.clientWidth || 0;
 
     tableRef.value?.classList.add("resize-active");
     window.addEventListener("mousemove", changeWidth);
@@ -346,7 +357,8 @@ const bulkCheckChange = (evt: Event) => {
 .table-wrapper {
     position: relative;
     max-width: 100%;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 .resize-active {
     cursor: col-resize;
@@ -399,10 +411,6 @@ th {
     font-weight: 600;
 }
 
-.collapsed,
-.moveable {
-    overflow: auto;
-}
 .collapsed table th:nth-of-type(2),
 .collapsed table td:nth-of-type(2) {
     position: sticky;
@@ -415,11 +423,6 @@ th {
     position: sticky;
     right: 0;
     z-index: 3;
-}
-
-.transformed table,
-.shorten table {
-    width: 100%;
 }
 
 .resizer {
@@ -440,6 +443,11 @@ th:last-of-type .resizer {
 }
 
 @media screen and (max-width: 400px) {
+    .transformed table,
+    .shorten table {
+        max-width: 100%;
+    }
+
     table {
         border-spacing: 0;
     }
