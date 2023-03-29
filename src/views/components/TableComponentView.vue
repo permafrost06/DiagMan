@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import TableComponent from "@/components/TableComponent.vue";
+import TableComponent, {
+    type ShortenCol,
+    type TableProps,
+} from "@/components/TableComponent.vue";
 
 const tableCols = ref([
     { name: "id", label: "ID" },
@@ -17,6 +20,18 @@ const tableData = ref([
     { no: 5, name: "Some user", email: "someuser@gmail.com", id: "cyt-20" },
 ]);
 
+const mobileView = ref<TableProps["mobileView"]>("transformed");
+
+const shorten: ShortenCol[] = [
+    {
+        cols: [0],
+    },
+    {
+        title: "Patient",
+        cols: [2, 3],
+    },
+];
+
 const checked = ref<string[]>([]);
 
 const checkIndex = ref("id");
@@ -31,12 +46,43 @@ const changeChecked = () => {
         checked.value.push(value);
     }
 };
+
+const actionOne = (data: any) => {
+    console.log(data);
+};
+
 const logValue = () => {
     console.log([...checked.value]);
 };
 </script>
 
 <template>
+    <div class="flex flex-center flex-wrap">
+        <button
+            :class="{ active: mobileView === 'transformed' }"
+            @click="mobileView = 'transformed'"
+        >
+            Transformed
+        </button>
+        <button
+            :class="{ active: mobileView === 'moveable' }"
+            @click="mobileView = 'moveable'"
+        >
+            Moveable
+        </button>
+        <button
+            :class="{ active: mobileView === 'collapsed' }"
+            @click="mobileView = 'collapsed'"
+        >
+            Collapsed
+        </button>
+        <button
+            :class="{ active: mobileView === 'shorten' }"
+            @click="mobileView = 'shorten'"
+        >
+            Shorten
+        </button>
+    </div>
     <button @click="changeChecked">Toggle 3</button>
     <button @click="logValue">Log Value</button>
     <TableComponent
@@ -44,9 +90,27 @@ const logValue = () => {
         :data="tableData"
         v-model:checked="checked"
         :checkbox-index="checkIndex"
+        :mobile-view="mobileView"
+        :actions="[
+            {
+                text: 'Finalize',
+                onClick: actionOne,
+            },
+            {
+                text: 'Delete',
+                onClick: actionOne,
+            },
+        ]"
+        :shorten="shorten"
     />
     <div>
         <div>check-index: {{ checkIndex }}</div>
         <div>checked: {{ checked }}</div>
     </div>
 </template>
+
+<style scoped>
+.active {
+    color: blue;
+}
+</style>
