@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+    computed,
     onMounted,
     onUnmounted,
     onUpdated,
@@ -7,14 +8,14 @@ import {
     type TableHTMLAttributes,
 } from "vue";
 
-export type TableCol = {
+export interface TableCol {
     label: string;
     name: string;
     className?: string;
     thClass?: string;
     width?: string;
     break?: boolean;
-};
+}
 
 export interface RowAction {
     text: string;
@@ -35,7 +36,14 @@ export interface TableProps extends TableHTMLAttributes {
     breakpoint?: number;
     actions?: RowAction[];
     shorten?: Array<ShortenCol>;
+
+    checked?: string[];
+    checkboxIndex?: string;
 }
+
+const emit = defineEmits<{
+    (e: "update:checked", values: any[]): void;
+}>();
 
 const props = withDefaults(defineProps<TableProps>(), {
     mobileView: "moveable",
@@ -44,8 +52,7 @@ const props = withDefaults(defineProps<TableProps>(), {
 
 const tableRef = ref<HTMLTableElement>();
 const windowSize = ref<number>(0);
-const checkBoxRef = ref<HTMLInputElement>();
-const checkBoxState = ref<boolean | "indeterminate">(false);
+const checkedValues = ref<string[]>(props.checked || []);
 
 const data = ref<any[]>(props.data);
 
@@ -144,42 +151,33 @@ const dragEnd = () => {
     }
 };
 
-const onRowCheckBoxChange = (evt: Event, idx: number) => {
-    //@ts-ignore
-    const value = evt.target.checked;
-    let allChecked = true;
-    let allNotCheked = true;
+const bulkCheckboxState = computed(() => {
+    if (!checkedValues.value.length) return false;
+    if (checkedValues.value.length !== props.data.length)
+        return "indeterminate";
 
-    data.value = data.value.map((item, index) => {
-        if (index == idx) {
-            item.checked = value;
-        }
-        if (!item.checked) {
-            allChecked = false;
-        } else {
-            allNotCheked = false;
-        }
+    return true;
+});
 
-        return item;
-    });
+const onBulkCheckboxChange = (evt: Event) => {
+    // @ts-ignore
+    const checked = evt.target?.checked;
 
-    if (allChecked) {
-        checkBoxState.value = true;
-    } else if (allNotCheked) {
-        checkBoxState.value = false;
-    } else {
-        checkBoxState.value = "indeterminate";
+    if (checked) {
+        checkedValues.value = data.value.map((row, idx) =>
+            props.checkboxIndex ? row[props.checkboxIndex] : idx
+        );
     }
+
+    if (!checked) {
+        checkedValues.value = [];
+    }
+
+    emit("update:checked", checkedValues.value);
 };
 
-const bulkCheckChange = (evt: Event) => {
-    //@ts-ignore
-    const value = evt.target.checked;
-    checkBoxState.value = value;
-    data.value = data.value.map((item) => {
-        item.checked = value;
-        return item;
-    });
+const emitCheckboxUpdate = () => {
+    emit("update:checked", checkedValues.value);
 };
 </script>
 
@@ -203,10 +201,11 @@ const bulkCheckChange = (evt: Event) => {
                     <th>
                         <input
                             type="checkbox"
-                            :checked="checkBoxState === true"
-                            :indeterminate="checkBoxState === 'indeterminate'"
-                            @click="bulkCheckChange"
-                            ref="checkBoxRef"
+                            :checked="bulkCheckboxState === true"
+                            :indeterminate="
+                                bulkCheckboxState === 'indeterminate'
+                            "
+                            @change="onBulkCheckboxChange"
                         />
                     </th>
                     <template
@@ -217,10 +216,10 @@ const bulkCheckChange = (evt: Event) => {
                         "
                     >
                         <th
-                            v-for="(cprops, idx) in cols"
+                            v-for="cprops in cols"
                             :style="`width: ${cprops.width}`"
                             :class="cprops.thClass"
-                            :key="idx"
+                            :key="cprops.name"
                         >
                             {{ cprops.label }}
                             <div class="resizer"></div>
@@ -254,14 +253,17 @@ const bulkCheckChange = (evt: Event) => {
                     <td>
                         <input
                             type="checkbox"
-                            :checked="row.checked"
-                            @change="(evt) => onRowCheckBoxChange(evt, row_idx)"
+                            v-model="checkedValues"
+                            :value="
+                                checkboxIndex ? row[checkboxIndex] : row_idx
+                            "
+                            @change="emitCheckboxUpdate"
                         />
                     </td>
                     <td
-                        v-for="(cprops, col_idx) in cols"
+                        v-for="cprops in cols"
                         :class="cprops.className"
-                        :key="col_idx"
+                        :key="cprops.name"
                     >
                         <p
                             :class="{
@@ -288,8 +290,11 @@ const bulkCheckChange = (evt: Event) => {
                     <td>
                         <input
                             type="checkbox"
-                            :checked="row.checked"
-                            @change="(evt) => onRowCheckBoxChange(evt, row_idx)"
+                            v-model="checkedValues"
+                            :value="
+                                checkboxIndex ? row[checkboxIndex] : row_idx
+                            "
+                            @change="emitCheckboxUpdate"
                         />
                     </td>
                     <td
@@ -320,10 +325,9 @@ const bulkCheckChange = (evt: Event) => {
             <h3>
                 <input
                     type="checkbox"
-                    :checked="checkBoxState === true"
-                    :indeterminate="checkBoxState === 'indeterminate'"
-                    @click="bulkCheckChange"
-                    ref="checkBoxRef"
+                    :checked="bulkCheckboxState === true"
+                    :indeterminate="bulkCheckboxState === 'indeterminate'"
+                    @change="onBulkCheckboxChange"
                 />
                 Items
             </h3>
@@ -331,8 +335,9 @@ const bulkCheckChange = (evt: Event) => {
                 <div v-for="(row, row_idx) in data" :key="row_idx" class="item">
                     <input
                         type="checkbox"
-                        :checked="row.checked"
-                        @change="(evt) => onRowCheckBoxChange(evt, row_idx)"
+                        v-model="checkedValues"
+                        :value="checkboxIndex ? row[checkboxIndex] : row_idx"
+                        @change="emitCheckboxUpdate"
                     />
                     <p v-for="(cprops, col_idx) in cols" :key="col_idx">
                         <b>{{ cprops.label }}: </b>
