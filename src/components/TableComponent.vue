@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {
+    computed,
     onMounted,
     onUnmounted,
     onUpdated,
     ref,
-    watch,
     type TableHTMLAttributes,
 } from "vue";
 
@@ -19,7 +19,7 @@ export type TableCol = {
 export interface TableProps extends TableHTMLAttributes {
     cols: TableCol[];
     data: any[];
-    checked?: any[];
+    checked?: string[];
     checkboxIndex?: string;
 }
 
@@ -29,22 +29,10 @@ const emit = defineEmits<{
 
 const props = defineProps<TableProps>();
 
-const checkedValues = ref<any[]>(props.checked || []);
+const checkedValues = ref<string[]>(props.checked || []);
 const tableRef = ref<HTMLTableElement>();
-const checkBoxRef = ref<HTMLInputElement>();
-const checkBoxState = ref<boolean | "indeterminate">(false);
 
 const data = ref<any[]>(props.data);
-
-let changedFromHere = false;
-watch(props, () => {
-    if (!changedFromHere) {
-        checkedFromParent();
-    } else {
-        changedFromHere = false;
-    }
-});
-checkedFromParent();
 
 onMounted(() => {
     window.addEventListener("mouseup", dragEnd);
@@ -111,86 +99,34 @@ const dragEnd = () => {
     }
 };
 
-const onRowCheckBoxChange = (evt: Event, idx: number) => {
-    //@ts-ignore
-    const value = evt.target.checked;
-    let allChecked = true;
-    let allNotCheked = true;
+const bulkCheckboxState = computed(() => {
+    if (!checkedValues.value.length) return false;
+    if (checkedValues.value.length !== props.data.length)
+        return "indeterminate";
 
-    const checked: any[] = [];
+    return true;
+});
 
-    data.value = data.value.map((item, index) => {
-        if (index == idx) {
-            item.__checked = value;
-        }
-        if (!item.__checked) {
-            allChecked = false;
-        } else {
-            allNotCheked = false;
-            if (props.checkboxIndex) {
-                checked.push(item[props.checkboxIndex]);
-            }
-        }
+const onBulkCheckboxChange = (evt: Event) => {
+    // @ts-ignore
+    const checked = evt.target?.checked;
 
-        return item;
-    });
-
-    if (allChecked) {
-        checkBoxState.value = true;
-    } else if (allNotCheked) {
-        checkBoxState.value = false;
-    } else {
-        checkBoxState.value = "indeterminate";
+    if (checked) {
+        checkedValues.value = data.value.map((row, idx) =>
+            props.checkboxIndex ? row[props.checkboxIndex] : idx
+        );
     }
-    changedFromHere = true;
-    checkedValues.value = checked;
-    emit("update:checked", checked);
+
+    if (!checked) {
+        checkedValues.value = [];
+    }
+
+    emit("update:checked", checkedValues.value);
 };
 
-const bulkCheckChange = (evt: Event) => {
-    //@ts-ignore
-    const value = evt.target.checked;
-    const checked: any[] = [];
-    checkBoxState.value = value;
-    data.value = data.value.map((item) => {
-        item.__checked = value;
-        if (props.checkboxIndex) {
-            checked.push(item[props.checkboxIndex]);
-        }
-        return item;
-    });
-
-    changedFromHere = true;
-    checkedValues.value = checked;
-    emit("update:checked", checked);
+const emitCheckboxUpdate = () => {
+    emit("update:checked", checkedValues.value);
 };
-
-function checkedFromParent() {
-    if (props.checkboxIndex && props.checked) {
-        let allChecked = true;
-        let allNotCheked = true;
-
-        data.value.forEach((item) => {
-            item.__checked =
-                //@ts-ignore
-                props.checked?.indexOf(item[props.checkboxIndex]) > -1;
-
-            if (!item.__checked) {
-                allChecked = false;
-            } else {
-                allNotCheked = false;
-            }
-        });
-
-        if (allChecked) {
-            checkBoxState.value = true;
-        } else if (allNotCheked) {
-            checkBoxState.value = false;
-        } else {
-            checkBoxState.value = "indeterminate";
-        }
-    }
-}
 </script>
 
 <template>
@@ -201,17 +137,18 @@ function checkedFromParent() {
                     <th>
                         <input
                             type="checkbox"
-                            :checked="checkBoxState === true"
-                            :indeterminate="checkBoxState === 'indeterminate'"
-                            @click="bulkCheckChange"
-                            ref="checkBoxRef"
+                            :checked="bulkCheckboxState === true"
+                            :indeterminate="
+                                bulkCheckboxState === 'indeterminate'
+                            "
+                            @change="onBulkCheckboxChange"
                         />
                     </th>
                     <th
-                        v-for="(cprops, idx) in cols"
+                        v-for="cprops in cols"
                         :style="`width: ${cprops.width}`"
                         :class="cprops.thClass"
-                        :key="idx"
+                        :key="cprops.name"
                     >
                         {{ cprops.label }}
                         <div class="resizer"></div>
@@ -223,14 +160,17 @@ function checkedFromParent() {
                     <td>
                         <input
                             type="checkbox"
-                            :checked="row.__checked"
-                            @change="(evt) => onRowCheckBoxChange(evt, row_idx)"
+                            v-model="checkedValues"
+                            :value="
+                                checkboxIndex ? row[checkboxIndex] : row_idx
+                            "
+                            @change="emitCheckboxUpdate"
                         />
                     </td>
                     <td
-                        v-for="(cprops, col_idx) in cols"
+                        v-for="cprops in cols"
                         :class="cprops.className"
-                        :key="col_idx"
+                        :key="cprops.name"
                     >
                         {{ row[cprops.name] }}
                     </td>
