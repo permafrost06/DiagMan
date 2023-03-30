@@ -92,7 +92,9 @@ const logValue = () => {
         </div>
 
         <div class="flex flex-center flex-wrap my-4">
-            <button @click="resizable = !resizable">Toggle Resizable</button>
+            <button @click="resizable = !resizable">
+                {{ resizable ? "Disable" : "Enable" }} resizability
+            </button>
         </div>
     </div>
     <TableComponent
