@@ -59,8 +59,8 @@ const logValue = () => {
 </script>
 
 <template>
-    <div class="flex justify-around">
-        <div class="flex flex-center flex-wrap my-4">
+    <div class="options">
+        <div class="btn-group">
             <button
                 :class="{ active: mobileView === 'transformed' }"
                 @click="mobileView = 'transformed'"
@@ -86,12 +86,12 @@ const logValue = () => {
                 Shorten
             </button>
         </div>
-        <div class="flex flex-center flex-wrap my-4">
+        <div class="btn-group">
             <button @click="changeChecked">Toggle 3</button>
             <button @click="logValue">Log Value</button>
         </div>
 
-        <div class="flex flex-center flex-wrap my-4">
+        <div class="btn-group">
             <button @click="resizable = !resizable">
                 {{ resizable ? "Disable" : "Enable" }} resizability
             </button>
@@ -125,5 +125,21 @@ const logValue = () => {
 <style scoped>
 .active {
     color: blue;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.btn-group {
+    margin: 5px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-group button {
+    margin: 0 2px;
 }
 </style>
