@@ -32,6 +32,8 @@ const shorten: ShortenCol[] = [
     },
 ];
 
+const resizable = ref<boolean>(true);
+
 const checked = ref<string[]>([]);
 
 const checkIndex = ref("id");
@@ -57,34 +59,42 @@ const logValue = () => {
 </script>
 
 <template>
-    <div class="flex flex-center flex-wrap">
-        <button
-            :class="{ active: mobileView === 'transformed' }"
-            @click="mobileView = 'transformed'"
-        >
-            Transformed
-        </button>
-        <button
-            :class="{ active: mobileView === 'moveable' }"
-            @click="mobileView = 'moveable'"
-        >
-            Moveable
-        </button>
-        <button
-            :class="{ active: mobileView === 'collapsed' }"
-            @click="mobileView = 'collapsed'"
-        >
-            Collapsed
-        </button>
-        <button
-            :class="{ active: mobileView === 'shorten' }"
-            @click="mobileView = 'shorten'"
-        >
-            Shorten
-        </button>
+    <div class="flex justify-around">
+        <div class="flex flex-center flex-wrap my-4">
+            <button
+                :class="{ active: mobileView === 'transformed' }"
+                @click="mobileView = 'transformed'"
+            >
+                Transformed
+            </button>
+            <button
+                :class="{ active: mobileView === 'moveable' }"
+                @click="mobileView = 'moveable'"
+            >
+                Moveable
+            </button>
+            <button
+                :class="{ active: mobileView === 'collapsed' }"
+                @click="mobileView = 'collapsed'"
+            >
+                Collapsed
+            </button>
+            <button
+                :class="{ active: mobileView === 'shorten' }"
+                @click="mobileView = 'shorten'"
+            >
+                Shorten
+            </button>
+        </div>
+        <div class="flex flex-center flex-wrap my-4">
+            <button @click="changeChecked">Toggle 3</button>
+            <button @click="logValue">Log Value</button>
+        </div>
+
+        <div class="flex flex-center flex-wrap my-4">
+            <button @click="resizable = !resizable">Toggle Resizable</button>
+        </div>
     </div>
-    <button @click="changeChecked">Toggle 3</button>
-    <button @click="logValue">Log Value</button>
     <TableComponent
         :cols="tableCols"
         :data="tableData"
@@ -102,6 +112,7 @@ const logValue = () => {
             },
         ]"
         :shorten="shorten"
+        :resizable="resizable"
     />
     <div>
         <div>check-index: {{ checkIndex }}</div>
