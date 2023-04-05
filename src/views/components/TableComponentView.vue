@@ -4,6 +4,7 @@ import TableComponent, {
     type ShortenCol,
     type TableProps,
 } from "@/components/TableComponent.vue";
+import Pagination from "@/components/Pagination.vue";
 
 const tableCols = ref([
     { name: "id", label: "ID" },
@@ -12,13 +13,22 @@ const tableCols = ref([
     { name: "email", label: "Email" },
 ]);
 
-const tableData = ref([
-    { no: 1, name: "Some user", email: "someuser@gmail.com", id: "cyt-001" },
-    { no: 2, name: "Some user", email: "someuser@gmail.com", id: "his-002" },
-    { no: 3, name: "Some user", email: "someuser@gmail.com", id: "his-005" },
-    { no: 4, name: "Some user", email: "someuser@gmail.com", id: "cyt-015" },
-    { no: 5, name: "Some user", email: "someuser@gmail.com", id: "cyt-20" },
-]);
+const getUniqueData = (id: number) => ({
+    no: id,
+    name: "Some user " + id,
+    email: `someuser${id}@gmail.com`,
+    id: "cyt-00" + id,
+});
+
+const allData = (() => {
+    const items: any[] = [];
+    for (let i = 1; i < 101; i++) {
+        items.push(getUniqueData(i));
+    }
+    return items;
+})();
+
+const tableData = ref<any[]>([]);
 
 const mobileView = ref<TableProps["mobileView"]>("transformed");
 
@@ -52,10 +62,6 @@ const changeChecked = () => {
 const actionOne = (data: any) => {
     console.log(data);
 };
-
-const logValue = () => {
-    console.log([...checked.value]);
-};
 </script>
 
 <template>
@@ -88,7 +94,6 @@ const logValue = () => {
         </div>
         <div class="btn-group">
             <button @click="changeChecked">Toggle 3</button>
-            <button @click="logValue">Log Value</button>
         </div>
 
         <div class="btn-group">
@@ -116,6 +121,7 @@ const logValue = () => {
         :shorten="shorten"
         :resizable="resizable"
     />
+    <Pagination :all-items="allData" v-model:items="tableData" />
     <div>
         <div>check-index: {{ checkIndex }}</div>
         <div>checked: {{ checked }}</div>
