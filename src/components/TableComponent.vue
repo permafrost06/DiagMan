@@ -35,7 +35,10 @@ export interface TableProps extends TableHTMLAttributes {
     mobileView?: "moveable" | "collapsed" | "transformed" | "shorten";
     breakpoint?: number;
     actions?: RowAction[];
+
     shorten?: Array<ShortenCol>;
+
+    resizable?: boolean;
 
     checked?: string[];
     checkboxIndex?: string;
@@ -222,7 +225,7 @@ const emitCheckboxUpdate = () => {
                             :key="cprops.name"
                         >
                             {{ cprops.label }}
-                            <div class="resizer"></div>
+                            <div v-if="resizable" class="resizer"></div>
                         </th>
                     </template>
                     <template v-else>

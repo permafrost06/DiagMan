@@ -32,6 +32,8 @@ const shorten: ShortenCol[] = [
     },
 ];
 
+const resizable = ref<boolean>(true);
+
 const checked = ref<string[]>([]);
 
 const checkIndex = ref("id");
@@ -57,34 +59,44 @@ const logValue = () => {
 </script>
 
 <template>
-    <div class="flex flex-center flex-wrap">
-        <button
-            :class="{ active: mobileView === 'transformed' }"
-            @click="mobileView = 'transformed'"
-        >
-            Transformed
-        </button>
-        <button
-            :class="{ active: mobileView === 'moveable' }"
-            @click="mobileView = 'moveable'"
-        >
-            Moveable
-        </button>
-        <button
-            :class="{ active: mobileView === 'collapsed' }"
-            @click="mobileView = 'collapsed'"
-        >
-            Collapsed
-        </button>
-        <button
-            :class="{ active: mobileView === 'shorten' }"
-            @click="mobileView = 'shorten'"
-        >
-            Shorten
-        </button>
+    <div class="options">
+        <div class="btn-group">
+            <button
+                :class="{ active: mobileView === 'transformed' }"
+                @click="mobileView = 'transformed'"
+            >
+                Transformed
+            </button>
+            <button
+                :class="{ active: mobileView === 'moveable' }"
+                @click="mobileView = 'moveable'"
+            >
+                Moveable
+            </button>
+            <button
+                :class="{ active: mobileView === 'collapsed' }"
+                @click="mobileView = 'collapsed'"
+            >
+                Collapsed
+            </button>
+            <button
+                :class="{ active: mobileView === 'shorten' }"
+                @click="mobileView = 'shorten'"
+            >
+                Shorten
+            </button>
+        </div>
+        <div class="btn-group">
+            <button @click="changeChecked">Toggle 3</button>
+            <button @click="logValue">Log Value</button>
+        </div>
+
+        <div class="btn-group">
+            <button @click="resizable = !resizable">
+                {{ resizable ? "Disable" : "Enable" }} resizability
+            </button>
+        </div>
     </div>
-    <button @click="changeChecked">Toggle 3</button>
-    <button @click="logValue">Log Value</button>
     <TableComponent
         :cols="tableCols"
         :data="tableData"
@@ -102,6 +114,7 @@ const logValue = () => {
             },
         ]"
         :shorten="shorten"
+        :resizable="resizable"
     />
     <div>
         <div>check-index: {{ checkIndex }}</div>
@@ -112,5 +125,21 @@ const logValue = () => {
 <style scoped>
 .active {
     color: blue;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.btn-group {
+    margin: 5px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-group button {
+    margin: 0 2px;
 }
 </style>
