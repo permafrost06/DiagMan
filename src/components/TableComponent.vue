@@ -57,8 +57,6 @@ const tableRef = ref<HTMLTableElement>();
 const windowSize = ref<number>(0);
 const checkedValues = ref<string[]>(props.checked || []);
 
-const data = ref<any[]>(props.data);
-
 onMounted(() => {
     window.addEventListener("mouseup", dragEnd);
     windowSize.value = window.innerWidth;
@@ -167,7 +165,7 @@ const onBulkCheckboxChange = (evt: Event) => {
     const checked = evt.target?.checked;
 
     if (checked) {
-        checkedValues.value = data.value.map((row, idx) =>
+        checkedValues.value = props.data.map((row, idx) =>
             props.checkboxIndex ? row[props.checkboxIndex] : idx
         );
     }
