@@ -130,7 +130,7 @@ function getPageNumbers(current: number, max: number, onEachSide: number) {
             out of {{ itemCount }}
         </p>
         <ul class="page_nums">
-            <li>
+            <li key="prev">
                 <button
                     @click="toPage(modelValue - 1)"
                     class="page-prev page_item"
@@ -152,7 +152,7 @@ function getPageNumbers(current: number, max: number, onEachSide: number) {
             >
                 {{ !page ? "..." : page }}
             </li>
-            <li>
+            <li key="next">
                 <button
                     class="page-next page_item"
                     :class="{ disabled: modelValue >= pageDetails.total }"
@@ -256,14 +256,17 @@ function getPageNumbers(current: number, max: number, onEachSide: number) {
     padding: 0 4px;
 }
 .page_num {
-    width: var(--size);
     height: var(--size);
     border-radius: 0.4rem;
+    margin: 0 5px;
+    padding: 0 8px;
+    box-sizing: border-box;
 }
 .page_num:hover {
     color: var(--active);
 }
 .page_num.active {
+    min-width: var(--size);
     color: #ffffff;
     background: var(--active);
     font-weight: bold;
