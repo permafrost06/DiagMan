@@ -251,6 +251,7 @@ function getPageNumbers(current: number, max: number, onEachSide: number) {
     cursor: pointer;
     color: var(--text);
     height: var(--size);
+    user-select: none;
 }
 .page_dots {
     padding: 0 4px;
