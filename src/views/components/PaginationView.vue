@@ -4,7 +4,7 @@ import { ref } from "vue";
 const page1 = ref<number>(1);
 const page2 = ref<number>(1);
 
-const onEachSide = ref<number>(2);
+const onEachSide = ref<number>(1);
 const itemCount = ref<number>(100);
 
 const pages = ref<number>(10);

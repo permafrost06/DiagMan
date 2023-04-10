@@ -22,7 +22,7 @@ const emit = defineEmits<{
 }>();
 
 const props = withDefaults(defineProps<PaginationProps>(), {
-    onEachSide: 2,
+    onEachSide: 1,
 });
 
 const pageDetails = computed((): PageDetails => {
