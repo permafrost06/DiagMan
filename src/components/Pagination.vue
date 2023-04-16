@@ -122,11 +122,11 @@ function getPageNumbers(current: number, max: number, onEachSide: number) {
     <div class="pagination">
         <p>
             Showing
-            <b
-                >{{ (modelValue - 1) * pageDetails.size + 1 }}-{{
+            <span class="items-range">
+                {{ (modelValue - 1) * pageDetails.size + 1 }}-{{
                     modelValue * pageDetails.size
-                }}</b
-            >
+                }}
+            </span>
             out of {{ itemCount }}
         </p>
         <ul class="page_nums">
@@ -187,8 +187,12 @@ function getPageNumbers(current: number, max: number, onEachSide: number) {
     color: var(--text);
 }
 
-.pagination p b {
+.pagination p {
     color: var(--dark);
+}
+
+.pagination .items-range {
+    font-weight: bold;
 }
 
 .page-next,
