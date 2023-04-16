@@ -44,28 +44,10 @@ const pageDetails = computed((): PageDetails => {
 });
 
 const pages = computed(() => {
-    return getPageNumbers(
-        props.modelValue,
-        pageDetails.value.total,
-        props.onEachSide
-    );
-});
+    const current = props.modelValue;
+    const onEachSide = props.onEachSide;
+    const max = pageDetails.value.total;
 
-onMounted(() => {
-    toPage(props.modelValue);
-});
-
-function toPage(page: number) {
-    if (page < 1) {
-        page = 1;
-    }
-    if (page > pageDetails.value.total) {
-        page = pageDetails.value.total;
-    }
-    emit("update:modelValue", page);
-}
-
-function getPageNumbers(current: number, max: number, onEachSide: number) {
     const pages: number[] = [];
 
     // Calculate the start and end page numbers for the range
@@ -115,6 +97,20 @@ function getPageNumbers(current: number, max: number, onEachSide: number) {
     }
 
     return pages;
+});
+
+onMounted(() => {
+    toPage(props.modelValue);
+});
+
+function toPage(page: number) {
+    if (page < 1) {
+        page = 1;
+    }
+    if (page > pageDetails.value.total) {
+        page = pageDetails.value.total;
+    }
+    emit("update:modelValue", page);
 }
 </script>
 
