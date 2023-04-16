@@ -71,11 +71,7 @@ const pages = computed(() => {
     return pages;
 });
 
-onMounted(() => {
-    toPage(props.modelValue);
-});
-
-function toPage(page: number) {
+const toPage = (page: number) => {
     if (page < 1) {
         page = 1;
     }
@@ -83,7 +79,11 @@ function toPage(page: number) {
         page = pageDetails.value.total;
     }
     emit("update:modelValue", page);
-}
+};
+
+onMounted(() => {
+    toPage(props.modelValue);
+});
 </script>
 
 <template>
