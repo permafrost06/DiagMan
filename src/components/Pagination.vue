@@ -48,53 +48,25 @@ const pages = computed(() => {
     const onEachSide = props.onEachSide;
     const max = pageDetails.value.total;
 
-    const pages: number[] = [];
+    const pages: Number[] = [];
 
-    // Calculate the start and end page numbers for the range
-    let start = Math.max(current - onEachSide, 1);
-    const end = Math.min(current + onEachSide, max);
+    pages.push(1);
 
-    // First stop starting from 1
-    const firstEdge = Math.min(onEachSide + 1, start);
+    if (current - onEachSide > 2) pages.push(0);
 
-    //Beginning of the end
-    let lastEdge = Math.max(end, max - onEachSide);
-
-    if (firstEdge > 1) {
-        /**
-         * If the `firstEdge > 1` we should add the beginning cluster of the pages
-         * 1,2,3
-         */
-        for (let i = 1; i <= firstEdge; i++) {
-            pages.push(i);
-        }
-        if (firstEdge < start - 1) {
-            /**
-             * If there is a gap between the firstEdge and the start then we should separate the cluster
-             * 1,2,3    ...      x,y,z
-             */
-            pages.push(0);
-        } else if (firstEdge === start) {
-            // If firstEdge == start, increase the start to avoid duplication
-            start++;
-        }
+    for (let i = -onEachSide; i < 0; i++) {
+        if (current + i > 1) pages.push(current + i);
     }
 
-    for (let i = start; i <= end; i++) {
-        pages.push(i);
+    if (current !== 1 && current !== max) pages.push(current);
+
+    for (let i = 1; i <= onEachSide; i++) {
+        if (current + i < max) pages.push(current + i);
     }
 
-    if (lastEdge < max) {
-        if (lastEdge > end + 1) {
-            pages.push(0);
-        } else if (lastEdge === end) {
-            lastEdge++;
-        }
+    if (current + onEachSide < max - 1) pages.push(0);
 
-        for (let i = lastEdge; i <= max; i++) {
-            pages.push(i);
-        }
-    }
+    if (max !== 1) pages.push(max);
 
     return pages;
 });
