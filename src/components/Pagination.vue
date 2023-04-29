@@ -49,24 +49,27 @@ const pages = computed(() => {
     const max = pageDetails.value.total;
 
     const pages: Number[] = [];
+    const start = Math.max(1, current - onEachSide);
+    const end = Math.min(max, current + onEachSide);
 
-    pages.push(1);
-
-    if (current - onEachSide > 2) pages.push(0);
-
-    for (let i = -onEachSide; i < 0; i++) {
-        if (current + i > 1) pages.push(current + i);
+    if (start > 1) {
+        pages.push(1);
+    }
+    if (start > 2) {
+        pages.push(0);
     }
 
-    if (current !== 1 && current !== max) pages.push(current);
-
-    for (let i = 1; i <= onEachSide; i++) {
-        if (current + i < max) pages.push(current + i);
+    for (let i = start; i <= end; i++) {
+        pages.push(i);
     }
 
-    if (current + onEachSide < max - 1) pages.push(0);
+    if (max - end > 1) {
+        pages.push(0);
+    }
 
-    if (max !== 1) pages.push(max);
+    if (max > end) {
+        pages.push(max);
+    }
 
     return pages;
 });
