@@ -1,9 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
+import { onUnmounted, ref, watch } from "vue";
 
 export interface NotificationProps {
     state?: "open" | "closed";
+    hideOnBlur?: boolean;
 }
 
 const props = defineProps<NotificationProps>();
@@ -20,6 +21,18 @@ const state = ref<NotificationProps["state"]>(
     props.state === "open" ? "open" : "closed"
 );
 
+if (props.hideOnBlur) {
+    const hideOnBlur = () => {
+        if (state.value === "open") {
+            state.value = "closed";
+        }
+    };
+    window.addEventListener("click", hideOnBlur);
+    onUnmounted(() => {
+        window.removeEventListener("click", hideOnBlur);
+    });
+}
+
 const toggle = () => {
     const newState = state.value === "closed" ? "open" : "closed";
     state.value = newState;
@@ -34,7 +47,7 @@ watch(props, (newProps) => {
 </script>
 
 <template>
-    <div class="notification">
+    <div class="notification" @click.stop>
         <button type="button" class="notification-trigger" @click="toggle">
             <svg
                 width="24"
@@ -81,5 +94,4 @@ watch(props, (newProps) => {
     padding: 5px;
     z-index: 999;
 }
-
 </style>

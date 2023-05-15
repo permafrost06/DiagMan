@@ -33,7 +33,7 @@ const toggleState = () => {
         </div>
     </div>
     <div class="flex">
-        <Notification>
+        <Notification :hide-on-blur="true">
             <NotificationGroup
                 v-for="group in notificationGroups"
                 :key="group.title"
