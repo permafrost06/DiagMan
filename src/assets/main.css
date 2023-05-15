@@ -1,14 +1,15 @@
-@import './theme.css';
+@import "./theme.css";
 
-html, body{
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background: var(--clr-bg);
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--clr-bg);
 }
-p{
-  margin: 0;
-  padding: 0;
+p {
+    margin: 0;
+    padding: 0;
 }
 .no-wrap {
     white-space: nowrap;
@@ -16,4 +17,18 @@ p{
 
 .break-word {
     word-break: break-word;
+}
+
+.sr-only {
+    border: 0 !important;
+    clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important; /* 2 */
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    white-space: nowrap !important; /* 3 */
 }
