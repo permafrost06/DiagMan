@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import LineChart, { type DataPoint } from "@/components/chart/LineChart.vue";
+import Chart from "@/components/chart/Chart.vue";
+import type { DataPoint } from "@/components/chart/LineChart";
 import { onMounted, ref } from "vue";
 
 const count1 = ref<number>(8);
@@ -93,7 +94,7 @@ onMounted(() => {
         </div>
     </div>
     <div class="center">
-        <LineChart :data-groups="dataGroups" />
+        <Chart type="line" :data="dataGroups" />
     </div>
     <div class="center input-group">
         <button @click="reCalc1">Refresh 1</button>
