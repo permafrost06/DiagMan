@@ -177,6 +177,7 @@ const draw = () => {
 };
 
 watch(props, () => {
+    d3El.selectAll("*").remove();
     draw();
 });
 
