@@ -18,7 +18,7 @@ async function checkCmp() {
         )
     ).default;
 }
-const components: string[] = ["TableComponent", "Pagination"];
+const components: string[] = ["TableComponent", "Pagination", "LayoutBuilder"];
 </script>
 <template>
     <header>Components</header>
