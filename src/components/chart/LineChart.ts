@@ -87,7 +87,7 @@ export const initLineChart = (svg: Element): LineChart => {
             .line()
             .x((d: any) => xScale(d.x))
             .y((d: any) => yScale(d.y))
-            .curve(d3.curveCardinal);
+            .curve(d3.curveLinear);
 
         const xAxis = d3
             .axisBottom(xScale)
