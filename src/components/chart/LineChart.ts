@@ -5,9 +5,15 @@ export interface DataPoint {
     y: number;
 }
 
+interface LabelType {
+    x?: string;
+    y?: string;
+}
+
 export interface LineChart {
     resize: (newHeight: number, newWidth: number) => void;
     draw: (dataGroups: DataPoint[][]) => void;
+    setLabels: (label: LabelType) => void;
 }
 
 const COLORS = [
@@ -26,8 +32,8 @@ const COLORS = [
 const MARGINS = {
     top: 20,
     right: 20,
-    bottom: 20,
-    left: 30,
+    bottom: 40,
+    left: 40,
 };
 
 export const initLineChart = (svg: Element): LineChart => {
@@ -36,6 +42,15 @@ export const initLineChart = (svg: Element): LineChart => {
         width = 0;
 
     let xScale: any, yScale: any;
+
+    let LABELS = {
+        x: "",
+        y: "",
+    };
+
+    const setLabels = (labels: LabelType) => {
+        LABELS = { ...LABELS, ...labels };
+    };
 
     const resize = (newHeight: number, newWidth: number) => {
         height = newHeight - MARGINS.top - MARGINS.bottom;
@@ -128,6 +143,31 @@ export const initLineChart = (svg: Element): LineChart => {
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut);
         });
+
+        const labelsGroup = d3El
+            .append("g")
+            .attr("class", "axis-labels")
+            .attr("transform", "translate(0, 0)"); // Adjust the translation based on your chart's margins
+        labelsGroup
+            .append("text")
+            .attr("class", "y-axis-label")
+            .attr("x", width / 2) // Adjust the x position based on your chart's width
+            .attr("y", height + MARGINS.bottom - 10) // Adjust the y position based on your chart's height and margin
+            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the center
+            .attr("fill", "black")
+            .text(LABELS.y)
+            .style("font-size", "12px");
+
+        labelsGroup
+            .append("text")
+            .attr("class", "x-axis-label")
+            .attr("y", -MARGINS.left + 10) // Adjust the x position based on your chart's height
+            .attr("x", -height / 2) // Adjust the y position based on your chart's margin
+            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the middle
+            .attr("fill", "black")
+            .attr("transform", "rotate(-90)") // Rotate the label vertically
+            .text(LABELS.x)
+            .style("font-size", "10px");
     };
 
     function initGradient(colorCode: string): string {
@@ -212,5 +252,6 @@ export const initLineChart = (svg: Element): LineChart => {
     return {
         draw,
         resize,
+        setLabels,
     };
 };

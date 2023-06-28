@@ -143,7 +143,12 @@ const applyValues = (line: number) => {
         </div>
     </div>
     <div class="center">
-        <Chart type="line" :data="dataGroups" />
+        <Chart
+            type="line"
+            :data="dataGroups"
+            x-label="X Label"
+            y-label="Y Label"
+        />
     </div>
     <div class="center input-group">
         <button @click="reCalc1">Random 1</button>

@@ -4,11 +4,24 @@ import { onMounted, onUnmounted, ref, watch } from "vue";
 import { initLineChart, type DataPoint, type LineChart } from "./LineChart";
 import { initArcChart, type ArcChart } from "./ArcChart";
 
+interface LineChartProps {
+    data: DataPoint[][];
+    xLabel?: string;
+    yLabel?: string;
+}
+interface ArcChartProps {
+    data: number[];
+    thickness: number;
+}
+
 interface ChartProps {
     type: "line" | "arc";
     data: DataPoint[][] | number[];
     thickness?: number;
+    xLabel?: string;
+    yLabel?: string;
 }
+
 const props = defineProps<ChartProps>();
 let lastType: string = "";
 
@@ -57,9 +70,22 @@ function reInit() {
             arc: initArcChart,
         }[props.type](svg.value);
     }
-    if (typeof props.thickness === "number") {
-        //@ts-ignore
-        Chart.setThickness(props.thickness);
+    if (props.type === "arc") {
+        Chart = Chart as ArcChart;
+        Chart.setThickness((props as ArcChartProps).thickness);
+    } else if (props.type === "line") {
+        Chart = Chart as LineChart;
+        const props2 = props as LineChartProps;
+        if (typeof props2.xLabel !== "undefined") {
+            Chart.setLabels({
+                x: props2.xLabel,
+            });
+        }
+        if (typeof props2.yLabel !== "undefined") {
+            Chart.setLabels({
+                y: props2.yLabel,
+            });
+        }
     }
 }
 </script>
