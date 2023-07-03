@@ -113,8 +113,27 @@ function reInit() {
     background: white;
 }
 
+/** LineChart Design */
+.chart-svg .axis-labels text {
+    color: rgb(83, 83, 83);
+    font-size: 10px;
+}
 .chart-svg .y-axis > path,
 .chart-svg .axis .tick > line {
     display: none;
+}
+
+.chart-svg .data-label-bg {
+    fill: black;
+    border-radius: 5px;
+    filter: drop-shadow(0 0 2px black);
+}
+.chart-svg .data-label {
+    color: rgb(255, 255, 255);
+}
+
+.chart-svg .divider-line {
+    stroke: rgb(209, 209, 209);
+    stroke-dasharray: 4 2;
 }
 </style>

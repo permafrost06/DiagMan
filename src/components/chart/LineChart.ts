@@ -10,16 +10,17 @@ export interface LabelType {
     y?: string;
 }
 
-export type Level =
-    | {
-          count: number;
-          unit: string;
-      }
-    | number;
-
-export interface Levels {
-    x?: Level;
-    y?: Level;
+export interface Level {
+    count: number;
+    unit: string;
+}
+interface Levels {
+    x: Level;
+    y: Level;
+}
+interface LevelArgs {
+    x?: Level | number;
+    y?: Level | number;
 }
 
 const COLORS = [
@@ -64,8 +65,14 @@ export class LineChart {
         };
 
         this.levels = {
-            x: 4,
-            y: 8,
+            x: {
+                unit: "",
+                count: 10,
+            },
+            y: {
+                unit: "",
+                count: 5,
+            },
         };
     }
 
@@ -74,7 +81,21 @@ export class LineChart {
         return this;
     }
 
-    public setLevels(levels: Levels): LineChart {
+    public setLevels(levels: LevelArgs): LineChart {
+        if (typeof levels.x === "number") {
+            levels.x = {
+                count: levels.x,
+                unit: "",
+            };
+        }
+
+        if (typeof levels.y === "number") {
+            levels.y = {
+                count: levels.y,
+                unit: "",
+            };
+        }
+        //@ts-expect-error tada
         this.levels = { ...this.levels, ...levels };
         return this;
     }
@@ -141,13 +162,12 @@ export class LineChart {
             .x((d: any) => this.xScale(d.x))
             .y((d: any) => this.yScale(d.y))
             .curve(d3.curveLinear);
-
         const xAxis = d3
             .axisBottom(this.xScale)
-            .ticks(10)
+            .ticks(this.levels.x.count)
             .tickFormat((i: any) => i + 1);
 
-        const yAxis = d3.axisLeft(this.yScale).ticks(5);
+        const yAxis = d3.axisLeft(this.yScale).ticks(this.levels.y.count);
 
         this.d3El
             .append("g")
@@ -156,11 +176,6 @@ export class LineChart {
             .attr("transform", `translate(0, ${this.height})`);
 
         this.d3El.append("g").attr("class", "axis y-axis").call(yAxis);
-
-        this.d3El
-            .selectAll(".axis text")
-            .style("font-size", "8px")
-            .style("fill", "rgb(175, 175, 175)");
 
         const lineLayer = this.d3El.append("g");
         const pointsLayer = this.d3El.append("g");
@@ -230,24 +245,22 @@ export class LineChart {
             .attr("transform", "translate(0, 0)"); // Adjust the translation based on your chart's margins
         labelsGroup
             .append("text")
-            .attr("class", "y-axis-label")
+            .attr("class", "x-axis-label")
             .attr("x", this.width / 2) // Adjust the x position based on your chart's width
             .attr("y", this.height + MARGINS.bottom - 10) // Adjust the y position based on your chart's height and margin
             .attr("text-anchor", "middle") // Set the text-anchor to align the label in the center
-            .attr("fill", "gray")
-            .text(this.labels.x)
-            .style("font-size", "12px");
+            .attr("fill", "currentColor")
+            .text(this.labels.x);
 
         labelsGroup
             .append("text")
-            .attr("class", "x-axis-label")
+            .attr("class", "y-axis-label")
             .attr("y", -MARGINS.left + 10) // Adjust the x position based on your chart's height
             .attr("x", -this.height / 2) // Adjust the y position based on your chart's margin
             .attr("text-anchor", "middle") // Set the text-anchor to align the label in the middle
-            .attr("fill", "gray")
             .attr("transform", "rotate(-90)") // Rotate the label vertically
-            .text(this.labels.y)
-            .style("font-size", "10px");
+            .attr("fill", "currentColor")
+            .text(this.labels.y);
     }
 
     public handleMouseOver(element: any, d: any) {
@@ -262,11 +275,11 @@ export class LineChart {
         const hText = 20;
         const wText = 5 * (label.length + 2);
 
-        let xPos = this.xScale(d.x);
+        let xPos = this.xScale(d.x) + 5;
         let yPos = this.yScale(d.y);
 
         if (xPos + wText > this.width) {
-            xPos = xPos - wText;
+            xPos = xPos - wText - 10;
         }
         if (yPos - hText - 23 < 0) {
             yPos += hText;
@@ -280,23 +293,17 @@ export class LineChart {
             .attr("y", yPos - 23)
             .attr("width", wText)
             .attr("height", hText)
-            .style("fill", "#f2f2f2")
-            .style("opacity", 0.9)
-            .style("filter", "drop-shadow(0 0 5px rgba(0, 0, 0, 0.2))")
             .attr("rx", 5) // Set the border radius
             .attr("ry", 5);
 
         labelGroup
             .append("text")
             .attr("class", "data-label")
-            .attr("x", xPos + 10)
+            .attr("x", xPos + 11)
             .attr("y", yPos - 10)
             .text(label)
             .style("font-size", "10px")
-            .style("background-color", "#f2f2f2") // Set the background color
-            .style("padding", "5px") // Set the padding
-            .style("border-radius", "5px") // Set the border radius
-            .style("box-shadow", "0 0 5px rgba(0, 0, 0, 0.2)");
+            .style("fill", "currentColor");
     }
 
     // Function to handle mouseout event
@@ -316,7 +323,7 @@ export class LineChart {
             .data(xDividerLevels)
             .enter()
             .append("line")
-            .attr("class", "divider-line")
+            .attr("class", "divider-line x-divider-line")
             .attr("x1", (d) => this.xScale(d))
             .attr("y1", 0)
             .attr("x2", (d) => this.xScale(d))
@@ -327,16 +334,11 @@ export class LineChart {
             .data(yDividerLevels)
             .enter()
             .append("line")
-            .attr("class", "divider-line")
+            .attr("class", "divider-line y-divider-line")
             .attr("x1", 0)
             .attr("y1", (d) => this.yScale(d))
             .attr("x2", this.width)
             .attr("y2", (d) => this.yScale(d));
-        this.d3El
-            .selectAll(".divider-line")
-            .attr("stroke", "#dddddd")
-            .attr("stroke-width", 1)
-            .attr("stroke-dasharray", "4 2");
     }
 }
 
