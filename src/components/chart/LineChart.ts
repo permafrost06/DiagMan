@@ -5,15 +5,25 @@ export interface DataPoint {
     y: number;
 }
 
-interface LabelType {
+export interface LabelType {
     x?: string;
     y?: string;
 }
+export interface LabelTypeRequired {
+    x: string;
+    y: string;
+}
 
-export interface LineChart {
-    resize: (newHeight: number, newWidth: number) => void;
-    draw: (dataGroups: DataPoint[][]) => void;
-    setLabels: (label: LabelType) => void;
+export type Level =
+    | {
+          count: number;
+          unit: string;
+      }
+    | number;
+
+export interface Levels {
+    x: Level;
+    y: Level;
 }
 
 const COLORS = [
@@ -36,37 +46,49 @@ const MARGINS = {
     left: 40,
 };
 
-export const initLineChart = (svg: Element): LineChart => {
-    const d3El = d3.select(svg);
-    let height = 0,
-        width = 0;
+export class LineChart {
+    protected svg: Element;
+    protected d3El: d3.Selection<Element, unknown, null, undefined>;
+    protected height: number;
+    protected width: number;
+    protected labels: LabelTypeRequired;
 
-    let xScale: any, yScale: any;
+    protected xScale: any;
+    protected yScale: any;
 
-    let LABELS = {
-        x: "",
-        y: "",
-    };
+    constructor(svg: Element) {
+        this.svg = svg;
+        this.d3El = d3.select(svg);
+        (this.height = 0), (this.width = 0);
 
-    const setLabels = (labels: LabelType) => {
-        LABELS = { ...LABELS, ...labels };
-    };
+        this.labels = {
+            x: "",
+            y: "",
+        };
+    }
 
-    const resize = (newHeight: number, newWidth: number) => {
-        height = newHeight - MARGINS.top - MARGINS.bottom;
-        width = newWidth - MARGINS.left - MARGINS.right;
-        d3El.attr("height", height)
-            .attr("width", width)
+    public setLabels(labels: LabelType): LineChart {
+        this.labels = { ...this.labels, ...labels };
+        return this;
+    }
+
+    public resize(newHeight: number, newWidth: number): LineChart {
+        this.height = newHeight - MARGINS.top - MARGINS.bottom;
+        this.width = newWidth - MARGINS.left - MARGINS.right;
+        this.d3El
+            .attr("height", this.height)
+            .attr("width", this.width)
             .style(
                 "margin",
                 `${MARGINS.top}px ${MARGINS.right}px ${MARGINS.bottom}px ${MARGINS.left}px`
             );
-    };
+        return this;
+    }
 
-    const draw = (dataGroups: DataPoint[][]) => {
+    public draw(dataGroups: DataPoint[][]) {
         let maxYVal = 0;
         let maxXVal = 0;
-        svg.innerHTML = "";
+        this.svg.innerHTML = "";
 
         dataGroups.forEach((dataset) => {
             dataset.forEach((data) => {
@@ -96,38 +118,46 @@ export const initLineChart = (svg: Element): LineChart => {
             }
         });
 
-        xScale = d3.scaleLinear().domain([0, maxXVal]).range([0, width]);
-        yScale = d3.scaleLinear().domain([0, maxYVal]).range([height, 0]);
+        this.xScale = d3
+            .scaleLinear()
+            .domain([0, maxXVal])
+            .range([0, this.width]);
+        this.yScale = d3
+            .scaleLinear()
+            .domain([0, maxYVal])
+            .range([this.height, 0]);
         const line = d3
             .line()
-            .x((d: any) => xScale(d.x))
-            .y((d: any) => yScale(d.y))
+            .x((d: any) => this.xScale(d.x))
+            .y((d: any) => this.yScale(d.y))
             .curve(d3.curveLinear);
 
         const xAxis = d3
-            .axisBottom(xScale)
+            .axisBottom(this.xScale)
             .ticks(10)
             .tickFormat((i: any) => i + 1);
 
-        const yAxis = d3.axisLeft(yScale).ticks(5);
+        const yAxis = d3.axisLeft(this.yScale).ticks(5);
 
-        d3El.append("g")
+        this.d3El
+            .append("g")
             .call(xAxis)
-            .attr("transform", `translate(0, ${height})`);
-        d3El.append("g").call(yAxis);
+            .attr("transform", `translate(0, ${this.height})`);
+        this.d3El.append("g").call(yAxis);
 
-        const lineLayer = d3El.append("g");
-        const pointsLayer = d3El.append("g");
+        const lineLayer = this.d3El.append("g");
+        const pointsLayer = this.d3El.append("g");
 
         dataGroups.forEach((data, i) => {
-            const grad = initGradient(COLORS[i]);
+            const color = "#" + COLORS[i];
+            const grad = this.initGradient(COLORS[i] + "55");
             lineLayer
                 .selectAll(".line")
                 .data([data])
                 .join("path")
                 .attr("d", (d: any) => line(d))
                 .attr("fill", `url(#${grad})`)
-                .attr("stroke", "black");
+                .attr("stroke", color);
 
             pointsLayer
                 .append("g")
@@ -136,43 +166,21 @@ export const initLineChart = (svg: Element): LineChart => {
                 .enter()
                 .append("circle")
                 .attr("class", "data-point")
-                .attr("cx", (d: any) => xScale(d.x))
-                .attr("cy", (d: any) => yScale(d.y))
-                .attr("r", 4)
+                .attr("cx", (d: any) => this.xScale(d.x))
+                .attr("cy", (d: any) => this.yScale(d.y))
+                .attr("r", 2.5)
+                .attr("fill", color)
                 .style("cursor", "pointer")
-                .on("mouseover", handleMouseOver)
-                .on("mouseout", handleMouseOut);
+                .on("mouseover", (evt, d) => this.handleMouseOver(evt, d))
+                .on("mouseout", () => this.handleMouseOut());
         });
 
-        const labelsGroup = d3El
-            .append("g")
-            .attr("class", "axis-labels")
-            .attr("transform", "translate(0, 0)"); // Adjust the translation based on your chart's margins
-        labelsGroup
-            .append("text")
-            .attr("class", "y-axis-label")
-            .attr("x", width / 2) // Adjust the x position based on your chart's width
-            .attr("y", height + MARGINS.bottom - 10) // Adjust the y position based on your chart's height and margin
-            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the center
-            .attr("fill", "black")
-            .text(LABELS.y)
-            .style("font-size", "12px");
+        this.drawAxesLables();
+    }
 
-        labelsGroup
-            .append("text")
-            .attr("class", "x-axis-label")
-            .attr("y", -MARGINS.left + 10) // Adjust the x position based on your chart's height
-            .attr("x", -height / 2) // Adjust the y position based on your chart's margin
-            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the middle
-            .attr("fill", "black")
-            .attr("transform", "rotate(-90)") // Rotate the label vertically
-            .text(LABELS.x)
-            .style("font-size", "10px");
-    };
-
-    function initGradient(colorCode: string): string {
+    protected initGradient(colorCode: string): string {
         const id = `gradient-${colorCode}`;
-        const lg = d3El
+        const lg = this.d3El
             .append("defs")
             .append("linearGradient")
             .attr("id", id) //id of the gradient
@@ -192,21 +200,50 @@ export const initLineChart = (svg: Element): LineChart => {
         return id;
     }
 
-    function handleMouseOver(_evt: MouseEvent, d: any) {
+    private drawAxesLables() {
+        const labelsGroup = this.d3El
+            .append("g")
+            .attr("class", "axis-labels")
+            .attr("transform", "translate(0, 0)"); // Adjust the translation based on your chart's margins
+        labelsGroup
+            .append("text")
+            .attr("class", "y-axis-label")
+            .attr("x", this.width / 2) // Adjust the x position based on your chart's width
+            .attr("y", this.height + MARGINS.bottom - 10) // Adjust the y position based on your chart's height and margin
+            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the center
+            .attr("fill", "black")
+            .text(this.labels.y)
+            .style("font-size", "12px");
+
+        labelsGroup
+            .append("text")
+            .attr("class", "x-axis-label")
+            .attr("y", -MARGINS.left + 10) // Adjust the x position based on your chart's height
+            .attr("x", -this.height / 2) // Adjust the y position based on your chart's margin
+            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the middle
+            .attr("fill", "black")
+            .attr("transform", "rotate(-90)") // Rotate the label vertically
+            .text(this.labels.x)
+            .style("font-size", "10px");
+    }
+
+    public handleMouseOver(_evt: MouseEvent, d: any) {
         // Show a tooltip or update a div element with the data
         // For example, you can add a tooltip with the year and value
         //@ts-ignore
-        d3.select(this).attr("r", 6); // Increase the size of the data point
+        d3.select(this).attr("r", 3); // Increase the size of the data point
 
         const label = `X: ${d.x.toFixed(2)}, Value: ${d.y.toFixed(2)}`;
-        const labelGroup = d3El.append("g").attr("class", "data-label-group");
+        const labelGroup = this.d3El
+            .append("g")
+            .attr("class", "data-label-group");
         const hText = 20;
         const wText = 5 * (label.length + 2);
 
-        let xPos = xScale(d.x);
-        let yPos = yScale(d.y);
+        let xPos = this.xScale(d.x);
+        let yPos = this.yScale(d.y);
 
-        if (xPos + wText > width) {
+        if (xPos + wText > this.width) {
             xPos = xPos - wText;
         }
         if (yPos - hText - 23 < 0) {
@@ -241,17 +278,15 @@ export const initLineChart = (svg: Element): LineChart => {
     }
 
     // Function to handle mouseout event
-    function handleMouseOut() {
+    public handleMouseOut() {
         // Hide the tooltip or remove the div element
         //@ts-ignore
-        d3.select(this).attr("r", 4); // Reset the size of the data point
+        d3.select(this).attr("r", 2.5); // Reset the size of the data point
 
-        d3El.selectAll(".data-label-group").remove();
+        this.d3El.selectAll(".data-label-group").remove();
     }
+}
 
-    return {
-        draw,
-        resize,
-        setLabels,
-    };
+export const initLineChart = (svg: Element): LineChart => {
+    return new LineChart(svg);
 };
