@@ -165,6 +165,8 @@ export class LineChart {
         const lineLayer = this.d3El.append("g");
         const pointsLayer = this.d3El.append("g");
 
+        const instance = this;
+
         dataGroups.forEach((data, i) => {
             const color = "#" + COLORS[i];
             const grad = this.initGradient(COLORS[i] + "55");
@@ -188,8 +190,12 @@ export class LineChart {
                 .attr("r", 2.5)
                 .attr("fill", color)
                 .style("cursor", "pointer")
-                .on("mouseover", (evt, d) => this.handleMouseOver(evt, d))
-                .on("mouseout", () => this.handleMouseOut());
+                .on("mouseover", function (this: any, _evt, d) {
+                    instance.handleMouseOver(this, d);
+                })
+                .on("mouseout", function (this: any) {
+                    instance.handleMouseOut(this);
+                });
         });
 
         this.drawAxesLables();
@@ -244,11 +250,10 @@ export class LineChart {
             .style("font-size", "10px");
     }
 
-    public handleMouseOver(_evt: MouseEvent, d: any) {
+    public handleMouseOver(element: any, d: any) {
         // Show a tooltip or update a div element with the data
         // For example, you can add a tooltip with the year and value
-        //@ts-ignore
-        d3.select(this).attr("r", 3); // Increase the size of the data point
+        d3.select(element).attr("r", 3); // Increase the size of the data point
 
         const label = `X: ${d.x.toFixed(2)}, Value: ${d.y.toFixed(2)}`;
         const labelGroup = this.d3El
@@ -295,10 +300,9 @@ export class LineChart {
     }
 
     // Function to handle mouseout event
-    public handleMouseOut() {
+    public handleMouseOut(element: any) {
         // Hide the tooltip or remove the div element
-        //@ts-ignore
-        d3.select(this).attr("r", 2.5); // Reset the size of the data point
+        d3.select(element).attr("r", 2.5); // Reset the size of the data point
 
         this.d3El.selectAll(".data-label-group").remove();
     }
