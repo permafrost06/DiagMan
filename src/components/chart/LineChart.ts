@@ -151,11 +151,11 @@ export class LineChart {
 
         this.d3El
             .append("g")
-            .attr("class", "axis")
+            .attr("class", "axis x-axis")
             .call(xAxis)
             .attr("transform", `translate(0, ${this.height})`);
 
-        this.d3El.append("g").attr("class", "axis").call(yAxis);
+        this.d3El.append("g").attr("class", "axis y-axis").call(yAxis);
 
         this.d3El
             .selectAll(".axis text")

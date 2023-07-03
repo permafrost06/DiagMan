@@ -112,4 +112,9 @@ function reInit() {
     overflow: hidden;
     background: white;
 }
+
+.chart-svg .y-axis > path,
+.chart-svg .axis .tick > line {
+    display: none;
+}
 </style>
