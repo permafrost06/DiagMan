@@ -1,7 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import { initLineChart, type DataPoint, type LineChart } from "./LineChart";
+import {
+    initLineChart,
+    type DataPoint,
+    type LineChart,
+    type Level,
+} from "./LineChart";
 import { initArcChart, type ArcChart } from "./ArcChart";
 
 interface LineChartProps {
@@ -20,6 +25,8 @@ interface ChartProps {
     thickness?: number;
     xLabel?: string;
     yLabel?: string;
+    xLevel?: Level;
+    yLevel?: Level;
 }
 
 const props = defineProps<ChartProps>();
@@ -99,8 +106,10 @@ function reInit() {
 .chart-svg {
     display: block;
     overflow: visible;
+    color: rgb(175, 175, 175);
 }
 .chart-wrapper {
     overflow: hidden;
+    background: white;
 }
 </style>

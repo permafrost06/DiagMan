@@ -9,10 +9,6 @@ export interface LabelType {
     x?: string;
     y?: string;
 }
-export interface LabelTypeRequired {
-    x: string;
-    y: string;
-}
 
 export type Level =
     | {
@@ -22,8 +18,8 @@ export type Level =
     | number;
 
 export interface Levels {
-    x: Level;
-    y: Level;
+    x?: Level;
+    y?: Level;
 }
 
 const COLORS = [
@@ -51,7 +47,8 @@ export class LineChart {
     protected d3El: d3.Selection<Element, unknown, null, undefined>;
     protected height: number;
     protected width: number;
-    protected labels: LabelTypeRequired;
+    protected labels: Required<LabelType>;
+    protected levels: Required<Levels>;
 
     protected xScale: any;
     protected yScale: any;
@@ -65,10 +62,20 @@ export class LineChart {
             x: "",
             y: "",
         };
+
+        this.levels = {
+            x: 4,
+            y: 8,
+        };
     }
 
     public setLabels(labels: LabelType): LineChart {
         this.labels = { ...this.labels, ...labels };
+        return this;
+    }
+
+    public setLevels(levels: Levels): LineChart {
+        this.levels = { ...this.levels, ...levels };
         return this;
     }
 
@@ -126,6 +133,9 @@ export class LineChart {
             .scaleLinear()
             .domain([0, maxYVal])
             .range([this.height, 0]);
+
+        this.drawLevels();
+
         const line = d3
             .line()
             .x((d: any) => this.xScale(d.x))
@@ -141,9 +151,16 @@ export class LineChart {
 
         this.d3El
             .append("g")
+            .attr("class", "axis")
             .call(xAxis)
             .attr("transform", `translate(0, ${this.height})`);
-        this.d3El.append("g").call(yAxis);
+
+        this.d3El.append("g").attr("class", "axis").call(yAxis);
+
+        this.d3El
+            .selectAll(".axis text")
+            .style("font-size", "8px")
+            .style("fill", "rgb(175, 175, 175)");
 
         const lineLayer = this.d3El.append("g");
         const pointsLayer = this.d3El.append("g");
@@ -211,7 +228,7 @@ export class LineChart {
             .attr("x", this.width / 2) // Adjust the x position based on your chart's width
             .attr("y", this.height + MARGINS.bottom - 10) // Adjust the y position based on your chart's height and margin
             .attr("text-anchor", "middle") // Set the text-anchor to align the label in the center
-            .attr("fill", "black")
+            .attr("fill", "gray")
             .text(this.labels.y)
             .style("font-size", "12px");
 
@@ -221,7 +238,7 @@ export class LineChart {
             .attr("y", -MARGINS.left + 10) // Adjust the x position based on your chart's height
             .attr("x", -this.height / 2) // Adjust the y position based on your chart's margin
             .attr("text-anchor", "middle") // Set the text-anchor to align the label in the middle
-            .attr("fill", "black")
+            .attr("fill", "gray")
             .attr("transform", "rotate(-90)") // Rotate the label vertically
             .text(this.labels.x)
             .style("font-size", "10px");
@@ -284,6 +301,38 @@ export class LineChart {
         d3.select(this).attr("r", 2.5); // Reset the size of the data point
 
         this.d3El.selectAll(".data-label-group").remove();
+    }
+
+    public drawLevels() {
+        const xDividerLevels = [2, 4, 6]; // Example values for x-axis divider levels
+        const yDividerLevels = [20, 40, 60]; // Example values for y-axis divider levels
+
+        this.d3El
+            .selectAll(".x-divider-line")
+            .data(xDividerLevels)
+            .enter()
+            .append("line")
+            .attr("class", "divider-line")
+            .attr("x1", (d) => this.xScale(d))
+            .attr("y1", 0)
+            .attr("x2", (d) => this.xScale(d))
+            .attr("y2", this.height);
+
+        this.d3El
+            .selectAll(".y-divider-line")
+            .data(yDividerLevels)
+            .enter()
+            .append("line")
+            .attr("class", "divider-line")
+            .attr("x1", 0)
+            .attr("y1", (d) => this.yScale(d))
+            .attr("x2", this.width)
+            .attr("y2", (d) => this.yScale(d));
+        this.d3El
+            .selectAll(".divider-line")
+            .attr("stroke", "#dddddd")
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "4 2");
     }
 }
 

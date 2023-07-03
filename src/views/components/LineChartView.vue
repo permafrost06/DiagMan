@@ -217,6 +217,7 @@ h3 {
 .center {
     max-width: 600px;
     margin: auto;
+    margin-top: 10px;
 }
 
 .input-group {
