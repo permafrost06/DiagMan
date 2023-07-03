@@ -198,7 +198,7 @@ export class LineChart {
                 });
         });
 
-        this.drawAxesLables();
+        this.drawAxesLabels();
     }
 
     protected initGradient(colorCode: string): string {
@@ -223,7 +223,7 @@ export class LineChart {
         return id;
     }
 
-    private drawAxesLables() {
+    private drawAxesLabels() {
         const labelsGroup = this.d3El
             .append("g")
             .attr("class", "axis-labels")
@@ -235,7 +235,7 @@ export class LineChart {
             .attr("y", this.height + MARGINS.bottom - 10) // Adjust the y position based on your chart's height and margin
             .attr("text-anchor", "middle") // Set the text-anchor to align the label in the center
             .attr("fill", "gray")
-            .text(this.labels.y)
+            .text(this.labels.x)
             .style("font-size", "12px");
 
         labelsGroup
@@ -246,7 +246,7 @@ export class LineChart {
             .attr("text-anchor", "middle") // Set the text-anchor to align the label in the middle
             .attr("fill", "gray")
             .attr("transform", "rotate(-90)") // Rotate the label vertically
-            .text(this.labels.x)
+            .text(this.labels.y)
             .style("font-size", "10px");
     }
 
