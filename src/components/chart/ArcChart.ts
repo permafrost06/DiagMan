@@ -1,11 +1,5 @@
 import * as d3 from "d3";
 
-export interface ArcChart {
-    resize: (newHeight: number, newWidth: number) => void;
-    draw: (data: number[]) => void;
-    setThickness: (thinkness: number) => void;
-}
-
 const COLORS = [
     "E74C3C",
     "3498DB",
@@ -26,33 +20,38 @@ const MARGINS = {
     left: 0,
 };
 
-export const initArcChart = (svg: Element): ArcChart => {
-    const d3El: d3.Selection<Element, unknown, null, undefined> =
-        d3.select(svg);
-    let height = 0,
-        width = 0,
-        thickness = 100;
+export class ArcChart {
+    protected svg: Element;
+    protected d3El: d3.Selection<Element, unknown, null, undefined>;
+    protected height: number;
+    protected width: number;
+    protected thickness: number = 10;
 
-    let arcGen: any;
+    protected legendColors: string[] = [];
+    protected legends: string[] = [];
 
-    const setThickness = (newthickness: number) => {
-        thickness = newthickness;
-    };
+    constructor(svg: Element) {
+        this.svg = svg;
+        this.d3El = d3.select(svg);
+        (this.height = 0), (this.width = 0);
+    }
 
-    const resize = (newHeight: number, newWidth: number) => {
-        height = newHeight - MARGINS.top - MARGINS.bottom;
-        width = newWidth - MARGINS.left - MARGINS.right;
-        d3El.attr("height", height)
-            .attr("width", width)
+    public resize(newHeight: number, newWidth: number): ArcChart {
+        this.height = newHeight - MARGINS.top - MARGINS.bottom;
+        this.width = newWidth - MARGINS.left - MARGINS.right;
+        this.d3El
+            .attr("height", this.height)
+            .attr("width", this.width)
             .style(
                 "margin",
                 `${MARGINS.top}px ${MARGINS.right}px ${MARGINS.bottom}px ${MARGINS.left}px`
             );
-    };
+        return this;
+    }
 
-    const draw = (data: number[]) => {
-        svg.innerHTML = "";
-        const size = Math.min(width, height);
+    public draw(data: number[]) {
+        this.svg.innerHTML = "";
+        const size = Math.min(this.width, this.height);
         let sum = 0;
         const endAngles: number[] = data
             .map((num) => {
@@ -62,28 +61,32 @@ export const initArcChart = (svg: Element): ArcChart => {
             .reverse();
 
         //@ts-ignore
-        arcGen = d3
+        const arcGen = d3
             .arc()
-            .innerRadius(Math.max(size - thickness, 10))
+            .innerRadius(Math.max(size - this.thickness, 10))
             .outerRadius(size)
             .startAngle(-Math.PI / 2)
             .endAngle((d) => d);
 
-        const group = d3El
+        const group = this.d3El
             .append("g")
-            .attr("transform", `translate(${width / 2}, ${height})`);
+            .attr("transform", `translate(${this.width / 2}, ${this.height})`);
         group
             .selectAll("path")
             .data(endAngles)
             .enter()
             .append("path")
+            //@ts-ignore
             .attr("d", arcGen)
             .attr("fill", (d, i) => "#" + COLORS[i]);
-    };
+    }
 
-    return {
-        draw,
-        resize,
-        setThickness,
-    };
+    public setThickness(thickness: number): ArcChart {
+        this.thickness = thickness;
+        return this;
+    }
+}
+
+export const initArcChart = (svg: Element): ArcChart => {
+    return new ArcChart(svg);
 };
