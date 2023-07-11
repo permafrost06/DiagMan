@@ -13,6 +13,7 @@ interface LineChartProps {
     data: DataPoint[][];
     xLabel?: string;
     yLabel?: string;
+    legends?: string[];
 }
 interface ArcChartProps {
     data: number[];
@@ -27,6 +28,7 @@ interface ChartProps {
     yLabel?: string;
     xLevel?: Level;
     yLevel?: Level;
+    legends?: string[];
 }
 
 const props = defineProps<ChartProps>();
@@ -93,6 +95,9 @@ function reInit() {
                 y: props2.yLabel,
             });
         }
+        if (typeof props2.legends !== "undefined") {
+            Chart.setLegends(props2.legends);
+        }
     }
 }
 </script>
@@ -107,6 +112,7 @@ function reInit() {
     display: block;
     overflow: visible;
     color: rgb(175, 175, 175);
+    height: 400px;
 }
 .chart-wrapper {
     overflow: hidden;

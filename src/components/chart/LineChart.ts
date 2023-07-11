@@ -14,6 +14,12 @@ export interface Level {
     count: number;
     unit: string;
 }
+
+interface Legend {
+    label: string;
+    color: string;
+}
+
 interface Levels {
     x: Level;
     y: Level;
@@ -54,6 +60,9 @@ export class LineChart {
     protected xScale: any;
     protected yScale: any;
 
+    protected legendColors: string[] = [];
+    protected legends: string[] = [];
+
     constructor(svg: Element) {
         this.svg = svg;
         this.d3El = d3.select(svg);
@@ -74,6 +83,11 @@ export class LineChart {
                 count: 5,
             },
         };
+    }
+
+    public setLegends(legends: string[]): LineChart {
+        this.legends = legends;
+        return this;
     }
 
     public setLabels(labels: LabelType): LineChart {
@@ -155,7 +169,6 @@ export class LineChart {
             .domain([0, maxYVal])
             .range([this.height, 0]);
 
-        //this.drawLevels();
         const line = d3
             .line()
             .x((d: any) => this.xScale(d.x))
@@ -169,8 +182,11 @@ export class LineChart {
 
         const instance = this;
 
+        this.legendColors = [];
+
         dataGroups.forEach((data, i) => {
             const color = "#" + COLORS[i];
+            this.legendColors.push(color);
             const grad = this.initGradient(COLORS[i] + "55");
             lineLayer
                 .selectAll(".line")
@@ -201,6 +217,8 @@ export class LineChart {
         });
 
         this.drawAxesLabels();
+
+        this.drawLegends();
     }
 
     protected drawAxes() {
@@ -335,31 +353,59 @@ export class LineChart {
         this.d3El.selectAll(".data-label-group").remove();
     }
 
-    public drawLevels() {
-        const xDividerLevels = [2, 4, 6]; // Example values for x-axis divider levels
-        const yDividerLevels = [20, 40, 60]; // Example values for y-axis divider levels
+    public drawLegends(): LineChart {
+        const legendData: Legend[] = [];
 
-        this.d3El
-            .selectAll(".x-divider-line")
-            .data(xDividerLevels)
-            .enter()
-            .append("line")
-            .attr("class", "divider-line x-divider-line")
-            .attr("x1", (d) => this.xScale(d))
-            .attr("y1", 0)
-            .attr("x2", (d) => this.xScale(d))
-            .attr("y2", this.height);
+        const max = Math.min(this.legends.length, this.legendColors.length);
 
-        this.d3El
-            .selectAll(".y-divider-line")
-            .data(yDividerLevels)
+        if (max === 0) {
+            return this;
+        }
+
+        for (let i = 0; i < max; i++) {
+            legendData.push({
+                label: this.legends[i],
+                color: this.legendColors[i],
+            });
+        }
+
+        // Create the legend group element
+        const legend = this.d3El
+            .append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${this.width - 50}, 0)`);
+
+        // Append rectangles and text to represent each item in the legend
+        const legendItems = legend
+            .selectAll(".legend-item")
+            .data(legendData)
             .enter()
-            .append("line")
-            .attr("class", "divider-line y-divider-line")
-            .attr("x1", 0)
-            .attr("y1", (d) => this.yScale(d))
-            .attr("x2", this.width)
-            .attr("y2", (d) => this.yScale(d));
+            .append("g")
+            .attr("class", "legend-item")
+            .attr("transform", function (d, i) {
+                return "translate(0," + i * 15 + ")";
+            });
+
+        legendItems
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 10)
+            .attr("height", 10)
+            .attr("fill", function (d) {
+                return d.color;
+            });
+
+        legendItems
+            .append("text")
+            .attr("x", 15)
+            .attr("y", 5)
+            .attr("dy", "0.35em")
+            .text(function (d) {
+                return d.label;
+            });
+
+        return this;
     }
 }
 

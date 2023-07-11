@@ -13,6 +13,8 @@ const maxY2 = ref<number>(100);
 
 const dataGroups = ref<DataPoint[][]>([[], []]);
 
+const legends = ["Line 1", "Line 2"];
+
 const random = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -146,6 +148,7 @@ const applyValues = (line: number) => {
         <Chart
             type="line"
             :data="dataGroups"
+            :legends="legends"
             x-label="X Label"
             y-label="Y Label"
         />
