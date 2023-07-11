@@ -1,5 +1,10 @@
 import * as d3 from "d3";
 
+interface Legend {
+    label: string;
+    color: string;
+}
+
 const COLORS = [
     "E74C3C",
     "3498DB",
@@ -26,8 +31,6 @@ export class ArcChart {
     protected height: number;
     protected width: number;
     protected thickness: number = 10;
-
-    protected legendColors: string[] = [];
     protected legends: string[] = [];
 
     constructor(svg: Element) {
@@ -79,10 +82,75 @@ export class ArcChart {
             //@ts-ignore
             .attr("d", arcGen)
             .attr("fill", (d, i) => "#" + COLORS[i]);
+
+        this.drawLegends();
+    }
+
+    public setLegends(legends: string[]): ArcChart {
+        this.legends = legends;
+        return this;
     }
 
     public setThickness(thickness: number): ArcChart {
         this.thickness = thickness;
+        return this;
+    }
+
+    public drawLegends(): ArcChart {
+        const legendData: Legend[] = [];
+
+        const max = Math.min(this.legends.length, COLORS.length);
+
+        if (max === 0) {
+            return this;
+        }
+
+        for (let i = 0; i < max; i++) {
+            legendData.push({
+                label: this.legends[i],
+                color: COLORS[max - i - 1],
+            });
+        }
+
+        // Create the legend group element
+        const legend = this.d3El
+            .append("g")
+            .attr("class", "legend")
+            .attr(
+                "transform",
+                `translate(${this.width / 2 - 50}, ${this.height - 100})`
+            );
+
+        // Append rectangles and text to represent each item in the legend
+        const legendItems = legend
+            .selectAll(".legend-item")
+            .data(legendData)
+            .enter()
+            .append("g")
+            .attr("class", "legend-item")
+            .attr("transform", function (d, i) {
+                return "translate(0," + i * 15 + ")";
+            });
+
+        legendItems
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 10)
+            .attr("height", 10)
+            .attr("fill", function (d) {
+                return "#" + d.color;
+            });
+
+        legendItems
+            .append("text")
+            .attr("x", 15)
+            .attr("y", 5)
+            .attr("dy", "0.35em")
+            .text(function (d) {
+                return d.label;
+            });
+
         return this;
     }
 }

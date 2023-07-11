@@ -18,6 +18,7 @@ interface LineChartProps {
 interface ArcChartProps {
     data: number[];
     thickness: number;
+    legends?: string[];
 }
 
 interface ChartProps {
@@ -82,6 +83,10 @@ function reInit() {
     if (props.type === "arc") {
         Chart = Chart as ArcChart;
         Chart.setThickness((props as ArcChartProps).thickness);
+        const props2 = props as ArcChartProps;
+        if (typeof props2.legends !== "undefined") {
+            Chart.setLegends(props2.legends);
+        }
     } else if (props.type === "line") {
         Chart = Chart as LineChart;
         const props2 = props as LineChartProps;
