@@ -1,39 +1,62 @@
 <script lang="ts" setup>
 import Chart from "@/components/chart/Chart.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const count = ref<number>(5);
-const data = ref<number[]>(generateRandomNumbers(5));
+const data = ref<number[]>([]);
+const dataTxt = ref<string>("");
+const thickness = ref<number>(150);
 
 const refresh = () => {
     data.value = generateRandomNumbers(count.value);
+    dataTxt.value = data.value.join(" ");
 };
 
 function generateRandomNumbers(n: number) {
     const randomNumbers = [];
     let sum = 0;
     for (let i = 0; i < n - 1; i++) {
-        const randomNumber = Math.random() * (100 - sum);
+        const randomNumber = Math.round(Math.random() * (100 - sum));
         randomNumbers.push(randomNumber);
         sum += randomNumber;
     }
     randomNumbers.push(100 - sum);
     return randomNumbers;
 }
+
+onMounted(() => {
+    refresh();
+});
+
+const applyInput = () => {
+    const vals = dataTxt.value.split(" ").map((num) => parseFloat(num) || 0);
+    if (vals.length === 0) {
+        return;
+    }
+    data.value = vals;
+    dataTxt.value = vals.join(" ");
+};
 </script>
 <template>
-    <div class="center input-group">
-        <input
-            type="number"
-            placeholder="Item count"
-            v-model="count"
-            @change="refresh"
-        />
-        <button @click="refresh">Refresh</button>
+    <div class="center flex">
+        <textarea rows="4" v-model="dataTxt"></textarea>
+        <div>
+            <button @click="applyInput">Apply</button>
+            <button @click="refresh">Random</button>
+        </div>
     </div>
 
     <div class="center">
-        <Chart type="arc" :data="data" :thickness="170" class="arc-chart" />
+        Thinkness: <input type="range" v-model="thickness" min="10" max="1000" />
+    </div>
+
+    <div class="center">
+        <Chart
+            type="arc"
+            :data="data"
+            :thickness="thickness"
+            class="arc-chart"
+        />
     </div>
 </template>
 
@@ -46,17 +69,19 @@ h3 {
     max-width: 800px;
     margin: auto;
 }
-
-.input-group {
+.flex {
     display: flex;
-    gap: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
-.input-group > * {
+textarea {
+    display: block;
     flex-grow: 1;
-    margin-top: 10px;
 }
-
+button {
+    margin: 5px;
+    display: block;
+    width: 100%;
+}
 .arc-chart {
     min-height: 400px;
 }
