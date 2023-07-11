@@ -155,27 +155,14 @@ export class LineChart {
             .domain([0, maxYVal])
             .range([this.height, 0]);
 
-        this.drawLevels();
-
+        //this.drawLevels();
         const line = d3
             .line()
             .x((d: any) => this.xScale(d.x))
             .y((d: any) => this.yScale(d.y))
             .curve(d3.curveLinear);
-        const xAxis = d3
-            .axisBottom(this.xScale)
-            .ticks(this.levels.x.count)
-            .tickFormat((i: any) => i + 1);
 
-        const yAxis = d3.axisLeft(this.yScale).ticks(this.levels.y.count);
-
-        this.d3El
-            .append("g")
-            .attr("class", "axis x-axis")
-            .call(xAxis)
-            .attr("transform", `translate(0, ${this.height})`);
-
-        this.d3El.append("g").attr("class", "axis y-axis").call(yAxis);
+        this.drawAxes();
 
         const lineLayer = this.d3El.append("g");
         const pointsLayer = this.d3El.append("g");
@@ -214,6 +201,40 @@ export class LineChart {
         });
 
         this.drawAxesLabels();
+    }
+
+    protected drawAxes() {
+        const xAxis = d3
+            .axisBottom(this.xScale)
+            .ticks(this.levels.x.count)
+            .tickFormat((i: any) => i + 1);
+        const yAxis = d3.axisLeft(this.yScale).ticks(this.levels.y.count);
+
+        const xLayer = this.d3El
+            .append("g")
+            .attr("class", "axis x-axis")
+            .call(xAxis)
+            .attr("transform", `translate(0, ${this.height})`);
+
+        xLayer
+            .selectAll(".tick line")
+            .attr("class", "x-level")
+            .attr("y1", 0)
+            .attr("y2", -this.height);
+
+        const yLayer = this.d3El
+            .append("g")
+            .attr("class", "axis y-axis")
+            .call(yAxis);
+
+        yLayer
+            .selectAll(".tick line")
+            .attr("class", "y-level")
+            .attr("x1", 0)
+            .attr("x2", this.width);
+
+        yLayer.select(".tick line").remove();
+        xLayer.select(".tick line").remove();
     }
 
     protected initGradient(colorCode: string): string {

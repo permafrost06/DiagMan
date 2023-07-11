@@ -118,9 +118,14 @@ function reInit() {
     color: rgb(83, 83, 83);
     font-size: 10px;
 }
-.chart-svg .y-axis > path,
-.chart-svg .axis .tick > line {
+
+.chart-svg .x-level {
     display: none;
+}
+
+.chart-svg .y-level {
+    stroke-dasharray: 4 3;
+    stroke: #e9e9e9;
 }
 
 .chart-svg .data-label-bg {
