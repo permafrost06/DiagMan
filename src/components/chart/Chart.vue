@@ -8,6 +8,7 @@ import {
     type Level,
 } from "./LineChart";
 import { initArcChart, type ArcChart } from "./ArcChart";
+import { initDonutChart, type DonutChart } from "./DonutChart";
 
 interface LineChartProps {
     data: DataPoint[][];
@@ -21,8 +22,14 @@ interface ArcChartProps {
     legends?: string[];
 }
 
+interface DonutChartProps {
+    data: number[];
+    thickness: number;
+    legends?: string[];
+}
+
 interface ChartProps {
-    type: "line" | "arc";
+    type: "line" | "arc" | "donut";
     data: DataPoint[][] | number[];
     thickness?: number;
     xLabel?: string;
@@ -36,7 +43,7 @@ const props = defineProps<ChartProps>();
 let lastType: string = "";
 
 const svg = ref<HTMLElement>();
-let Chart: ArcChart | LineChart;
+let Chart: ArcChart | LineChart | DonutChart;
 
 onMounted(() => {
     if (!svg.value) {
@@ -78,31 +85,51 @@ function reInit() {
         Chart = {
             line: initLineChart,
             arc: initArcChart,
+            donut: initDonutChart,
         }[props.type](svg.value);
     }
     if (props.type === "arc") {
-        Chart = Chart as ArcChart;
-        Chart.setThickness((props as ArcChartProps).thickness);
-        const props2 = props as ArcChartProps;
-        if (typeof props2.legends !== "undefined") {
-            Chart.setLegends(props2.legends);
-        }
+        arcChartOpts();
     } else if (props.type === "line") {
-        Chart = Chart as LineChart;
-        const props2 = props as LineChartProps;
-        if (typeof props2.xLabel !== "undefined") {
-            Chart.setLabels({
-                x: props2.xLabel,
-            });
-        }
-        if (typeof props2.yLabel !== "undefined") {
-            Chart.setLabels({
-                y: props2.yLabel,
-            });
-        }
-        if (typeof props2.legends !== "undefined") {
-            Chart.setLegends(props2.legends);
-        }
+        lineChartOpts();
+    } else if (props.type === "donut") {
+        donutChartOpts();
+    }
+}
+
+function lineChartOpts() {
+    Chart = Chart as LineChart;
+    const props2 = props as LineChartProps;
+    if (typeof props2.xLabel !== "undefined") {
+        Chart.setLabels({
+            x: props2.xLabel,
+        });
+    }
+    if (typeof props2.yLabel !== "undefined") {
+        Chart.setLabels({
+            y: props2.yLabel,
+        });
+    }
+    if (typeof props2.legends !== "undefined") {
+        Chart.setLegends(props2.legends);
+    }
+}
+
+function arcChartOpts() {
+    Chart = Chart as ArcChart;
+    const props2 = props as ArcChartProps;
+    Chart.setThickness(props2.thickness);
+    if (typeof props2.legends !== "undefined") {
+        Chart.setLegends(props2.legends);
+    }
+}
+
+function donutChartOpts() {
+    Chart = Chart as DonutChart;
+    const props2 = props as DonutChartProps;
+    Chart.setThickness(props2.thickness);
+    if (typeof props2.legends !== "undefined") {
+        Chart.setLegends(props2.legends);
     }
 }
 </script>

@@ -23,6 +23,7 @@ const components: string[] = [
     "Pagination",
     "LineChart",
     "ArcChart",
+    "DonutChart",
 ];
 </script>
 <template>
