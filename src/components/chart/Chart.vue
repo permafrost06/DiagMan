@@ -100,6 +100,7 @@ function reInit() {
 function lineChartOpts() {
     Chart = Chart as LineChart;
     const props2 = props as LineChartProps;
+
     if (typeof props2.xLabel !== "undefined") {
         Chart.setLabels({
             x: props2.xLabel,
@@ -110,6 +111,7 @@ function lineChartOpts() {
             y: props2.yLabel,
         });
     }
+
     if (typeof props2.legends !== "undefined") {
         Chart.setLegends(props2.legends);
     }

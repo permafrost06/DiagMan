@@ -10,14 +10,40 @@ export interface LabelType {
     y?: string;
 }
 
+interface SizeRect {
+    height: number;
+    width: number;
+}
+
 export interface Level {
     count: number;
     unit: string;
 }
 
+interface LegendProps {
+    fontSize: number;
+    gap: {
+        x: number;
+        y: number;
+    };
+    margins: {
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+    };
+}
 interface Legend {
     label: string;
     color: string;
+}
+
+interface PreparedLegend {
+    legends?: Legend[];
+    block?: {
+        height: number;
+        width: number;
+    };
 }
 
 interface Levels {
@@ -30,23 +56,23 @@ interface LevelArgs {
 }
 
 const COLORS = [
-    "E74C3C",
-    "3498DB",
-    "2ECC71",
-    "9B59B6",
-    "1ABC9C",
-    "F1C40F",
-    "E67E22",
-    "34495E",
-    "95A5A6",
-    "D35400",
+    "#E74C3C",
+    "#3498DB",
+    "#2ECC71",
+    "#9B59B6",
+    "#1ABC9C",
+    "#F1C40F",
+    "#E67E22",
+    "#34495E",
+    "#95A5A6",
+    "#D35400",
 ];
 
 const MARGINS = {
-    top: 20,
-    right: 20,
-    bottom: 40,
-    left: 40,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
 };
 
 export class LineChart {
@@ -62,6 +88,20 @@ export class LineChart {
 
     protected legendColors: string[] = [];
     protected legends: string[] = [];
+
+    protected legendOpts: LegendProps = {
+        fontSize: 14,
+        gap: {
+            x: 0,
+            y: 15,
+        },
+        margins: {
+            top: 10,
+            left: 0,
+            bottom: 10,
+            right: 0,
+        },
+    };
 
     constructor(svg: Element) {
         this.svg = svg;
@@ -85,52 +125,25 @@ export class LineChart {
         };
     }
 
-    public setLegends(legends: string[]): LineChart {
-        this.legends = legends;
-        return this;
-    }
-
-    public setLabels(labels: LabelType): LineChart {
-        this.labels = { ...this.labels, ...labels };
-        return this;
-    }
-
-    public setLevels(levels: LevelArgs): LineChart {
-        if (typeof levels.x === "number") {
-            levels.x = {
-                count: levels.x,
-                unit: "",
-            };
-        }
-
-        if (typeof levels.y === "number") {
-            levels.y = {
-                count: levels.y,
-                unit: "",
-            };
-        }
-        //@ts-expect-error tada
-        this.levels = { ...this.levels, ...levels };
-        return this;
-    }
-
     public resize(newHeight: number, newWidth: number): LineChart {
         this.height = newHeight - MARGINS.top - MARGINS.bottom;
         this.width = newWidth - MARGINS.left - MARGINS.right;
-        this.d3El
-            .attr("height", this.height)
-            .attr("width", this.width)
-            .style(
-                "margin",
-                `${MARGINS.top}px ${MARGINS.right}px ${MARGINS.bottom}px ${MARGINS.left}px`
-            );
+        this.d3El.attr("height", this.height).attr("width", this.width);
         return this;
     }
 
     public draw(dataGroups: DataPoint[][]) {
+        this.svg.innerHTML = "";
+        let remHeight = this.height,
+            remWidth = this.width;
+        const legendSize = this.drawLegends(remHeight, remWidth);
+        remHeight -= legendSize.height;
+        const axesLabelSize = this.drawAxesLabel(remHeight, remWidth);
+        remHeight -= axesLabelSize.height;
+        remWidth -= axesLabelSize.width;
+
         let maxYVal = 0;
         let maxXVal = 0;
-        this.svg.innerHTML = "";
 
         dataGroups.forEach((dataset) => {
             dataset.forEach((data) => {
@@ -174,89 +187,161 @@ export class LineChart {
             .x((d: any) => this.xScale(d.x))
             .y((d: any) => this.yScale(d.y))
             .curve(d3.curveLinear);
-
-        this.drawAxes();
-
-        const lineLayer = this.d3El.append("g");
-        const pointsLayer = this.d3El.append("g");
-
-        const instance = this;
-
-        this.legendColors = [];
-
-        dataGroups.forEach((data, i) => {
-            const color = "#" + COLORS[i];
-            this.legendColors.push(color);
-            const grad = this.initGradient(COLORS[i] + "55");
-            lineLayer
-                .selectAll(".line")
-                .data([data])
-                .join("path")
-                .attr("d", (d: any) => line(d))
-                .attr("fill", `url(#${grad})`)
-                .attr("stroke", color);
-
-            pointsLayer
-                .append("g")
-                .selectAll(".data-point")
-                .data(data)
-                .enter()
-                .append("circle")
-                .attr("class", "data-point")
-                .attr("cx", (d: any) => this.xScale(d.x))
-                .attr("cy", (d: any) => this.yScale(d.y))
-                .attr("r", 2.5)
-                .attr("fill", color)
-                .style("cursor", "pointer")
-                .on("mouseover", function (this: any, _evt, d) {
-                    instance.handleMouseOver(this, d);
-                })
-                .on("mouseout", function (this: any) {
-                    instance.handleMouseOut(this);
-                });
-        });
-
-        this.drawAxesLabels();
-
-        this.drawLegends();
     }
 
-    protected drawAxes() {
-        const xAxis = d3
-            .axisBottom(this.xScale)
-            .ticks(this.levels.x.count)
-            .tickFormat((i: any) => i + 1);
-        const yAxis = d3.axisLeft(this.yScale).ticks(this.levels.y.count);
+    public setLegends(legends: string[]): LineChart {
+        this.legends = legends;
+        return this;
+    }
 
-        const xLayer = this.d3El
+    protected prepareLegends(remWidth: number): PreparedLegend {
+        const legends: Legend[] = [];
+
+        const maxLegends = Math.min(this.legends.length, COLORS.length);
+
+        if (maxLegends === 0) {
+            return {};
+        }
+
+        // Get the maximum size of the legends to determine block size
+        let maxCharLength = 0;
+        for (let i = 0; i < maxLegends; i++) {
+            legends.push({
+                label: this.legends[i],
+                color: COLORS[i],
+            });
+            maxCharLength = Math.max(maxCharLength, this.legends[i].length);
+        }
+
+        const maxW =
+            maxCharLength * this.legendOpts.fontSize + this.legendOpts.gap.x;
+        let blockW = maxW;
+
+        if (maxW >= remWidth) {
+            blockW = remWidth;
+        }
+        const blockH =
+            Math.ceil(
+                ((maxCharLength + 2) * this.legendOpts.fontSize) / blockW
+            ) + this.legendOpts.gap.y;
+
+        return {
+            legends,
+            block: {
+                height: blockH,
+                width: blockW,
+            },
+        };
+    }
+
+    protected drawLegends(remHeight: number, remWidth: number): SizeRect {
+        const { legends, block } = this.prepareLegends(remWidth);
+        if (!legends || !block) {
+            return { height: 0, width: 0 };
+        }
+
+        const cols = Math.floor(remWidth / block.width);
+
+        // Create the legend group element
+        const legend = this.d3El.append("g").attr("class", "legend");
+
+        // Append rectangles and text to represent each item in the legend
+        const legendItems = legend
+            .selectAll(".legend-item")
+            .data(legends)
+            .enter()
             .append("g")
-            .attr("class", "axis x-axis")
-            .call(xAxis)
-            .attr("transform", `translate(0, ${this.height})`);
+            .attr("class", "legend-item")
+            .attr("transform", (_d, i) => {
+                const top = Math.floor(i / cols) * block.height;
+                const left = (i % cols) * block.width;
+                return `translate(${left}, ${top})`;
+            });
 
-        xLayer
-            .selectAll(".tick line")
-            .attr("class", "x-level")
-            .attr("y1", 0)
-            .attr("y2", -this.height);
+        legendItems
+            .append("rect")
+            .attr("x", this.legendOpts.gap.x / 2)
+            .attr("y", this.legendOpts.gap.y / 2)
+            .attr("width", this.legendOpts.fontSize)
+            .attr("height", this.legendOpts.fontSize)
+            .attr("fill", (d) => d.color);
 
-        const yLayer = this.d3El
+        legendItems
+            .append("text")
+            .attr("x", this.legendOpts.fontSize * 1.3)
+            .attr("y", this.legendOpts.gap.y / 2)
+            .attr("dy", this.legendOpts.fontSize * 0.85)
+            .attr("font-size", this.legendOpts.fontSize)
+            .text(function (d) {
+                return d.label;
+            });
+
+        const bbox = legend.node()?.getBBox();
+
+        if (bbox) {
+            legend.attr(
+                "transform",
+                `translate(${(remWidth - bbox.width) / 2}, ${
+                    remHeight - bbox.height - this.legendOpts.margins.bottom
+                })`
+            );
+        }
+
+        return { width: bbox?.width || 0, height: bbox?.height || 0 };
+    }
+
+    public setLabels(labels: LabelType): LineChart {
+        this.labels = { ...this.labels, ...labels };
+        return this;
+    }
+
+    protected drawAxesLabel(remHeight: number, remWidth: number): SizeRect {
+        const size: SizeRect = {
+            height: 0,
+            width: 0,
+        };
+
+        const labelsGroup = this.d3El
             .append("g")
-            .attr("class", "axis y-axis")
-            .call(yAxis);
+            .attr("class", "axis-labels")
+            .attr("transform", "translate(0, 0)");
 
-        yLayer
-            .selectAll(".tick line")
-            .attr("class", "y-level")
-            .attr("x1", 0)
-            .attr("x2", this.width);
+        if (this.labels.x) {
+            const label = labelsGroup
+                .append("text")
+                .attr("class", "x-axis-label")
+                .attr("x", remWidth / 2)
+                .attr("text-anchor", "middle")
+                .attr("fill", "currentColor")
+                .text(this.labels.x);
+            const bbox = label.node()?.getBBox();
+            if (bbox) {
+                label.attr("y", remHeight - bbox.height);
+                size.height = bbox.height;
+            }
+        }
 
-        yLayer.select(".tick line").remove();
-        xLayer.select(".tick line").remove();
+        if (this.labels.y) {
+            const label = labelsGroup
+                .append("text")
+                .attr("class", "y-axis-label")
+                .attr("x", -remHeight / 2)
+                .attr("text-anchor", "middle")
+                .attr("transform", "rotate(-90)")
+                .attr("fill", "currentColor")
+                .text(this.labels.y);
+            const bbox = label.node()?.getBBox();
+            if (bbox) {
+                label.attr("y", bbox.height);
+                size.width = bbox.height;
+            }
+        }
+
+        return size;
     }
 
     protected initGradient(colorCode: string): string {
-        const id = `gradient-${colorCode}`;
+        const id = `gradient-${colorCode.substring(1)}`;
         const lg = this.d3El
             .append("defs")
             .append("linearGradient")
@@ -267,145 +352,14 @@ export class LineChart {
             .attr("y2", "0%"); //since its a vertical linear gradient
         lg.append("stop")
             .attr("offset", "0%")
-            .style("stop-color", "#" + colorCode) //end in red
+            .style("stop-color", colorCode) //end in red
             .style("stop-opacity", 0);
 
         lg.append("stop")
             .attr("offset", "100%")
-            .style("stop-color", "#" + colorCode) //start in blue
+            .style("stop-color", colorCode) //start in blue
             .style("stop-opacity", 1);
         return id;
-    }
-
-    private drawAxesLabels() {
-        const labelsGroup = this.d3El
-            .append("g")
-            .attr("class", "axis-labels")
-            .attr("transform", "translate(0, 0)"); // Adjust the translation based on your chart's margins
-        labelsGroup
-            .append("text")
-            .attr("class", "x-axis-label")
-            .attr("x", this.width / 2) // Adjust the x position based on your chart's width
-            .attr("y", this.height + MARGINS.bottom - 10) // Adjust the y position based on your chart's height and margin
-            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the center
-            .attr("fill", "currentColor")
-            .text(this.labels.x);
-
-        labelsGroup
-            .append("text")
-            .attr("class", "y-axis-label")
-            .attr("y", -MARGINS.left + 10) // Adjust the x position based on your chart's height
-            .attr("x", -this.height / 2) // Adjust the y position based on your chart's margin
-            .attr("text-anchor", "middle") // Set the text-anchor to align the label in the middle
-            .attr("transform", "rotate(-90)") // Rotate the label vertically
-            .attr("fill", "currentColor")
-            .text(this.labels.y);
-    }
-
-    public handleMouseOver(element: any, d: any) {
-        // Show a tooltip or update a div element with the data
-        // For example, you can add a tooltip with the year and value
-        d3.select(element).attr("r", 3); // Increase the size of the data point
-
-        const label = `X: ${d.x.toFixed(2)}, Value: ${d.y.toFixed(2)}`;
-        const labelGroup = this.d3El
-            .append("g")
-            .attr("class", "data-label-group");
-        const hText = 20;
-        const wText = 5 * (label.length + 2);
-
-        let xPos = this.xScale(d.x) + 5;
-        let yPos = this.yScale(d.y);
-
-        if (xPos + wText > this.width) {
-            xPos = xPos - wText - 10;
-        }
-        if (yPos - hText - 23 < 0) {
-            yPos += hText;
-        }
-
-        // Append a rect for the background
-        labelGroup
-            .append("rect")
-            .attr("class", "data-label-bg")
-            .attr("x", xPos)
-            .attr("y", yPos - 23)
-            .attr("width", wText)
-            .attr("height", hText)
-            .attr("rx", 5) // Set the border radius
-            .attr("ry", 5);
-
-        labelGroup
-            .append("text")
-            .attr("class", "data-label")
-            .attr("x", xPos + 11)
-            .attr("y", yPos - 10)
-            .text(label)
-            .style("font-size", "10px")
-            .style("fill", "currentColor");
-    }
-
-    // Function to handle mouseout event
-    public handleMouseOut(element: any) {
-        // Hide the tooltip or remove the div element
-        d3.select(element).attr("r", 2.5); // Reset the size of the data point
-
-        this.d3El.selectAll(".data-label-group").remove();
-    }
-
-    public drawLegends(): LineChart {
-        const legendData: Legend[] = [];
-
-        const max = Math.min(this.legends.length, this.legendColors.length);
-
-        if (max === 0) {
-            return this;
-        }
-
-        for (let i = 0; i < max; i++) {
-            legendData.push({
-                label: this.legends[i],
-                color: this.legendColors[i],
-            });
-        }
-
-        // Create the legend group element
-        const legend = this.d3El
-            .append("g")
-            .attr("class", "legend")
-            .attr("transform", `translate(${this.width - 50}, 0)`);
-
-        // Append rectangles and text to represent each item in the legend
-        const legendItems = legend
-            .selectAll(".legend-item")
-            .data(legendData)
-            .enter()
-            .append("g")
-            .attr("class", "legend-item")
-            .attr("transform", function (d, i) {
-                return "translate(0," + i * 15 + ")";
-            });
-
-        legendItems
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", 10)
-            .attr("height", 10)
-            .attr("fill", function (d) {
-                return d.color;
-            });
-
-        legendItems
-            .append("text")
-            .attr("x", 15)
-            .attr("y", 5)
-            .attr("dy", "0.35em")
-            .text(function (d) {
-                return d.label;
-            });
-
-        return this;
     }
 }
 
