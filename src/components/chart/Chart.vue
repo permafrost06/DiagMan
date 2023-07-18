@@ -9,6 +9,7 @@ import {
 } from "./LineChart";
 import { initArcChart, type ArcChart } from "./ArcChart";
 import { initDonutChart, type DonutChart } from "./DonutChart";
+import { initBarChart, type BarChart, type BarChartData } from "./BarChart";
 
 interface LineChartProps {
     data: DataPoint[][];
@@ -27,10 +28,14 @@ interface DonutChartProps {
     thickness: number;
     legends?: string[];
 }
+interface BarChartProps {
+    data: BarChartData[];
+    legends?: string[];
+}
 
 interface ChartProps {
-    type: "line" | "arc" | "donut";
-    data: DataPoint[][] | number[];
+    type: "line" | "arc" | "donut" | "bar";
+    data: DataPoint[][] | number[] | BarChartData[];
     thickness?: number;
     xLabel?: string;
     yLabel?: string;
@@ -43,7 +48,7 @@ const props = defineProps<ChartProps>();
 let lastType: string = "";
 
 const svg = ref<HTMLElement>();
-let Chart: ArcChart | LineChart | DonutChart;
+let Chart: ArcChart | LineChart | DonutChart | BarChart;
 
 onMounted(() => {
     if (!svg.value) {
@@ -86,6 +91,7 @@ function reInit() {
             line: initLineChart,
             arc: initArcChart,
             donut: initDonutChart,
+            bar: initBarChart,
         }[props.type](svg.value);
     }
     if (props.type === "arc") {
@@ -94,6 +100,8 @@ function reInit() {
         lineChartOpts();
     } else if (props.type === "donut") {
         donutChartOpts();
+    } else if (props.type === "bar") {
+        barChartOpts();
     }
 }
 
@@ -130,6 +138,14 @@ function donutChartOpts() {
     Chart = Chart as DonutChart;
     const props2 = props as DonutChartProps;
     Chart.setThickness(props2.thickness);
+    if (typeof props2.legends !== "undefined") {
+        Chart.setLegends(props2.legends);
+    }
+}
+
+function barChartOpts() {
+    Chart = Chart as BarChart;
+    const props2 = props as BarChartProps;
     if (typeof props2.legends !== "undefined") {
         Chart.setLegends(props2.legends);
     }
