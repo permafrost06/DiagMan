@@ -1,14 +1,15 @@
-@import './theme.css';
+@import "./theme.css";
 
-html, body{
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background: var(--clr-bg);
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--clr-bg);
 }
-p{
-  margin: 0;
-  padding: 0;
+p {
+    margin: 0;
+    padding: 0;
 }
 .no-wrap {
     white-space: nowrap;
@@ -16,4 +17,17 @@ p{
 
 .break-word {
     word-break: break-word;
+}
+
+/*Utilities These makes designing much faster and compact*/
+.m-sm {
+    margin: 5px;
+}
+.mx-sm {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.my-sm {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
