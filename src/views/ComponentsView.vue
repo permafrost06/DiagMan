@@ -25,6 +25,7 @@ const components: string[] = [
     "ArcChart",
     "DonutChart",
     "BarChart",
+    "TransferChart",
 ];
 </script>
 <template>

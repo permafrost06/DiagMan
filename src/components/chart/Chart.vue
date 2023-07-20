@@ -10,6 +10,11 @@ import {
 import { initArcChart, type ArcChart } from "./ArcChart";
 import { initDonutChart, type DonutChart } from "./DonutChart";
 import { initBarChart, type BarChart, type BarChartData } from "./BarChart";
+import {
+    initTransferChart,
+    type TransferChart,
+    type TransferChartData,
+} from "./TransferChart";
 
 interface LineChartProps {
     data: DataPoint[][];
@@ -32,10 +37,15 @@ interface BarChartProps {
     data: BarChartData[];
     legends?: string[];
 }
+/*
+interface TransferChartProps {
+    data: TransferChartData;
+}
+*/
 
 interface ChartProps {
-    type: "line" | "arc" | "donut" | "bar";
-    data: DataPoint[][] | number[] | BarChartData[];
+    type: "line" | "arc" | "donut" | "bar" | "transfer";
+    data: DataPoint[][] | number[] | BarChartData[] | TransferChartData;
     thickness?: number;
     xLabel?: string;
     yLabel?: string;
@@ -48,7 +58,7 @@ const props = defineProps<ChartProps>();
 let lastType: string = "";
 
 const svg = ref<HTMLElement>();
-let Chart: ArcChart | LineChart | DonutChart | BarChart;
+let Chart: ArcChart | LineChart | DonutChart | BarChart | TransferChart;
 
 onMounted(() => {
     if (!svg.value) {
@@ -92,6 +102,7 @@ function reInit() {
             arc: initArcChart,
             donut: initDonutChart,
             bar: initBarChart,
+            transfer: initTransferChart,
         }[props.type](svg.value);
     }
     if (props.type === "arc") {
@@ -102,6 +113,8 @@ function reInit() {
         donutChartOpts();
     } else if (props.type === "bar") {
         barChartOpts();
+    } else if (props.type === "transfer") {
+        transferChartOpts();
     }
 }
 
@@ -149,6 +162,11 @@ function barChartOpts() {
     if (typeof props2.legends !== "undefined") {
         Chart.setLegends(props2.legends);
     }
+}
+function transferChartOpts() {
+    Chart = Chart as TransferChart;
+    //const props2 = props as TransferChartProps;
+    // Maybe allow colors & stuff
 }
 </script>
 <template>
