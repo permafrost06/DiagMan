@@ -44,10 +44,14 @@ const applyInput = () => {
     const legendsL: string[] = [];
     const dataL: BarChartData[] = [];
     let text = "";
-    const vals = dataText.value.split("\n").map((group, i) => {
+    dataText.value.split("\n").forEach((group, i) => {
         const data: number[] = [];
-        group.split(" ").map((val, j) => {
-            data.push(parseFloat(val));
+        group.split(" ").forEach((val, j) => {
+            const valF = parseFloat(val);
+            if (isNaN(valF)) {
+                return;
+            }
+            data.push(valF);
             if (legendsL.length === j) {
                 legendsL.push(`Legend ${j + 1}`);
             }
@@ -57,8 +61,9 @@ const applyInput = () => {
             values: data,
             label: `Label ${i + 1}`,
         });
+        return 0;
     });
-    if (vals.length === 0) {
+    if (dataL.length === 0) {
         return;
     }
     data.value = dataL;

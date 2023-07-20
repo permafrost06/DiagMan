@@ -43,10 +43,10 @@ interface PreparedLegend {
 }
 
 const COLORS = [
-    "#E74C3C",
-    "#3498DB",
-    "#2ECC71",
-    "#9B59B6",
+    "#000000",
+    "#9371f0",
+    "#39dbff",
+    "#3f54ec",
     "#1ABC9C",
     "#F1C40F",
     "#E67E22",
@@ -68,15 +68,16 @@ export class BarChart {
     protected height: number;
     protected width: number;
 
-    protected xScale: any;
     protected yScale: any;
 
     protected legendColors: string[] = [];
     protected legends: string[] = [];
     protected level: Required<Level>;
 
+    protected barWidth = 20;
+    protected barGap = 30;
+
     //TODO: Figure a way out to make this things dynamic
-    protected xAxisHeight = 20;
     protected yAxisWidth = 30;
     protected topSpace = 10;
     protected rightSpace = 10;
@@ -119,25 +120,56 @@ export class BarChart {
         const legendSize = this.drawLegends(remHeight, remWidth);
         remHeight -= legendSize.height;
 
-        //this.drawAxes(remHeight, remWidth, bars);
+        let maxYval = 0;
+        bars.forEach((bar) => {
+            if (bar.values.length === 0) {
+                return;
+            }
+            bar.values = bar.values.sort((a, b) => a - b);
+            maxYval = Math.max(maxYval, bar.values[bar.values.length - 1]);
+        });
 
+        this.yScale = d3
+            .scaleLinear()
+            .domain([0, maxYval])
+            .range([remHeight - this.topSpace, 0]);
+
+        this.drawYAxis(remHeight, remWidth);
         remWidth -= this.yAxisWidth;
-        remHeight -= this.xAxisHeight;
 
         const dataLayer = this.d3El
             .append("g")
-            .attr(
-                "transform",
-                `translate(${this.width - remWidth}, ${this.topSpace})`
-            )
+            .attr("transform", `translate(${this.width - remWidth}, 0)`)
             .attr("class", "data-layer");
+
+        const maxH = this.yScale(0);
+        bars.forEach((bar, i) => {
+            if (bar.values.length === 0) {
+                return;
+            }
+            const barG = dataLayer
+                .append("g")
+                .attr(
+                    "transform",
+                    `translate(${
+                        this.barWidth * i + this.barGap * (i + 1)
+                    }, ${remHeight})`
+                );
+            let lastH = 0;
+            bar.values.forEach((val, j) => {
+                const h = maxH - this.yScale(val);
+                barG.append("rect")
+                    .attr("x", 0)
+                    .attr("y", -h)
+                    .attr("width", this.barWidth)
+                    .attr("height", h - lastH)
+                    .attr("fill", COLORS[j]);
+                lastH = h;
+            });
+        });
     }
 
-    protected drawAxes(
-        remHeight: number,
-        remWidth: number,
-        bars: BarChartData[]
-    ) {
+    protected drawYAxis(remHeight: number, remWidth: number) {
         const yAxis = d3.axisLeft(this.yScale).ticks(this.level.count);
 
         const yLayer = this.d3El
@@ -146,10 +178,10 @@ export class BarChart {
             .call(yAxis)
             .attr(
                 "transform",
-                `translate(${this.width - remWidth}, ${this.topSpace})`
+                `translate(${this.width - remWidth + this.yAxisWidth}, ${
+                    this.topSpace
+                })`
             );
-
-        yLayer.select(".tick line").remove();
         yLayer
             .selectAll(".tick line")
             .attr("class", "y-level")
@@ -203,10 +235,14 @@ export class BarChart {
     }
 
     protected drawLegends(remHeight: number, remWidth: number): SizeRect {
+        let height = 0;
+        const width = 0;
         const { legends, block } = this.prepareLegends(remWidth);
         if (!legends || !block) {
-            return { height: 0, width: 0 };
+            return { height, width };
         }
+
+        height += this.legendOpts.margins.top + this.legendOpts.margins.bottom;
 
         const cols = Math.floor(remWidth / block.width);
 
@@ -253,55 +289,10 @@ export class BarChart {
                     remHeight - bbox.height - this.legendOpts.margins.bottom
                 })`
             );
+            height += bbox.height;
         }
 
-        return { width: bbox?.width || 0, height: bbox?.height || 0 };
-    }
-
-    public handleMouseOver(element: any, d: any, remWidth: number) {
-        d3.select(element).attr("r", 3);
-
-        const label = `X: ${d.x.toFixed(2)}, Value: ${d.y.toFixed(2)}`;
-        const labelGroup = this.d3El
-            .append("g")
-            .attr("class", "data-label-group");
-        const hText = 20;
-        const wText = 5 * (label.length + 2);
-
-        let xPos = this.xScale(d.x) + this.width - remWidth;
-        let yPos = this.yScale(d.y) + this.topSpace;
-
-        if (xPos + wText > this.width) {
-            xPos = xPos - wText - 10;
-        }
-        if (yPos - hText - 23 < 0) {
-            yPos += hText;
-        }
-        labelGroup
-            .append("rect")
-            .attr("class", "data-label-bg")
-            .attr("x", xPos)
-            .attr("y", yPos - 23)
-            .attr("width", wText)
-            .attr("height", hText)
-            .attr("rx", 5) // Set the border radius
-            .attr("ry", 5);
-
-        labelGroup
-            .append("text")
-            .attr("class", "data-label")
-            .attr("x", xPos + 11)
-            .attr("y", yPos - 10)
-            .text(label)
-            .style("font-size", "10px")
-            .style("fill", "currentColor");
-    }
-
-    // Function to handle mouseout event
-    public handleMouseOut(element: any) {
-        d3.select(element).attr("r", 2.5);
-
-        this.d3El.selectAll(".data-label-group").remove();
+        return { height, width };
     }
 }
 
