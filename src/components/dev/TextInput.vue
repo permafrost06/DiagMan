@@ -1,7 +1,11 @@
 <script setup lang="ts">
-defineProps<{
-    modelValue: string;
-}>();
+import type { InputHTMLAttributes } from "vue";
+
+interface TextInputProps extends InputHTMLAttributes {
+    modelValue?: string | number;
+}
+
+defineProps<TextInputProps>();
 const emit = defineEmits<{
     (e: "update:modelValue", page: number): void;
 }>();
@@ -10,12 +14,11 @@ const updated = (evt: any) => {
 };
 </script>
 <template>
-    <textarea :value="modelValue" @input="updated"></textarea>
+    <input :value="modelValue" @input="updated" />
 </template>
 <style scoped>
-textarea {
+input {
     display: block;
-    min-height: 80px;
     width: 100%;
     border-radius: 5px;
     border: 1px solid #a7a7a7;
