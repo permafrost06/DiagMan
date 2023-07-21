@@ -73,6 +73,7 @@ watch(props, (newProps) => {
         </button>
         <Transition :name="animation || 'slide'">
             <div v-if="state === 'open'" class="notification-floating">
+                <button @click="toggle" class="close-btn">&times;</button>
                 <slot></slot>
             </div>
         </Transition>
@@ -110,6 +111,25 @@ watch(props, (newProps) => {
     overflow: auto;
     padding: 5px;
     z-index: 999;
+}
+
+.close-btn {
+    position: absolute;
+    display: block;
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.6rem;
+    color: #929292;
+    transition: all 0.3s ease;
+    padding: 4px 4px;
+    line-height: 1rem;
+}
+.close-btn:hover {
+    border-radius: 5px;
+    box-shadow: 0 0 2px red;
 }
 
 .fade-enter-active,
