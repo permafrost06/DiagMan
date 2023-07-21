@@ -2,6 +2,9 @@
 import CmpLink from "@/components/CmpLink.vue";
 import { shallowRef, watch, type Component } from "vue";
 import { useRoute } from "vue-router";
+
+import "@/assets/test.css";
+
 const route = useRoute();
 const cmp = shallowRef<Component>();
 
@@ -18,7 +21,7 @@ async function checkCmp() {
         )
     ).default;
 }
-const components: string[] = ["TableComponent", "Pagination"];
+const components: string[] = ["TableComponent", "Pagination", "Notification"];
 </script>
 <template>
     <header>Components</header>
@@ -34,33 +37,3 @@ const components: string[] = ["TableComponent", "Pagination"];
         <component :is="cmp" />
     </main>
 </template>
-<style scoped>
-header {
-    position: sticky;
-    top: 0;
-    box-shadow: 0 1px 3px gray;
-    padding: 15px 15px;
-    margin: 0;
-    font-size: var(--fs-lg);
-    z-index: 999;
-    background: var(--clr-bg);
-}
-.cmps {
-    display: grid;
-    padding: 10px;
-}
-.cmps a {
-    padding: 10px;
-    border: 1px solid rgb(0, 0, 0);
-}
-
-.cmp {
-    padding: 10px;
-}
-@media (min-width: 500px) {
-    .cmps {
-        grid-auto-columns: 50%;
-        padding: 50px 100px;
-    }
-}
-</style>

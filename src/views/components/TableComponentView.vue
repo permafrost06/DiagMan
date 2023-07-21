@@ -71,40 +71,49 @@ const actionOne = (data: any) => {
 
 <template>
     <div class="options">
-        <div class="btn-group">
-            <button
-                :class="{ active: mobileView === 'transformed' }"
-                @click="mobileView = 'transformed'"
-            >
-                Transformed
-            </button>
-            <button
-                :class="{ active: mobileView === 'moveable' }"
-                @click="mobileView = 'moveable'"
-            >
-                Moveable
-            </button>
-            <button
-                :class="{ active: mobileView === 'collapsed' }"
-                @click="mobileView = 'collapsed'"
-            >
-                Collapsed
-            </button>
-            <button
-                :class="{ active: mobileView === 'shorten' }"
-                @click="mobileView = 'shorten'"
-            >
-                Shorten
-            </button>
+        <div class="option">
+            <h4 class="opt-title">Mobile View</h4>
+            <div class="options">
+                <button
+                    :class="{ active: mobileView === 'transformed' }"
+                    @click="mobileView = 'transformed'"
+                >
+                    Transformed
+                </button>
+                <button
+                    :class="{ active: mobileView === 'moveable' }"
+                    @click="mobileView = 'moveable'"
+                >
+                    Moveable
+                </button>
+                <button
+                    :class="{ active: mobileView === 'collapsed' }"
+                    @click="mobileView = 'collapsed'"
+                >
+                    Collapsed
+                </button>
+                <button
+                    :class="{ active: mobileView === 'shorten' }"
+                    @click="mobileView = 'shorten'"
+                >
+                    Shorten
+                </button>
+            </div>
         </div>
-        <div class="btn-group">
-            <button @click="changeChecked">Toggle 3</button>
+        <div class="option">
+            <h4 class="opt-title">Row Actions</h4>
+            <div class="options">
+                <button @click="changeChecked">Toggle 3</button>
+            </div>
         </div>
 
-        <div class="btn-group">
-            <button @click="resizable = !resizable">
-                {{ resizable ? "Disable" : "Enable" }} resizability
-            </button>
+        <div class="option">
+            <h4 class="opt-title">Config Actions</h4>
+            <div class="options">
+                <button @click="resizable = !resizable">
+                    {{ resizable ? "Disable" : "Enable" }} resizability
+                </button>
+            </div>
         </div>
     </div>
     <TableComponent
@@ -140,21 +149,5 @@ const actionOne = (data: any) => {
 <style scoped>
 .active {
     color: blue;
-}
-
-.options {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-.btn-group {
-    margin: 5px 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.btn-group button {
-    margin: 0 2px;
 }
 </style>

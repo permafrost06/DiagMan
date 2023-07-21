@@ -12,7 +12,7 @@ const pageSize = ref<number>(10);
 </script>
 
 <template>
-    <div class="opt-group">
+    <div class="options">
         <div class="option">
             <p>onEachSide: {{ onEachSide }}</p>
             <button @click="onEachSide++">+</button>
@@ -25,7 +25,7 @@ const pageSize = ref<number>(10);
         </div>
     </div>
 
-    <div class="opt-group title">
+    <div class="options">
         <div class="option">
             <p>pages: {{ pages }}</p>
             <button @click="pages++">+</button>
@@ -40,8 +40,7 @@ const pageSize = ref<number>(10);
             :on-each-side="onEachSide"
         />
     </div>
-
-    <div class="opt-group title">
+    <div class="options">
         <div class="option">
             <p>pageSize: {{ pageSize }}</p>
             <button @click="pageSize++">+</button>
@@ -58,29 +57,13 @@ const pageSize = ref<number>(10);
     </div>
 </template>
 <style scoped>
-.opt-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.title {
-    margin-top: 100px;
-}
-
-.option {
-    margin: 0 2px;
-    display: flex;
-    border: 1px solid black;
-    padding: 8px;
-}
-
-.option p {
-    margin: 0 5px;
-}
-
 .pagination-wrapper {
     width: max-content;
     margin: 20px auto;
+}
+
+.options + .options,
+.pagination-wrapper + .options {
+    margin-top: 100px;
 }
 </style>
