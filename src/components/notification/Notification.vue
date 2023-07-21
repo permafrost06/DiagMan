@@ -5,6 +5,7 @@ import { onUnmounted, ref, watch } from "vue";
 export interface NotificationProps {
     state?: "open" | "closed";
     hideOnBlur?: boolean;
+    animation?: "slide" | "fade";
 }
 
 const props = defineProps<NotificationProps>();
@@ -70,9 +71,11 @@ watch(props, (newProps) => {
             </svg>
             <div class="sr-only">Toggle NotificationProps</div>
         </button>
-        <div v-if="state === 'open'" class="notification-floating">
-            <slot></slot>
-        </div>
+        <Transition :name="animation || 'slide'">
+            <div v-if="state === 'open'" class="notification-floating">
+                <slot></slot>
+            </div>
+        </Transition>
     </div>
 </template>
 
@@ -107,5 +110,25 @@ watch(props, (newProps) => {
     overflow: auto;
     padding: 5px;
     z-index: 999;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
 }
 </style>
