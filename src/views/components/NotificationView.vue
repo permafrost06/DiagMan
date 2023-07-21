@@ -32,6 +32,7 @@ const notificationGroups = [
 ];
 
 const state = ref<NotificationProps["state"]>("closed");
+const animation = ref<string>("slide");
 
 const toggleState = () => {
     state.value = state.value === "open" ? "closed" : "open";
@@ -42,9 +43,15 @@ const toggleState = () => {
         <div class="option">
             <button @click="toggleState">Toggle state from parent</button>
         </div>
+        <div class="option">
+            <select v-model="animation">
+                <option value="slide">Slide</option>
+                <option value="fade">Fade</option>
+            </select>
+        </div>
     </div>
     <div class="flex">
-        <Notification :hide-on-blur="true">
+        <Notification :hide-on-blur="true" :animation="(animation as any)">
             <NotificationGroup
                 v-for="group in notificationGroups"
                 :key="group.title"
@@ -57,7 +64,7 @@ const toggleState = () => {
                 />
             </NotificationGroup>
         </Notification>
-        <Notification v-model:state="state">
+        <Notification v-model:state="state" :animation="(animation as any)">
             <NotificationGroup
                 v-for="group in notificationGroups"
                 :key="group.title"
