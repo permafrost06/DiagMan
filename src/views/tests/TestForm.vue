@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { API_BASE } from "@/helpers/config";
+import { fetchApi } from "@/helpers/http";
 import { onMounted, ref } from "vue";
 
 const isLoading = ref(false);
@@ -8,45 +9,35 @@ const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 
 onMounted(async () => {
-    const res = await fetch(`${API_BASE}/tests`);
-    const data = await res.json();
-    if (!data.success) {
-        error.value = data.message || "Something went wrong while fetching...";
+    const res = await fetchApi(`${API_BASE}/tests`);
+    if (!res.success) {
+        error.value = res.message;
         return;
     }
-    tests.value = data.body.rows;
+    tests.value = res.rows;
 });
 
 async function handleFormSubmit(evt: any) {
     isLoading.value = true;
-    const res = await fetch(evt.target.action, {
+    const res = await fetchApi(evt.target.action, {
         method: "POST",
         body: new FormData(evt.target),
     });
 
-    const data = await res.json();
     isLoading.value = false;
-    if (data.success) {
+    if (res.success) {
         error.value = null;
-        message.value = data.message;
-        tests.value.push(data.body.data);
+        message.value = res.message!;
+        tests.value.push(res.data);
     } else {
-        message.value = null;
-        if (data.message) {
-            error.value = data.message;
-        } else {
-            for (let name in data.body.fields) {
-                error.value = `[${name}] ` + data.body.fields[name][0];
-                break;
-            }
-        }
+        error.value = res.message;
     }
 }
 </script>
 <template>
     <div class="row">
         <form
-            :action="`${API_BASE}/tests/add`"
+            :action="`${API_BASE}/tests`"
             method="POST"
             @submit.prevent="handleFormSubmit"
         >
