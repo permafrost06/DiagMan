@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { getLibsqlClient } from '../db/conn';
-import { Env } from '../worker';
+import { RequestHandler } from '../router';
+import { validateFormData } from '../utils/helpers';
 
 const testSchema = z.object({
 	name: z.string().nonempty(),
@@ -8,52 +9,23 @@ const testSchema = z.object({
 	size: z.enum(['small', 'medium', 'large', 'complex']),
 });
 
-export const addTest = async (req: Request, env: Env) => {
-	const fd = await req.formData();
-	const data: Record<string, any> = {};
-	let success = true;
-	const body: Record<string, any> = {};
-
-	fd.forEach((value, key) => {
-		data[key] = value;
-	});
-
-	const safeData = testSchema.safeParse(data);
-	if (!safeData.success) {
-		success = false;
-		const fErr = safeData.error.flatten();
-		body.fields = fErr.fieldErrors;
-		body.message = fErr.formErrors[0];
-		return {
-			success,
-			body,
-		};
-	}
+export const addTest: RequestHandler = async ({ request, env, res }) => {
+	const data = await validateFormData(request, testSchema);
 
 	const db = getLibsqlClient(env);
 
-	const res = await db.execute({
+	const qres = await db.execute({
 		sql: 'INSERT INTO `tests` (name, price, size) VALUES (:name, :price, :size)',
-		args: safeData.data,
+		args: data,
 	});
-	body.data = {
-		id: res.lastInsertRowid?.toString(),
-		...safeData.data,
-	};
-	return {
-		success,
-		body,
-		message: 'Test added successfully!'
-	};
+	res.setData({
+		id: qres.lastInsertRowid?.toString(),
+		...data,
+	});
 };
 
-export const listTests = async (_req: Request, env: Env) => {
+export const listTests: RequestHandler = async ({ env, res }) => {
 	const db = getLibsqlClient(env);
-	const res = await db.execute('SELECT * FROM `tests`');
-	return {
-		success: true,
-		body: {
-			rows: res.rows,
-		},
-	};
+	const qres = await db.execute('SELECT * FROM `tests`');
+	res.setRows(qres.rows);
 };
