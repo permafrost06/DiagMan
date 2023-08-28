@@ -19,7 +19,7 @@ onMounted(async () => {
         }
         tests.value = res.rows;
     });
-    fetchApi(`${API_BASE}/patient-tests`).then((res) => {
+    fetchApi(`${API_BASE}/records`).then((res) => {
         if (!res.success) {
             error.value = res.message;
             return;
@@ -48,7 +48,7 @@ async function handleFormSubmit(evt: any) {
 <template>
     <div class="row-wrap">
         <form
-            :action="`${API_BASE}/patient-tests`"
+            :action="`${API_BASE}/records`"
             method="POST"
             @submit.prevent="handleFormSubmit"
         >
@@ -191,7 +191,7 @@ async function handleFormSubmit(evt: any) {
             </button>
         </form>
         <div>
-            <h3>Patient tests</h3>
+            <h3>Records</h3>
             <table>
                 <tr>
                     <th>ID</th>

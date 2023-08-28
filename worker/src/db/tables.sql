@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS tests (
     size TEXT CHECK(size IN ('small', 'medium', 'large', 'complex'))
 );
 
-CREATE TABLE IF NOT EXISTS patient_tests (
+CREATE TABLE IF NOT EXISTS records (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     type TEXT CHECK(type IN ('histo', 'cyto')),
     status TEXT CHECK(status IN ('draft', 'pending', 'locked', 'complete')),

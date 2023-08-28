@@ -31,20 +31,17 @@ const formSchema = z.object({
 	note: z.string(),
 });
 
-export default formSchema;
-
-export const addPatientTest: RequestHandler = async ({ request, env, res }) => {
-	const data = await validateFormData(request, formSchema);
+export const addRecord: RequestHandler = async ({ request, env, res }) => {
+	const data = await validateFormData(request, formSchema, ['tests']);
 	data.tests = JSON.stringify(data.tests);
-
 	const db = getLibsqlClient(env);
-	const row = await insertRow(db, 'patient_tests', data);
+	const row = await insertRow(db, 'records', data);
 	data.id = row.lastInsertRowid;
 	res.setData(data);
 };
 
-export const listPatientTests: RequestHandler = async ({ env, res }) => {
+export const listRecords: RequestHandler = async ({ env, res }) => {
 	const db = getLibsqlClient(env);
-	const qres = await db.execute('SELECT * FROM `patient_tests`');
+	const qres = await db.execute('SELECT * FROM `records`');
 	res.setRows(qres.rows);
 };
