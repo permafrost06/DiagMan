@@ -9,8 +9,6 @@ const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 const patientTests = ref<Array<Record<string, number | string>>>([]);
 
-const testIds = ref<string[]>([]);
-
 onMounted(async () => {
     fetchApi(`${API_BASE}/tests`).then((res) => {
         if (!res.success) {
@@ -134,11 +132,6 @@ async function handleFormSubmit(evt: any) {
                         <span>{{ test.name }}</span>
                     </label>
                 </div>
-                <input
-                    type="hidden"
-                    name="xx"
-                    :value="JSON.stringify(testIds)"
-                />
             </div>
 
             <div>
