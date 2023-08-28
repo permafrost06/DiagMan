@@ -18,20 +18,19 @@ export const getFormError = (err: z.typeToFlattenedError<any, any>): string => {
 
 export const validateFormData = async <T extends z.ZodRawShape>(
 	request: Request,
-	schema: z.ZodObject<T>
+	schema: z.ZodObject<T>,
+	arrays: string[] = []
 ): Promise<Record<string, any> | never> => {
 	const formData = await request.formData();
 	const body: Record<string, any> = {};
 
+	arrays.forEach((key) => {
+		body[key] = formData.getAll(key);
+		formData.delete(key);
+	});
+
 	formData.forEach((value, key) => {
-		const old = body[key];
-		if (!old) {
-			body[key] = value;
-		} else if (!Array.isArray(old)) {
-			body[key] = [old, value];
-		} else {
-			old.push(value);
-		}
+		body[key] = value;
 	});
 	return await validateObject<Record<string, any>>(body, schema);
 };
