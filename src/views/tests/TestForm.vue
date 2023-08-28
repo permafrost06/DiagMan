@@ -35,7 +35,7 @@ async function handleFormSubmit(evt: any) {
 }
 </script>
 <template>
-    <div class="row">
+    <div class="row-wrap">
         <form
             :action="`${API_BASE}/tests`"
             method="POST"
@@ -89,3 +89,10 @@ async function handleFormSubmit(evt: any) {
         </div>
     </div>
 </template>
+
+<style>
+form {
+    width: 50%;
+    margin: 0 50px;
+}
+</style>
