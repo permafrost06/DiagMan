@@ -24,9 +24,19 @@ export const validateFormData = async <T extends z.ZodRawShape>(
 	const body: Record<string, any> = {};
 
 	formData.forEach((value, key) => {
-		body[key] = value;
+		const old = body[key];
+		if (!old) {
+			body[key] = value;
+		} else if (!Array.isArray(old)) {
+			body[key] = [old, value];
+		} else {
+			old.push(value);
+		}
 	});
+	return await validateObject<Record<string, any>>(body, schema);
+};
 
+export const validateObject = async <T extends z.ZodRawShape>(body: T, schema: z.ZodObject<T>): Promise<Record<string, any> | never> => {
 	const res = schema.safeParse(body);
 
 	if (!res.success) {
