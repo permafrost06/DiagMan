@@ -1,6 +1,12 @@
-import { json, type RouterType } from 'itty-router';
-import buildRouter, { DEFAULT_HEADERS, RequestEvent } from './router';
+import { json, Router, type RouterType } from 'itty-router';
+import buildRouter, { RequestEvent } from './router';
 import JSONResponse from './utils/Response';
+
+const DEFAULT_HEADERS = {
+	'Access-Control-Allow-Origin': '*',
+	'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+	'Content-type': 'application/json',
+};
 
 export interface Env {
 	TURSO_DB_URL?: string;
@@ -23,7 +29,14 @@ export default {
 		}
 
 		if (env.router === undefined) {
-			env.router = buildRouter();
+			const router = Router();
+			buildRouter(router);
+			router.all('*', ({ res }: RequestEvent) => {
+				return res.json({
+					headers: DEFAULT_HEADERS,
+				});
+			});
+			env.router = router;
 		}
 
 		const req: RequestEvent = {
