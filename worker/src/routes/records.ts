@@ -36,7 +36,7 @@ export const addRecord: RequestHandler = async ({ request, env, res }) => {
 	data.tests = JSON.stringify(data.tests);
 	const db = getLibsqlClient(env);
 	const row = await insertRow(db, 'records', data);
-	data.id = row.lastInsertRowid;
+	data.id = row.lastInsertRowid?.toString();
 	res.setData(data);
 };
 
