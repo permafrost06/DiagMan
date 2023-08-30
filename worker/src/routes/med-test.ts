@@ -43,3 +43,14 @@ export const listTests: RequestHandler = async ({ env, res }) => {
 	const qres = await db.execute('SELECT * FROM `tests` WHERE status="active"');
 	res.setRows(qres.rows);
 };
+
+export const deleteTest: RequestHandler = async ({ env, res, id }) => {
+	const db = getLibsqlClient(env);
+	const { rowsAffected } = await db.execute({
+		sql: "UPDATE `tests` SET status='deleted' WHERE id=?",
+		args: [id],
+	});
+	res.setData({
+		deleted: rowsAffected,
+	});
+};

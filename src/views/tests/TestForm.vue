@@ -8,6 +8,7 @@ const error = ref<string | null>(null);
 const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 const toEdit = ref<Record<string, number | string> | null>(null);
+const toDelete = ref<Record<string, number | string> | null>(null);
 
 onMounted(async () => {
     const res = await fetchApi(`${API_BASE}/tests`);
@@ -39,6 +40,29 @@ async function handleFormSubmit(evt: any) {
     } else {
         error.value = res.message;
     }
+}
+
+async function deleteTest(toDel: any) {
+    const del = confirm("Are you sure?");
+    if (!del) {
+        return;
+    }
+    toDelete.value = toDel;
+    const res = await fetchApi(`${API_BASE}/tests/${toDel.id}`, {
+        method: "DELETE",
+    });
+    if (res.success) {
+        error.value = null;
+        message.value = res.message!;
+        if (res.data?.deleted > 0) {
+            tests.value = tests.value.filter(
+                (test) => test.id != toDelete.value?.id
+            );
+        }
+    } else {
+        error.value = res.message;
+    }
+    toDelete.value = null;
 }
 </script>
 <template>
@@ -106,7 +130,13 @@ async function handleFormSubmit(evt: any) {
                         <td>{{ test.size }}</td>
                         <td>
                             <button @click="toEdit = test">Edit</button>
-                            <button>Delete</button>
+                            <button @click="deleteTest(test)">
+                                {{
+                                    toDelete?.id === test.id
+                                        ? "Wait..."
+                                        : "Delete"
+                                }}
+                            </button>
                         </td>
                     </tr>
                 </template>
