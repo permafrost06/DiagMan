@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS tests (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     price REAL,
-    size TEXT CHECK(size IN ('small', 'medium', 'large', 'complex'))
+    size TEXT CHECK(size IN ('small', 'medium', 'large', 'complex')),
+    status TEXT CHECK(status IN ('active', 'updated', 'deleted'))
 );
 
 CREATE TABLE IF NOT EXISTS records (
