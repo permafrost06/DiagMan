@@ -3,7 +3,8 @@ const { config } = require('dotenv');
 const { createClient } = require('@libsql/client/web');
 const { readdirSync, readFileSync, existsSync, writeFileSync } = require('fs');
 
-const storePath = './migrations/meta/_completed.json';
+const MIGRATIONS_PATH = './migrations';
+const COMPLETED_PATH = MIGRATIONS_PATH + '/meta/_completed.json';
 
 config({
 	path: '.dev.vars',
@@ -22,11 +23,13 @@ if (authToken === undefined) {
 const db = createClient({ url, authToken });
 
 async function main() {
-	const allMigrations = readdirSync('./migrations')
+	const allMigrations = readdirSync(MIGRATIONS_PATH)
 		.filter((path) => path.endsWith('.sql'))
 		.sort();
-	const completedMigrations = existsSync(storePath) ? JSON.parse(readFileSync(storePath).toString()) : [];
-	const migrations = completedMigrations.length === 0 ? allMigrations : allMigrations.filter((file) => done.indexOf(file) === -1);
+	const completedMigrations = existsSync(COMPLETED_PATH) ? JSON.parse(readFileSync(COMPLETED_PATH).toString()) : [];
+
+	const migrations = allMigrations.filter((file) => completedMigrations.indexOf(file) === -1);
+
 	if (migrations.length === 0) {
 		console.log('Everything is up to date!');
 		return;
@@ -36,12 +39,12 @@ async function main() {
 			await applyMigration(migrations[i]);
 			completedMigrations.push(migrations[i]);
 		} catch (error) {
-			writeFileSync(storePath, JSON.stringify(completedMigrations));
+			writeFileSync(COMPLETED_PATH, JSON.stringify(completedMigrations));
 			console.log(error);
 			return;
 		}
 	}
-	writeFileSync(storePath, JSON.stringify(completedMigrations));
+	writeFileSync(COMPLETED_PATH, JSON.stringify(completedMigrations));
 }
 
 async function applyMigration(file) {
