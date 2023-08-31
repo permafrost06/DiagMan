@@ -6,6 +6,7 @@
 		"deploy": "wrangler deploy",
 		"start": "wrangler dev",
 		"db:generate": "drizzle-kit generate:sqlite",
+		"db:push": "node ./drizzle/migrate.js",
 		"db:migrate": "drizzle-kit generate:sqlite && node ./drizzle/migrate.js"
 	},
 	"devDependencies": {
