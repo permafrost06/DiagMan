@@ -1,32 +1,44 @@
 <script setup lang="ts">
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
+const isPosting = ref(false);
 const isLoading = ref(false);
 const error = ref<string | null>(null);
 const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 const toEdit = ref<Record<string, number | string> | null>(null);
 const toDelete = ref<Record<string, number | string> | null>(null);
+const status = ref<"active" | "updated" | "deleted" | null>("active");
 
-onMounted(async () => {
-    const res = await fetchApi(`${API_BASE}/tests`);
+onMounted(() => {
+    loadTests();
+});
+
+watch(status, () => {
+    loadTests();
+});
+
+async function loadTests() {
+    isLoading.value = true;
+    const res = await fetchApi(`${API_BASE}/tests?status=${status.value}`);
+    isLoading.value = false;
     if (!res.success) {
         error.value = res.message;
         return;
     }
     tests.value = res.rows;
-});
+}
 
 async function handleFormSubmit(evt: any) {
-    isLoading.value = true;
+    isPosting.value = true;
     const res = await fetchApi(evt.target.action, {
         method: "POST",
         body: new FormData(evt.target),
     });
 
-    isLoading.value = false;
+    isPosting.value = false;
     if (res.success) {
         error.value = null;
         message.value = res.message!;
@@ -103,24 +115,36 @@ async function deleteTest(toDel: any) {
                     <option value="complex">Complex</option>
                 </select>
             </div>
-            <button :disabled="isLoading" type="submit">
-                <span v-if="isLoading">Please wait...</span>
+            <button :disabled="isPosting" type="submit">
+                <span v-if="isPosting">Please wait...</span>
                 <span v-else-if="toEdit">Update</span>
                 <span v-else>Add</span>
             </button>
         </form>
         <div>
-            <h3>Tests</h3>
+            <div class="table-title">
+                <h3>Tests</h3>
+                <select v-model="status">
+                    <option value="">All</option>
+                    <option value="active">Active</option>
+                    <option value="updated">Updated</option>
+                    <option value="deleted">Deleted</option>
+                </select>
+            </div>
             <table>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Size</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
-                <tr v-if="tests.length === 0">
-                    <td colspan="4">No tests added yet!</td>
+                <tr v-if="isLoading">
+                    <td colspan="6">Loading tests...</td>
+                </tr>
+                <tr v-else-if="tests.length === 0">
+                    <td colspan="6">No tests added yet!</td>
                 </tr>
                 <template v-else>
                     <tr v-for="test in tests" :key="test.id">
@@ -128,6 +152,7 @@ async function deleteTest(toDel: any) {
                         <td>{{ test.name }}</td>
                         <td>{{ test.price }}</td>
                         <td>{{ test.size }}</td>
+                        <td>{{ test.status }}</td>
                         <td>
                             <button @click="toEdit = test">Edit</button>
                             <button @click="deleteTest(test)">
@@ -146,8 +171,26 @@ async function deleteTest(toDel: any) {
 </template>
 
 <style>
+th,
+td {
+    padding: 5px 8px;
+    margin: 0;
+}
 form {
     width: 50%;
     margin: 0 50px;
+}
+.table-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.table-title select {
+    width: max-content;
+    background: transparent;
+    border: none;
+    height: auto;
+    margin: 0;
+    cursor: pointer;
 }
 </style>

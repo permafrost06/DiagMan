@@ -38,9 +38,19 @@ export const addTest: RequestHandler = async ({ request, env, res }) => {
 	]);
 };
 
-export const listTests: RequestHandler = async ({ env, res }) => {
+export const listTests: RequestHandler = async ({ env, res, query }) => {
 	const db = getLibsqlClient(env);
-	const qres = await db.execute('SELECT * FROM `tests` WHERE status="active"');
+	const allStatus = ['active', 'updated', 'deleted'] as any[];
+
+	const status = allStatus[allStatus.indexOf(query['status'])];
+
+	let where = '';
+
+	if (status) {
+		where += `WHERE status='${status}'`;
+	}
+
+	const qres = await db.execute('SELECT * FROM `tests` ' + where);
 	res.setRows(qres.rows);
 };
 
