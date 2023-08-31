@@ -7,7 +7,7 @@ const testSchema = z.object({
 	id: z.preprocess((val: any) => parseInt(val), z.number().min(0)).optional(),
 	name: z.string().nonempty(),
 	price: z.preprocess((val: any) => parseInt(val), z.number().min(0)),
-	size: z.enum(['small', 'medium', 'large', 'complex']),
+	size: z.enum(['small', 'medium', 'large', 'complex', '']),
 	status: z.enum(['active', 'updated', 'deleted']).default('active'),
 });
 
@@ -24,6 +24,9 @@ export const addTest: RequestHandler = async ({ request, env, res }) => {
 			updated: data.id,
 		});
 		delete data.id;
+	}
+	if (!data.size) {
+		data.size = null;
 	}
 	const qres = await db.execute({
 		sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
