@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { getLibsqlClient, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
-import { validateFormData } from '../utils/helpers';
+import { validateFormData, validateObject } from '../utils/helpers';
+import { JSONError } from '../utils/Response';
 
 const stringDate = z.preprocess(
 	(arg) => (typeof arg === 'string' && arg.length === 10 ? `${arg}T00:00:00.000Z` : arg),
@@ -26,6 +27,15 @@ const formSchema = z.object({
 	advance: strNum,
 });
 
+const reportSchema = z.object({
+	id: strNum,
+	aspiration_note: z.string().nonempty(),
+	impression: z.string().nonempty(),
+	note: z.string().nonempty(),
+	gross_examination: z.string().optional(),
+	microscopic_examination: z.string().optional(),
+});
+
 export const addPatient: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, formSchema, ['tests']);
 	data.tests = JSON.stringify(data.tests);
@@ -45,4 +55,33 @@ export const listPatients: RequestHandler = async ({ env, res }) => {
 	const db = getLibsqlClient(env);
 	const qres = await db.execute('SELECT * FROM `patients`');
 	res.setRows(qres.rows);
+};
+
+export const finalizeReport: RequestHandler = async ({ request, env }) => {
+	const data = await validateFormData(request, reportSchema);
+	const db = getLibsqlClient(env);
+	const { rows } = await db.execute({
+		sql: `SELECT *, EXISTS(
+			SELECT 1 FROM \`reports\` WHERE id = p.id
+		) AS is_reported FROM \`patients\` AS p WHERE id=? LIMIT 1`,
+		args: [data.id],
+	});
+	if (rows.length === 0) {
+		throw new JSONError('Invalid patient!', {}, 422);
+	}
+
+	const patient = rows[0];
+	if (patient.type === 'cyto') {
+		// prettier-ignore
+		await validateObject(data, z.object({
+			gross_examination: z.string().nonempty()
+		}));
+	} else {
+		// prettier-ignore
+		await validateObject(data, z.object({
+			microscopic_examination: z.string().nonempty()
+		}));
+	}
+
+	console.log(rows[0]);
 };

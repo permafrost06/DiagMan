@@ -2,7 +2,7 @@ import { IRequest, RouteHandler, RouterType, withParams } from 'itty-router';
 import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests } from './routes/med-test';
-import { addPatient, listPatients } from './routes/patients';
+import { addPatient, listPatients, finalizeReport } from './routes/patients';
 
 export interface RequestEvent {
 	request: Request;
@@ -20,5 +20,7 @@ export const buildRouter = (router: RouterType) => {
 
 	router.post('/patients', addPatient);
 	router.get('/patients', listPatients);
+
+	router.post('/reports', finalizeReport);
 };
 export default buildRouter;

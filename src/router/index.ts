@@ -29,6 +29,11 @@ const router = createRouter({
             name: "patients",
             component: () => import("@/views/patients/PatientForm.vue"),
         },
+        {
+            path: "/reports",
+            name: "reports",
+            component: () => import("@/views/patients/Reports.vue"),
+        },
     ],
 });
 

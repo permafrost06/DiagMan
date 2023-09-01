@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
+import router from "@/router";
 import { onMounted, ref } from "vue";
 
 const isLoading = ref(false);
 const error = ref<string | null>(null);
 const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
-const patientTests = ref<Array<Record<string, number | string>>>([]);
+const patients = ref<Array<Record<string, number | string>>>([]);
 
 onMounted(async () => {
     fetchApi(`${API_BASE}/tests`).then((res) => {
@@ -22,7 +23,7 @@ onMounted(async () => {
             error.value = res.message;
             return;
         }
-        patientTests.value = res.rows;
+        patients.value = res.rows;
     });
 });
 
@@ -37,11 +38,18 @@ async function handleFormSubmit(evt: any) {
     if (res.success) {
         error.value = null;
         message.value = res.message!;
-        patientTests.value.push(res.data);
+        patients.value.push(res.data);
     } else {
         error.value = res.message;
     }
 }
+
+const report = (patient: any) => {
+    localStorage.setItem("to_report", JSON.stringify(patient));
+    router.push({
+        name: "reports",
+    });
+};
 </script>
 <template>
     <div class="row-wrap">
@@ -184,20 +192,24 @@ async function handleFormSubmit(evt: any) {
                     <th>Collection</th>
                     <th>Contact</th>
                     <th>Tests</th>
+                    <th></th>
                 </tr>
-                <tr v-if="patientTests.length === 0">
-                    <td colspan="4">No tests added yet!</td>
+                <tr v-if="patients.length === 0">
+                    <td colspan="9">No tests added yet!</td>
                 </tr>
                 <template v-else>
-                    <tr v-for="test in patientTests" :key="test.id">
-                        <td>{{ test.id }}</td>
-                        <td>{{ test.type }}</td>
-                        <td>{{ test.status }}</td>
-                        <td>{{ test.name }}</td>
-                        <td>{{ test.entry_date }}</td>
-                        <td>{{ test.sample_collection_date }}</td>
-                        <td>{{ test.contact }}</td>
-                        <td>{{ test.tests }}</td>
+                    <tr v-for="patient in patients" :key="patient.id">
+                        <td>{{ patient.id }}</td>
+                        <td>{{ patient.type }}</td>
+                        <td>{{ patient.status }}</td>
+                        <td>{{ patient.name }}</td>
+                        <td>{{ patient.entry_date }}</td>
+                        <td>{{ patient.sample_collection_date }}</td>
+                        <td>{{ patient.contact }}</td>
+                        <td>{{ patient.tests }}</td>
+                        <td>
+                            <button @click="report(patient)">REPORT</button>
+                        </td>
                     </tr>
                 </template>
             </table>
