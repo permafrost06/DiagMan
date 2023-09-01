@@ -31,6 +31,7 @@ const handleFormSubmit = async (evt: any) => {
     if (res.success) {
         error.value = null;
         message.value = res.message!;
+        router.back();
     } else {
         error.value = res.message;
     }

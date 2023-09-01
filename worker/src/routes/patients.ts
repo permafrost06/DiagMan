@@ -53,11 +53,15 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 
 export const listPatients: RequestHandler = async ({ env, res }) => {
 	const db = getLibsqlClient(env);
-	const qres = await db.execute('SELECT * FROM `patients`');
+	const qres = await db.execute(`
+		SELECT *, EXISTS(
+			SELECT 1 FROM \`reports\` WHERE id = p.id
+		) AS is_reported FROM \`patients\` AS p
+	`);
 	res.setRows(qres.rows);
 };
 
-export const finalizeReport: RequestHandler = async ({ request, env }) => {
+export const finalizeReport: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, reportSchema);
 	const db = getLibsqlClient(env);
 	const { rows } = await db.execute({
@@ -71,6 +75,11 @@ export const finalizeReport: RequestHandler = async ({ request, env }) => {
 	}
 
 	const patient = rows[0];
+
+	if (patient.is_reported) {
+		throw new JSONError('The patient already recieved the report!', {}, 422);
+	}
+
 	if (patient.type === 'cyto') {
 		// prettier-ignore
 		await validateObject(data, z.object({
@@ -82,6 +91,6 @@ export const finalizeReport: RequestHandler = async ({ request, env }) => {
 			microscopic_examination: z.string().nonempty()
 		}));
 	}
-
-	console.log(rows[0]);
+	await insertRow(db, 'reports', data);
+	res.setMsg('Report finalized successfully!');
 };

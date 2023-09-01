@@ -208,7 +208,13 @@ const report = (patient: any) => {
                         <td>{{ patient.contact }}</td>
                         <td>{{ patient.tests }}</td>
                         <td>
-                            <button @click="report(patient)">REPORT</button>
+                            <button
+                                v-if="!patient.is_reported"
+                                @click="report(patient)"
+                            >
+                                REPORT
+                            </button>
+                            <p v-else>Reported</p>
                         </td>
                     </tr>
                 </template>
