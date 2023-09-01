@@ -4,6 +4,7 @@ import { fetchApi } from "@/helpers/http";
 import router from "@/router";
 import { onMounted, ref } from "vue";
 
+const isPosting = ref(false);
 const isLoading = ref(false);
 const error = ref<string | null>(null);
 const message = ref<string | null>(null);
@@ -11,30 +12,32 @@ const tests = ref<Array<Record<string, number | string>>>([]);
 const patients = ref<Array<Record<string, number | string>>>([]);
 
 onMounted(async () => {
-    fetchApi(`${API_BASE}/tests`).then((res) => {
-        if (!res.success) {
-            error.value = res.message;
-            return;
-        }
-        tests.value = res.rows;
-    });
-    fetchApi(`${API_BASE}/patients`).then((res) => {
-        if (!res.success) {
-            error.value = res.message;
-            return;
-        }
-        patients.value = res.rows;
-    });
+    isLoading.value = true;
+    const [res1, res2] = await Promise.all([
+        fetchApi(`${API_BASE}/tests`),
+        fetchApi(`${API_BASE}/patients`),
+    ]);
+    isLoading.value = false;
+    if (!res1.success) {
+        error.value = res1.message;
+        return;
+    }
+    tests.value = res1.rows;
+    if (!res2.success) {
+        error.value = res2.message;
+        return;
+    }
+    patients.value = res2.rows;
 });
 
 async function handleFormSubmit(evt: any) {
-    isLoading.value = true;
+    isPosting.value = true;
     const res = await fetchApi(evt.target.action, {
         method: "POST",
         body: new FormData(evt.target),
     });
 
-    isLoading.value = false;
+    isPosting.value = false;
     if (res.success) {
         error.value = null;
         message.value = res.message!;
@@ -176,8 +179,8 @@ const report = (patient: any) => {
                 </div>
             </div>
 
-            <button :disabled="isLoading" type="submit">
-                {{ isLoading ? "Please wait..." : "Submit" }}
+            <button :disabled="isPosting" type="submit">
+                {{ isPosting ? "Please wait..." : "Submit" }}
             </button>
         </form>
         <div>
@@ -194,7 +197,10 @@ const report = (patient: any) => {
                     <th>Tests</th>
                     <th></th>
                 </tr>
-                <tr v-if="patients.length === 0">
+                <tr v-if="isLoading">
+                    <td colspan="9">Loading, please wait...</td>
+                </tr>
+                <tr v-else-if="!patients?.length">
                     <td colspan="9">No tests added yet!</td>
                 </tr>
                 <template v-else>
