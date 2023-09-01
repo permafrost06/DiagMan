@@ -6,8 +6,8 @@
 		"deploy": "wrangler deploy",
 		"start": "wrangler dev",
 		"db:generate": "drizzle-kit generate:sqlite",
-		"db:push": "node ./drizzle/migrate.js",
-		"db:migrate": "drizzle-kit generate:sqlite && node ./drizzle/migrate.js"
+		"db:push": "node ./database/migrate.js",
+		"db:migrate": "drizzle-kit generate:sqlite && node ./database/migrate.js"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20230419.0",
