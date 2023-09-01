@@ -20,14 +20,14 @@ onMounted(async () => {
     isLoading.value = false;
     if (!res1.success) {
         error.value = res1.message;
-        return;
+    } else {
+        tests.value = res1.rows || [];
     }
-    tests.value = res1.rows;
     if (!res2.success) {
         error.value = res2.message;
-        return;
+    } else {
+        patients.value = res2.rows || [];
     }
-    patients.value = res2.rows;
 });
 
 async function handleFormSubmit(evt: any) {
