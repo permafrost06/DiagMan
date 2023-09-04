@@ -51,7 +51,7 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 		await insertRow(db, 'patients', data);
 	} catch (error: any) {
 		if (error.code === 'SQLITE_CONSTRAINT') {
-			throw new JSONError('This patient id already exists!', {}, 422);
+			throw new JSONError('This patient id already exists!');
 		} else {
 			throw error;
 		}
@@ -79,13 +79,13 @@ export const finalizeReport: RequestHandler = async ({ request, env, res }) => {
 		args: [data.id],
 	});
 	if (rows.length === 0) {
-		throw new JSONError('Invalid patient!', {}, 422);
+		throw new JSONError('Invalid patient!');
 	}
 
 	const patient = rows[0];
 
 	if (patient.is_reported) {
-		throw new JSONError('The patient already recieved the report!', {}, 422);
+		throw new JSONError('The patient already recieved the report!');
 	}
 
 	if (patient.type === 'cyto') {

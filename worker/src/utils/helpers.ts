@@ -40,14 +40,10 @@ export const validateObject = async <T extends z.ZodRawShape>(body: T, schema: z
 
 	if (!res.success) {
 		const err = res.error.flatten();
-		throw new JSONError(
-			getFormError(err),
-			{
-				form: err.formErrors,
-				field: err.fieldErrors,
-			},
-			422
-		);
+		throw new JSONError(getFormError(err), 422, {
+			form: err.formErrors,
+			field: err.fieldErrors,
+		});
 	}
 	return res.data;
 };
