@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS tests (
 );
 
 CREATE TABLE IF NOT EXISTS patients (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id TEXT PRIMARY KEY,
     type TEXT CHECK(type IN ('histo', 'cyto')),
     status TEXT CHECK(status IN ('draft', 'pending', 'locked', 'complete')),
     name TEXT,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS patients (
 );
 
 CREATE TABLE IF NOT EXISTS reports (
-    id INTEGER PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     aspiration_note TEXT,
     gross_examination TEXT,
     microscopic_examination TEXT,

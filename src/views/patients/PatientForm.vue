@@ -64,25 +64,31 @@ const report = (patient: any) => {
             <p v-if="error">Error: {{ error }}</p>
             <p v-if="message">{{ message }}</p>
 
-            <div class="input-group flex">
+            <div class="input-group">
                 <div>
-                    <label for="type">Type</label>
-                    <select name="type" id="type">
-                        <option value="">Select Type</option>
-                        <option value="histo">Histo</option>
-                        <option value="cyto">Cyto</option>
-                    </select>
+                    <label for="patient_id">Patient Id</label>
+                    <input type="text" id="patient_id" name="id" />
                 </div>
+                <div class="flex">
+                    <div>
+                        <label for="type">Type</label>
+                        <select name="type" id="type">
+                            <option value="">Select Type</option>
+                            <option value="histo">Histo</option>
+                            <option value="cyto">Cyto</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label for="status">Status</label>
-                    <select name="status" id="status">
-                        <option value="">Select Status</option>
-                        <option value="draft">Draft</option>
-                        <option value="pending">Pending</option>
-                        <option value="locked">Locked</option>
-                        <option value="complete">Complete</option>
-                    </select>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="">Select Status</option>
+                            <option value="draft">Draft</option>
+                            <option value="pending">Pending</option>
+                            <option value="locked">Locked</option>
+                            <option value="complete">Complete</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -201,7 +207,7 @@ const report = (patient: any) => {
                     <td colspan="9">Loading, please wait...</td>
                 </tr>
                 <tr v-else-if="!patients?.length">
-                    <td colspan="9">No tests added yet!</td>
+                    <td colspan="9">No patients added yet!</td>
                 </tr>
                 <template v-else>
                     <tr v-for="patient in patients" :key="patient.id">

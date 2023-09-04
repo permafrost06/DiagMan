@@ -11,6 +11,7 @@ const stringDate = z.preprocess(
 const strNum = z.preprocess((val: any) => parseInt(val), z.number().min(0));
 
 const formSchema = z.object({
+	id: z.string().nonempty(),
 	type: z.enum(['histo', 'cyto']),
 	status: z.enum(['draft', 'pending', 'locked', 'complete']),
 	name: z.string(),
@@ -28,7 +29,7 @@ const formSchema = z.object({
 });
 
 const reportSchema = z.object({
-	id: strNum,
+	id: z.string().nonempty(),
 	aspiration_note: z.string().nonempty(),
 	impression: z.string().nonempty(),
 	note: z.string().nonempty(),
@@ -46,8 +47,15 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 		data[key] = data[key].substring(0, 10);
 	});
 
-	const row = await insertRow(db, 'patients', data);
-	data.id = row.lastInsertRowid?.toString();
+	try {
+		await insertRow(db, 'patients', data);
+	} catch (error: any) {
+		if (error.code === 'SQLITE_CONSTRAINT') {
+			throw new JSONError('This patient id already exists!', {}, 422);
+		} else {
+			throw error;
+		}
+	}
 	res.setData(data);
 };
 
