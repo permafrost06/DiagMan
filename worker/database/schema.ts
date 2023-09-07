@@ -15,24 +15,21 @@ export const tests = sqliteTable('tests', {
 });
 
 export const patients = sqliteTable('patients', {
-	id: integer('id').primaryKey({
-		autoIncrement: true,
-	}),
-	phone_no: text('phone_no'),
-	name: text('name'),
-	age: text('age'),
-	gender: text('gender', {
-		enum: ['male', 'female'],
-	}),
-	contact: text('contact'),
+	id: text('id').primaryKey(),
 	type: text('type', {
 		enum: ['histo', 'cyto'],
 	}),
 	status: text('status', {
 		enum: ['draft', 'pending', 'locked', 'complete'],
 	}),
+	name: text('name'),
 	sample_collection_date: text('sample_collection_date'),
 	entry_date: text('entry_date'),
+	age: numeric('age'),
+	gender: text('gender', {
+		enum: ['male', 'female'],
+	}),
+	contact: text('contact'),
 	specimen: text('specimen'),
 	referer: text('referer'),
 	delivery_date: text('delivery_date'),
@@ -44,4 +41,13 @@ export const patients = sqliteTable('patients', {
 	timestamp: integer('timestamp', {
 		mode: 'timestamp',
 	}),
+});
+
+export const reports = sqliteTable('reports', {
+	id: text('id').primaryKey(),
+	aspiration_note: text('aspiration_note'),
+	gross_examination: text('gross_examination'),
+	microscopic_examination: text('microscopic_examination'),
+	impression: text('impression'),
+	note: text('note'),
 });
