@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { API_BASE } from "@/helpers/config";
-import { fetchApi } from "@/helpers/http";
+import { addRequest, fetchApi, type ApiResponse } from "@/helpers/http";
 import { onMounted, ref, watch } from "vue";
+import { testSchema } from "@worker/forms/test";
+import { validateObject } from "@/helpers/utils";
+import { hasDuplicate } from "@/helpers/utils";
+import { getTests } from "@/helpers/offline";
 
 const isPosting = ref(false);
 const isLoading = ref(false);
@@ -28,15 +32,26 @@ async function loadTests() {
         error.value = res.message;
         return;
     }
-    tests.value = res.rows;
+    tests.value = [...res.rows, ...getTests(status.value)];
 }
 
 async function handleFormSubmit(evt: any) {
     isPosting.value = true;
-    const res = await fetchApi(evt.target.action, {
-        method: "POST",
-        body: new FormData(evt.target),
-    });
+    const res = await addRequest(
+        "tests",
+        (all, now) => {
+            const data = validateObject(now, testSchema);
+            if (!data.success) {
+                return data as ApiResponse;
+            }
+            return hasDuplicate(all, (data as any).data);
+        },
+        evt.target.action,
+        {
+            method: "POST",
+            body: new FormData(evt.target),
+        }
+    );
 
     isPosting.value = false;
     if (res.success) {
@@ -84,6 +99,7 @@ async function deleteTest(toDel: any) {
             method="POST"
             @submit.prevent="handleFormSubmit"
         >
+            <input type="hidden" name="status" value="active" />
             <input v-if="toEdit" type="hidden" name="id" :value="toEdit.id" />
             <p v-if="error">Error: {{ error }}</p>
             <p v-if="message">{{ message }}</p>
