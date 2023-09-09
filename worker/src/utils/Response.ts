@@ -5,7 +5,7 @@ export class JSONError extends Error {
 	status: number;
 	body: any;
 
-	constructor(message: string, body: any, status: number) {
+	constructor(message: string, status: number = 422, body: any = {}) {
 		super(message);
 		this.status = status;
 		this.body = body;
