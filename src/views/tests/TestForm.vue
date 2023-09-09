@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { API_BASE } from "@/helpers/config";
-import { addRequest, fetchApi, type ApiResponse } from "@/helpers/http";
+import { fetchWithOffline, fetchApi } from "@/helpers/http";
 import { onMounted, ref, watch } from "vue";
 import { testSchema } from "@worker/forms/test";
-import { validateObject } from "@/helpers/utils";
-import { hasDuplicate } from "@/helpers/utils";
-import { getTests } from "@/helpers/offline";
+import { applyOfflineChanges } from "@/helpers/offline";
 
 const isPosting = ref(false);
 const isLoading = ref(false);
@@ -32,19 +30,19 @@ async function loadTests() {
         error.value = res.message;
         return;
     }
-    tests.value = [...res.rows, ...getTests(status.value)];
+    tests.value = applyOfflineChanges("tests", res.rows);
 }
 
 async function handleFormSubmit(evt: any) {
+    if (isPosting.value) {
+        return;
+    }
     isPosting.value = true;
-    const res = await addRequest(
-        "tests",
-        (all, now) => {
-            const data = validateObject(now, testSchema);
-            if (!data.success) {
-                return data as ApiResponse;
-            }
-            return hasDuplicate(all, (data as any).data);
+    const res = await fetchWithOffline(
+        {
+            key: "tests",
+            operation: toEdit.value ? "update" : "insert",
+            schema: testSchema,
         },
         evt.target.action,
         {
@@ -53,39 +51,48 @@ async function handleFormSubmit(evt: any) {
         }
     );
 
-    isPosting.value = false;
     if (res.success) {
         error.value = null;
         message.value = res.message!;
         tests.value.push(res.rows[0]);
-        if (res.data?.updated) {
+        if (toEdit.value) {
             tests.value = tests.value.filter(
-                (test) => test.id != res.data.updated
+                (test) => test.id != toEdit.value?.id
             );
             toEdit.value = null;
         }
     } else {
         error.value = res.message;
     }
+
+    isPosting.value = false;
 }
 
 async function deleteTest(toDel: any) {
     const del = confirm("Are you sure?");
-    if (!del) {
+    if (!del || toDelete.value) {
         return;
     }
     toDelete.value = toDel;
-    const res = await fetchApi(`${API_BASE}/tests/${toDel.id}`, {
-        method: "DELETE",
-    });
+    const res = await fetchWithOffline(
+        {
+            key: "tests",
+            operation: "remove",
+        },
+        `${API_BASE}/tests/${toDel.id}`,
+        {
+            method: "DELETE",
+            body: JSON.stringify({
+                id: toDelete.value?.id,
+            }),
+        }
+    );
     if (res.success) {
         error.value = null;
         message.value = res.message!;
-        if (res.data?.deleted > 0) {
-            tests.value = tests.value.filter(
-                (test) => test.id != toDelete.value?.id
-            );
-        }
+        tests.value = tests.value.filter(
+            (test) => test.id != toDelete.value?.id
+        );
     } else {
         error.value = res.message;
     }
