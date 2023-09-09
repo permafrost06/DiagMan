@@ -30,4 +30,6 @@ const syncTable = async (key: string, url: string) => {
     }
 };
 
-export const sync = async () => {};
+export const sync = async () => {
+    syncTable("tests", API_BASE + "/tests/sync");
+};
