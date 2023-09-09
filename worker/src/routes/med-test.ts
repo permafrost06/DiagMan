@@ -1,15 +1,7 @@
-import { z } from 'zod';
 import { getLibsqlClient } from '../db/conn';
 import { RequestHandler } from '../router';
-import { validateFormData } from '../utils/helpers';
-
-const testSchema = z.object({
-	id: z.preprocess((val: any) => parseInt(val), z.number().min(0)).optional(),
-	name: z.string().nonempty(),
-	price: z.preprocess((val: any) => parseInt(val), z.number().min(0)),
-	size: z.enum(['small', 'medium', 'large', 'complex', '']),
-	status: z.enum(['active', 'updated', 'deleted']).default('active'),
-});
+import { validateFormData, validateObject } from '../utils/helpers';
+import { testSchema } from '../forms/test';
 
 export const addTest: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, testSchema);
@@ -66,4 +58,19 @@ export const deleteTest: RequestHandler = async ({ env, res, id }) => {
 	res.setData({
 		deleted: rowsAffected,
 	});
+};
+
+export const syncTests: RequestHandler = async ({ env, res, request }) => {
+	const data: any[] = await request.json();
+	const queries = [];
+	for (let i = 0; i < data.length; i++) {
+		delete data[i].id;
+		queries.push({
+			sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
+			args: await validateObject(data[i], testSchema),
+		});
+	}
+	const db = getLibsqlClient(env);
+	await db.batch(queries, 'deferred');
+	res.setMsg(`${queries.length} row(s) inserted in tests table!`);
 };
