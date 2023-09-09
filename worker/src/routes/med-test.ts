@@ -1,15 +1,7 @@
-import { z } from 'zod';
 import { getLibsqlClient } from '../db/conn';
 import { RequestHandler } from '../router';
 import { validateFormData } from '../utils/helpers';
-
-const testSchema = z.object({
-	id: z.preprocess((val: any) => parseInt(val), z.number().min(0)).optional(),
-	name: z.string().nonempty(),
-	price: z.preprocess((val: any) => parseInt(val), z.number().min(0)),
-	size: z.enum(['small', 'medium', 'large', 'complex', '']),
-	status: z.enum(['active', 'updated', 'deleted']).default('active'),
-});
+import { testSchema } from '../forms/test';
 
 export const addTest: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, testSchema);
