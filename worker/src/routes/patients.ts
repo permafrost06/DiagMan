@@ -1,9 +1,8 @@
-import { z } from 'zod';
 import { getLibsqlClient, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
-import { validateFormData, validateObject } from '../utils/helpers';
+import { validateFormData } from '../utils/helpers';
 import { JSONError } from '../utils/Response';
-import { patientSchema, reportSchema } from '../forms/patients';
+import { patientSchema } from '../forms/patients';
 
 export const addPatient: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, patientSchema, ['tests']);
@@ -35,38 +34,4 @@ export const listPatients: RequestHandler = async ({ env, res }) => {
 		) AS is_reported FROM \`patients\` AS p
 	`);
 	res.setRows(qres.rows);
-};
-
-export const finalizeReport: RequestHandler = async ({ request, env, res }) => {
-	const data = await validateFormData(request, reportSchema);
-	const db = getLibsqlClient(env);
-	const { rows } = await db.execute({
-		sql: `SELECT *, EXISTS(
-			SELECT 1 FROM \`reports\` WHERE id = p.id
-		) AS is_reported FROM \`patients\` AS p WHERE id=? LIMIT 1`,
-		args: [data.id],
-	});
-	if (rows.length === 0) {
-		throw new JSONError('Invalid patient!');
-	}
-
-	const patient = rows[0];
-
-	if (patient.is_reported) {
-		throw new JSONError('The patient already recieved the report!');
-	}
-
-	if (patient.type === 'cyto') {
-		// prettier-ignore
-		await validateObject(data, z.object({
-			gross_examination: z.string().nonempty()
-		}));
-	} else {
-		// prettier-ignore
-		await validateObject(data, z.object({
-			microscopic_examination: z.string().nonempty()
-		}));
-	}
-	await insertRow(db, 'reports', data);
-	res.setMsg('Report finalized successfully!');
 };

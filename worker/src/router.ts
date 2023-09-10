@@ -2,7 +2,8 @@ import { IRequest, RouteHandler, RouterType, withParams } from 'itty-router';
 import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
-import { addPatient, listPatients, finalizeReport } from './routes/patients';
+import { addPatient, listPatients } from './routes/patients';
+import { finalizeReport } from './routes/reports';
 
 export interface RequestEvent {
 	request: Request;
