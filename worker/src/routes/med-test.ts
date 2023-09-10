@@ -1,6 +1,6 @@
 import { getLibsqlClient } from '../db/conn';
 import { RequestHandler } from '../router';
-import { validateFormData, validateObject } from '../utils/helpers';
+import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { testSchema } from '../forms/test';
 import { JSONError } from '../utils/Response';
 
@@ -61,12 +61,6 @@ export const deleteTest: RequestHandler = async ({ env, res, id }) => {
 	});
 };
 
-const syncLimit = (queries: any[]): void | never => {
-	if (queries.length > 100) {
-		throw new JSONError('Query limit exceeded!', 422);
-	}
-};
-
 export const syncTests: RequestHandler = async ({ env, res, request }) => {
 	const body = (await request.json()) as any;
 	const queries: any[] = [];
@@ -80,7 +74,7 @@ export const syncTests: RequestHandler = async ({ env, res, request }) => {
 	if (body.insert) {
 		const insert = body.insert;
 		for (let i = 0; i < insert.length; i++) {
-			syncLimit(queries);
+			limitOperations(queries);
 			delete insert[i].id;
 			queries.push({
 				sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
@@ -92,7 +86,7 @@ export const syncTests: RequestHandler = async ({ env, res, request }) => {
 	if (body.update) {
 		const update = body.update;
 		for (const id in update) {
-			syncLimit(queries);
+			limitOperations(queries);
 			delete update[id].id;
 			queries.push({
 				sql: "UPDATE `tests` SET status = 'updated' WHERE id = ?",
@@ -108,7 +102,7 @@ export const syncTests: RequestHandler = async ({ env, res, request }) => {
 	if (body.remove) {
 		const del = body.remove;
 		for (const id of del) {
-			syncLimit(queries);
+			limitOperations(queries);
 			queries.push({
 				sql: "UPDATE `tests` SET status = 'deleted' WHERE id = ?",
 				args: [id],
