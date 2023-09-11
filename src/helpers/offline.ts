@@ -65,6 +65,7 @@ const syncTable = async (key: string, url: string) => {
 
 export const sync = async () => {
     syncTable("tests", API_BASE + "/tests/sync");
+    syncTable("patients", API_BASE + "/patients/sync");
 };
 
 export const applyOfflineChanges = <

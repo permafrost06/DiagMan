@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { API_BASE } from "@/helpers/config";
-import { fetchApi } from "@/helpers/http";
+import { fetchApi, fetchWithOffline } from "@/helpers/http";
+import { TABLES, getRows } from "@/helpers/local-db";
 import router from "@/router";
+import { patientSchema } from "@worker/forms/patients";
 import { onMounted, ref } from "vue";
 
 const isPosting = ref(false);
@@ -12,6 +14,12 @@ const tests = ref<Array<Record<string, number | string>>>([]);
 const patients = ref<Array<Record<string, number | string>>>([]);
 
 onMounted(async () => {
+    if (!navigator.onLine) {
+        tests.value = getRows(TABLES.tests);
+        patients.value = getRows(TABLES.patients);
+        return;
+    }
+
     isLoading.value = true;
     const [res1, res2] = await Promise.all([
         fetchApi(`${API_BASE}/tests`),
@@ -32,16 +40,25 @@ onMounted(async () => {
 
 async function handleFormSubmit(evt: any) {
     isPosting.value = true;
-    const res = await fetchApi(evt.target.action, {
-        method: "POST",
-        body: new FormData(evt.target),
-    });
+    const res = await fetchWithOffline(
+        {
+            key: "patients",
+            operation: "insert",
+            schema: patientSchema,
+            arrays: ["tests"],
+        },
+        evt.target.action,
+        {
+            method: "POST",
+            body: new FormData(evt.target),
+        }
+    );
 
     isPosting.value = false;
     if (res.success) {
         error.value = null;
         message.value = res.message!;
-        patients.value.push(res.data);
+        patients.value.push(res.rows[0]);
     } else {
         error.value = res.message;
     }
