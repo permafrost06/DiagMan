@@ -10,6 +10,7 @@ export interface RequestEvent {
 	res: JSONResponse;
 	method: Request['method'];
 	url: Request['url'];
+	cookies: Record<string, string>;
 }
 export type RequestHandler = RouteHandler<IRequest & RequestEvent>;
 

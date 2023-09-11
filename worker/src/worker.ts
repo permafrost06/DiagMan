@@ -45,6 +45,7 @@ export default {
 			method: request.method,
 			env,
 			res: new JSONResponse(),
+			cookies: {},
 		};
 
 		try {
