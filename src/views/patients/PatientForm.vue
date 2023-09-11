@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { API_BASE } from "@/helpers/config";
 import { fetchApi, fetchWithOffline } from "@/helpers/http";
-import { TABLES, getRows } from "@/helpers/local-db";
+import {
+    TABLES,
+    getRowCount,
+    getRows,
+    insertRowBulk,
+} from "@/helpers/local-db";
 import router from "@/router";
 import { patientSchema } from "@worker/forms/patients";
 import { onMounted, ref } from "vue";
@@ -30,11 +35,17 @@ onMounted(async () => {
         error.value = res1.message;
     } else {
         tests.value = res1.rows || [];
+        if (getRowCount(TABLES.tests) === 0) {
+            insertRowBulk(TABLES.tests, tests.value);
+        }
     }
     if (!res2.success) {
         error.value = res2.message;
     } else {
         patients.value = res2.rows || [];
+        if (getRowCount(TABLES.patients) === 0) {
+            insertRowBulk(TABLES.patients, patients.value);
+        }
     }
 });
 
