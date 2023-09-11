@@ -43,10 +43,11 @@ interface OfflineConfig {
     key: string;
     operation: "update" | "insert" | "remove";
     schema?: any;
+    arrays?: string[];
 }
 
 export const fetchWithOffline = async (
-    { key, operation, schema }: OfflineConfig,
+    { key, operation, schema, arrays }: OfflineConfig,
     resource: RequestInfo | URL,
     options?: RequestInit
 ): Promise<ApiResponse> => {
@@ -58,7 +59,7 @@ export const fetchWithOffline = async (
     if (typeof body === "string") {
         body = JSON.parse(body);
     } else if (body instanceof FormData) {
-        body = formDataToObj(body);
+        body = formDataToObj(body, arrays);
     } else {
         body = {};
     }
