@@ -10,6 +10,13 @@ export const insertRow = (table: TABLES, data: Record<string, any>) => {
     localStorage.setItem(table, JSON.stringify(old));
 };
 
+export const insertRowBulk = (table: TABLES, data: Record<string, any>[]) => {
+    const old = JSON.parse(localStorage.getItem(table) || "[]");
+    data.forEach((row) => old.push(row));
+    localStorage.setItem("meta_" + table, old.length);
+    localStorage.setItem(table, JSON.stringify(old));
+};
+
 export const deletetRow = <T = Record<string, any>>(
     table: TABLES,
     check: (row: T, index: number) => boolean
