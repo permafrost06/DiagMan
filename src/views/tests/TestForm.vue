@@ -43,6 +43,7 @@ async function handleFormSubmit(evt: any) {
             key: "tests",
             operation: toEdit.value ? "update" : "insert",
             schema: testSchema,
+            alterId: true,
         },
         evt.target.action,
         {

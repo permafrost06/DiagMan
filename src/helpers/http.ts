@@ -44,10 +44,11 @@ interface OfflineConfig {
     operation: "update" | "insert" | "remove";
     schema?: any;
     arrays?: string[];
+    alterId?: boolean;
 }
 
 export const fetchWithOffline = async (
-    { key, operation, schema, arrays }: OfflineConfig,
+    { key, operation, schema, arrays, alterId }: OfflineConfig,
     resource: RequestInfo | URL,
     options?: RequestInit
 ): Promise<ApiResponse> => {
@@ -84,10 +85,14 @@ export const fetchWithOffline = async (
         if (operation === "remove") {
             old[operation].push(oldId);
         } else if (operation === "insert") {
-            body.id = `n${old[operation].length + 1}`;
+            if (alterId) {
+                body.id = `n${old[operation].length + 1}`;
+            }
             old[operation].push(body);
         } else {
-            body.id = `u${oldId}`;
+            if (alterId) {
+                body.id = `u${oldId}`;
+            }
             old[operation][oldId] = body;
         }
 
