@@ -4,6 +4,13 @@ import { fetchWithOffline, fetchApi } from "@/helpers/http";
 import { onMounted, ref, watch } from "vue";
 import { testSchema } from "@worker/forms/test";
 import { applyOfflineChanges } from "@/helpers/offline";
+import {
+    TABLES,
+    emptyTable,
+    getRowCount,
+    getRows,
+    insertRowBulk,
+} from "@/helpers/local-db";
 
 const isPosting = ref(false);
 const isLoading = ref(false);
@@ -23,6 +30,10 @@ watch(status, () => {
 });
 
 async function loadTests() {
+    if (!navigator.onLine) {
+        tests.value = applyOfflineChanges("tests", getRows(TABLES.tests));
+        return;
+    }
     isLoading.value = true;
     const res = await fetchApi(`${API_BASE}/tests?status=${status.value}`);
     isLoading.value = false;
@@ -30,7 +41,11 @@ async function loadTests() {
         error.value = res.message;
         return;
     }
-    tests.value = applyOfflineChanges("tests", res.rows);
+    tests.value = res.rows;
+    if (getRowCount(TABLES.tests) !== tests.value.length) {
+        emptyTable(TABLES.tests);
+        insertRowBulk(TABLES.tests, tests.value);
+    }
 }
 
 async function handleFormSubmit(evt: any) {
