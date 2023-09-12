@@ -1,4 +1,4 @@
-import { formDataToObj } from "./utils";
+import { formDataToObj, validateObject } from "./utils";
 
 export type ApiResponse =
     | {
@@ -39,43 +39,37 @@ export const fetchApi = async (
     }
 };
 
-export const addRequest = async (
-    key: string,
-    preRequestError: (
-        old: Record<string, any>[],
-        body: Record<string, any>
-    ) => ApiResponse | boolean,
+interface OfflineConfig {
+    key: string;
+    operation: "update" | "insert" | "remove";
+    schema?: any;
+    arrays?: string[];
+    alterId?: boolean;
+}
+
+export const fetchWithOffline = async (
+    { key, operation, schema, arrays, alterId }: OfflineConfig,
     resource: RequestInfo | URL,
     options?: RequestInit
 ): Promise<ApiResponse> => {
-    let oldRecords = JSON.parse(localStorage.getItem(key) || "[]");
+    const old = JSON.parse(localStorage.getItem(key) || "{}");
 
-    if (!Array.isArray(oldRecords)) {
-        oldRecords = [];
-    }
+    old[operation] = old[operation] || (operation === "update" ? {} : []);
 
     let body: any = options?.body;
     if (typeof body === "string") {
         body = JSON.parse(body);
     } else if (body instanceof FormData) {
-        body = formDataToObj(body);
+        body = formDataToObj(body, arrays);
     } else {
         body = {};
     }
-    const exists = preRequestError(oldRecords, body);
-    if (typeof exists === "object") {
-        return exists;
-    }
 
-    if (exists) {
-        console.log("Existed!");
-
-        return {
-            status: 200,
-            success: true,
-            message: "Added successfully!",
-            rows: [body],
-        };
+    if (schema) {
+        const data = validateObject(body, schema);
+        if (!data.success) {
+            return data as any;
+        }
     }
 
     const res = navigator.onLine
@@ -87,15 +81,28 @@ export const addRequest = async (
           };
 
     if (!res.success && res.status !== 422) {
-        body.id = `o${oldRecords.length + 1}`;
-        oldRecords.push(body);
-        localStorage.setItem(key, JSON.stringify(oldRecords));
+        const oldId = body.id;
+        if (operation === "remove") {
+            old[operation].push(oldId);
+        } else if (operation === "insert") {
+            if (alterId) {
+                body.id = `n${old[operation].length + 1}`;
+            }
+            old[operation].push(body);
+        } else {
+            if (alterId) {
+                body.id = `u${oldId}`;
+            }
+            old[operation][oldId] = body;
+        }
+
+        localStorage.setItem(key, JSON.stringify(old));
         console.log("Cached");
 
         return {
             status: 200,
             success: true,
-            message: "Added successfully!",
+            message: "Operation successful!",
             rows: [body],
         };
     }

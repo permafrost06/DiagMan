@@ -47,3 +47,9 @@ export const validateObject = async <T extends z.ZodRawShape>(body: T, schema: z
 	}
 	return res.data;
 };
+
+export const limitOperations = (queries: any[], limit = 100): void | never => {
+	if (queries.length > limit) {
+		throw new JSONError('Operation limit exceeded!', 422);
+	}
+};

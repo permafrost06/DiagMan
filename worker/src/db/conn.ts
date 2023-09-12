@@ -15,7 +15,7 @@ export const getLibsqlClient = (env: Env): LibsqlClient => {
 	return createClient({ url, authToken });
 };
 
-export const insertRow = async (db: LibsqlClient, table: string, data: Record<string, any>): Promise<ResultSet> => {
+export const generateInsertQuery = (table: string, data: Record<string, any>): { sql: string; args: Record<string, any> } => {
 	let cols = '',
 		vals = '';
 	for (const col in data) {
@@ -25,8 +25,12 @@ export const insertRow = async (db: LibsqlClient, table: string, data: Record<st
 	cols = cols.substring(2);
 	vals = vals.substring(2);
 	const sql = `INSERT INTO \`${table}\` (${cols}) VALUES (${vals})`;
-	return await db.execute({
+	return {
 		sql,
 		args: data,
-	});
+	};
+};
+
+export const insertRow = async (db: LibsqlClient, table: string, data: Record<string, any>): Promise<ResultSet> => {
+	return await db.execute(generateInsertQuery(table, data));
 };
