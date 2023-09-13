@@ -47,3 +47,52 @@ export const validateObject = async <T extends z.ZodRawShape>(body: T, schema: z
 	}
 	return res.data;
 };
+
+export interface CookieOptions {
+	expires?: string | Date;
+	path?: string;
+	domain?: string;
+	secure?: boolean;
+	httpOnly?: boolean;
+	sameSite?: string;
+}
+
+export const createCookieHeader = (name: string, value: string, options: CookieOptions = {}): string => {
+	// Encode the name and value
+	const encodedName = encodeURIComponent(name);
+	const encodedValue = encodeURIComponent(value);
+
+	// Build the cookie string
+	let cookieString = `${encodedName}=${encodedValue}`;
+
+	// Add optional properties
+	if (options.expires) {
+		if (options.expires instanceof Date) {
+			cookieString += `; expires=${options.expires.toUTCString()}`;
+		} else {
+			throw new Error('Invalid "expires" option. It should be a Date object.');
+		}
+	}
+
+	if (options.path) {
+		cookieString += `; path=${options.path}`;
+	}
+
+	if (options.domain) {
+		cookieString += `; domain=${options.domain}`;
+	}
+
+	if (options.secure) {
+		cookieString += '; secure';
+	}
+
+	if (options.httpOnly) {
+		cookieString += '; HttpOnly';
+	}
+
+	if (options.sameSite) {
+		cookieString += `; SameSite=${options.sameSite}`;
+	}
+
+	return cookieString;
+};

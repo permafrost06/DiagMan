@@ -32,9 +32,11 @@ export default {
 			const router = Router();
 			buildRouter(router);
 			router.all('*', ({ res }: RequestEvent) => {
-				return res.json({
-					headers: DEFAULT_HEADERS,
-				});
+				for (const name in DEFAULT_HEADERS) {
+					// @ts-ignore
+					res.headers.append(name, DEFAULT_HEADERS[name]);
+				}
+				return res.json();
 			});
 			env.router = router;
 		}
