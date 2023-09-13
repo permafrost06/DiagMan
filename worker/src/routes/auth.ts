@@ -22,10 +22,14 @@ export const register: RequestHandler = async ({ request, env, res, cookies }) =
 	data.id = lastInsertRowid?.toString();
 	res.setRows([data]);
 	res.setMsg('Registration successful!');
-	await addSession(cookies, request, db, data);
+	const token = await addSession(cookies, db, data);
+	res.setCookie(AUTH_TOOKEN_KEY, token, {
+		path: '/',
+		expires: new Date(Date.now() + 1000 * 3600 * 24 * 365 * 5), // 5 Years
+	});
 };
 
-async function addSession(cookies: any, req: Request, db: Client, user: Record<string, any>) {
+async function addSession(cookies: any, db: Client, user: Record<string, any>): Promise<string> {
 	let token: string;
 	let exists: boolean = true;
 	let maxTry = 5;
@@ -63,5 +67,9 @@ async function addSession(cookies: any, req: Request, db: Client, user: Record<s
 	);
 
 	await Promise.all(operations);
-	// TODO: Set cookie
+	return token;
 }
+
+export const login: RequestHandler = async ({ res, cookies }) => {
+	res.setData(cookies);
+};
