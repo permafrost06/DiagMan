@@ -4,32 +4,36 @@ import { registerForm } from '../forms/auth';
 import { RequestHandler } from '../router';
 import { JSONError } from '../utils/Response';
 import { validateFormData } from '../utils/helpers';
-import { hashSync } from 'bcryptjs';
+import { compareSync, hashSync } from 'bcryptjs';
 
-const AUTH_TOOKEN_KEY = '__token_auth';
-
-export const register: RequestHandler = async ({ request, env, res, cookies }) => {
+export const register: RequestHandler = async ({ request, env, res, token }) => {
 	const data = await validateFormData(request, registerForm);
 	if (data.password !== data.confirm_password) {
 		throw new JSONError('Passwords did not match');
 	}
 
+	const db = getLibsqlClient(env);
+
+	const { rows } = await db.execute({
+		sql: 'SELECT * FROM `users` WHERE email = ? LIMIT 1',
+		args: [data.email],
+	});
+	if (rows.length > 0) {
+		res.error('This email is already taken!');
+	}
+
 	delete data.confirm_password;
 	data.password = hashSync(data.password, 12);
 
-	const db = getLibsqlClient(env);
 	const { lastInsertRowid } = await insertRow(db, 'users', data);
 	data.id = lastInsertRowid?.toString();
 	res.setRows([data]);
 	res.setMsg('Registration successful!');
-	const token = await addSession(cookies, db, data);
-	res.setCookie(AUTH_TOOKEN_KEY, token, {
-		path: '/',
-		expires: new Date(Date.now() + 1000 * 3600 * 24 * 365 * 5), // 5 Years
-	});
+	const newToken = await addSession(db, data, token);
+	res.setData({ token: newToken });
 };
 
-async function addSession(cookies: any, db: Client, user: Record<string, any>): Promise<string> {
+async function addSession(db: Client, user: Record<string, any>, oldToken?: string): Promise<string> {
 	let token: string;
 	let exists: boolean = true;
 	let maxTry = 5;
@@ -50,11 +54,11 @@ async function addSession(cookies: any, db: Client, user: Record<string, any>): 
 
 	const operations: Promise<any>[] = [];
 
-	if (cookies[AUTH_TOOKEN_KEY]) {
+	if (oldToken) {
 		operations.push(
 			db.execute({
 				sql: 'DELETE FROM `sessions` WHERE token = ?',
-				args: [cookies[AUTH_TOOKEN_KEY]],
+				args: [oldToken],
 			})
 		);
 	}
@@ -70,9 +74,32 @@ async function addSession(cookies: any, db: Client, user: Record<string, any>): 
 	return token;
 }
 
-export const login: RequestHandler = async ({ res, cookies }) => {
-	res.setData({
-		cookies,
-		hash: hashSync('Saad', 12),
+export const login: RequestHandler = async ({ request, res, token, env }) => {
+	const body = await request.formData();
+	const email = body.get('email');
+	const pass = body.get('password');
+	const db = getLibsqlClient(env);
+	const {
+		rows: [user],
+	} = await db.execute({
+		sql: 'SELECT * FROM `users` WHERE email = ? LIMIT 1',
+		args: [email],
 	});
+
+	const hash = user.password!.toString();
+	if (!user || !pass || !compareSync(pass, hash)) {
+		res.error('Invalid email or password!');
+	}
+
+	const newToken = await addSession(db, user, token);
+	res.setMsg('Login successful!');
+	res.setData({ token: newToken });
+};
+
+export const getUser: RequestHandler = async ({ res, user }) => {
+	if (!user) {
+		res.setMsg('Not logged in!');
+		return;
+	}
+	res.setRows([user]);
 };

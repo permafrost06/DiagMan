@@ -6,6 +6,7 @@ const DEFAULT_HEADERS = {
 	'Access-Control-Allow-Origin': '*',
 	'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
 	'Content-type': 'application/json',
+	'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
 export interface Env {
@@ -22,7 +23,7 @@ export default {
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-					'Access-Control-Allow-Headers': 'Content-Type',
+					'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 					'Access-Control-Max-Age': '86400',
 				},
 			});
@@ -47,7 +48,6 @@ export default {
 			method: request.method,
 			env,
 			res: new JSONResponse(),
-			cookies: {},
 		};
 
 		try {
@@ -56,6 +56,9 @@ export default {
 				headers: DEFAULT_HEADERS,
 			});
 		} catch (error: any) {
+			if (!error.__json_error_saad) {
+				console.error(error);
+			}
 			const res: any = error.__json_error_saad ? error.body : {};
 			res.message = error.message;
 			return json(res, {

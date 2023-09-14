@@ -3,8 +3,8 @@ import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { addPatient, listPatients, finalizeReport } from './routes/patients';
-import { login, register } from './routes/auth';
-import { assignCookies } from './middlewares/auth';
+import { getUser, login, register } from './routes/auth';
+import { assignToken, assignUser } from './middlewares/auth';
 
 export interface RequestEvent {
 	request: Request;
@@ -12,15 +12,21 @@ export interface RequestEvent {
 	res: JSONResponse;
 	method: Request['method'];
 	url: Request['url'];
-	cookies: Record<string, string>;
+	token?: string;
+	user?: {
+		id: bigint;
+		name: string;
+		email: string;
+	};
 }
 export type RequestHandler = RouteHandler<IRequest & RequestEvent>;
 
 export const buildRouter = (router: RouterType) => {
-	router.all('*', assignCookies);
+	router.all('*', assignToken);
 
-	router.get('/auth/register', register);
-	router.get('/auth/login', login);
+	router.get('/auth', assignUser, getUser);
+	router.post('/auth/register', register);
+	router.post('/auth/login', login);
 
 	router.post('/tests', addTest);
 	router.get('/tests', listTests);
