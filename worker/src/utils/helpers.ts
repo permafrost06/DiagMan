@@ -54,7 +54,7 @@ export interface CookieOptions {
 	domain?: string;
 	secure?: boolean;
 	httpOnly?: boolean;
-	sameSite?: string;
+	sameSite?: 'None' | 'Strict' | 'Lax' | 'Secure';
 }
 
 export const createCookieHeader = (name: string, value: string, options: CookieOptions = {}): string => {
