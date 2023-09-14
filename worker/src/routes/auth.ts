@@ -4,7 +4,7 @@ import { registerForm } from '../forms/auth';
 import { RequestHandler } from '../router';
 import { JSONError } from '../utils/Response';
 import { validateFormData } from '../utils/helpers';
-import { hashSync } from 'bcrypt';
+import { hashSync } from 'bcryptjs';
 
 const AUTH_TOOKEN_KEY = '__token_auth';
 
@@ -71,5 +71,8 @@ async function addSession(cookies: any, db: Client, user: Record<string, any>): 
 }
 
 export const login: RequestHandler = async ({ res, cookies }) => {
-	res.setData(cookies);
+	res.setData({
+		cookies,
+		hash: hashSync('Saad', 12),
+	});
 };
