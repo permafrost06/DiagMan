@@ -1,7 +1,8 @@
 import { getLibsqlClient } from '../db/conn';
 import { RequestHandler } from '../router';
-import { validateFormData, validateObject } from '../utils/helpers';
+import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { testSchema } from '../forms/test';
+import { JSONError } from '../utils/Response';
 
 export const addTest: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, testSchema);
@@ -61,16 +62,60 @@ export const deleteTest: RequestHandler = async ({ env, res, id }) => {
 };
 
 export const syncTests: RequestHandler = async ({ env, res, request }) => {
-	const data: any[] = await request.json();
-	const queries = [];
-	for (let i = 0; i < data.length; i++) {
-		delete data[i].id;
-		queries.push({
-			sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
-			args: await validateObject(data[i], testSchema),
-		});
+	const body = (await request.json()) as any;
+	const queries: any[] = [];
+
+	const total = (body.insert?.length || 0) + (body.update?.length || 0) + (body.remove?.length || 0);
+
+	if (total > 100) {
+		throw new JSONError('Operation limit exceeded!');
 	}
+
+	if (body.insert) {
+		const insert = body.insert;
+		for (let i = 0; i < insert.length; i++) {
+			limitOperations(queries);
+			delete insert[i].id;
+			queries.push({
+				sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
+				args: await validateObject(insert[i], testSchema),
+			});
+		}
+	}
+
+	if (body.update) {
+		const update = body.update;
+		for (const id in update) {
+			limitOperations(queries);
+			delete update[id].id;
+			queries.push({
+				sql: "UPDATE `tests` SET status = 'updated' WHERE id = ?",
+				args: [id],
+			});
+			queries.push({
+				sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
+				args: await validateObject(update[id], testSchema),
+			});
+		}
+	}
+
+	if (body.remove) {
+		const del = body.remove;
+		for (const id of del) {
+			limitOperations(queries);
+			queries.push({
+				sql: "UPDATE `tests` SET status = 'deleted' WHERE id = ?",
+				args: [id],
+			});
+		}
+	}
+
+	if (queries.length === 0) {
+		res.setMsg('No operation to perform!');
+		return;
+	}
+
 	const db = getLibsqlClient(env);
 	await db.batch(queries, 'deferred');
-	res.setMsg(`${queries.length} row(s) inserted in tests table!`);
+	res.setMsg(`${queries.length} operations performed in the tests table!`);
 };

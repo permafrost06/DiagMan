@@ -96,3 +96,9 @@ export const createCookieHeader = (name: string, value: string, options: CookieO
 
 	return cookieString;
 };
+
+export const limitOperations = (queries: any[], limit = 100): void | never => {
+	if (queries.length > limit) {
+		throw new JSONError('Operation limit exceeded!', 422);
+	}
+};

@@ -1,9 +1,8 @@
-import { z } from 'zod';
-import { getLibsqlClient, insertRow } from '../db/conn';
+import { generateInsertQuery, getLibsqlClient, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
-import { validateFormData, validateObject } from '../utils/helpers';
+import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { JSONError } from '../utils/Response';
-import { patientSchema, reportSchema } from '../forms/patients';
+import { patientSchema } from '../forms/patients';
 
 export const addPatient: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, patientSchema, ['tests']);
@@ -24,7 +23,7 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 			throw error;
 		}
 	}
-	res.setData(data);
+	res.setRows([data]);
 };
 
 export const listPatients: RequestHandler = async ({ env, res }) => {
@@ -37,36 +36,36 @@ export const listPatients: RequestHandler = async ({ env, res }) => {
 	res.setRows(qres.rows);
 };
 
-export const finalizeReport: RequestHandler = async ({ request, env, res }) => {
-	const data = await validateFormData(request, reportSchema);
+export const syncPatients: RequestHandler = async ({ env, res, request }) => {
+	const body = (await request.json()) as any;
+	const queries: any[] = [];
+
+	const total = (body.insert?.length || 0) + (body.update?.length || 0) + (body.remove?.length || 0);
+
+	if (total > 100) {
+		throw new JSONError('Operation limit exceeded!');
+	}
+
+	if (body.insert) {
+		const insert = body.insert;
+		for (let i = 0; i < insert.length; i++) {
+			limitOperations(queries);
+			const data = await validateObject(insert[i], patientSchema);
+			// ZOD does not support only date validation yet
+			['sample_collection_date', 'entry_date', 'delivery_date'].forEach((key) => {
+				data[key] = data[key].substring(0, 10);
+			});
+
+			queries.push(generateInsertQuery('patients', data));
+		}
+	}
+
+	if (queries.length === 0) {
+		res.setMsg('No operation to perform!');
+		return;
+	}
+
 	const db = getLibsqlClient(env);
-	const { rows } = await db.execute({
-		sql: `SELECT *, EXISTS(
-			SELECT 1 FROM \`reports\` WHERE id = p.id
-		) AS is_reported FROM \`patients\` AS p WHERE id=? LIMIT 1`,
-		args: [data.id],
-	});
-	if (rows.length === 0) {
-		throw new JSONError('Invalid patient!');
-	}
-
-	const patient = rows[0];
-
-	if (patient.is_reported) {
-		throw new JSONError('The patient already recieved the report!');
-	}
-
-	if (patient.type === 'cyto') {
-		// prettier-ignore
-		await validateObject(data, z.object({
-			gross_examination: z.string().nonempty()
-		}));
-	} else {
-		// prettier-ignore
-		await validateObject(data, z.object({
-			microscopic_examination: z.string().nonempty()
-		}));
-	}
-	await insertRow(db, 'reports', data);
-	res.setMsg('Report finalized successfully!');
+	await db.batch(queries, 'deferred');
+	res.setMsg(`${queries.length} operations performed in the tests table!`);
 };
