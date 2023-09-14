@@ -33,6 +33,8 @@ export const fetchApi = async (
         const headers = options.headers || new Headers();
         if (headers instanceof Headers) {
             headers.append("Authorization", `Bearer ${authToken}`);
+        } else {
+            headers["Authorization"] = `Bearer ${authToken}`;
         }
         options.headers = headers;
     }
