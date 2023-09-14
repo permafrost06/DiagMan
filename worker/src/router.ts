@@ -3,7 +3,7 @@ import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { addPatient, listPatients, finalizeReport } from './routes/patients';
-import { getUser, login, register } from './routes/auth';
+import { getUser, logOut, login, register } from './routes/auth';
 import { assignToken, assignUser } from './middlewares/auth';
 
 export interface RequestEvent {
@@ -27,6 +27,7 @@ export const buildRouter = (router: RouterType) => {
 	router.get('/auth', assignUser, getUser);
 	router.post('/auth/register', register);
 	router.post('/auth/login', login);
+	router.post('/auth/logout', logOut);
 
 	router.post('/tests', addTest);
 	router.get('/tests', listTests);

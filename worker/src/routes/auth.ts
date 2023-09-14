@@ -96,6 +96,18 @@ export const login: RequestHandler = async ({ request, res, token, env }) => {
 	res.setData({ token: newToken });
 };
 
+export const logOut: RequestHandler = async ({ res, env, token }) => {
+	if (!token) {
+		res.error('Not logged in!');
+	}
+	const db = getLibsqlClient(env);
+	await db.execute({
+		sql: 'DELETE FROM `sessions` WHERE token = ?',
+		args: [token!],
+	});
+	res.setMsg('Logged out successfully!');
+};
+
 export const getUser: RequestHandler = async ({ res, user }) => {
 	if (!user) {
 		res.setMsg('Not logged in!');
