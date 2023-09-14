@@ -19,7 +19,7 @@ export default class JSONResponse {
 	};
 	status = 200;
 
-	error(message: string, body: any, status = 422): never {
+	error(message: string, status = 422, body: any = {}): never {
 		throw new JSONError(message, body, status);
 	}
 
