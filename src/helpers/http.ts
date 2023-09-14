@@ -1,3 +1,4 @@
+import { AUTH_TOKEN_KEY } from "./config";
 import { formDataToObj } from "./utils";
 
 export type ApiResponse =
@@ -26,6 +27,16 @@ export const fetchApi = async (
     resource: RequestInfo | URL,
     options?: RequestInit
 ): Promise<ApiResponse> => {
+    const authToken = localStorage.getItem(AUTH_TOKEN_KEY);
+    if (authToken) {
+        options = options || {};
+        const headers = options.headers || new Headers();
+        if (headers instanceof Headers) {
+            headers.append("Authorization", `Bearer ${authToken}`);
+        }
+        options.headers = headers;
+    }
+
     try {
         const res = await fetch(resource, options);
         const data = await res.json();
