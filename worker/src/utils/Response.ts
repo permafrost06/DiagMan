@@ -20,7 +20,7 @@ export default class JSONResponse {
 	status = 200;
 
 	error(message: string, status = 422, body: any = {}): never {
-		throw new JSONError(message, body, status);
+		throw new JSONError(message, status, body);
 	}
 
 	setMsg(message: string): JSONResponse {
