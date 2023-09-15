@@ -1,4 +1,4 @@
-import { json } from 'itty-router';
+import { CookieOptions, createCookieHeader } from './helpers';
 
 export class JSONError extends Error {
 	__json_error_saad = true;
@@ -13,32 +13,33 @@ export class JSONError extends Error {
 }
 
 export default class JSONResponse {
-	res: Record<string, any> = {
+	headers: Headers = new Headers();
+	body: Record<string, any> = {
 		success: true,
 	};
 	status = 200;
 
-	error(message: string, body: any, status = 422): never {
-		throw new JSONError(message, body, status);
+	error(message: string, status = 422, body: any = {}): never {
+		throw new JSONError(message, status, body);
 	}
 
 	setMsg(message: string): JSONResponse {
-		this.res.message = message;
+		this.body.message = message;
 		return this;
 	}
 
 	setRows(rows: any): JSONResponse {
-		this.res.rows = rows;
+		this.body.rows = rows;
 		return this;
 	}
 
 	setData(data: any): JSONResponse {
-		this.res.data = data;
+		this.body.data = data;
 		return this;
 	}
 
 	pageParams(page: number, total: number, perPage: number): JSONResponse {
-		this.res.pagination = {
+		this.body.pagination = {
 			total,
 			page,
 			maxPage: Math.ceil(total / perPage),
@@ -46,7 +47,14 @@ export default class JSONResponse {
 		return this;
 	}
 
+	setCookie(name: string, value: string, options: CookieOptions = {}): JSONResponse {
+		this.headers.append('Set-Cookie', createCookieHeader(name, value, options));
+		return this;
+	}
+
 	json(options?: ResponseInit) {
-		return json(this.res, options);
+		options = options || {};
+		options.headers = this.headers;
+		return new Response(JSON.stringify(this.body), options);
 	}
 }

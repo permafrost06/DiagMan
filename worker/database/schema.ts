@@ -1,5 +1,24 @@
 import { sqliteTable, text, integer, numeric, blob } from 'drizzle-orm/sqlite-core';
 
+export const users = sqliteTable('users', {
+	id: integer('id').primaryKey({
+		autoIncrement: true,
+	}),
+	email: text('email').unique(),
+	name: text('name'),
+	password: text('password'),
+	role: text('role'),
+});
+
+export const sessions = sqliteTable('sessions', {
+	id: integer('id').primaryKey({
+		autoIncrement: true,
+	}),
+	user_id: integer('user_id'),
+	token: text('token'),
+	remember: integer('remember'),
+});
+
 export const tests = sqliteTable('tests', {
 	id: integer('id').primaryKey({
 		autoIncrement: true,

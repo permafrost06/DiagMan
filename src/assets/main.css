@@ -23,6 +23,8 @@ label {
 input[type="text"],
 input[type="date"],
 input[type="number"],
+input[type="email"],
+input[type="password"],
 select,
 textarea {
   width: 100%;
@@ -52,15 +54,23 @@ button[type="submit"]:hover {
   background-color: #0056b3;
 }
 .no-wrap {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .break-word {
-    word-break: break-word;
+  word-break: break-word;
 }
 
 
 .row-wrap {
   display: flex;
   flex-wrap: wrap;
+}
+
+.alert.error {
+  background: pink;
+  color: #8d1414;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px 8px;
 }

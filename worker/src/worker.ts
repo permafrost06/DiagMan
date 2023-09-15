@@ -6,6 +6,7 @@ const DEFAULT_HEADERS = {
 	'Access-Control-Allow-Origin': '*',
 	'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
 	'Content-type': 'application/json',
+	'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
 export interface Env {
@@ -22,7 +23,7 @@ export default {
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-					'Access-Control-Allow-Headers': 'Content-Type',
+					'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 					'Access-Control-Max-Age': '86400',
 				},
 			});
@@ -32,9 +33,11 @@ export default {
 			const router = Router();
 			buildRouter(router);
 			router.all('*', ({ res }: RequestEvent) => {
-				return res.json({
-					headers: DEFAULT_HEADERS,
-				});
+				for (const name in DEFAULT_HEADERS) {
+					// @ts-ignore
+					res.headers.append(name, DEFAULT_HEADERS[name]);
+				}
+				return res.json();
 			});
 			env.router = router;
 		}
@@ -53,6 +56,9 @@ export default {
 				headers: DEFAULT_HEADERS,
 			});
 		} catch (error: any) {
+			if (!error.__json_error_saad) {
+				console.error(error);
+			}
 			const res: any = error.__json_error_saad ? error.body : {};
 			res.message = error.message;
 			return json(res, {
