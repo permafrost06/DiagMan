@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1694323833177,
+      "tag": "0000_special_galactus",
+      "breakpoints": false
+    }
+  ]
+}
