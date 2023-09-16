@@ -23,3 +23,10 @@ export const assignUser: RequestHandler = async (event) => {
 		event.user = rows[0] as any;
 	}
 };
+
+export const ensureAdmin: RequestHandler = async (event) => {
+	await assignUser(event);
+	if (!event.user || event.user.role !== 'admin') {
+		event.res.error('You are not authorized to perform this operation!', 401);
+	}
+};
