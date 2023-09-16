@@ -41,6 +41,8 @@ onMounted(async () => {
         <button @click="logout">
             {{ loggingOut ? "Loading..." : "Logout" }}
         </button>
+        <br />
+        <RouterLink :to="{ name: 'users' }">Users</RouterLink>
     </div>
     <div v-else>
         <RouterLink :to="{ name: 'login' }">Login</RouterLink>

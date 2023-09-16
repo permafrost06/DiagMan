@@ -34,3 +34,33 @@ export const generateInsertQuery = (table: string, data: Record<string, any>): {
 export const insertRow = async (db: LibsqlClient, table: string, data: Record<string, any>): Promise<ResultSet> => {
 	return await db.execute(generateInsertQuery(table, data));
 };
+
+export const getUpdateQuery = (table: string, data: Record<string, any>): { sql: string; args: Array<string | number> } => {
+	const args: any[] = [];
+	let updates = '';
+	for (const col in data) {
+		updates += ', ' + col + ' = ?';
+		args.push(data[col]);
+	}
+	updates = updates.substring(2);
+
+	const sql = `UPDATE \`${table}\` SET ${updates}`;
+	return {
+		sql,
+		args,
+	};
+};
+
+export const getUpdateQueryObj = (table: string, data: Record<string, any>): { sql: string; args: Record<string, string | number> } => {
+	let updates = '';
+	for (const col in data) {
+		updates += ', ' + col + ' = :';
+	}
+	updates = updates.substring(2);
+
+	const sql = `UPDATE \`${table}\` SET ${updates}`;
+	return {
+		sql,
+		args: data,
+	};
+};

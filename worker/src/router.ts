@@ -3,9 +3,10 @@ import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { getUser, logOut, login, register } from './routes/auth';
-import { assignToken, assignUser } from './middlewares/auth';
+import { assignToken, assignUser, ensureAdmin } from './middlewares/auth';
 import { addPatient, listPatients, syncPatients } from './routes/patients';
 import { finalizeReport } from './routes/reports';
+import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 
 export interface RequestEvent {
 	request: Request;
@@ -18,6 +19,7 @@ export interface RequestEvent {
 		id: bigint;
 		name: string;
 		email: string;
+		role: 'admin' | 'cashier';
 	};
 }
 export type RequestHandler = RouteHandler<IRequest & RequestEvent>;
@@ -29,6 +31,11 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/auth/register', register);
 	router.post('/auth/login', login);
 	router.post('/auth/logout', logOut);
+
+	router.get('/users', ensureAdmin, getUsers);
+	router.post('/users/add', ensureAdmin, addUser);
+	router.post('/users/update', ensureAdmin, updateUser);
+	router.delete('/users/:id', withParams, ensureAdmin, deleteUser);
 
 	router.post('/tests', addTest);
 	router.get('/tests', listTests);

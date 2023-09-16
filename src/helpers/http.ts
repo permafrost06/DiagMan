@@ -1,5 +1,5 @@
 import { AUTH_TOKEN_KEY } from "./config";
-import { formDataToObj } from "./utils";
+import { formDataToObj, validateObject } from "./utils";
 
 export type ApiResponse =
     | {
@@ -34,6 +34,7 @@ export const fetchApi = async (
         if (headers instanceof Headers) {
             headers.append("Authorization", `Bearer ${authToken}`);
         } else {
+            // @ts-ignore
             headers["Authorization"] = `Bearer ${authToken}`;
         }
         options.headers = headers;

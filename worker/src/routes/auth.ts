@@ -14,16 +14,14 @@ export const register: RequestHandler = async ({ request, env, res, token }) => 
 
 	const db = getLibsqlClient(env);
 
-	const { rows } = await db.execute({
-		sql: 'SELECT * FROM `users` WHERE email = ? LIMIT 1',
-		args: [data.email],
-	});
+	const { rows } = await db.execute('SELECT * FROM `users` LIMIT 1');
 	if (rows.length > 0) {
-		res.error('This email is already taken!');
+		res.error('Adding user is blocked!');
 	}
 
 	delete data.confirm_password;
 	data.password = hashSync(data.password, 12);
+	data.role = 'admin';
 
 	const { lastInsertRowid } = await insertRow(db, 'users', data);
 	data.id = lastInsertRowid?.toString();
