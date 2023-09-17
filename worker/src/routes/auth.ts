@@ -83,9 +83,7 @@ export const login: RequestHandler = async ({ request, res, token, env }) => {
 		sql: 'SELECT * FROM `users` WHERE email = ? LIMIT 1',
 		args: [email],
 	});
-
-	const hash = user.password!.toString();
-	if (!user || !pass || !compareSync(pass, hash)) {
+	if (!user || !pass || !compareSync(pass, user.password!.toString())) {
 		res.error('Invalid email or password!');
 	}
 
