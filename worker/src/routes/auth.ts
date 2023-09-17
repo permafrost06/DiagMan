@@ -36,7 +36,7 @@ async function addSession(db: Client, user: Record<string, any>, oldToken?: stri
 	let exists: boolean = true;
 	let maxTry = 5;
 	do {
-		token = crypto.getRandomValues(new Int32Array(16)).reduce((prev, num) => prev + num.toString(36), '');
+		token = user.id + crypto.getRandomValues(new Int32Array(16)).reduce((prev, num) => prev + num.toString(36), '');
 		const { rows } = await db.execute({
 			sql: 'SELECT * FROM `sessions` WHERE token=? LIMIT 1',
 			args: [token],
