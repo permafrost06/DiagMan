@@ -1,10 +1,21 @@
 @import './theme.css';
 
+:root {
+  --space-sm: 10px;
+  --space-md: 20px;
+  --space-lg: 30px;
+}
+
 html, body{
   height: 100%;
   margin: 0;
   padding: 0;
   background: var(--clr-bg);
+  font-size: 18px;
+  color: #4d4d4d;
+}
+#app {
+  height: 100%;
 }
 p{
   margin: 0;
@@ -40,19 +51,76 @@ select {
   height: 40px;
 }
 
-button[type="submit"] {
+button {
   background-color: #007bff;
   color: #fff;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
-button[type="submit"]:hover {
+button:hover {
   background-color: #0056b3;
 }
+
+.alert.error {
+  background: rgb(255, 216, 222);
+  color: #8d1414;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-size: 0.8rem;
+}
+
+.space-y-md > *{
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.space-y-sm > *{
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.space-y-sm > *:first-child,
+.space-y-md > *:first-child {
+  margin-top: 0;
+}
+.space-y-sm > *:last-child,
+.space-y-md > *:last-child {
+  margin-bottom: 0;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mt-md {
+  margin-top: var(--space-md);
+}
+
+.mt-sm {
+  margin-top: var(--space-sm);
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mr-auto {
+  margin-right: auto;
+}
+
+.relative {
+  position: relative;
+}
+
 .no-wrap {
   white-space: nowrap;
 }
@@ -61,16 +129,23 @@ button[type="submit"]:hover {
   word-break: break-word;
 }
 
-
+.flex {
+  display: flex;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
 .row-wrap {
   display: flex;
   flex-wrap: wrap;
 }
 
-.alert.error {
-  background: pink;
-  color: #8d1414;
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 5px 8px;
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
 }
