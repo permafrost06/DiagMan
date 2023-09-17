@@ -24,7 +24,6 @@ const init = () => {
         (typeof props.icBox === "number" || props.icBox.indexOf(" ") === -1)
     ) {
         viewBox.value = `0 0 ${props.icBox} ${props.icBox}`;
-        console.log(viewBox.value);
     } else if (typeof props.icBox === "string") {
         viewBox.value = props.icBox;
     }
