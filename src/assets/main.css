@@ -155,6 +155,25 @@ button:hover {
   background: linear-gradient(to right, #f1f5f9, #94a3b8);
 }
 
+.auth-root form {
+  max-width: 500px;
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  padding: 50px;
+  box-shadow: 0 0 20px #797979;
+}
+
+.auth-root h3 {
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d4d4d4;
+  margin-bottom: 20px;
+  color: rgb(61, 61, 61);
+}
+
+
+
 .space-y-md > *{
   margin-top: var(--space-md);
   margin-bottom: var(--space-md);
