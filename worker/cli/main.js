@@ -17,7 +17,7 @@ async function main() {
 	let fileName = args[0];
 	let filePath = path.join(__dirname, 'commands', fileName + '.js');
 	if (!existsSync(filePath)) {
-		fileName[0] = fileName[0].toUpperCase();
+		fileName = fileName[0].toUpperCase() + fileName.substring(1);
 		filePath = path.join(__dirname, 'commands', fileName + '.js');
 		if (!existsSync(filePath)) {
 			console.log(`Command ${args[0]} does not exist!`);
