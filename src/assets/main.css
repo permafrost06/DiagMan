@@ -1,17 +1,10 @@
-
-:root {
-  --space-sm: 10px;
-  --space-md: 20px;
-  --space-lg: 30px;
-}
-
 html, body{
   height: 100%;
   margin: 0;
   padding: 0;
-  background: var(--clr-bg);
+  background: var(--clr-white);
   font-size: 18px;
-  color: #4d4d4d;
+  color: var(--clr-black);
 }
 #app {
   height: 100%;
@@ -41,9 +34,8 @@ textarea {
   box-sizing: border-box;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  border: 1px solid var(--clr-black);
+  border-radius: 0;
 }
 
 select {
@@ -51,23 +43,17 @@ select {
 }
 
 button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--clr-accent);
+  color: var(--clr-white);
   border: none;
   padding: 10px 20px;
-  border-radius: 4px;
   cursor: pointer;
   font-size: 0.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  text-transform: uppercase;
   font-weight: 500;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
 
 .alert.error {
@@ -80,7 +66,7 @@ button:hover {
 }
 
 .ic-input {
-  color: #b1b1b1;
+  color: var(--clr-black);
 }
 
 .ic-input .label,
@@ -88,7 +74,7 @@ button:hover {
   margin-bottom: 5px;
   font-weight: normal;
   font-size: 0.8rem;
-  color: #575757;
+  color: var(--clr-black);
 }
 
 .ic-input .hint {
@@ -128,16 +114,16 @@ button:hover {
   box-sizing: border-box;
   display: block;
   width: 100%;
-  background-color: #f7f7f7;
-  border: 1px solid #a7a7a7;
+  background-color: var(--clr-white);
+  border: 1px solid var(--clr-black);
   font-size: 0.75rem;
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 0;
+  padding: 10px 15px;
 }
 
 .ic-input input:focus {
-  border-color: blue;
-  box-shadow: 0 0 3px blue;
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 3px var(--clr-accent);
   outline: none;
 }
 
@@ -151,22 +137,53 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #f1f5f9, #94a3b8);
+}
+
+.auth-root h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.auth-root .sub-title {
+  text-align: center;
+  margin-bottom: 100px;
+  color: var(--clr-grey);
+  font-size: 1.15rem;
+}
+
+.auth-root input {
+  font-size: 1.13rem;
 }
 
 .auth-root form {
   max-width: 500px;
   width: 100%;
-  background: white;
-  border-radius: 20px;
   padding: 50px;
-  box-shadow: 0 0 20px #797979;
 }
 
 .auth-root h3 {
   margin: 0;
   padding-bottom: 10px;
-  border-bottom: 1px solid #d4d4d4;
   margin-bottom: 20px;
-  color: rgb(61, 61, 61);
+}
+
+
+.auth-root button {
+  display: block;
+  width: 100%;
+  background: var(--clr-black);
+  color: var(--clr-white);
+  font-size: 1.1rem;
+}
+
+
+.auth-root .forgot-link {
+  text-decoration: underline;
+  display: block;
+  text-align: center;
+  margin-top: 100px;
+  color: var(--clr-black);
+  font-size: 0.8rem;
+  font-weight: 600;
 }
