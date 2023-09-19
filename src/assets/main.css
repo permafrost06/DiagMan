@@ -147,9 +147,19 @@ button {
 
 .auth-root .sub-title {
   text-align: center;
-  margin-bottom: 100px;
   color: var(--clr-grey);
   font-size: 1.15rem;
+}
+
+.auth-root .sub-title.login-sub {
+  margin-bottom: 100px;
+}
+.auth-root .sub-title.pin-sub {
+  margin-bottom: 40px;
+}
+
+.auth-root .user-name {
+  margin-bottom: 10px;
 }
 
 .auth-root input {
@@ -177,13 +187,24 @@ button {
   font-size: 1.1rem;
 }
 
+.auth-root .link-area {
+  margin-top: 100px;
+}
 
-.auth-root .forgot-link {
+.auth-root .forgot-link,
+.auth-root .login-link {
   text-decoration: underline;
   display: block;
   text-align: center;
-  margin-top: 100px;
   color: var(--clr-black);
+}
+
+.auth-root .forgot-link {
   font-size: 0.8rem;
   font-weight: 600;
+}
+
+.auth-root .login-link {
+  font-size: 1rem;
+  margin-bottom: 10px;
 }

@@ -35,7 +35,7 @@ const handleForm = async (evt: any) => {
             class="space-y-sm"
         >
             <h2>DiagMan</h2>
-            <p class="sub-title font-h">Sign in to your account</p>
+            <p class="sub-title font-h login-sub">Sign in to your account</p>
             <p v-if="error" class="alert error">{{ error }}</p>
             <div class="space-y-sm">
                 <Input
@@ -51,16 +51,7 @@ const handleForm = async (evt: any) => {
                     {{ isPosting ? "Please wait..." : "Log In" }}
                 </button>
             </div>
-            <a href="#" class="forgot-link">Forgot credentials?</a>
+            <a href="#" class="link-area forgot-link">Forgot credentials?</a>
         </form>
     </div>
 </template>
-<style>
-.remember-area {
-    border-bottom: 1px solid #dddddd;
-    padding-bottom: 10px;
-}
-.remember-area label {
-    margin-left: 5px;
-}
-</style>
