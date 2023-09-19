@@ -35,11 +35,6 @@ const router = createRouter({
             ],
         },
         {
-            path: "/components/:name?",
-            name: "components",
-            component: () => import("@/views/ComponentsView.vue"),
-        },
-        {
             path: "/auth",
             children: [
                 {
