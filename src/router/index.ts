@@ -12,6 +12,26 @@ const router = createRouter({
                     name: "home",
                     component: () => import("@/views/HomeView.vue"),
                 },
+                {
+                    path: "/users",
+                    name: "users",
+                    component: () => import("@/views/users/Index.vue"),
+                },
+                {
+                    path: "/tests",
+                    name: "tests",
+                    component: () => import("@/views/tests/TestForm.vue"),
+                },
+                {
+                    path: "/patients",
+                    name: "patients",
+                    component: () => import("@/views/patients/PatientForm.vue"),
+                },
+                {
+                    path: "/reports",
+                    name: "reports",
+                    component: () => import("@/views/patients/Reports.vue"),
+                },
             ],
         },
         {
@@ -33,26 +53,6 @@ const router = createRouter({
                     component: () => import("@/views/auth/Register.vue"),
                 },
             ],
-        },
-        {
-            path: "/users",
-            name: "users",
-            component: () => import("@/views/users/Index.vue"),
-        },
-        {
-            path: "/tests",
-            name: "tests",
-            component: () => import("@/views/tests/TestForm.vue"),
-        },
-        {
-            path: "/patients",
-            name: "patients",
-            component: () => import("@/views/patients/PatientForm.vue"),
-        },
-        {
-            path: "/reports",
-            name: "reports",
-            component: () => import("@/views/patients/Reports.vue"),
         },
     ],
 });
