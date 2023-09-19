@@ -119,9 +119,10 @@ button {
 }
 
 .ic-input input:focus {
-  border-color: var(--clr-accent);
-  box-shadow: 0 0 3px var(--clr-accent);
-  outline: none;
+  --focus-border: 1px solid var(--clr-accent);
+  border: var(--focus-border);
+  /* box-shadow: 0 0 3px var(--clr-accent); */
+  outline: var(--focus-border);
 }
 
 .ic-input .input-icon + input {
