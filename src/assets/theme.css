@@ -1,30 +1,43 @@
-:root{
+:root {
     /* -------- Colors ----------*/
-    --clr-bg: #F5F5F5;
-    --clr-one: #F7C8E0; 
-    --clr-two: #DFFFD8;
-    --clr-three: #B4E4FF;
-    --clr-four: #95BDFF;
+    --clr-bg: #f5f5f5;
+    --clr-one: #f7c8e0;
+    --clr-two: #dfffd8;
+    --clr-three: #b4e4ff;
+    --clr-four: #95bdff;
 
     /* ------ Typography ------- */
     --fs-base: 16px;
     --fs-md: 1.25rem;
-    --fs-lg: 1.5rem; 
+    --fs-lg: 1.5rem;
     --fs-sm: 0.7rem;
     --fs-xs: 0.5rem;
 
-
     /* --------- TableX -------- */
 
-    --tblx-bg: #F7F9FE;
+    --tblx-bg: #f7f9fe;
     --tblx-text: #606060;
-    --tblx-border: #DEDADA;
+    --tblx-border: #dedada;
 }
 
-*{
-    font-family: 'Poppins', sans-serif;
+* {
+    font-family: "Open Sans", sans-serif;
 }
 
-html, body{
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+    padding: 0;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+html,
+body {
     font-size: var(--fs-base);
+}
+
+.font-body {
+    font-family: "Open Sans", sans-serif;
+}
+.font-h {
+    font-family: "Space Grotesk", sans-serif;
 }
