@@ -57,12 +57,9 @@ button {
 }
 
 .alert.error {
-  background: rgb(255, 216, 222);
-  color: #8d1414;
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 5px 8px;
+  color: #F24E1E;
   font-size: 0.8rem;
+  text-align: center;
 }
 
 .ic-input {
