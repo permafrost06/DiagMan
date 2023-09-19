@@ -7,6 +7,7 @@ export const users = sqliteTable('users', {
 	email: text('email').unique(),
 	name: text('name'),
 	password: text('password'),
+	pin: integer('pin'),
 	role: text('role'),
 });
 
