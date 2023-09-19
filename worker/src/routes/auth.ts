@@ -92,6 +92,18 @@ export const login: RequestHandler = async ({ request, res, token, env }) => {
 	res.setData({ token: newToken });
 };
 
+export const verifyPin: RequestHandler = async ({ res, user, request }) => {
+	const formData = await request.formData();
+	const pin = formData.get('pin');
+	if (!user || !pin || pin != user.pin) {
+		res.error('Incorrect PIN!');
+	}
+	res.setMsg('PIN verified successully!');
+	res.setData({
+		pin,
+	});
+};
+
 export const logOut: RequestHandler = async ({ res, env, token }) => {
 	if (!token) {
 		res.error('Not logged in!');

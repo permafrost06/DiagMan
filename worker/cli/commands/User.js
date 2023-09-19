@@ -55,9 +55,11 @@ const add = async () => {
 		],
 	});
 
+	const pin = await getInput('PIN:', z.string().min(4));
+
 	const stop = spinner('Adding user to database...');
 
-	const user = { name, email, password: hashSync(password, 12), role };
+	const user = { name, email, password: hashSync(password, 12), role, pin };
 
 	const { lastInsertRowid } = await insertRow('users', user);
 	user.id = lastInsertRowid.toString();
@@ -109,6 +111,13 @@ const update = async (options) => {
 			},
 		],
 	});
+	const pin = await getInput(
+		{
+			message: 'PIN:',
+			default: user.pin,
+		},
+		z.string().min(4)
+	);
 
 	const stopLoader = spinner('Updating user...');
 
@@ -116,6 +125,7 @@ const update = async (options) => {
 		name,
 		email,
 		role,
+		pin,
 	};
 	if (password.length > 0) {
 		updated.password = hashSync(password, 12);

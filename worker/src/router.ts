@@ -2,7 +2,7 @@ import { IRequest, RouteHandler, RouterType, withParams } from 'itty-router';
 import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
-import { getUser, logOut, login, register } from './routes/auth';
+import { getUser, logOut, login, register, verifyPin } from './routes/auth';
 import { assignToken, assignUser, ensureAdmin } from './middlewares/auth';
 import { addPatient, listPatients, syncPatients } from './routes/patients';
 import { finalizeReport } from './routes/reports';
@@ -20,6 +20,7 @@ export interface RequestEvent {
 		name: string;
 		email: string;
 		role: 'admin' | 'cashier';
+		pin: string;
 	};
 }
 export type RequestHandler = RouteHandler<IRequest & RequestEvent>;
@@ -30,6 +31,7 @@ export const buildRouter = (router: RouterType) => {
 	router.get('/auth', assignUser, getUser);
 	router.post('/auth/register', register);
 	router.post('/auth/login', login);
+	router.post('/auth/verify', assignUser, verifyPin);
 	router.post('/auth/logout', logOut);
 
 	router.get('/users', ensureAdmin, getUsers);
