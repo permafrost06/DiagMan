@@ -1,14 +1,22 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { API_BASE } from "@/helpers/config";
+import { API_BASE, TMP_USER_KEY } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Input from "@/components/form/Input.vue";
 import { useUser } from "@/stores/user";
 
 const user = useUser();
 const isPosting = ref<boolean>(false);
 const error = ref<string | null>(null);
+
+onMounted(() => {
+    const savedUser = localStorage.getItem(TMP_USER_KEY);
+    if (savedUser) {
+        user.pin = 1;
+        localStorage.removeItem(TMP_USER_KEY);
+    }
+});
 
 const handleForm = async (evt: any) => {
     evt.preventDefault();

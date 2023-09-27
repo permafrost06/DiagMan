@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { API_BASE, AUTH_TOKEN_KEY } from "@/helpers/config";
+import { API_BASE, AUTH_TOKEN_KEY, TMP_USER_KEY } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { ref } from "vue";
 import Input from "@/components/form/Input.vue";
@@ -23,6 +23,7 @@ const handleForm = async (evt: any) => {
         error.value = res.message;
     } else {
         localStorage.setItem(AUTH_TOKEN_KEY, res.data.token);
+        localStorage.setItem(TMP_USER_KEY, res.rows[0]);
         location.replace("/");
     }
 };

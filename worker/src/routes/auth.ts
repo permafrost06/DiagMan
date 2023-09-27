@@ -90,6 +90,13 @@ export const login: RequestHandler = async ({ request, res, token, env }) => {
 	const newToken = await addSession(db, user, token);
 	res.setMsg('Login successful!');
 	res.setData({ token: newToken });
+	res.setRows([
+		{
+			id: user.id?.toString(),
+			name: user.name,
+			email: user.email,
+		},
+	]);
 };
 
 export const verifyPin: RequestHandler = async ({ res, user, request }) => {

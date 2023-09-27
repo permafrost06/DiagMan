@@ -44,5 +44,12 @@ export const useUser = defineStore("user", {
                 this.pin = 0;
             }
         },
+
+        apply(user: any) {
+            this.id = user.id;
+            this.name = user.name;
+            this.email = user.email;
+            this.pin = user.pin;
+        },
     },
 });
