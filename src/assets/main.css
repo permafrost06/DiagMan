@@ -43,7 +43,7 @@ select {
 }
 
 button {
-  background-color: var(--clr-accent);
+  background-color: var(--clr-black);
   color: var(--clr-white);
   border: none;
   padding: 10px 20px;
@@ -54,6 +54,14 @@ button {
   align-items: center;
   gap: 10px;
   font-weight: 500;
+}
+
+/* ------------ COMPONENTS ----------- */
+
+.btn-outline {
+  background: transparent;
+  color: var(--clr-black);
+  border: 1px solid var(--clr-black);
 }
 
 .alert.error {
@@ -128,6 +136,28 @@ button {
 .ic-input .input-icon + input {
   padding-left: 40px;
 }
+
+
+.th-actionable {
+  display: flex;
+  align-items: center;
+}
+
+.th-actionable > p {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.th-actionable > .actions {
+  display: flex;
+}
+.th-actionable > .actions > button {
+  color: var(--clr-black);
+  background: transparent;
+  padding: 0;
+}
+
+/* ----------- AUTH PAGE ------------ */
 
 .auth-root {
   height: 100%;
@@ -205,4 +235,91 @@ button {
 .auth-root .login-link {
   font-size: 1rem;
   margin-bottom: 10px;
+}
+
+
+
+/*====== PATIENTS PAGE =======*/
+.patients-page {
+  padding: 30px;
+}
+.patients-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+.patients-header .site-name {
+  font-weight: bold;
+  font-size: var(--fs-xl);
+}
+.patients-header .h-main-btn {
+  background: var(--clr-black);
+  color: var(--clr-white);
+  margin-left: 10px;
+}
+.patients-header .h-icon-btn {
+  background: transparent;
+  color: var(--clr-black);
+  padding: 5px;
+}
+.patients-header .h-icon-btn:hover {
+  color: var(--clr-accent);
+}
+.patients-header .h-user-name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.query-info h3 {
+  font-size: var(--fs-md);
+  font-weight: 600;
+}
+.query-info, .query-item {
+  display: flex;
+  align-items: center;
+}
+.query-info {
+  gap: var(--space-md);
+  padding: 15px 10px;
+}
+.query-item {
+  border: 1px solid var(--clr-black);
+  padding: 3px 5px;
+  font-size: var(--fs-sm);
+  gap: 5px;
+}
+
+.query-item button {
+  padding: 0;
+  background: transparent;
+  color: var(--clr-black);
+}
+
+.query-item button:hover {
+  color: var(--clr-danger);
+}
+
+.patients-page table{
+  border-collapse: collapse;
+}
+.patients-page table tr {
+  border-bottom: 1px solid var(--clr-black);
+}
+.patients-page table tr:first-child {
+  border-bottom-width: 2px;
+}
+.patients-page table th{
+  font-size: var(--fs-base);
+}
+
+.patients-page table th,
+.patients-page table td {
+  padding: 8px 15px;
+  text-align: left;
+}
+
+.patients-page .row-actions button {
+  padding: 5px 15px;
+  font-weight: 600;
 }

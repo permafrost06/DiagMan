@@ -2,8 +2,7 @@
     --space-sm: 10px;
     --space-md: 20px;
     --space-lg: 30px;
-  }
-  
+}
 
 .space-y-md > * {
     margin-top: var(--space-md);
@@ -22,6 +21,10 @@
 .space-y-sm > *:last-child,
 .space-y-md > *:last-child {
     margin-bottom: 0;
+}
+
+.gap-sm {
+    gap: var(--space-sm);
 }
 
 .mb-0 {
@@ -76,4 +79,7 @@
 }
 .text-center {
     text-align: center;
+}
+.capitalize {
+    text-transform: capitalize;
 }

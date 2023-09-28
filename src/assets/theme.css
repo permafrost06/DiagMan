@@ -8,14 +8,22 @@
 
     /* ------ Typography ------- */
     --fs-base: 16px;
-    --fs-md: 1.25rem;
-    --fs-lg: 1.5rem;
     --fs-sm: 0.7rem;
     --fs-xs: 0.5rem;
+    --fs-md: 1.25rem;
+    --fs-lg: 1.5rem;
+    --fs-xl: 1.75rem;
+
+    /*------- Spacing -----------*/
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.25rem;
+    --space-xl: 1.5rem;
 }
 
 * {
-    font-family: "Open Sans", sans-serif;
+    font-family: inherit;
     box-sizing: border-box;
 }
 
@@ -28,6 +36,7 @@ h1,h2,h3,h4,h5,h6 {
 html,
 body {
     font-size: var(--fs-base);
+    font-family: "Open Sans", sans-serif;
 }
 
 .font-body {
