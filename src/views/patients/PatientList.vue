@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Pagination from "@/components/Pagination.vue";
 import ThActionable from "@/components/base/ThActionable.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
@@ -17,6 +18,7 @@ const isLoading = ref(false);
 const error = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 const patients = ref<Array<Record<string, number | string>>>([]);
+const page = ref(1);
 
 onMounted(async () => {
     if (!navigator.onLine) {
@@ -226,5 +228,11 @@ const report = (patient: any) => {
                 </template>
             </table>
         </div>
+        <Pagination
+            :item-count="100"
+            v-model="page"
+            :page-size="10"
+            class="mt-sm"
+        />
     </div>
 </template>

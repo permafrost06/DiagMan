@@ -1,7 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import AngleLeft from "@/Icons/AngleLeft.vue";
-import AngleRight from "@/Icons/AngleRight.vue";
 import { computed, onMounted } from "vue";
 
 export interface PageDetails {
@@ -15,6 +13,7 @@ export interface PaginationProps {
     pageSize?: number;
     pages?: number;
     itemCount: number;
+    showText?: boolean;
 }
 
 const emit = defineEmits<{
@@ -91,7 +90,7 @@ onMounted(() => {
 
 <template>
     <div class="pagination">
-        <p>
+        <p v-if="showText">
             Showing
             <span class="items-range">
                 {{ (modelValue - 1) * pageDetails.size + 1 }}-{{
@@ -107,7 +106,19 @@ onMounted(() => {
                     class="page-prev page_item"
                     :class="{ disabled: modelValue <= 1 }"
                 >
-                    <AngleLeft fill="var(--text)" />
+                    <svg
+                        width="9"
+                        height="12"
+                        viewBox="0 0 9 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M8 1L2 5.5L8 10"
+                            stroke="black"
+                            stroke-width="2"
+                        />
+                    </svg>
                 </button>
             </li>
             <li
@@ -129,7 +140,19 @@ onMounted(() => {
                     :class="{ disabled: modelValue >= pageDetails.total }"
                     @click="toPage(modelValue + 1)"
                 >
-                    <AngleRight fill="var(--text)" />
+                    <svg
+                        width="9"
+                        height="12"
+                        viewBox="0 0 9 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M1 10L7 5.5L1 1"
+                            stroke="black"
+                            stroke-width="2"
+                        />
+                    </svg>
                 </button>
             </li>
         </ul>
@@ -137,29 +160,16 @@ onMounted(() => {
 </template>
 <style scoped>
 .pagination {
-    --size: 35px;
-    --btn-margin: 10px;
-
-    --dark: #000000;
-    --active: #23adad;
-    --border: #a7a7a7;
-    --text: #5f5f5f;
-    --gray: #e7e7e7;
-}
-.pagination {
     display: flex;
     align-items: center;
     justify-content: end;
     flex-wrap: wrap;
+    color: var(--clr-black);
 }
 
 .pagination p {
     padding: 0 15px;
-    color: var(--text);
-}
-
-.pagination p {
-    color: var(--dark);
+    color: var(--clr-black);
 }
 
 .pagination .items-range {
@@ -168,44 +178,13 @@ onMounted(() => {
 
 .page-next,
 .page-prev {
-    border: none;
-    margin: 0 4px;
-    transition: all 300ms ease-in-out;
-    background: white;
-    padding: 0;
-}
-
-.page-prev {
-    border-right: 1px solid var(--gray);
-}
-
-.page-next {
-    border-left: 1px solid var(--gray);
-}
-
-.page-next:hover,
-.page-prev:hover {
-    background: var(--gray);
-    border-radius: 5px;
+    border: 1px solid var(--clr-black);
 }
 
 .page-next.disabled,
 .page-prev.disabled {
     opacity: 0.6;
     cursor: not-allowed;
-}
-
-.page-next.disabled:hover,
-.page-prev.disabled:hover {
-    background: white;
-    border-radius: 0;
-}
-
-.pagination svg {
-    height: calc(var(--size) - var(--btn-margin) * 2);
-    width: calc(var(--size) - var(--btn-margin) * 2);
-    margin: var(--btn-margin);
-    opacity: 0.7;
 }
 
 .page_nums {
@@ -215,36 +194,32 @@ onMounted(() => {
     align-items: center;
     margin: 0;
     padding: 4px 0;
-    border: 1px solid var(--border);
-    background: white;
-    border-radius: 5px;
 }
 .page_item {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    color: var(--text);
-    height: var(--size);
+    color: var(--clr-black);
+    background: var(--clr-white);
     user-select: none;
+    padding: 5px 8px;
 }
 .page_dots {
     padding: 0 4px;
 }
 .page_num {
-    height: var(--size);
-    border-radius: 0.4rem;
     margin: 0 5px;
-    padding: 0 8px;
+    padding: 0px 7px;
     box-sizing: border-box;
+    font-size: var(--fs-base);
+    text-decoration: underline;
 }
 .page_num:hover {
-    color: var(--active);
+    font-weight: 600;
 }
 .page_num.active {
-    min-width: var(--size);
-    color: #ffffff;
-    background: var(--active);
-    font-weight: bold;
+    border: 1px solid var(--clr-black);
+    text-decoration: none;
 }
 </style>
