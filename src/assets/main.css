@@ -283,6 +283,7 @@ button {
 .query-info {
   gap: var(--space-md);
   padding: 15px 10px;
+  margin-top: 15px;
 }
 .query-item {
   border: 1px solid var(--clr-black);

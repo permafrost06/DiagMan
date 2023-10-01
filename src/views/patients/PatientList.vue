@@ -65,7 +65,7 @@ const report = (patient: any) => {
     <div class="patients-page">
         <div class="patients-header">
             <div class="flex items-center">
-                <h1 class="site-name">DiagMan</h1>
+                <h3 class="font-h">Patient List</h3>
                 <button class="h-main-btn font-h">+ Add Patient</button>
             </div>
             <div class="flex items-center">
@@ -112,7 +112,6 @@ const report = (patient: any) => {
             </div>
         </div>
         <div class="query-info">
-            <h3 class="font-h">Patient List</h3>
             <div class="query-item">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
