@@ -66,9 +66,11 @@ button {
 
 .alert.error {
   color: var(--clr-danger);
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   text-align: center;
 }
+
+/*====== Input with icon ======*/
 
 .ic-input {
   color: var(--clr-black);
@@ -78,12 +80,12 @@ button {
 .label {
   margin-bottom: 5px;
   font-weight: normal;
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   color: var(--clr-black);
 }
 
 .ic-input .hint {
-  font-size: 0.7rem;
+  font-size: var(--fs-sm);
   font-weight: normal;
   line-height: 1.5;
   margin-top: 0;
@@ -121,7 +123,7 @@ button {
   width: 100%;
   background-color: var(--clr-white);
   border: 1px solid var(--clr-black);
-  font-size: 0.75rem;
+  font-size: var(--fs-sm);
   border-radius: 0;
   padding: 10px 15px;
 }
@@ -168,7 +170,6 @@ button {
 }
 
 .auth-root h2 {
-  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -176,7 +177,7 @@ button {
 .auth-root .sub-title {
   text-align: center;
   color: var(--clr-grey);
-  font-size: 1.15rem;
+  font-size: var(--fs-md);
 }
 
 .auth-root .sub-title.login-sub {
@@ -228,7 +229,7 @@ button {
 }
 
 .auth-root .forgot-link {
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
 }
 

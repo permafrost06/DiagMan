@@ -4,15 +4,20 @@
     --clr-white: #ffffff;
     --clr-grey: #595959;
     --clr-accent: #820097;
-    --clr-danger: #F24E1E;
+    --clr-danger: #f24e1e;
 
     /* ------ Typography ------- */
     --fs-base: 16px;
-    --fs-sm: 0.7rem;
+    --fs-xxs: 0.354rem;
     --fs-xs: 0.5rem;
-    --fs-md: 1.25rem;
-    --fs-lg: 1.5rem;
-    --fs-xl: 1.75rem;
+    --fs-sm: 0.707rem;
+    --fs-md: 1.15rem;
+    --fs-lg: 1.414rem;
+    --fs-xl: 1.999rem;
+    --fs-2xl: 1.999rem;
+    --fs-3xl: 2.827rem;
+    --fs-4xl: 3.998rem;
+    --fs-5xl: 5.653rem;
 
     /*------- Spacing -----------*/
     --space-xs: 0.5rem;
@@ -27,10 +32,38 @@
     box-sizing: border-box;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin: 0;
     padding: 0;
     font-family: "Space Grotesk", sans-serif;
+    line-height: 1.3;
+}
+h1 {
+    font-size: var(--fs-3xl);
+}
+
+h2 {
+    font-size: var(--fs-2xl);
+}
+
+h3 {
+    font-size: var(--fs-xl);
+}
+
+h4 {
+    font-size: var(--fs-lg);
+}
+
+h5 {
+    font-size: var(--fs-base);
+}
+h6 {
+    font-size: var(--fs-sm);
 }
 
 html,
