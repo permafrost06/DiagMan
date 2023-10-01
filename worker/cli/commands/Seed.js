@@ -15,6 +15,24 @@ const spinner = (text) => {
 	};
 };
 
+// eslint-disable-next-line no-unused-vars
+const seedTests = async (count = 20) => {
+	const stopGenSpinner = spinner('Inserting rows...');
+
+	for (let i = 0; i < count; i++) {
+		const row = {
+			name: faker.person.name(),
+			price: Math.round(Math.random() * 10000),
+			size: ['small', 'medium', 'large', 'complex'][Math.round(Math.random() * 3)],
+			status: ['active', 'updated', 'deleted'][Math.round(Math.random() * 2)],
+		};
+		await insertRow('tests', row);
+	}
+
+	stopGenSpinner();
+	console.log(`Inserted ${count} tests!`);
+};
+
 const seedPatients = async (count = 100) => {
 	const stopMaxIdSpinner = spinner('Getting initial data...');
 	const { rows } = await sqlite.execute('SELECT id FROM `patients` ORDER BY id DESC LIMIT 1');
@@ -64,8 +82,6 @@ const seedPatients = async (count = 100) => {
 			discount: Math.round(Math.random() * 1000),
 			advance: Math.round(Math.random() * 1000),
 		};
-
-		await insertRow('patients', row);
 		if (i % 5 === 0) {
 			await insertRow('reports', {
 				id: row.id,
@@ -73,11 +89,14 @@ const seedPatients = async (count = 100) => {
 				microscopic_examination: ref.me,
 				impression: ref.impression,
 			});
+			row.status = 'complete';
 		}
+
+		await insertRow('patients', row);
 	}
 
 	stopGenSpinner();
-	console.log(`Inserted ${count} rows!`);
+	console.log(`Inserted ${count} patients!`);
 };
 
 function run() {
