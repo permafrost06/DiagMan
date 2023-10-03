@@ -3,10 +3,11 @@ import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { getUser, logOut, login, register, verifyPin } from './routes/auth';
-import { assignToken, assignUser, ensureAdmin } from './middlewares/auth';
+import { assignToken, assignUser, ensureAdmin, ensureUser } from './middlewares/auth';
 import { addPatient, listPatients, syncPatients } from './routes/patients';
 import { finalizeReport } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
+import { changeName, changePassword, changePin } from './routes/settings/account';
 
 export interface RequestEvent {
 	request: Request;
@@ -50,5 +51,9 @@ export const buildRouter = (router: RouterType) => {
 	router.get('/patients', listPatients);
 
 	router.post('/reports', finalizeReport);
+
+	router.post('/settings/account/name', ensureUser, changeName);
+	router.post('/settings/account/pin', ensureUser, changePin);
+	router.post('/settings/account/password', ensureUser, changePassword);
 };
 export default buildRouter;
