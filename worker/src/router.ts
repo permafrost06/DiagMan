@@ -21,6 +21,7 @@ export interface RequestEvent {
 		email: string;
 		role: 'admin' | 'cashier';
 		pin: string;
+		password: string;
 	};
 }
 export type RequestHandler = RouteHandler<IRequest & RequestEvent>;

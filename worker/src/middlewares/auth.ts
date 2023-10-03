@@ -15,7 +15,7 @@ export const assignUser: RequestHandler = async (event) => {
 	}
 	const db = getLibsqlClient(event.env);
 	const { rows } = await db.execute({
-		sql: 'SELECT * FROM `sessions` AS s INNER JOIN `users` AS u ON u.id = s.user_id WHERE s.token = ? LIMIT 1',
+		sql: 'SELECT u.* FROM `sessions` AS s INNER JOIN `users` AS u ON u.id = s.user_id WHERE s.token = ? LIMIT 1',
 		args: [event.token],
 	});
 
