@@ -420,3 +420,7 @@ button {
   background: var(--clr-white);
   color: var(--clr-black);
 }
+
+.settings-layout .setting-page-area {
+  padding: 50px;
+}
