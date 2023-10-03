@@ -139,6 +139,26 @@ button {
   padding-left: 40px;
 }
 
+/*------- Simple Input --------*/
+
+.simple-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.si-label {
+  font-size: var(--fs-base);
+}
+.si-field-col {
+  flex-grow: 1;
+}
+
+.si-field-col input {
+  display: block;
+  width: 100%;
+}
+
+/*---------------*/
 
 .th-actionable {
   display: flex;
