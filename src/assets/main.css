@@ -443,4 +443,5 @@ button {
 
 .settings-layout .setting-page-area {
   padding: 50px;
+  flex-grow: 1;
 }
