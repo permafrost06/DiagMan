@@ -13,7 +13,6 @@ const props = withDefaults(defineProps<InputProps>(), {
     type: "text",
     hintType: "error",
 });
-console.log(props.hintType);
 </script>
 <template>
     <div v-if="!unWrap" :class="[props.class, 'simple-input']">
