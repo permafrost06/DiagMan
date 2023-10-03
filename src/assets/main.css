@@ -325,3 +325,56 @@ button {
   padding: 5px 15px;
   font-weight: 600;
 }
+
+/* ============ SETTINGS ============*/
+
+.settings-page {
+  padding: 50px;
+}
+
+.settings-page .back-link {
+  color: var(--clr-black);
+  text-decoration: none;
+  padding: 3px 8px;
+  border: 1px solid var(--clr-black);
+  cursor: pointer;
+  gap: 10px;
+  font-size: var(-fs-base);
+  width: max-content;
+  font-weight: 500;
+}
+
+.settings-page .page-title {
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+.settings-page .setting-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 50px;
+  gap: 100px;
+  max-width: 1300px;
+  margin: auto;
+}
+
+.settings-page .setting-link {
+  width: 220px;
+  height: 200px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: var(--fs-md);
+  color: var(--clr-black);
+  font-weight: 500;
+  border: 1px solid;
+}
+.settings-page .setting-link img {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
