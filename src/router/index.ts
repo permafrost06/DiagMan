@@ -34,14 +34,14 @@ const router = createRouter({
                 },
                 {
                     path: "/settings",
-                    children: [
-                        {
-                            path: "",
-                            name: "settings",
-                            component: () =>
-                                import("@/views/settings/SettingsView.vue"),
-                        },
-                    ],
+                    name: "settings",
+                    component: () =>
+                        import("@/views/settings/SettingsView.vue"),
+                },
+                {
+                    path: "/settings",
+                    component: () => import("@/layout/SettingsLayout.vue"),
+                    children: [],
                 },
             ],
         },

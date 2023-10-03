@@ -378,3 +378,45 @@ button {
   object-fit: contain;
   margin-bottom: 20px;
 }
+
+/* ==== SETTIGS LAYOUT =====*/
+
+.settings-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.settings-layout .sidebar {
+  margin: 0;
+  padding: 0;
+  background: var(--clr-black);
+  width: 330px;
+  font-weight: 500;
+  border-right: 1px solid var(--clr-black);
+}
+
+.settings-layout .sidebar li {
+  list-style-type: none;
+  border-bottom: 1px solid var(--clr-white);
+}
+
+.settings-layout .sidebar .sidebar-top {
+  text-decoration: none;
+  color: var(--clr-white);
+  font-size: var(--fs-xl);
+  padding: 30px;
+  gap: 30px;
+}
+
+.settings-layout .sidebar-link {
+  display: block;
+  text-decoration: none;
+  color: var(--clr-white);
+  padding: 20px 50px;
+  font-size: var(--fs-base);
+}
+.settings-layout .sidebar-link.router-link-exact-active {
+  background: var(--clr-white);
+  color: var(--clr-black);
+}

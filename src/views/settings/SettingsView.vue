@@ -37,7 +37,10 @@ import testsIcon from "@/assets/icons/tests.png";
                 <img :src="testsIcon" />
                 <p>SMS</p>
             </RouterLink>
-            <RouterLink to="#" class="setting-link font-h">
+            <RouterLink
+                :to="{ name: 'settings.account' }"
+                class="setting-link font-h"
+            >
                 <img :src="testsIcon" />
                 <p>Account</p>
             </RouterLink>
