@@ -143,7 +143,6 @@ button {
 
 .simple-input {
   display: flex;
-  align-items: center;
   gap: 10px;
 }
 .si-label {
@@ -156,6 +155,20 @@ button {
 .si-field-col input {
   display: block;
   width: 100%;
+}
+
+.si-field-col .hint {
+  font-size: var(--fs-sm);
+  margin-top: 2px;
+}
+.si-field-col .hint.error {
+  color: var(--clr-danger);
+}
+.si-field-col .hint.success {
+  color: var(--clr-success);
+}
+.si-field-col .hint.warning {
+  color: var(--clr-warning);
 }
 
 /*---------------*/

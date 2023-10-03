@@ -11,8 +11,9 @@ interface InputProps extends InputHTMLAttributes {
 
 const props = withDefaults(defineProps<InputProps>(), {
     type: "text",
-    hintType: "none",
+    hintType: "error",
 });
+console.log(props.hintType);
 </script>
 <template>
     <div v-if="!unWrap" :class="[props.class, 'simple-input']">
@@ -20,7 +21,15 @@ const props = withDefaults(defineProps<InputProps>(), {
         <div class="si-field-col">
             <input v-bind="$attrs" />
 
-            <label v-if="hint" class="hint">
+            <label
+                v-if="hint"
+                :class="{
+                    hint: true,
+                    error: hintType == 'error',
+                    warning: hintType == 'warning',
+                    success: hintType == 'success',
+                }"
+            >
                 {{ hint }}
             </label>
         </div>
@@ -30,7 +39,15 @@ const props = withDefaults(defineProps<InputProps>(), {
         <div class="si-field-col">
             <input v-bind="$attrs" />
 
-            <label v-if="hint" class="hint">
+            <label
+                v-if="hint"
+                :class="{
+                    hint: true,
+                    error: hintType == 'error',
+                    warning: hintType == 'warning',
+                    success: hintType == 'success',
+                }"
+            >
                 {{ hint }}
             </label>
         </div>
