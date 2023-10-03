@@ -70,6 +70,19 @@ button {
   text-align: center;
 }
 
+.form-alert {
+  padding: 3px 8px;
+  font-size: var(--fs-base);
+  border: 1px solid
+}
+
+.form-alert.error {
+  color: var(--clr-danger);
+}
+.form-alert.success {
+  color: var(--clr-success);
+}
+
 /*====== Input with icon ======*/
 
 .ic-input {
