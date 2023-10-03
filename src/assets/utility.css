@@ -23,6 +23,25 @@
     margin-bottom: 0;
 }
 
+.space-x-md > * {
+    margin-left: var(--space-md);
+    margin-right: var(--space-md);
+}
+
+.space-x-sm > * {
+    margin-left: var(--space-sm);
+    margin-right: var(--space-sm);
+}
+
+.space-x-sm > *:first-child,
+.space-x-md > *:first-child {
+    margin-left: 0;
+}
+.space-x-sm > *:last-child,
+.space-x-md > *:last-child {
+    margin-right: 0;
+}
+
 .gap-sm {
     gap: var(--space-sm);
 }
