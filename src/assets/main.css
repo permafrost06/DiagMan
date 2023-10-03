@@ -3,7 +3,7 @@ html, body{
   margin: 0;
   padding: 0;
   background: var(--clr-white);
-  font-size: 18px;
+  font-size: var(--fs-base);
   color: var(--clr-black);
 }
 #app {
