@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
 import Pagination from "@/components/Pagination.vue";
 import ThActionable from "@/components/base/ThActionable.vue";
@@ -9,7 +10,7 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { useSorter } from "@/helpers/utils";
+import type { Sorting } from "@/helpers/utils";
 import router from "@/router";
 import { useUser } from "@/stores/user";
 import { onMounted, ref } from "vue";
@@ -20,8 +21,20 @@ const error = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 const patients = ref<Array<Record<string, number | string>>>([]);
 const page = ref(1);
-type Sortable = "id" | "name" | "type" | "delivery_date" | "status";
-const [sortState, sortFn] = useSorter<Sortable>("delivery_date", "desc");
+const sortState = ref<Sorting>({
+    by: "delivery_date",
+    order: "desc",
+});
+
+type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
+
+const tableDescription = {
+    id: "ID",
+    name: "Name",
+    type: "Type",
+    delivery_date: "Delivery Date",
+    status: "Status",
+};
 
 onMounted(async () => {
     if (!navigator.onLine) {
@@ -53,9 +66,8 @@ onMounted(async () => {
         }
     }
 });
-const sortBy = (by: string) => {
-    sortFn(by as Sortable);
-    console.log("Sort by:", by, "Order:", sortState.value.order);
+const sortBy = (newSortState: Sorting<string>) => {
+    sortState.value = newSortState;
 };
 const showFilter = (col: string) => {
     console.log("Filter by:", col);
@@ -131,7 +143,11 @@ const report = (patient: any) => {
                         d="m1069 499l-90 90l-338-337l-1 1796H512l1-1799l-340 340l-90-90L576 6l493 493zm807 960l91 90l-493 493l-494-493l91-90l338 338l-1-1797h128l1 1798l339-339z"
                     />
                 </svg>
-                <p>Sort: &quot;Delivery Date&quot; (A-Z)</p>
+                <p>
+                    Sort: &quot;{{
+                        tableDescription[sortState.by as TableNames]
+                    }}&quot; ({{ sortState.order === "asc" ? "A-Z" : "Z-A" }})
+                </p>
             </div>
             <div class="query-item">
                 <svg
@@ -164,56 +180,13 @@ const report = (patient: any) => {
         <div>
             <table width="100%">
                 <tr class="font-h">
-                    <th>
-                        <ThActionable
-                            name="id"
-                            :onFilter="showFilter"
-                            :onSort="sortBy"
-                            :sortState="sortState"
-                        >
-                            ID
-                        </ThActionable>
-                    </th>
-                    <th>
-                        <ThActionable
-                            name="name"
-                            :onFilter="showFilter"
-                            :onSort="sortBy"
-                            :sortState="sortState"
-                        >
-                            Name
-                        </ThActionable>
-                    </th>
-                    <th>
-                        <ThActionable
-                            name="type"
-                            :onFilter="showFilter"
-                            :onSort="sortBy"
-                            :sortState="sortState"
-                        >
-                            Type
-                        </ThActionable>
-                    </th>
-                    <th>
-                        <ThActionable
-                            name="delivery_date"
-                            :onFilter="showFilter"
-                            :onSort="sortBy"
-                            :sortState="sortState"
-                        >
-                            Delivery Date
-                        </ThActionable>
-                    </th>
-                    <th>
-                        <ThActionable
-                            name="status"
-                            :onFilter="showFilter"
-                            :onSort="sortBy"
-                            :sortState="sortState"
-                        >
-                            Status
-                        </ThActionable>
-                    </th>
+                    <ThActionable
+                        :description="tableDescription"
+                        :on-filter="showFilter"
+                        :on-sort="sortBy"
+                        sort-by="delivery_date"
+                        sort-order="desc"
+                    />
                     <th>Actions</th>
                 </tr>
                 <tr v-if="isLoading">
