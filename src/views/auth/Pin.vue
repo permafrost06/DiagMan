@@ -16,6 +16,8 @@ onMounted(() => {
         user.pin = 1;
         localStorage.removeItem(TMP_USER_KEY);
     }
+
+    (document.querySelector('input[name="pin"]') as HTMLInputElement)?.focus();
 });
 
 const handleForm = async (evt: any) => {
