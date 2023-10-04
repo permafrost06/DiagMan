@@ -1,19 +1,48 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { ref, type InputHTMLAttributes } from "vue";
+import { ref } from "vue";
+import { setCursor as setCursorEl } from "@/helpers/ui";
 import Icon from "./base/Icon.vue";
+import { valueToFilter } from "@/helpers/search-filter";
 
-interface InputProps extends InputHTMLAttributes {
+interface InputProps {
     class?: any;
-    value: string;
-    cursor?: string;
+    modelValue: string;
+    onUpdate?: (val: Record<string, string>) => void;
 }
 const props = defineProps<InputProps>();
 const emit = defineEmits<{
-    (e: "update", value: string): void;
+    (e: "update:modelValue", value: string): void;
 }>();
-
+defineExpose({
+    setCursor,
+});
 const inputEl = ref<HTMLInputElement>();
+
+function setCursor(col: string) {
+    if (!inputEl.value) {
+        return;
+    }
+    inputEl.value.focus();
+    const idx = props.modelValue.indexOf(col + ":");
+    if (idx === -1) {
+        emit("update:modelValue", (props.modelValue + " " + col + ":").trim());
+        return;
+    }
+
+    const from = idx + col.length + 1;
+    const to = props.modelValue.indexOf(":", from);
+    if (to === -1) {
+        setCursorEl(inputEl.value, from, props.modelValue.length);
+        return;
+    }
+    const valWithKey = props.modelValue.substring(from, to + 1);
+    setCursorEl(
+        inputEl.value,
+        from,
+        from + valWithKey.replace(/\s([a-zA-Z0-9_-]+):$/, "").length
+    );
+}
 
 let tOut = 0;
 const onInput = (evt: any) => {
@@ -21,7 +50,9 @@ const onInput = (evt: any) => {
         clearTimeout(tOut);
     }
     tOut = setTimeout(() => {
-        emit("update", evt.target.value);
+        tOut = 0;
+        emit("update:modelValue", evt.target.value);
+        props.onUpdate && props.onUpdate(valueToFilter(evt.target.value));
     }, 500);
 };
 </script>
@@ -37,7 +68,7 @@ const onInput = (evt: any) => {
             ref="inputEl"
             type="search"
             v-bind="$attrs"
-            :value="value"
+            :value="props.modelValue"
             @input="onInput"
         />
     </div>

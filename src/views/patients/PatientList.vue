@@ -16,7 +16,6 @@ import type { Sorting } from "@/helpers/utils";
 import router from "@/router";
 import { useUser } from "@/stores/user";
 import { onMounted, ref } from "vue";
-import { valueToFilter } from "@/helpers/search-filter";
 
 const user = useUser();
 const isLoading = ref(false);
@@ -29,7 +28,6 @@ const sortState = ref<Sorting>({
     order: "desc",
 });
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
-const filterFocus = ref<TableNames>("id");
 const filters = ref("");
 const filterRef = ref();
 
@@ -75,13 +73,11 @@ const sortBy = (newSortState: Sorting<string>) => {
     sortState.value = newSortState;
 };
 const showFilter = (col: string) => {
-    //filterFocus.value = col as TableNames;
-    console.log(filterRef.value);
+    filterRef.value.setCursor(col);
 };
 
-const changeFilter = (val: string) => {
-    // filters.value = val;
-    console.log(valueToFilter(val));
+const filterChange = (val: Record<string, string>) => {
+    console.log(val);
 };
 
 const report = (patient: any) => {
@@ -133,9 +129,8 @@ const report = (patient: any) => {
             <SearchFilter
                 ref="filterRef"
                 placeholder="Search..."
-                :cursor="filterFocus"
-                :value="filters"
-                @update="changeFilter"
+                v-model="filters"
+                :on-update="filterChange"
             />
             <div class="query-item">
                 <Icon size="10" viewBox="2048">
