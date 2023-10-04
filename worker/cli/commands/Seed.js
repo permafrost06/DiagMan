@@ -3,6 +3,7 @@ const { faker } = require('@faker-js/faker');
 const { Spinner } = require('cli-spinner');
 const { records, random, getRandomGender } = require('../../database/seeder/records');
 const { sqlite, insertRow } = require('../db');
+const { tests: sTests } = require('../../database/seeder/tests_data');
 
 const spinner = (text) => {
 	const spinner = new Spinner(`%s ${text}`);
@@ -16,21 +17,23 @@ const spinner = (text) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-const seedTests = async (count = 20) => {
+const seedTests = async () => {
 	const stopGenSpinner = spinner('Inserting rows...');
 
-	for (let i = 0; i < count; i++) {
+	for (let i = 0; i < sTests.length; i++) {
+		const test = sTests[i];
 		const row = {
-			name: faker.person.name(),
-			price: Math.round(Math.random() * 10000),
-			size: ['small', 'medium', 'large', 'complex'][Math.round(Math.random() * 3)],
+			name: test.name,
+			type: test.type.toLowerCase(),
+			price: test.cost,
+			size: test.size.toLowerCase(),
 			status: ['active', 'updated', 'deleted'][Math.round(Math.random() * 2)],
 		};
 		await insertRow('tests', row);
 	}
 
 	stopGenSpinner();
-	console.log(`Inserted ${count} tests!`);
+	console.log(`Inserted ${sTests.length} tests!`);
 };
 
 const seedPatients = async (count = 100) => {
@@ -43,9 +46,9 @@ const seedPatients = async (count = 100) => {
 	const { rows: tests } = await sqlite.execute('SELECT id FROM `tests`');
 	stopMaxIdSpinner();
 
-	if (!tests.length) {
-		console.log('Please add some tests first!');
-		return;
+	if (!tests.length || tests.length < sTests.length) {
+		await seedTests();
+		return await seedPatients(count);
 	}
 
 	const getTests = (total = 3) => {
@@ -66,7 +69,7 @@ const seedPatients = async (count = 100) => {
 		const ref = records[random()];
 		const date = ref.date.split('-').reverse().join('-');
 		const row = {
-			id: (maxId + i + 1).toString().padStart(5, '0'),
+			id: 'SID-' + (maxId + i + 1).toString().padStart(5, '0'),
 			type: ['histo', 'cyto'][Math.round(Math.random())],
 			status: ['draft', 'pending', 'complete', 'locked'][Math.round(Math.random() * 3)],
 			name: ref.patientName,
@@ -82,17 +85,21 @@ const seedPatients = async (count = 100) => {
 			discount: Math.round(Math.random() * 1000),
 			advance: Math.round(Math.random() * 1000),
 		};
-		if (i % 5 === 0) {
-			await insertRow('reports', {
-				id: row.id,
-				aspiration_note: ref.aspNote,
-				microscopic_examination: ref.me,
-				impression: ref.impression,
-			});
-			row.status = 'complete';
-		}
+		try {
+			if (i % 5 === 0) {
+				await insertRow('reports', {
+					id: row.id,
+					aspiration_note: ref.aspNote,
+					microscopic_examination: ref.me,
+					impression: ref.impression,
+				});
+				row.status = 'complete';
+			}
 
-		await insertRow('patients', row);
+			await insertRow('patients', row);
+		} catch (_error) {
+			console.log('Failed: ', row.id);
+		}
 	}
 
 	stopGenSpinner();
