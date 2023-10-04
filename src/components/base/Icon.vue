@@ -26,7 +26,7 @@ const width = props.width || props.size;
     <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
-        :view-box="viewBox"
+        :viewBox="viewBox"
         :height="height"
         :width="width"
         :class="props.class"
