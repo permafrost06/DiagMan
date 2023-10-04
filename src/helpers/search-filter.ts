@@ -10,7 +10,9 @@ export const filterToValue = (filters: Record<string, string>): string => {
 export const valueToFilter = (val: string): Record<string, string> => {
     const f: Record<string, string> = {};
     let start = 0;
-    while (start > -1) {
+    let count = 0;
+    while (start > -1 && count < 1000) {
+        count++;
         const keyEnd = val.indexOf(":", start);
         const key = val.substring(start, keyEnd).trim();
         const nextKeyEnd = val.indexOf(":", keyEnd + 1);
@@ -19,10 +21,13 @@ export const valueToFilter = (val: string): Record<string, string> => {
             nextKeyEnd > -1 ? nextKeyEnd + 1 : undefined
         );
         const sval = valWithKey.replace(/\s([a-zA-Z0-9_-]+):$/, "");
-        start = nextKeyEnd - valWithKey.length + sval.length + 1;
-
         if (key) {
             f[key] = sval.trim();
+        }
+        if (nextKeyEnd > -1) {
+            start = nextKeyEnd - valWithKey.length + sval.length + 1;
+        } else {
+            break;
         }
     }
     return f;
