@@ -85,7 +85,7 @@ export const validateObject = <T extends z.ZodRawShape>(
 };
 
 export type SortType = "desc" | "asc";
-export interface Sorting<T extends string> {
+export interface Sorting<T extends string = string> {
     by: T;
     order: SortType;
 }
