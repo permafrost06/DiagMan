@@ -9,6 +9,7 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
+import { useSorter } from "@/helpers/utils";
 import router from "@/router";
 import { useUser } from "@/stores/user";
 import { onMounted, ref } from "vue";
@@ -19,6 +20,8 @@ const error = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 const patients = ref<Array<Record<string, number | string>>>([]);
 const page = ref(1);
+type Sortable = "id" | "name" | "type" | "delivery_date" | "status";
+const [sortState, sortFn] = useSorter<Sortable>("delivery_date", "desc");
 
 onMounted(async () => {
     if (!navigator.onLine) {
@@ -50,9 +53,13 @@ onMounted(async () => {
         }
     }
 });
-
-const sortBy = () => {};
-const showFilter = () => {};
+const sortBy = (by: string) => {
+    sortFn(by as Sortable);
+    console.log("Sort by:", by, "Order:", sortState.value.order);
+};
+const showFilter = (col: string) => {
+    console.log("Filter by:", col);
+};
 
 const report = (patient: any) => {
     localStorage.setItem("to_report", JSON.stringify(patient));
@@ -158,31 +165,52 @@ const report = (patient: any) => {
             <table width="100%">
                 <tr class="font-h">
                     <th>
-                        <ThActionable :onFilter="showFilter" :onSort="sortBy">
+                        <ThActionable
+                            name="id"
+                            :onFilter="showFilter"
+                            :onSort="sortBy"
+                            :sortState="sortState"
+                        >
                             ID
                         </ThActionable>
                     </th>
                     <th>
-                        <ThActionable :onFilter="showFilter" :onSort="sortBy">
+                        <ThActionable
+                            name="name"
+                            :onFilter="showFilter"
+                            :onSort="sortBy"
+                            :sortState="sortState"
+                        >
                             Name
                         </ThActionable>
                     </th>
                     <th>
-                        <ThActionable :onFilter="showFilter" :onSort="sortBy">
+                        <ThActionable
+                            name="type"
+                            :onFilter="showFilter"
+                            :onSort="sortBy"
+                            :sortState="sortState"
+                        >
                             Type
                         </ThActionable>
                     </th>
                     <th>
                         <ThActionable
+                            name="delivery_date"
                             :onFilter="showFilter"
                             :onSort="sortBy"
-                            sortState="asc"
+                            :sortState="sortState"
                         >
                             Delivery Date
                         </ThActionable>
                     </th>
                     <th>
-                        <ThActionable :onFilter="showFilter" :onSort="sortBy">
+                        <ThActionable
+                            name="status"
+                            :onFilter="showFilter"
+                            :onSort="sortBy"
+                            :sortState="sortState"
+                        >
                             Status
                         </ThActionable>
                     </th>
@@ -199,7 +227,7 @@ const report = (patient: any) => {
                         <td>{{ patient.id }}</td>
                         <td>{{ patient.name }}</td>
                         <td class="capitalize">{{ patient.type }}pathology</td>
-                        <td>{{ patient.entry_date }}</td>
+                        <td>{{ patient.delivery_date }}</td>
                         <td class="flex capitalize items-center">
                             {{ patient.status }}
                         </td>

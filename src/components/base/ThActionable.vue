@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { Sorting } from "@/helpers/utils";
+
 interface Props {
-    sortState?: "asc" | "desc" | "none";
-    onSort?: () => void;
-    onFilter?: () => void;
+    name: string;
+    sortState?: Sorting<string>;
+    onSort?: (by: string) => void;
+    onFilter?: (column: string) => void;
 }
 defineProps<Props>();
 </script>
@@ -11,9 +14,21 @@ defineProps<Props>();
     <div class="th-actionable">
         <p><slot></slot></p>
         <div class="actions">
-            <button v-if="onSort" @click="onSort">
+            <button v-if="sortState" @click="() => onSort && onSort(name)">
                 <svg
-                    v-if="sortState === 'asc'"
+                    v-if="sortState.by !== name"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 2048 2048"
+                >
+                    <path
+                        fill="currentColor"
+                        d="m1069 499l-90 90l-338-337l-1 1796H512l1-1799l-340 340l-90-90L576 6l493 493zm807 960l91 90l-493 493l-494-493l91-90l338 338l-1-1797h128l1 1798l339-339z"
+                    />
+                </svg>
+                <svg
+                    v-else-if="sortState.order === 'asc'"
                     xmlns="http://www.w3.org/2000/svg"
                     width="12"
                     height="12"
@@ -27,7 +42,7 @@ defineProps<Props>();
                     />
                 </svg>
                 <svg
-                    v-else-if="sortState === 'desc'"
+                    v-else
                     xmlns="http://www.w3.org/2000/svg"
                     width="12"
                     height="12"
@@ -40,21 +55,8 @@ defineProps<Props>();
                         clip-rule="evenodd"
                     />
                 </svg>
-
-                <svg
-                    v-else
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 2048 2048"
-                >
-                    <path
-                        fill="currentColor"
-                        d="m1069 499l-90 90l-338-337l-1 1796H512l1-1799l-340 340l-90-90L576 6l493 493zm807 960l91 90l-493 493l-494-493l91-90l338 338l-1-1797h128l1 1798l339-339z"
-                    />
-                </svg>
             </button>
-            <button v-if="onFilter" @click="onFilter">
+            <button v-if="onFilter" @click="() => onFilter && onFilter(name)">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
