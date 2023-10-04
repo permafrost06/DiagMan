@@ -18,7 +18,6 @@ export const valueToFilter = (val: string): Record<string, string> => {
             keyEnd + 1,
             nextKeyEnd > -1 ? nextKeyEnd + 1 : undefined
         );
-        console.log(valWithKey);
         const sval = valWithKey.replace(/\s([a-zA-Z0-9_-]+):$/, "");
         start = nextKeyEnd - valWithKey.length + sval.length + 1;
 
