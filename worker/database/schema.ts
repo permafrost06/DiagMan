@@ -25,6 +25,9 @@ export const tests = sqliteTable('tests', {
 		autoIncrement: true,
 	}),
 	name: text('name'),
+	type: text('type', {
+		enum: ['histo', 'cyto'],
+	}),
 	price: numeric('price'),
 	size: text('size', {
 		enum: ['small', 'medium', 'large', 'complex'],
