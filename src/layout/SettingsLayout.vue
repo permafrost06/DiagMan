@@ -1,60 +1,81 @@
 <script setup lang="ts"></script>
 <template>
     <div class="settings-layout">
-        <ul class="sidebar font-h">
-            <li>
-                <RouterLink
-                    :to="{ name: 'settings' }"
-                    class="sidebar-top flex items-center"
-                >
-                    <svg
-                        width="14"
-                        height="25"
-                        viewBox="0 0 14 25"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+        <nav class="sidebar font-h">
+            <RouterLink
+                :to="{ name: 'settings' }"
+                class="sidebar-top flex items-center"
+            >
+                Settings
+            </RouterLink>
+            <ul>
+                <li class="group-title">General</li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Appearance
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Report Templates
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Tests
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        SMS
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Printing
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Charts
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink
+                        :to="{ name: 'settings.account' }"
+                        class="sidebar-link"
                     >
-                        <path d="M13 0.5L1 12.5L13 24.5" stroke="white" />
-                    </svg>
+                        Account
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Notifications
+                    </RouterLink>
+                </li>
+            </ul>
+            <ul>
+                <li class="group-title">Administrative</li>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Manage Users
+                    </RouterLink>
+                </li>
 
-                    Settings
-                </RouterLink>
-            </li>
-            <li>
-                <RouterLink to="/settings/#" class="sidebar-link">
-                    Appearance
-                </RouterLink>
-            </li>
-            <li>
-                <RouterLink to="/settings/#" class="sidebar-link">
-                    Tests
-                </RouterLink>
-            </li>
-            <li>
-                <RouterLink to="/settings/#" class="sidebar-link">
-                    Report Templates
-                </RouterLink>
-            </li>
-            <li>
-                <RouterLink
-                    :to="{ name: 'settings.account' }"
-                    class="sidebar-link"
-                >
-                    Account
-                </RouterLink>
-            </li>
-            <li>
-                <RouterLink to="/settings/#" class="sidebar-link">
-                    Manage Users
-                </RouterLink>
-            </li>
-
-            <li>
-                <RouterLink to="/settings/#" class="sidebar-link">
-                    Advanced
-                </RouterLink>
-            </li>
-        </ul>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        Advanced
+                    </RouterLink>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <RouterLink to="/settings/#" class="sidebar-link">
+                        About
+                    </RouterLink>
+                </li>
+            </ul>
+        </nav>
         <div class="setting-page-area">
             <RouterView></RouterView>
         </div>

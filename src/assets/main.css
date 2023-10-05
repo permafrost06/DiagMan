@@ -450,39 +450,52 @@ button {
 .settings-layout .sidebar {
   margin: 0;
   padding: 0;
-  background: var(--clr-black);
+  background: var(--clr-white);
   width: 330px;
   font-weight: 500;
-  border-right: 1px solid var(--clr-black);
+  padding: 30px 20px;
 }
 
+.settings-layout .sidebar .sidebar-top {
+  text-decoration: none;
+  color: var(--clr-black);
+  font-size: var(--fs-xl);
+  padding: 0 10px;
+  gap: 30px;
+}
+
+
+.settings-layout .sidebar ul {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--clr-black);
+}
 .settings-layout .sidebar li {
   list-style-type: none;
   border-bottom: 1px solid var(--clr-white);
 }
 
-.settings-layout .sidebar .sidebar-top {
-  text-decoration: none;
-  color: var(--clr-white);
-  font-size: var(--fs-xl);
-  padding: 30px;
-  gap: 30px;
-}
-
 .settings-layout .sidebar-link {
   display: block;
   text-decoration: none;
-  color: var(--clr-white);
-  padding: 20px 50px;
-  font-size: var(--fs-base);
+  color: var(--clr-black);
+  padding: 5px 10px;
+  font-size: var(--fs-md);
+}
+.settings-layout .sidebar .group-title {
+  opacity: 0.9;
+  padding: 0 10px;
+  padding-top: 10px;
+  font-weight: lighter;
 }
 .settings-layout .sidebar-link.router-link-exact-active {
-  background: var(--clr-white);
-  color: var(--clr-black);
+  background: var(--clr-black);
+  color: var(--clr-white);
 }
 
 .settings-layout .setting-page-area {
-  padding: 50px;
+  padding: 30px;
+  padding-top: 90px;
   flex-grow: 1;
 }
 
