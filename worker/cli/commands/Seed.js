@@ -69,7 +69,7 @@ const seedPatients = async (count = 100) => {
 		const ref = records[random()];
 		const date = ref.date.split('-').reverse().join('-');
 		const row = {
-			id: 'SID-' + (maxId + i + 1).toString().padStart(5, '0'),
+			id: 'ZZZ-' + (maxId + i + 1).toString().padStart(5, '0'),
 			type: ['histo', 'cyto'][Math.round(Math.random())],
 			status: ['draft', 'pending', 'complete', 'locked'][Math.round(Math.random() * 3)],
 			name: ref.patientName,
@@ -107,6 +107,6 @@ const seedPatients = async (count = 100) => {
 };
 
 function run() {
-	seedPatients(2);
+	seedPatients(50);
 }
 exports.run = run;
