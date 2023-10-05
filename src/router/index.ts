@@ -34,21 +34,20 @@ const router = createRouter({
                 },
                 {
                     path: "/settings",
-                    name: "settings",
-                    component: () =>
-                        import("@/views/settings/SettingsView.vue"),
-                },
-                {
-                    path: "/settings",
                     component: () => import("@/layout/SettingsLayout.vue"),
                     children: [
+                        {
+                            path: "",
+                            name: "settings",
+                            redirect: {
+                                name: "settings.account",
+                            },
+                        },
                         {
                             path: "account",
                             name: "settings.account",
                             component: () =>
-                                import(
-                                    "@/views/settings/individual/AccountSetting.vue"
-                                ),
+                                import("@/views/settings/AccountSetting.vue"),
                         },
                     ],
                 },
