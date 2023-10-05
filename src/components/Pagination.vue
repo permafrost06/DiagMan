@@ -12,8 +12,7 @@ export interface PaginationProps {
     onEachSide?: number;
     pageSize?: number;
     pages?: number;
-    itemCount: number;
-    showText?: boolean;
+    itemCount?: number;
 }
 
 const emit = defineEmits<{
@@ -25,21 +24,24 @@ const props = withDefaults(defineProps<PaginationProps>(), {
 });
 
 const pageDetails = computed((): PageDetails => {
-    if (props.pages) {
+    if (typeof props.pages !== "undefined") {
         return {
-            size: Math.ceil(props.itemCount / props.pages),
+            size: Math.ceil(props.itemCount || 0 / props.pages),
             total: props.pages,
         };
     }
 
-    if (props.pageSize) {
+    if (
+        typeof props.pageSize !== "undefined" &&
+        typeof props.itemCount !== "undefined"
+    ) {
         return {
             size: props.pageSize,
             total: Math.ceil(props.itemCount / props.pageSize),
         };
     }
 
-    throw new Error("Either pages or pageCount prop is required!");
+    throw new Error("Either pages or pageCount & itemCount is required!");
 });
 
 const pages = computed(() => {
@@ -90,7 +92,7 @@ onMounted(() => {
 
 <template>
     <div class="pagination">
-        <p v-if="showText">
+        <p v-if="itemCount">
             Showing
             <span class="items-range">
                 {{ (modelValue - 1) * pageDetails.size + 1 }}-{{

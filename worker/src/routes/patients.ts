@@ -26,14 +26,95 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 	res.setRows([data]);
 };
 
-export const listPatients: RequestHandler = async ({ env, res }) => {
+export const listPatients: RequestHandler = async ({ env, res, url }) => {
+	const limit = 10;
+	const search = new URL(url).searchParams;
+	const filterSchema = {
+		id: /^([a-zA-Z0-9\s,_-]+)$/,
+		name: /^([a-zA-Z0-9\s_]+)$/,
+		type: /^(histo|cyto)$/,
+		delivery_date: /^([0-9\s/-]+)$/,
+		status: /^(pending|complete)$/,
+	};
+
+	let page = parseInt(search.get('page') || '1');
+	if (page < 1) {
+		page = 1;
+	}
+	const offset = (page - 1) * limit;
+	let orderBy = search.get('order_by') || 'id';
+	// @ts-ignore
+	if (!filterSchema[orderBy]) {
+		orderBy = 'id';
+	}
+	let order = search.get('order') || 'desc';
+	if (order !== 'desc' && order !== 'asc') {
+		order = 'desc';
+	}
+
+	let where = '';
+	const args: any[] = [];
+
+	const id = search.get('id');
+	if (id && filterSchema.id.test(id)) {
+		where += 'id LIKE CONCAT(?, "%")';
+		args.push(id);
+	}
+
+	const name = search.get('name');
+	if (name && filterSchema.name.test(name)) {
+		if (where) {
+			where += ' AND ';
+		}
+		where += 'name LIKE CONCAT(?, "%")';
+		args.push(name);
+	}
+
+	const type = search.get('type');
+	if (type && filterSchema.type.test(type)) {
+		if (where) {
+			where += ' AND ';
+		}
+		where += "type = '" + type + "'";
+	}
+
+	const status = search.get('status');
+	if (status && filterSchema.status.test(status)) {
+		if (where) {
+			where += ' AND ';
+		}
+		where += "status = '" + status + "'";
+	}
+
+	const all = search.get('all');
+	if (all?.trim()) {
+		if (where) {
+			where += ' AND ';
+		}
+		where += '(name LIKE CONCAT("%", ?, "%") OR type LIKE CONCAT("%", ?, "%") OR delivery_date LIKE CONCAT("%", ?, "%"))';
+		args.push(all);
+		args.push(all);
+		args.push(all);
+	}
+
 	const db = getLibsqlClient(env);
-	const qres = await db.execute(`
-		SELECT *, EXISTS(
-			SELECT 1 FROM \`reports\` WHERE id = p.id
-		) AS is_reported FROM \`patients\` AS p
-	`);
+	const qres = await db.execute({
+		sql: `
+			SELECT *, EXISTS(
+				SELECT 1 FROM \`reports\` WHERE id = p.id
+			) AS is_reported FROM \`patients\` AS p
+			${where ? ' WHERE ' + where : ''}
+			ORDER BY ${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
+		`,
+		args,
+	});
+
+	const { rows: info } = await db.execute({
+		sql: `SELECT COUNT(id) AS total FROM \`patients\` ${where ? ' WHERE ' + where : ''}`,
+		args,
+	});
 	res.setRows(qres.rows);
+	res.pageParams(page, info[0].total || (0 as any), limit);
 };
 
 export const syncPatients: RequestHandler = async ({ env, res, request }) => {

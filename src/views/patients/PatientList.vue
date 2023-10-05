@@ -15,14 +15,16 @@ import {
 import type { Sorting } from "@/helpers/utils";
 import router from "@/router";
 import { useUser } from "@/stores/user";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const user = useUser();
 const isLoading = ref(false);
 const error = ref<string | null>(null);
-const tests = ref<Array<Record<string, number | string>>>([]);
 const patients = ref<Array<Record<string, number | string>>>([]);
-const page = ref(1);
+const page = ref({
+    maxPage: 1,
+    page: 1,
+});
 const sortState = ref<Sorting>({
     by: "delivery_date",
     order: "desc",
@@ -30,6 +32,8 @@ const sortState = ref<Sorting>({
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
 const filters = ref("");
 const filterRef = ref();
+
+let queryParams: Record<string, string> = {};
 
 const tableDescription = {
     id: "ID",
@@ -39,36 +43,6 @@ const tableDescription = {
     status: "Status",
 };
 
-onMounted(async () => {
-    if (!navigator.onLine) {
-        tests.value = getRows(TABLES.tests);
-        patients.value = getRows(TABLES.patients);
-        return;
-    }
-
-    isLoading.value = true;
-    const [res1, res2] = await Promise.all([
-        fetchApi(`${API_BASE}/tests`),
-        fetchApi(`${API_BASE}/patients`),
-    ]);
-    isLoading.value = false;
-    if (!res1.success) {
-        error.value = res1.message;
-    } else {
-        tests.value = res1.rows || [];
-        if (getRowCount(TABLES.tests) === 0) {
-            insertRowBulk(TABLES.tests, tests.value);
-        }
-    }
-    if (!res2.success) {
-        error.value = res2.message;
-    } else {
-        patients.value = res2.rows || [];
-        if (getRowCount(TABLES.patients) === 0) {
-            insertRowBulk(TABLES.patients, patients.value);
-        }
-    }
-});
 const sortBy = (newSortState: Sorting<string>) => {
     sortState.value = newSortState;
 };
@@ -77,7 +51,9 @@ const showFilter = (col: string) => {
 };
 
 const filterChange = (val: Record<string, string>) => {
-    console.log(val);
+    queryParams = val;
+    page.value.page = 1;
+    queryResults();
 };
 
 const report = (patient: any) => {
@@ -86,6 +62,33 @@ const report = (patient: any) => {
         name: "reports",
     });
 };
+
+onMounted(queryResults);
+watch(page.value, queryResults);
+
+async function queryResults() {
+    if (!navigator.onLine) {
+        patients.value = getRows(TABLES.patients);
+        return;
+    }
+
+    isLoading.value = true;
+    queryParams.page = page.value.page.toString();
+    const qs = new URLSearchParams(queryParams);
+    const res = await fetchApi(`${API_BASE}/patients?${qs.toString()}`);
+    isLoading.value = false;
+
+    if (!res.success) {
+        error.value = res.message;
+    } else {
+        patients.value = res.rows || [];
+        if (getRowCount(TABLES.patients) === 0) {
+            insertRowBulk(TABLES.patients, patients.value);
+        }
+        page.value.page = res.pagination!.page;
+        page.value.maxPage = res.pagination!.maxPage;
+    }
+}
 </script>
 <template>
     <div class="patients-page">
@@ -162,7 +165,7 @@ const report = (patient: any) => {
                     <td colspan="6">Loading, please wait...</td>
                 </tr>
                 <tr v-else-if="!patients?.length">
-                    <td colspan="6">No patients added yet!</td>
+                    <td colspan="6">{{ error || "No patients added yet!" }}</td>
                 </tr>
                 <template v-else>
                     <tr v-for="patient in patients" :key="patient.id">
@@ -197,11 +200,6 @@ const report = (patient: any) => {
                 </template>
             </table>
         </div>
-        <Pagination
-            :item-count="100"
-            v-model="page"
-            :page-size="10"
-            class="mt-sm"
-        />
+        <Pagination :pages="page.maxPage" v-model="page.page" class="mt-sm" />
     </div>
 </template>
