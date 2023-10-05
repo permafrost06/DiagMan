@@ -98,7 +98,6 @@ async function queryResults() {
         <div class="patients-header">
             <div class="flex items-center">
                 <h3 class="font-h">Patient List</h3>
-                <button class="h-main-btn font-h">+ Add Patient</button>
             </div>
             <div class="flex items-center">
                 <p class="h-user-name font-h">{{ user.name }}</p>
@@ -132,6 +131,7 @@ async function queryResults() {
             </div>
         </div>
         <div class="query-info">
+            <button class="h-main-btn font-h">+ Add Patient</button>
             <SearchFilter
                 ref="filterRef"
                 placeholder="Search..."

@@ -339,10 +339,9 @@ button {
 
 .query-info {
   display: grid;
-  grid-template-columns: auto max-content;
-  gap: var(--space-md);
+  grid-template-columns: max-content auto max-content;
+  gap: var(--space-sm);
   padding: 15px 10px;
-  margin-top: 15px;
 }
 .query-item {
   display: flex;
