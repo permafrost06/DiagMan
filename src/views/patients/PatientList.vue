@@ -45,6 +45,7 @@ const tableDescription = {
 
 const sortBy = (newSortState: Sorting<string>) => {
     sortState.value = newSortState;
+    queryResults();
 };
 const showFilter = (col: string) => {
     filterRef.value.setCursor(col);
@@ -74,6 +75,8 @@ async function queryResults() {
 
     isLoading.value = true;
     queryParams.page = page.value.page.toString();
+    queryParams.order_by = sortState.value.by;
+    queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
     const res = await fetchApi(`${API_BASE}/patients?${qs.toString()}`);
     isLoading.value = false;
