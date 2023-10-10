@@ -57,7 +57,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 
 	const id = search.get('id');
 	if (id && filterSchema.id.test(id)) {
-		where += 'id LIKE CONCAT(?, "%")';
+		where += 'id LIKE CONCAT("%", ?, "%")';
 		args.push(id);
 	}
 
