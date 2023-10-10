@@ -164,9 +164,30 @@ async function queryResults() {
                     />
                     <th>Actions</th>
                 </tr>
-                <tr v-if="isLoading">
-                    <td colspan="6">Loading, please wait...</td>
-                </tr>
+                <template v-if="isLoading">
+                    <tr v-for="i in 10" :key="i" :class="'skeleton-' + (i % 4)">
+                        <td>
+                            <div class="skeleton"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton"></div>
+                        </td>
+                        <td class="flex items-center gap-sm">
+                            <div class="skeleton btn"></div>
+                            <div class="skeleton btn"></div>
+                            <div class="skeleton btn"></div>
+                        </td>
+                    </tr>
+                </template>
                 <tr v-else-if="!patients?.length">
                     <td colspan="6">{{ error || "No patients added yet!" }}</td>
                 </tr>
