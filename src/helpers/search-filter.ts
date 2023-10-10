@@ -14,6 +14,10 @@ export const valueToFilter = (val: string): Record<string, string> => {
     while (start > -1 && count < 1000) {
         count++;
         const keyEnd = val.indexOf(":", start);
+        if (keyEnd === -1) {
+            f["all"] = val.trim();
+            break;
+        }
         const key = val.substring(start, keyEnd).trim();
         const nextKeyEnd = val.indexOf(":", keyEnd + 1);
         const valWithKey = val.substring(
