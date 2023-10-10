@@ -207,7 +207,7 @@ button {
   position: relative;
   height: 1em;
   width: 80%;
-  background: var(--clr-black);
+  background: #ababab;
   overflow: hidden;
 }
 .skeleton.btn{
@@ -228,7 +228,7 @@ button {
     rgba(255, 255, 255, 0.9) 60%,
     rgba(255, 255, 255, 0)
   );
-  animation: skeleton-anim 2s infinite;
+  animation: skeleton-anim 1s infinite;
   content: '';
 }
 
