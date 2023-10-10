@@ -73,3 +73,24 @@ const onInput = (evt: any) => {
         />
     </div>
 </template>
+
+<style lang="scss">
+.search-filter {
+    position: relative;
+}
+
+.search-filter svg {
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-filter input {
+    width: 100%;
+    min-height: 100%;
+    border: 1px solid var(--clr-black);
+    padding: 5px 8px;
+    padding-left: 25px;
+}
+</style>

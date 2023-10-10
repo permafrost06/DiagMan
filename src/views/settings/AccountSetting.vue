@@ -183,3 +183,34 @@ const logout = async () => {
         </form>
     </div>
 </template>
+
+<style lang="scss">
+.acc-settings {
+    max-width: 500px;
+}
+.acc-settings form {
+    display: block;
+    margin: 20px 0;
+}
+.acc-settings form > * {
+    margin-top: 8px;
+}
+.acc-settings .form-title {
+    font-size: var(--fs-lg);
+    font-weight: 500;
+}
+
+.acc-settings button {
+    font-size: var(--fs-md);
+}
+
+.acc-settings .inputs-grid {
+    display: grid;
+    grid-template-columns: max-content auto;
+    gap: 10px;
+}
+
+.acc-settings .inputs-grid > label {
+    text-align: right;
+}
+</style>

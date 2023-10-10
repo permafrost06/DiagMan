@@ -227,3 +227,151 @@ async function queryResults() {
         <Pagination :pages="page.maxPage" v-model="page.page" class="mt-sm" />
     </div>
 </template>
+
+<style lang="scss">
+.patients-page {
+    padding: 30px;
+}
+.patients-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.patients-header .site-name {
+    font-weight: bold;
+    font-size: var(--fs-xl);
+}
+.patients-header .h-main-btn {
+    background: var(--clr-black);
+    color: var(--clr-white);
+    margin-left: 10px;
+}
+.patients-header .h-icon-btn {
+    background: transparent;
+    color: var(--clr-black);
+    padding: 5px;
+}
+.patients-header .h-icon-btn:hover {
+    color: var(--clr-accent);
+}
+.patients-header .h-user-name {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.query-info {
+    display: grid;
+    grid-template-columns: max-content auto max-content;
+    gap: var(--space-sm);
+    padding: 15px 10px;
+}
+.query-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--clr-black);
+    padding: 3px 5px;
+    font-size: var(--fs-sm);
+    gap: 5px;
+}
+
+.query-item button {
+    padding: 0;
+    background: transparent;
+    color: var(--clr-black);
+}
+
+.query-item button:hover {
+    color: var(--clr-danger);
+}
+
+.patients-page table {
+    border-collapse: collapse;
+}
+.patients-page table tr {
+    border-bottom: 1px solid var(--clr-black);
+}
+.patients-page table tr:first-child {
+    border-bottom-width: 2px;
+}
+.patients-page table th {
+    font-size: var(--fs-base);
+}
+
+.patients-page table th,
+.patients-page table td {
+    padding: 8px 15px;
+    text-align: left;
+}
+
+.patients-page .row-actions button {
+    padding: 5px 15px;
+    font-weight: 600;
+}
+
+/*------- SKELETON LOADER --------*/
+.skeleton {
+    position: relative;
+    height: 1em;
+    width: 80%;
+    background: #ababab;
+    overflow: hidden;
+}
+.skeleton.btn {
+    height: 1.5em;
+    width: 100%;
+}
+.skeleton::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.9) 60%,
+        rgba(255, 255, 255, 0)
+    );
+    animation: skeleton-anim 1s infinite;
+    content: "";
+}
+
+@keyframes skeleton-anim {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.skeleton-1 .skeleton::after {
+    animation-delay: 50ms;
+}
+.skeleton-2 .skeleton::after {
+    animation-delay: 100ms;
+}
+.skeleton-3 .skeleton::after {
+    animation-delay: 150ms;
+}
+/*---------------*/
+
+.th-actionable {
+    display: flex;
+    align-items: center;
+}
+
+.th-actionable > p {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.th-actionable > .actions {
+    display: flex;
+}
+.th-actionable > .actions > button {
+    color: var(--clr-black);
+    background: transparent;
+    padding: 0;
+}
+</style>

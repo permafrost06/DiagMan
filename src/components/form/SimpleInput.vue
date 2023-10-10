@@ -52,3 +52,40 @@ const props = withDefaults(defineProps<InputProps>(), {
         </div>
     </template>
 </template>
+
+<style lang="scss">
+.simple-input {
+    display: flex;
+    gap: 10px;
+}
+
+.si-label {
+    font-size: var(--fs-base);
+}
+
+.si-field-col {
+    flex-grow: 1;
+}
+
+.si-field-col input {
+    display: block;
+    width: 100%;
+}
+
+.si-field-col .hint {
+    font-size: var(--fs-sm);
+    margin-top: 2px;
+}
+
+.si-field-col .hint.error {
+    color: var(--clr-danger);
+}
+
+.si-field-col .hint.success {
+    color: var(--clr-success);
+}
+
+.si-field-col .hint.warning {
+    color: var(--clr-warning);
+}
+</style>
