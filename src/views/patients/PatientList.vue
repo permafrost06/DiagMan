@@ -20,7 +20,7 @@ import { onMounted, ref, watch } from "vue";
 const user = useUser();
 const isLoading = ref(false);
 const error = ref<string | null>(null);
-const patients = ref<Array<Record<string, number | string>>>([]);
+const patients = ref<Array<Record<string, string>>>([]);
 const page = ref({
     maxPage: 1,
     page: 1,
@@ -55,6 +55,23 @@ const filterChange = (val: Record<string, string>) => {
     queryParams = val;
     page.value.page = 1;
     queryResults();
+};
+
+const hightlightText = (data: string, col: string): string => {
+    let colH = data;
+    const colStr = queryParams[col];
+    if (colStr) {
+        colH = colH.replace(new RegExp(colStr, "i"), (a) => {
+            return `<mark>${a}</mark>`;
+        });
+    }
+    const allStr = queryParams.all;
+    if (allStr) {
+        colH = colH.replace(new RegExp(allStr, "i"), (a) => {
+            return `<mark>${a}</mark>`;
+        });
+    }
+    return colH;
 };
 
 const report = (patient: any) => {
@@ -172,13 +189,27 @@ async function queryResults() {
                 </tr>
                 <template v-else>
                     <tr v-for="patient in patients" :key="patient.id">
-                        <td>{{ patient.id }}</td>
-                        <td>{{ patient.name }}</td>
-                        <td class="capitalize">{{ patient.type }}pathology</td>
-                        <td>{{ patient.delivery_date }}</td>
-                        <td class="flex capitalize items-center">
-                            {{ patient.status }}
-                        </td>
+                        <td v-html="hightlightText(patient.id, 'id')"></td>
+                        <td v-html="hightlightText(patient.name, 'name')"></td>
+                        <td
+                            class="capitalize"
+                            v-html="
+                                hightlightText(patient.type, 'type') +
+                                'pathology'
+                            "
+                        ></td>
+                        <td
+                            v-html="
+                                hightlightText(
+                                    patient.delivery_date,
+                                    'delivery_date'
+                                )
+                            "
+                        ></td>
+                        <td
+                            class="flex capitalize items-center"
+                            v-html="hightlightText(patient.status, 'status')"
+                        ></td>
                         <td>
                             <div class="flex gap-sm row-actions">
                                 <button>
