@@ -209,8 +209,4 @@ const logout = async () => {
     grid-template-columns: max-content auto;
     gap: 10px;
 }
-
-.acc-settings .inputs-grid > label {
-    text-align: right;
-}
 </style>
