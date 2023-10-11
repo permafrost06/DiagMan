@@ -57,3 +57,72 @@ watch(props, init);
         </label>
     </div>
 </template>
+
+<style lang="scss">
+.ic-input {
+    color: var(--clr-black);
+}
+
+.ic-input .label,
+.label {
+    margin-bottom: 5px;
+    font-weight: normal;
+    font-size: var(--fs-sm);
+    color: var(--clr-black);
+}
+
+.ic-input .hint {
+    font-size: var(--fs-sm);
+    font-weight: normal;
+    line-height: 1.5;
+    margin-top: 0;
+}
+
+.ic-input.error .hint {
+    color: red;
+}
+
+.ic-input.success .hint {
+    color: green;
+}
+.ic-input.warning .hint {
+    color: yellow;
+}
+
+.ic-input .input-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    pointer-events: none;
+}
+.ic-input .input-icon svg {
+    height: 20px;
+    width: 20px;
+    color: inherit;
+}
+.ic-input input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    background-color: var(--clr-white);
+    border: 1px solid var(--clr-black);
+    font-size: var(--fs-sm);
+    border-radius: 0;
+    padding: 10px 15px;
+}
+
+.ic-input input:focus {
+    --focus-border: 1px solid var(--clr-accent);
+    border: var(--focus-border);
+    /* box-shadow: 0 0 3px var(--clr-accent); */
+    outline: var(--focus-border);
+}
+
+.ic-input .input-icon + input {
+    padding-left: 40px;
+}
+</style>
