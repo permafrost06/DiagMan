@@ -6,7 +6,10 @@ interface InputProps extends InputHTMLAttributes {
     hintType?: "error" | "warning" | "success" | "none";
     label?: string;
     class?: any;
+    fieldClass?: any;
     unWrap?: boolean;
+    type?: InputHTMLAttributes["type"];
+    id?: string;
 }
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -16,11 +19,17 @@ const props = withDefaults(defineProps<InputProps>(), {
 </script>
 <template>
     <div v-if="!unWrap" :class="[props.class, 'simple-input']">
-        <label class="si-label" v-if="label">{{ label }}</label>
+        <label :for="id" class="si-label" v-if="label">{{ label }}</label>
         <div class="si-field-col">
-            <input v-bind="$attrs" />
+            <input
+                :id="id"
+                :type="type || 'text'"
+                :class="fieldClass"
+                v-bind="$attrs"
+            />
 
             <label
+                :for="id"
                 v-if="hint"
                 :class="{
                     hint: true,
@@ -34,11 +43,17 @@ const props = withDefaults(defineProps<InputProps>(), {
         </div>
     </div>
     <template v-else>
-        <label class="si-label" v-if="label">{{ label }}</label>
+        <label :for="id" class="si-label" v-if="label">{{ label }}</label>
         <div class="si-field-col">
-            <input v-bind="$attrs" />
+            <input
+                :id="id"
+                :type="type || 'text'"
+                :class="fieldClass"
+                v-bind="$attrs"
+            />
 
             <label
+                :for="id"
                 v-if="hint"
                 :class="{
                     hint: true,
@@ -70,6 +85,7 @@ const props = withDefaults(defineProps<InputProps>(), {
 .si-field-col input {
     display: block;
     width: 100%;
+    padding: 3px 5px;
 }
 
 .si-field-col .hint {
