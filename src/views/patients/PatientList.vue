@@ -148,7 +148,12 @@ async function queryResults() {
             </div>
         </div>
         <div class="query-info">
-            <button class="h-main-btn font-h">+ Add Patient</button>
+            <RouterLink
+                :to="{ name: 'patients.add' }"
+                class="btn h-link-btn font-h"
+            >
+                + Add Patient
+            </RouterLink>
             <SearchFilter
                 ref="filterRef"
                 placeholder="Search..."
@@ -263,6 +268,10 @@ async function queryResults() {
 .patients-page {
     padding: 30px;
 }
+.patients-page .h-link-btn {
+    background: var(--clr-black);
+    color: var(--clr-white);
+}
 .patients-header {
     display: flex;
     justify-content: space-between;
@@ -272,11 +281,6 @@ async function queryResults() {
 .patients-header .site-name {
     font-weight: bold;
     font-size: var(--fs-xl);
-}
-.patients-header .h-main-btn {
-    background: var(--clr-black);
-    color: var(--clr-white);
-    margin-left: 10px;
 }
 .patients-header .h-icon-btn {
     background: transparent;

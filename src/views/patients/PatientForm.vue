@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import SimpleInput from "@/components/form/SimpleInput.vue";
+import SimpleSelect from "@/components/form/SimpleSelect.vue";
+import SimpleBlankInput from "@/components/form/SimpleBlankInput.vue";
+import Icon from "@/components/base/Icon.vue";
+import CheckBox from "@/components/form/CheckBox.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi, fetchWithOffline } from "@/helpers/http";
 import {
@@ -7,7 +12,6 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import router from "@/router";
 import { patientSchema } from "@worker/forms/patients";
 import { onMounted, ref } from "vue";
 
@@ -16,35 +20,22 @@ const isLoading = ref(false);
 const error = ref<string | null>(null);
 const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
-const patients = ref<Array<Record<string, number | string>>>([]);
 
 onMounted(async () => {
     if (!navigator.onLine) {
         tests.value = getRows(TABLES.tests);
-        patients.value = getRows(TABLES.patients);
         return;
     }
 
     isLoading.value = true;
-    const [res1, res2] = await Promise.all([
-        fetchApi(`${API_BASE}/tests`),
-        fetchApi(`${API_BASE}/patients`),
-    ]);
+    const res = await fetchApi(`${API_BASE}/tests`);
     isLoading.value = false;
-    if (!res1.success) {
-        error.value = res1.message;
+    if (!res.success) {
+        error.value = res.message;
     } else {
-        tests.value = res1.rows || [];
+        tests.value = res.rows || [];
         if (getRowCount(TABLES.tests) === 0) {
             insertRowBulk(TABLES.tests, tests.value);
-        }
-    }
-    if (!res2.success) {
-        error.value = res2.message;
-    } else {
-        patients.value = res2.rows || [];
-        if (getRowCount(TABLES.patients) === 0) {
-            insertRowBulk(TABLES.patients, patients.value);
         }
     }
 });
@@ -69,226 +60,214 @@ async function handleFormSubmit(evt: any) {
     if (res.success) {
         error.value = null;
         message.value = res.message!;
-        patients.value.push(res.rows[0]);
     } else {
         error.value = res.message;
     }
 }
-
-const report = (patient: any) => {
-    localStorage.setItem("to_report", JSON.stringify(patient));
-    router.push({
-        name: "reports",
-    });
-};
 </script>
 <template>
-    <div class="row-wrap">
+    <div class="add-patient-page">
+        <div class="flex justify-between items-center">
+            <h3>Add Patient</h3>
+            <RouterLink :to="{ name: 'home' }">
+                <Icon size="40" view-box="36">
+                    <path
+                        fill="currentColor"
+                        d="m19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
+                        class="clr-i-outline clr-i-outline-path-1"
+                    /><path fill="none" d="M0 0h36v36H0z" />
+                </Icon>
+            </RouterLink>
+        </div>
         <form
             :action="`${API_BASE}/patients`"
             method="POST"
             @submit.prevent="handleFormSubmit"
         >
-            <p v-if="error">Error: {{ error }}</p>
-            <p v-if="message">{{ message }}</p>
+            <div class="left">
+                <h4 class="section-title all-col">Metadata</h4>
+                <SimpleSelect name="type" label="Type" :un-wrap="true">
+                    <option value="cyto">Cytopathology</option>
+                    <option value="histo">Histopathology</option>
+                </SimpleSelect>
+                <SimpleInput name="id" label="ID" :un-wrap="true" />
 
-            <div class="input-group">
-                <div>
-                    <label for="patient_id">Patient Id</label>
-                    <input type="text" id="patient_id" name="id" />
-                </div>
-                <div class="flex">
-                    <div>
-                        <label for="type">Type</label>
-                        <select name="type" id="type">
-                            <option value="">Select Type</option>
-                            <option value="histo">Histo</option>
-                            <option value="cyto">Cyto</option>
-                        </select>
+                <h4 class="section-title all-col">Patient Information</h4>
+
+                <SimpleInput name="name" label="Name" :un-wrap="true" />
+                <SimpleBlankInput label="Age" :un-wrap="true">
+                    <div class="flex items-center">
+                        <input type="number" name="age" class="age-input" />
+                        years
                     </div>
+                </SimpleBlankInput>
 
-                    <div>
-                        <label for="status">Status</label>
-                        <select name="status" id="status">
-                            <option value="">Select Status</option>
-                            <option value="draft">Draft</option>
-                            <option value="pending">Pending</option>
-                            <option value="locked">Locked</option>
-                            <option value="complete">Complete</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div>
-                    <label for="name">Patient Name</label>
-                    <input type="text" id="name" name="name" />
-                </div>
-                <div>
-                    <label for="age"> Age </label>
-                    <input type="number" id="age" name="age" />
-                </div>
-
-                <div>
-                    <label for="gender">Gender</label>
-                    <select name="gender" id="gender">
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="contact"> Contact no </label>
-                    <input type="text" id="contact" name="contact" />
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div>
-                    <label for="specimen"> Specimen </label>
-                    <input type="text" id="specimen" name="specimen" />
-                </div>
-
-                <div>
-                    <label for="referer"> Referer </label>
-                    <input type="text" id="referer" name="referer" />
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div>
-                    <label for="sample_collection_date">
-                        Sample Collection Date
-                    </label>
-                    <input
-                        type="date"
-                        id="sample_collection_date"
-                        name="sample_collection_date"
-                    />
-                </div>
-
-                <div>
-                    <label for="entry_date"> Entry Date </label>
-                    <input type="date" id="entry_date" name="entry_date" />
-                </div>
-
-                <div>
-                    <label for="delivery_date"> Delivery Date </label>
-                    <input
-                        type="date"
-                        id="delivery_date"
-                        name="delivery_date"
-                    />
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div>
-                    <label>Tests</label>
-                    <div class="input">
-                        <label v-for="(test, i) in tests" :key="i">
+                <SimpleBlankInput label="Gender" :un-wrap="true">
+                    <div class="flex items-center">
+                        <div class="flex items-center">
                             <input
-                                type="checkbox"
-                                name="tests"
-                                :value="test.id"
+                                type="radio"
+                                name="gender"
+                                id="gen-male"
+                                value="male"
                             />
-                            <span>{{ test.name }}</span>
-                        </label>
+                            <label for="gen-male">Male</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="radio"
+                                name="gender"
+                                id="gen-female"
+                                value="female"
+                            />
+                            <label for="gen-female">Female</label>
+                        </div>
+                    </div>
+                </SimpleBlankInput>
+                <SimpleInput name="contact" label="Contact" :un-wrap="true" />
+                <SimpleInput name="referer" label="Referer" :un-wrap="true" />
+                <SimpleInput
+                    label="Delivery date"
+                    :un-wrap="true"
+                    type="date"
+                    name="delivery_date"
+                    field-class="date-input"
+                />
+
+                <div class="coll-col submit-area">
+                    <CheckBox label="Show invoice on exit" />
+                    <div class="flex gap-sm mt-sm">
+                        <button type="submit" name="add">Add Patient</button>
+                        <button type="submit" class="btn-outline" name="draft">
+                            Save Draft
+                        </button>
                     </div>
                 </div>
-
-                <div>
-                    <label for="discount">Discount</label>
-                    <input type="number" id="discount" name="discount" />
-                </div>
-                <div>
-                    <label for="advance">Advance</label>
-                    <input type="number" id="advance" name="advance" />
-                </div>
-                <div>
-                    <label for="due">Due</label>
-                    <input type="number" id="due" name="due" />
-                </div>
             </div>
+            <div class="right">
+                <h4 class="section-title all-col">Specimen Information</h4>
 
-            <button :disabled="isPosting" type="submit">
-                {{ isPosting ? "Please wait..." : "Submit" }}
-            </button>
+                <SimpleInput
+                    label="Entry date"
+                    :un-wrap="true"
+                    type="date"
+                    name="entry_date"
+                    field-class="date-input"
+                />
+
+                <SimpleInput label="Specimen" :un-wrap="true" name="specimen" />
+                <SimpleInput
+                    label="Sample collection date"
+                    :un-wrap="true"
+                    type="date"
+                    name="sample_collection_date"
+                    field-class="date-input"
+                />
+                <h4 class="section-title all-col">Tests</h4>
+                <div class="all-col">
+                    <ul class="tests"></ul>
+                    <button>+ Add Test</button>
+                    <div class="total"></div>
+                </div>
+
+                <h4 class="section-title all-col">Payment Information</h4>
+                <SimpleBlankInput label="Discount" :un-wrap="true">
+                    <div class="flex items-center gap-sm">
+                        BDT <input type="number" class="amount-input" />
+                    </div>
+                </SimpleBlankInput>
+                <SimpleBlankInput label="Payable" :un-wrap="true">
+                    <div class="flex items-center gap-sm">
+                        BDT
+                        <input
+                            type="number"
+                            class="amount-input"
+                            readonly
+                            value="7200"
+                        />
+                    </div>
+                </SimpleBlankInput>
+                <SimpleBlankInput label="Advanced" :un-wrap="true">
+                    <div class="flex items-center gap-sm">
+                        BDT <input type="number" class="amount-input" />
+                    </div>
+                </SimpleBlankInput>
+                <SimpleBlankInput label="Due" :un-wrap="true">
+                    <div class="flex items-center gap-sm">
+                        BDT <input type="number" class="amount-input" />
+                    </div>
+                </SimpleBlankInput>
+            </div>
         </form>
-        <div>
-            <h3>Patients</h3>
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Patient Name</th>
-                    <th>Entry</th>
-                    <th>Collection</th>
-                    <th>Contact</th>
-                    <th>Tests</th>
-                    <th></th>
-                </tr>
-                <tr v-if="isLoading">
-                    <td colspan="9">Loading, please wait...</td>
-                </tr>
-                <tr v-else-if="!patients?.length">
-                    <td colspan="9">No patients added yet!</td>
-                </tr>
-                <template v-else>
-                    <tr v-for="patient in patients" :key="patient.id">
-                        <td>{{ patient.id }}</td>
-                        <td>{{ patient.type }}</td>
-                        <td>{{ patient.status }}</td>
-                        <td>{{ patient.name }}</td>
-                        <td>{{ patient.entry_date }}</td>
-                        <td>{{ patient.sample_collection_date }}</td>
-                        <td>{{ patient.contact }}</td>
-                        <td>{{ patient.tests }}</td>
-                        <td>
-                            <button
-                                v-if="!patient.is_reported"
-                                @click="report(patient)"
-                            >
-                                REPORT
-                            </button>
-                            <p v-else>Reported</p>
-                        </td>
-                    </tr>
-                </template>
-            </table>
-        </div>
     </div>
 </template>
-<style>
-form {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 50px;
-}
-th,
-td {
-    margin: 0;
-    padding: 5px;
-}
-.input {
-    background: white;
-    border: 1px solid #a7a7a7;
-    border-radius: 5px;
-    padding: 5px;
-    margin-bottom: 10px;
-}
-.input-group {
-    border-radius: 8px;
-    border: 1px solid #a7a7a7;
-    padding: 10px;
-    margin: 10px 0;
-}
+<style lang="scss">
+.add-patient-page {
+    padding: 30px;
 
-.flex {
-    display: flex;
-    justify-content: space-between;
+    label {
+        margin: 0;
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        input,
+        select {
+            max-width: 300px;
+            padding: 3px 5px;
+        }
+
+        .amount-input {
+            width: 100px;
+            margin-bottom: 0;
+        }
+    }
+
+    .left,
+    .right {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: minmax(max-content, 200px) auto;
+        height: max-content;
+    }
+
+    .left {
+        border-right: 1px solid var(--clr-black);
+        padding-right: 20px;
+
+        .age-input {
+            margin: 0;
+            margin-right: 10px;
+            width: 100px;
+        }
+    }
+    .right {
+        padding-left: 20px;
+        .total {
+            border-top: 1px solid var(--clr-black);
+            margin-top: 10px;
+        }
+    }
+
+    .section-title {
+        border-bottom: 1px solid var(--clr-black);
+        margin: 20px 0;
+        font-size: var(--fs-lg);
+    }
+
+    .all-col {
+        grid-column: 1 / 3;
+    }
+
+    .date-input {
+        width: max-content;
+        padding: 3px 5px;
+    }
+
+    .submit-area {
+        padding-top: 40px;
+    }
 }
 </style>
