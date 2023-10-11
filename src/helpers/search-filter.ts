@@ -2,7 +2,7 @@ export const filterToValue = (filters: Record<string, string>): string => {
     let val = "";
     for (const by in filters) {
         const sval = filters[by].trim();
-        val += by + ":" + sval + " ";
+        val += by + ":" + sval.replace(/([^a-zA-Z0-9_-])/g, "") + " ";
     }
     return val;
 };
@@ -15,24 +15,22 @@ export const valueToFilter = (val: string): Record<string, string> => {
         count++;
         const keyEnd = val.indexOf(":", start);
         if (keyEnd === -1) {
-            f["all"] = val.trim();
+            f["all"] = val.substring(start).trim();
             break;
         }
-        const key = val.substring(start, keyEnd).trim();
-        const nextKeyEnd = val.indexOf(":", keyEnd + 1);
-        const valWithKey = val.substring(
-            keyEnd + 1,
-            nextKeyEnd > -1 ? nextKeyEnd + 1 : undefined
-        );
-        const sval = valWithKey.replace(/\s([a-zA-Z0-9_-]+):$/, "");
-        if (key) {
-            f[key] = sval.trim();
-        }
-        if (nextKeyEnd > -1) {
-            start = nextKeyEnd - valWithKey.length + sval.length + 1;
-        } else {
+        let key = val.substring(start, keyEnd).trim();
+        const strEnd = val.indexOf(" ", keyEnd + 1);
+        if (strEnd < 0) {
+            f[key] = val.substring(keyEnd + 1);
             break;
         }
+        const str = val.substring(keyEnd + 1, strEnd);
+        const keyLastWordStart = key.lastIndexOf(" ");
+        if (keyLastWordStart > -1) {
+            key = key.substring(keyLastWordStart + 1);
+        }
+        f[key] = str;
+        start = strEnd + 1;
     }
     return f;
 };
