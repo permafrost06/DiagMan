@@ -32,9 +32,9 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 	const filterSchema = {
 		id: /^([a-zA-Z0-9\s,_-]+)$/,
 		name: /^([a-zA-Z0-9\s_]+)$/,
-		type: /^(histo|cyto)$/,
+		type: /^([a-zA-Z0-9\s_]+)$/,
 		delivery_date: /^([0-9\s/-]+)$/,
-		status: /^(pending|complete)$/,
+		status: /^([a-zA-Z0-9\s_]+)$/,
 	};
 
 	let page = parseInt(search.get('page') || '1');
@@ -66,7 +66,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += 'name LIKE CONCAT(?, "%")';
+		where += 'name LIKE CONCAT("%", ?, "%")';
 		args.push(name);
 	}
 
@@ -75,7 +75,8 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += "type = '" + type + "'";
+		where += 'type  LIKE CONCAT("%", ?, "%")';
+		args.push(type);
 	}
 
 	const status = search.get('status');
@@ -83,7 +84,8 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += "status = '" + status + "'";
+		where += 'status LIKE CONCAT("%", ?, "%")';
+		args.push(status);
 	}
 
 	const all = search.get('all');
