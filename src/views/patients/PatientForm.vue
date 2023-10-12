@@ -84,63 +84,79 @@ async function handleFormSubmit(evt: any) {
             method="POST"
             @submit.prevent="handleFormSubmit"
         >
-            <div class="left">
-                <h4 class="section-title all-col">Metadata</h4>
-                <SimpleSelect name="type" label="Type" :un-wrap="true">
-                    <option value="cyto">Cytopathology</option>
-                    <option value="histo">Histopathology</option>
-                </SimpleSelect>
-                <SimpleInput name="id" label="ID" :un-wrap="true" />
+            <div class="left-wrapper">
+                <div class="left">
+                    <h4 class="section-title all-col">Metadata</h4>
+                    <SimpleSelect name="type" label="Type" :un-wrap="true">
+                        <option value="cyto">Cytopathology</option>
+                        <option value="histo">Histopathology</option>
+                    </SimpleSelect>
+                    <SimpleInput name="id" label="ID" :un-wrap="true" />
 
-                <h4 class="section-title all-col">Patient Information</h4>
+                    <h4 class="section-title all-col">Patient Information</h4>
 
-                <SimpleInput name="name" label="Name" :un-wrap="true" />
-                <SimpleBlankInput label="Age" :un-wrap="true">
-                    <div class="flex items-center">
-                        <input type="number" name="age" class="age-input" />
-                        years
-                    </div>
-                </SimpleBlankInput>
-
-                <SimpleBlankInput label="Gender" :un-wrap="true">
-                    <div class="flex items-center">
+                    <SimpleInput name="name" label="Name" :un-wrap="true" />
+                    <SimpleBlankInput label="Age" :un-wrap="true">
                         <div class="flex items-center">
-                            <input
-                                type="radio"
-                                name="gender"
-                                id="gen-male"
-                                value="male"
-                            />
-                            <label for="gen-male">Male</label>
+                            <input type="number" name="age" class="age-input" />
+                            years
                         </div>
-                        <div class="flex items-center">
-                            <input
-                                type="radio"
-                                name="gender"
-                                id="gen-female"
-                                value="female"
-                            />
-                            <label for="gen-female">Female</label>
-                        </div>
-                    </div>
-                </SimpleBlankInput>
-                <SimpleInput name="contact" label="Contact" :un-wrap="true" />
-                <SimpleInput name="referer" label="Referer" :un-wrap="true" />
-                <SimpleInput
-                    label="Delivery date"
-                    :un-wrap="true"
-                    type="date"
-                    name="delivery_date"
-                    field-class="date-input"
-                />
+                    </SimpleBlankInput>
 
-                <div class="coll-col submit-area">
-                    <CheckBox label="Show invoice on exit" />
-                    <div class="flex gap-sm mt-sm">
-                        <button type="submit" name="add">Add Patient</button>
-                        <button type="submit" class="btn-outline" name="draft">
-                            Save Draft
-                        </button>
+                    <SimpleBlankInput label="Gender" :un-wrap="true">
+                        <div class="flex items-center">
+                            <div class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    id="gen-male"
+                                    value="male"
+                                />
+                                <label for="gen-male">Male</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    id="gen-female"
+                                    value="female"
+                                />
+                                <label for="gen-female">Female</label>
+                            </div>
+                        </div>
+                    </SimpleBlankInput>
+                    <SimpleInput
+                        name="contact"
+                        label="Contact"
+                        :un-wrap="true"
+                    />
+                    <SimpleInput
+                        name="referer"
+                        label="Referer"
+                        :un-wrap="true"
+                    />
+                    <SimpleInput
+                        label="Delivery date"
+                        :un-wrap="true"
+                        type="date"
+                        name="delivery_date"
+                        field-class="date-input"
+                    />
+
+                    <div class="coll-col submit-area">
+                        <CheckBox label="Show invoice on exit" />
+                        <div class="flex gap-sm mt-sm">
+                            <button type="submit" name="add">
+                                Add Patient
+                            </button>
+                            <button
+                                type="submit"
+                                class="btn-outline"
+                                name="draft"
+                            >
+                                Save Draft
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -204,12 +220,16 @@ async function handleFormSubmit(evt: any) {
 <style lang="scss">
 .add-patient-page {
     padding: 30px;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
 
     label {
         margin: 0;
     }
 
     form {
+        flex-grow: 1;
         display: grid;
         grid-template-columns: 1fr 1fr;
 
@@ -225,6 +245,13 @@ async function handleFormSubmit(evt: any) {
         }
     }
 
+    .left-wrapper {
+        border-right: 1px solid var(--clr-black);
+        padding-right: 20px;
+        padding-bottom: 120px;
+        overflow: hidden;
+    }
+
     .left,
     .right {
         display: grid;
@@ -234,9 +261,6 @@ async function handleFormSubmit(evt: any) {
     }
 
     .left {
-        border-right: 1px solid var(--clr-black);
-        padding-right: 20px;
-
         .age-input {
             margin: 0;
             margin-right: 10px;
@@ -267,7 +291,12 @@ async function handleFormSubmit(evt: any) {
     }
 
     .submit-area {
-        padding-top: 40px;
+        background: var(--clr-white);
+        position: fixed;
+        bottom: 0px;
+        left: 30px;
+        width: calc(50% - 38px);
+        padding-bottom: 40px;
     }
 }
 </style>
