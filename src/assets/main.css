@@ -67,10 +67,8 @@ button, .btn {
   border: 1px solid var(--clr-black);
 }
 
-.alert.error {
-  color: var(--clr-danger);
+.alert {
   font-size: var(--fs-sm);
-  text-align: center;
 }
 
 .form-alert {
@@ -87,14 +85,17 @@ button, .btn {
 }
 
 
-.error.hint {
-  color: red;
+.error.hint,
+.alert.error {
+  color: var(--clr-danger);
 }
 
-.success.hint {
-  color: green;
+.success.hint,
+.alert.success {
+  color: var(--clr-success);
 }
-.warning.hint {
+.warning.hint,
+.alert.warning {
   color: yellow;
 }
 
