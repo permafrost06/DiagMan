@@ -295,6 +295,8 @@ async function handleFormSubmit(evt: any) {
         flex-grow: 1;
         display: grid;
         grid-template-columns: 1fr 1fr;
+        position: relative;
+        padding-bottom: 40px;
 
         input,
         select {
@@ -359,9 +361,9 @@ async function handleFormSubmit(evt: any) {
 
     .submit-area {
         background: var(--clr-white);
-        position: fixed;
+        position: absolute;
         bottom: 0px;
-        left: 30px;
+        left: 0px;
         width: calc(50% - 38px);
         padding-bottom: 40px;
     }
