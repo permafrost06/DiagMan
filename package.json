@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "dev:worker": "cd worker && pnpm run start",
         "build": "run-p type-check build-only",
         "preview": "vite preview",
         "test:unit": "vitest --environment jsdom --root src/",
@@ -11,9 +12,11 @@
         "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'",
         "build-only": "vite build",
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+        "start": "concurrently \"pnpm run dev:worker\" \"pnpm run dev\""
     },
     "dependencies": {
+        "concurrently": "^8.2.1",
         "pinia": "^2.0.28",
         "vue": "^3.2.45",
         "vue-router": "^4.1.6",
