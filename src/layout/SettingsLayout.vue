@@ -187,7 +187,7 @@
 
 .settings-layout .setting-page-area {
     padding: 30px;
-    padding-top: 90px;
     flex-grow: 1;
+    overflow-y: scroll;
 }
 </style>
