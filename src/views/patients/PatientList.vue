@@ -39,7 +39,10 @@ const tableDescription = {
     id: "ID",
     name: "Name",
     type: "Type",
-    delivery_date: "Delivery Date",
+    delivery_date: {
+        label: "Delivery Date",
+        filter: false,
+    },
     status: "Status",
 };
 
@@ -109,6 +112,12 @@ async function queryResults() {
         page.value.maxPage = res.pagination!.maxPage;
     }
 }
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+});
 </script>
 <template>
     <div class="patients-page">
@@ -169,6 +178,8 @@ async function queryResults() {
                 </Icon>
                 <p>
                     Sort: &quot;{{
+                        (tableDescription[sortState.by as TableNames] as any)
+                            .label ||
                         tableDescription[sortState.by as TableNames]
                     }}&quot; ({{ sortState.order === "asc" ? "A-Z" : "Z-A" }})
                 </p>
@@ -224,14 +235,13 @@ async function queryResults() {
                                 'pathology'
                             "
                         ></td>
-                        <td
-                            v-html="
-                                hightlightText(
-                                    patient.delivery_date,
-                                    'delivery_date'
+                        <td>
+                            {{
+                                dateFormatter.format(
+                                    parseInt(patient.delivery_date)
                                 )
-                            "
-                        ></td>
+                            }}
+                        </td>
                         <td
                             class="flex capitalize items-center"
                             v-html="hightlightText(patient.status, 'status')"
