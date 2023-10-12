@@ -1,27 +1,21 @@
 import { z } from 'zod';
 
-const stringDate = z.preprocess(
-	(arg) => (typeof arg === 'string' && arg.length === 10 ? `${arg}T00:00:00.000Z` : arg),
-	z.string().datetime()
-);
-const strNum = z.preprocess((val: any) => parseInt(val), z.number().min(0));
-
 export const patientSchema = z.object({
 	id: z.string().nonempty(),
 	type: z.enum(['histo', 'cyto']),
 	status: z.enum(['draft', 'pending', 'locked', 'complete']),
-	name: z.string(),
-	sample_collection_date: stringDate,
-	entry_date: stringDate,
-	age: strNum,
+	name: z.string().nonempty(),
+	sample_collection_date: z.coerce.date(),
+	entry_date: z.coerce.date(),
+	age: z.coerce.number().positive(),
 	gender: z.enum(['male', 'female']),
 	contact: z.string(),
 	specimen: z.string(),
 	referer: z.string(),
-	delivery_date: stringDate,
-	tests: z.array(z.string()),
-	discount: strNum,
-	advance: strNum,
+	delivery_date: z.coerce.date(),
+	tests: z.array(z.string()).min(1),
+	discount: z.coerce.number().nonnegative(),
+	advance: z.coerce.number().positive(),
 });
 
 export const reportSchema = z.object({

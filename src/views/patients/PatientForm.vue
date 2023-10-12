@@ -4,20 +4,21 @@ import SimpleSelect from "@/components/form/SimpleSelect.vue";
 import SimpleBlankInput from "@/components/form/SimpleBlankInput.vue";
 import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
+import Loading from "@/Icons/Loading.vue";
 import { API_BASE } from "@/helpers/config";
-import { fetchApi, fetchWithOffline } from "@/helpers/http";
+import { fetchApi } from "@/helpers/http";
 import {
     TABLES,
     getRowCount,
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { patientSchema } from "@worker/forms/patients";
 import { onMounted, ref } from "vue";
 
-const isPosting = ref(false);
+const isPosting = ref<"add" | "draft" | boolean>(false);
 const isLoading = ref(false);
 const error = ref<string | null>(null);
+const fieldErrors = ref<undefined | Record<string, string[]>>();
 const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 
@@ -41,20 +42,14 @@ onMounted(async () => {
 });
 
 async function handleFormSubmit(evt: any) {
-    isPosting.value = true;
-    const res = await fetchWithOffline(
-        {
-            key: "patients",
-            operation: "insert",
-            schema: patientSchema,
-            arrays: ["tests"],
-        },
-        evt.target.action,
-        {
-            method: "POST",
-            body: new FormData(evt.target),
-        }
-    );
+    const status = evt.submitter?.value === "draft" ? "draft" : "pending";
+    isPosting.value = evt.submitter?.value || true;
+    const data = new FormData(evt.target);
+    data.append("status", status);
+    const res = await fetchApi(evt.target.action, {
+        method: "POST",
+        body: data,
+    });
 
     isPosting.value = false;
     if (res.success) {
@@ -62,6 +57,7 @@ async function handleFormSubmit(evt: any) {
         message.value = res.message!;
     } else {
         error.value = res.message;
+        fieldErrors.value = res.field;
     }
 }
 </script>
@@ -79,6 +75,13 @@ async function handleFormSubmit(evt: any) {
                 </Icon>
             </RouterLink>
         </div>
+
+        <div v-if="error" class="all-col form-alert error">
+            {{ error }}
+        </div>
+        <div v-if="message" class="all-col form-alert success">
+            {{ message }}
+        </div>
         <form
             :action="`${API_BASE}/patients`"
             method="POST"
@@ -87,23 +90,46 @@ async function handleFormSubmit(evt: any) {
             <div class="left-wrapper">
                 <div class="left">
                     <h4 class="section-title all-col">Metadata</h4>
-                    <SimpleSelect name="type" label="Type" :un-wrap="true">
+                    <SimpleSelect
+                        name="type"
+                        label="Type"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.type?.[0]"
+                    >
                         <option value="cyto">Cytopathology</option>
                         <option value="histo">Histopathology</option>
                     </SimpleSelect>
-                    <SimpleInput name="id" label="ID" :un-wrap="true" />
+                    <SimpleInput
+                        name="id"
+                        label="ID"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.id?.[0]"
+                    />
 
                     <h4 class="section-title all-col">Patient Information</h4>
 
-                    <SimpleInput name="name" label="Name" :un-wrap="true" />
-                    <SimpleBlankInput label="Age" :un-wrap="true">
+                    <SimpleInput
+                        name="name"
+                        label="Name"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.name?.[0]"
+                    />
+                    <SimpleBlankInput
+                        label="Age"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.age?.[0]"
+                    >
                         <div class="flex items-center">
                             <input type="number" name="age" class="age-input" />
                             years
                         </div>
                     </SimpleBlankInput>
 
-                    <SimpleBlankInput label="Gender" :un-wrap="true">
+                    <SimpleBlankInput
+                        label="Gender"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.gender?.[0]"
+                    >
                         <div class="flex items-center">
                             <div class="flex items-center">
                                 <input
@@ -129,11 +155,13 @@ async function handleFormSubmit(evt: any) {
                         name="contact"
                         label="Contact"
                         :un-wrap="true"
+                        :hint="fieldErrors?.contact?.[0]"
                     />
                     <SimpleInput
                         name="referer"
                         label="Referer"
                         :un-wrap="true"
+                        :hint="fieldErrors?.referer?.[0]"
                     />
                     <SimpleInput
                         label="Delivery date"
@@ -141,19 +169,28 @@ async function handleFormSubmit(evt: any) {
                         type="date"
                         name="delivery_date"
                         field-class="date-input"
+                        :hint="fieldErrors?.delivery_date?.[0]"
                     />
 
                     <div class="coll-col submit-area">
                         <CheckBox label="Show invoice on exit" />
                         <div class="flex gap-sm mt-sm">
-                            <button type="submit" name="add">
+                            <button type="submit" name="status" value="add">
+                                <Loading
+                                    v-if="
+                                        isPosting === true ||
+                                        isPosting === 'add'
+                                    "
+                                />
                                 Add Patient
                             </button>
                             <button
                                 type="submit"
                                 class="btn-outline"
-                                name="draft"
+                                name="status"
+                                value="draft"
                             >
+                                <Loading v-if="isPosting === 'draft'" />
                                 Save Draft
                             </button>
                         </div>
@@ -169,15 +206,22 @@ async function handleFormSubmit(evt: any) {
                     type="date"
                     name="entry_date"
                     field-class="date-input"
+                    :hint="fieldErrors?.entry_date?.[0]"
                 />
 
-                <SimpleInput label="Specimen" :un-wrap="true" name="specimen" />
+                <SimpleInput
+                    label="Specimen"
+                    :un-wrap="true"
+                    name="specimen"
+                    :hint="fieldErrors?.specimen?.[0]"
+                />
                 <SimpleInput
                     label="Sample collection date"
                     :un-wrap="true"
                     type="date"
                     name="sample_collection_date"
                     field-class="date-input"
+                    :hint="fieldErrors?.sample_collection_date?.[0]"
                 />
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
@@ -187,9 +231,19 @@ async function handleFormSubmit(evt: any) {
                 </div>
 
                 <h4 class="section-title all-col">Payment Information</h4>
-                <SimpleBlankInput label="Discount" :un-wrap="true">
+                <SimpleBlankInput
+                    label="Discount"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.discount?.[0]"
+                >
                     <div class="flex items-center gap-sm">
-                        BDT <input type="number" class="amount-input" />
+                        BDT
+                        <input
+                            type="number"
+                            class="amount-input"
+                            name="discount"
+                            value="0"
+                        />
                     </div>
                 </SimpleBlankInput>
                 <SimpleBlankInput label="Payable" :un-wrap="true">
@@ -199,13 +253,22 @@ async function handleFormSubmit(evt: any) {
                             type="number"
                             class="amount-input"
                             readonly
-                            value="7200"
+                            value="0"
                         />
                     </div>
                 </SimpleBlankInput>
-                <SimpleBlankInput label="Advanced" :un-wrap="true">
+                <SimpleBlankInput
+                    label="Advance"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.advance?.[0]"
+                >
                     <div class="flex items-center gap-sm">
-                        BDT <input type="number" class="amount-input" />
+                        BDT
+                        <input
+                            type="number"
+                            class="amount-input"
+                            name="advance"
+                        />
                     </div>
                 </SimpleBlankInput>
                 <SimpleBlankInput label="Due" :un-wrap="true">
@@ -243,6 +306,10 @@ async function handleFormSubmit(evt: any) {
             width: 100px;
             margin-bottom: 0;
         }
+    }
+
+    .form-alert {
+        margin: 10px 0;
     }
 
     .left-wrapper {

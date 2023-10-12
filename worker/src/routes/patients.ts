@@ -11,11 +11,13 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 
 	// ZOD does not support only date validation yet
 	['sample_collection_date', 'entry_date', 'delivery_date'].forEach((key) => {
-		data[key] = data[key].substring(0, 10);
+		data[key] = data[key].getTime();
 	});
 
 	try {
 		await insertRow(db, 'patients', data);
+		res.setMsg('Patient added successfully!');
+		res.setRows([data]);
 	} catch (error: any) {
 		if (error.code === 'SQLITE_CONSTRAINT') {
 			throw new JSONError('This patient id already exists!');
@@ -23,7 +25,6 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 			throw error;
 		}
 	}
-	res.setRows([data]);
 };
 
 export const listPatients: RequestHandler = async ({ env, res, url }) => {
