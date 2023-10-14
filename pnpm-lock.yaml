@@ -1,13 +1,12 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   concurrently:
     specifier: ^8.2.1
     version: 8.2.1
+  js-datepicker:
+    specifier: ^5.18.2
+    version: 5.18.2
   pinia:
     specifier: ^2.0.28
     version: 2.0.31(typescript@4.7.4)(vue@3.2.47)
@@ -2529,6 +2528,10 @@ packages:
       nopt: 6.0.0
     dev: true
 
+  /js-datepicker@5.18.2:
+    resolution: {integrity: sha512-lBh5tIwb1ewDVlNHuwczoLiMhTFWnGYuHSA7ONAPKyMeofIFZDFGeOZ71UTY/Mk2evJJt+L66ec/RiXUy8XzEg==}
+    dev: false
+
   /js-sdsl@4.3.0:
     resolution: {integrity: sha512-mifzlm2+5nZ+lEcLJMoBK0/IH/bDg8XnJfd/Wq6IP+xoCjLZsTOnV2QpxlVbX9bMnkl5PdEjNtBJ9Cj1NjifhQ==}
     dev: true
@@ -4110,3 +4113,7 @@ packages:
   /zod@3.22.2:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
