@@ -354,52 +354,10 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
     font-weight: 600;
 }
 
-/*------- SKELETON LOADER --------*/
-.skeleton {
-    position: relative;
-    height: 1em;
-    width: 80%;
-    background: #ababab;
-    overflow: hidden;
-}
 .skeleton.btn {
     height: 1.5em;
     width: 100%;
 }
-.skeleton::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    transform: translateX(-100%);
-    background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.2) 20%,
-        rgba(255, 255, 255, 0.9) 60%,
-        rgba(255, 255, 255, 0)
-    );
-    animation: skeleton-anim 1s infinite;
-    content: "";
-}
-
-@keyframes skeleton-anim {
-    100% {
-        transform: translateX(100%);
-    }
-}
-
-.skeleton-1 .skeleton::after {
-    animation-delay: 50ms;
-}
-.skeleton-2 .skeleton::after {
-    animation-delay: 100ms;
-}
-.skeleton-3 .skeleton::after {
-    animation-delay: 150ms;
-}
-/*---------------*/
 
 .th-actionable {
     display: flex;
