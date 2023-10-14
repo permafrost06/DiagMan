@@ -153,10 +153,5 @@ import Icon from "@/components/base/Icon.vue";
         flex-grow: 1;
         overflow-y: auto;
     }
-    .home-url {
-        position: absolute;
-        right: 10px;
-        top: 23px;
-    }
 }
 </style>

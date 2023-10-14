@@ -218,3 +218,9 @@ button, .btn {
   font-size: 1rem;
   margin-bottom: 10px;
 }
+
+.home-url {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
