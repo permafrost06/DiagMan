@@ -82,7 +82,7 @@ const logout = async () => {
 </script>
 <template>
     <div class="acc-settings">
-        <h3>Account</h3>
+        <h3 class="page-title">Account</h3>
         <form
             class="name-form"
             method="POST"
@@ -186,27 +186,34 @@ const logout = async () => {
 
 <style lang="scss">
 .acc-settings {
-    max-width: 500px;
-}
-.acc-settings form {
-    display: block;
-    margin: 20px 0;
-}
-.acc-settings form > * {
-    margin-top: 8px;
-}
-.acc-settings .form-title {
-    font-size: var(--fs-lg);
-    font-weight: 500;
-}
+    .page-title {
+        border-bottom: 1px solid var(--clr-black);
+    }
 
-.acc-settings button {
-    font-size: var(--fs-md);
-}
+    input {
+        max-width: 250px;
+    }
 
-.acc-settings .inputs-grid {
-    display: grid;
-    grid-template-columns: max-content auto;
-    gap: 10px;
+    form {
+        display: block;
+        margin: 20px 0;
+    }
+    form > * {
+        margin-top: 8px;
+    }
+    .form-title {
+        font-size: var(--fs-lg);
+        font-weight: 500;
+    }
+
+    button {
+        font-size: var(--fs-md);
+    }
+
+    .inputs-grid {
+        display: grid;
+        grid-template-columns: max-content auto;
+        gap: 10px;
+    }
 }
 </style>
