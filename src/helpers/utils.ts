@@ -115,3 +115,17 @@ export function useSorter<T extends string = string>(
         },
     ];
 }
+
+export const dateToDMY = (date: Date): string =>
+    `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${date.getFullYear()}`;
+
+export const dmyToDate = (dmy: string): Date => {
+    const items = dmy.split("-");
+    return new Date(
+        parseInt(items[2]),
+        parseInt(items[1]) - 1,
+        parseInt(items[0])
+    );
+};
