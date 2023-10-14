@@ -23,7 +23,10 @@ import Icon from "@/components/base/Icon.vue";
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
+                    <RouterLink
+                        :to="{ name: 'settings.tests' }"
+                        class="sidebar-link"
+                    >
                         Tests
                     </RouterLink>
                 </li>
