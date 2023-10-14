@@ -7,6 +7,7 @@ import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
+import { dateToDMY, dmyToDate } from "@/helpers/utils";
 import {
     TABLES,
     getRowCount,
@@ -14,6 +15,13 @@ import {
     insertRowBulk,
 } from "@/helpers/local-db";
 import { onMounted, ref } from "vue";
+// @ts-ignore
+import datepicker from "js-datepicker";
+import "js-datepicker/dist/datepicker.min.css";
+
+const entryDateField = ref<HTMLInputElement>();
+const sampleDateField = ref<HTMLInputElement>();
+const deliveryDateField = ref<HTMLInputElement>();
 
 const isPosting = ref<"add" | "draft" | boolean>(false);
 const isLoading = ref(false);
@@ -23,6 +31,7 @@ const message = ref<string | null>(null);
 const tests = ref<Array<Record<string, number | string>>>([]);
 
 onMounted(async () => {
+    createDatePickers();
     if (!navigator.onLine) {
         tests.value = getRows(TABLES.tests);
         return;
@@ -46,6 +55,16 @@ async function handleFormSubmit(evt: any) {
     isPosting.value = evt.submitter?.value || true;
     const data = new FormData(evt.target);
     data.append("status", status);
+
+    ["entry_date", "sample_collection_date", "delivery_date"].forEach((df) => {
+        const val = data.get(df)?.toString();
+        if (!val || val.length < 10) {
+            return;
+        }
+        data.delete(df);
+        data.append(df, dmyToDate(val).toLocaleDateString());
+    });
+
     const res = await fetchApi(evt.target.action, {
         method: "POST",
         body: data,
@@ -59,6 +78,24 @@ async function handleFormSubmit(evt: any) {
         error.value = res.message;
         fieldErrors.value = res.field;
     }
+}
+
+function createDatePickers() {
+    const options = {
+        showAllDates: true,
+        formatter(input: HTMLInputElement, date: Date) {
+            input.value = dateToDMY(date);
+        },
+        onShow(ins: any) {
+            const val = ins.el.value;
+            if (val && val.length === 10) {
+                ins.setDate(dmyToDate(val), true);
+            }
+        },
+    };
+    datepicker(entryDateField.value, options);
+    datepicker(sampleDateField.value, options);
+    datepicker(deliveryDateField.value, options);
 }
 </script>
 <template>
@@ -163,14 +200,20 @@ async function handleFormSubmit(evt: any) {
                         :un-wrap="true"
                         :hint="fieldErrors?.referer?.[0]"
                     />
-                    <SimpleInput
+                    <SimpleBlankInput
                         label="Delivery date"
                         :un-wrap="true"
-                        type="date"
-                        name="delivery_date"
-                        field-class="date-input"
                         :hint="fieldErrors?.delivery_date?.[0]"
-                    />
+                    >
+                        <input
+                            ref="deliveryDateField"
+                            type="text"
+                            name="delivery_date"
+                            class="date-input"
+                            autocomplete="off"
+                            placeholder="dd-mm-yyyy"
+                        />
+                    </SimpleBlankInput>
 
                     <div class="coll-col submit-area">
                         <CheckBox label="Show invoice on exit" />
@@ -200,14 +243,20 @@ async function handleFormSubmit(evt: any) {
             <div class="right">
                 <h4 class="section-title all-col">Specimen Information</h4>
 
-                <SimpleInput
+                <SimpleBlankInput
                     label="Entry date"
                     :un-wrap="true"
-                    type="date"
-                    name="entry_date"
-                    field-class="date-input"
                     :hint="fieldErrors?.entry_date?.[0]"
-                />
+                >
+                    <input
+                        ref="entryDateField"
+                        type="text"
+                        name="entry_date"
+                        class="date-input"
+                        autocomplete="off"
+                        placeholder="dd-mm-yyyy"
+                    />
+                </SimpleBlankInput>
 
                 <SimpleInput
                     label="Specimen"
@@ -215,14 +264,20 @@ async function handleFormSubmit(evt: any) {
                     name="specimen"
                     :hint="fieldErrors?.specimen?.[0]"
                 />
-                <SimpleInput
+                <SimpleBlankInput
                     label="Sample collection date"
                     :un-wrap="true"
-                    type="date"
-                    name="sample_collection_date"
-                    field-class="date-input"
                     :hint="fieldErrors?.sample_collection_date?.[0]"
-                />
+                >
+                    <input
+                        ref="sampleDateField"
+                        type="text"
+                        name="sample_collection_date"
+                        class="date-input"
+                        autocomplete="off"
+                        placeholder="dd-mm-yyyy"
+                    />
+                </SimpleBlankInput>
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
                     <ul class="tests"></ul>
