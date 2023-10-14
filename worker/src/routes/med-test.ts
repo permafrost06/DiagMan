@@ -37,13 +37,33 @@ export const addTest: RequestHandler = async ({ request, env, res }) => {
 export const listTests: RequestHandler = async ({ env, res, query }) => {
 	const db = getLibsqlClient(env);
 	const allStatus = ['active', 'updated', 'deleted'] as any[];
+	const allTypes = ['cyto', 'histo'] as any[];
+	const allSizes = ['small', 'medium', 'large'] as any[];
 
 	const status = allStatus[allStatus.indexOf(query['status'])];
+	const type = allTypes[allTypes.indexOf(query['type'])];
+	const size = allSizes[allSizes.indexOf(query['size'])];
+	const price = parseInt(query['price'] as any);
 
 	let where = '';
 
 	if (status) {
 		where += `WHERE status='${status}'`;
+	}
+
+	if (type) {
+		where += where ? ' AND ' : 'WHERE ';
+		where += `type='${type}'`;
+	}
+
+	if (size) {
+		where += where ? ' AND ' : 'WHERE ';
+		where += `size='${size}'`;
+	}
+
+	if (price > 0) {
+		where += where ? ' AND ' : 'WHERE ';
+		where += `price='${price}'`;
 	}
 
 	const qres = await db.execute('SELECT * FROM `tests` ' + where);

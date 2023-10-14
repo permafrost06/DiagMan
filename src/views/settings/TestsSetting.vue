@@ -21,7 +21,8 @@ async function getTests() {
         return;
     }
     isLoading.value = true;
-    const res = await fetchApi(API_BASE + "/tests");
+    const qs = new URLSearchParams(query.value);
+    const res = await fetchApi(API_BASE + `/tests?${qs.toString()}`);
     isLoading.value = false;
     if (!res.success) {
         error.value = res.message || "Something went wrong!";
@@ -92,7 +93,9 @@ const loadPage = () => {
                     </tr>
                 </template>
                 <tr v-else-if="!tests?.length">
-                    <td colspan="5">{{ error || "No tests added yet!" }}</td>
+                    <td colspan="5">
+                        {{ error || "No test matched your query!" }}
+                    </td>
                 </tr>
                 <template v-else>
                     <tr v-for="test in tests" :key="test.id">
