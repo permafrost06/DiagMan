@@ -11,12 +11,12 @@ import Icon from "@/components/base/Icon.vue";
                 Settings
             </RouterLink>
             <ul>
-                <li class="group-title">General</li>
+                <!-- <li class="group-title">General</li>
                 <li>
                     <RouterLink to="/settings/#" class="sidebar-link">
                         Appearance
                     </RouterLink>
-                </li>
+                </li> -->
                 <li>
                     <RouterLink to="/settings/#" class="sidebar-link">
                         Report Templates
@@ -30,7 +30,7 @@ import Icon from "@/components/base/Icon.vue";
                         Tests
                     </RouterLink>
                 </li>
-                <li>
+                <!-- <li>
                     <RouterLink to="/settings/#" class="sidebar-link">
                         SMS
                     </RouterLink>
@@ -44,7 +44,7 @@ import Icon from "@/components/base/Icon.vue";
                     <RouterLink to="/settings/#" class="sidebar-link">
                         Charts
                     </RouterLink>
-                </li>
+		</li> -->
                 <li>
                     <RouterLink
                         :to="{ name: 'settings.account' }"
@@ -53,7 +53,7 @@ import Icon from "@/components/base/Icon.vue";
                         Account
                     </RouterLink>
                 </li>
-                <li>
+                <!-- <li>
                     <RouterLink to="/settings/#" class="sidebar-link">
                         Notifications
                     </RouterLink>
@@ -78,7 +78,7 @@ import Icon from "@/components/base/Icon.vue";
                     <RouterLink to="/settings/#" class="sidebar-link">
                         About
                     </RouterLink>
-                </li>
+		</li> -->
             </ul>
         </nav>
         <div class="setting-page-area">
