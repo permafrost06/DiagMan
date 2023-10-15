@@ -20,9 +20,10 @@ export const patientSchema = z.object({
 
 export const reportSchema = z.object({
 	id: z.string().nonempty(),
-	aspiration_note: z.string().nonempty(),
-	impression: z.string().nonempty(),
-	note: z.string().nonempty(),
+	aspiration_note: z.string().optional(),
 	gross_examination: z.string().optional(),
-	microscopic_examination: z.string().optional(),
+	impression: z.string().nonempty(),
+	microscopic_examination: z.string().nonempty(),
+	note: z.string().optional(),
+	locked: z.coerce.boolean(),
 });
