@@ -123,7 +123,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
     <div class="patients-page">
         <div class="patients-header">
             <div class="flex items-center">
-                <h3 class="font-h">Patient List</h3>
+                <h1 class="fs-2xl">Patient List</h1>
             </div>
             <div class="flex items-center">
                 <p class="h-user-name font-h">{{ user.name }}</p>

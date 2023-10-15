@@ -40,7 +40,7 @@ const loadPage = () => {
 </script>
 <template>
     <div class="tests-settings">
-        <h3 class="page-title">Tests</h3>
+        <h1 class="page-title fs-2xl">Tests</h1>
         <div class="filter-area flex items-center justify-center">
             <select v-model="query.type" @input="loadPage">
                 <option value="">All</option>

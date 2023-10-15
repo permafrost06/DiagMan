@@ -14,10 +14,6 @@ p{
   padding: 0;
 }
 
-h2 {
-  text-align: center;
-}
-
 label {
   display: block;
   margin-bottom: 5px;
@@ -151,9 +147,10 @@ button, .btn {
   align-items: center;
 }
 
-.auth-root h2 {
+.auth-root h1 {
   font-weight: bold;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .auth-root .sub-title {

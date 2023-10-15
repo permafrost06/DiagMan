@@ -100,7 +100,7 @@ function createDatePickers() {
 </script>
 <template>
     <div class="add-patient-page">
-        <h3>Add Patient</h3>
+        <h1 class="fs-2xl">Add Patient</h1>
         <RouterLink :to="{ name: 'home' }" class="home-url">
             <Icon size="40" view-box="36">
                 <path

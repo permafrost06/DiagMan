@@ -82,14 +82,14 @@ const logout = async () => {
 </script>
 <template>
     <div class="acc-settings">
-        <h3 class="page-title">Account</h3>
+        <h1 class="page-title fs-2xl">Account</h1>
         <form
             class="name-form"
             method="POST"
             :action="API_BASE + '/settings/account/name'"
             @submit.prevent="(evt) => handleForm(evt.target, 'name')"
         >
-            <h4 class="form-title">Change Name</h4>
+            <h2 class="form-title">Change Name</h2>
             <p
                 v-if="message.name.text"
                 :class="['form-alert', message.name.type]"
@@ -112,7 +112,7 @@ const logout = async () => {
             :action="API_BASE + '/settings/account/pin'"
             @submit.prevent="(evt) => handleForm(evt.target, 'pin')"
         >
-            <h4 class="form-title">Change PIN</h4>
+            <h2 class="form-title">Change PIN</h2>
             <p
                 v-if="message.pin.text"
                 :class="['form-alert', message.pin.type]"
@@ -143,7 +143,7 @@ const logout = async () => {
             :action="API_BASE + '/settings/account/password'"
             @submit.prevent="(evt) => handleForm(evt.target, 'password')"
         >
-            <h4 class="form-title">Change Password</h4>
+            <h2 class="form-title">Change Password</h2>
             <p
                 v-if="message.password.text"
                 :class="['form-alert', message.password.type]"
