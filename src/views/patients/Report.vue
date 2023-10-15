@@ -260,10 +260,6 @@ const handleFormSubmit = async (evt: any) => {
                             />
                             Add Report
                         </button>
-                        <button type="submit" class="btn-outline" value="draft">
-                            <Loading v-if="isPosting === 'draft'" />
-                            Save Draft
-                        </button>
                     </div>
                 </div>
             </div>
