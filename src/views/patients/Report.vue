@@ -247,7 +247,12 @@ const handleFormSubmit = async (evt: any) => {
                     <p class="form-alert error">This patient id is invalid!</p>
                 </div>
                 <div class="submit-area">
-                    <CheckBox label="Lock Report" name="locked" value="1" />
+                    <CheckBox
+                        label="Lock Report"
+                        name="locked"
+                        value="1"
+                        :checked="patient?.locked"
+                    />
                     <div class="flex gap-sm mt-sm">
                         <button type="submit" value="add">
                             <Loading
