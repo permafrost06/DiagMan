@@ -91,6 +91,9 @@
 .justify-between {
     justify-content: space-between;
 }
+.justify-end {
+    justify-content: end;
+}
 .row-wrap {
     display: flex;
     flex-wrap: wrap;
