@@ -43,14 +43,14 @@ export const buildRouter = (router: RouterType) => {
 
 	router.post('/tests', addTest);
 	router.get('/tests', listTests);
-	router.post('/tests/sync', syncTests);
-	router.delete('/tests/:id', withParams, deleteTest);
+	router.post('/tests/sync', ensureUser, syncTests);
+	router.delete('/tests/:id', withParams, ensureUser, deleteTest);
 
 	router.post('/patients/sync', syncPatients);
-	router.post('/patients', addPatient);
+	router.post('/patients', ensureUser, addPatient);
 	router.get('/patients', listPatients);
 
-	router.post('/reports', finalizeReport);
+	router.post('/reports', ensureUser, finalizeReport);
 
 	router.post('/settings/account/name', ensureUser, changeName);
 	router.post('/settings/account/pin', ensureUser, changePin);
