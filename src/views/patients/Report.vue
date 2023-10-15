@@ -341,12 +341,10 @@ const handleFormSubmit = async (evt: any) => {
 
         .submit-area {
             background: var(--clr-white);
-            position: fixed;
+            position: absolute;
             bottom: 0px;
-            left: 30px;
+            left: 0px;
             width: calc(50% - 38px);
-            padding-top: 10px;
-            padding-bottom: 40px;
         }
     }
 
