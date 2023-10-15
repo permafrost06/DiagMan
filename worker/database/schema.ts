@@ -73,4 +73,5 @@ export const reports = sqliteTable('reports', {
 	microscopic_examination: text('microscopic_examination'),
 	impression: text('impression'),
 	note: text('note'),
+	locked: numeric('locked'),
 });
