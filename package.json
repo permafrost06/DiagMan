@@ -13,7 +13,7 @@
         "build-only": "vite build",
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-        "start": "concurrently \"pnpm run dev:worker\" \"pnpm run dev\""
+        "start": "concurrently \"pnpm run dev\" \"pnpm run dev:worker\""
     },
     "dependencies": {
         "concurrently": "^8.2.1",
