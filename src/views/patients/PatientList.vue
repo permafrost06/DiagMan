@@ -78,9 +78,11 @@ const hightlightText = (data: string, col: string): string => {
 };
 
 const report = (patient: any) => {
-    localStorage.setItem("to_report", JSON.stringify(patient));
     router.push({
-        name: "reports",
+        name: "report",
+        params: {
+            id: patient.id,
+        },
     });
 };
 
@@ -248,7 +250,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                         ></td>
                         <td>
                             <div class="flex gap-sm row-actions">
-                                <button>
+                                <button @click="() => report(patient)">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="18"

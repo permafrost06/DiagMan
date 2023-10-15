@@ -28,9 +28,9 @@ const router = createRouter({
                     component: () => import("@/views/patients/PatientForm.vue"),
                 },
                 {
-                    path: "/reports",
-                    name: "reports",
-                    component: () => import("@/views/patients/Reports.vue"),
+                    path: "/report/:id",
+                    name: "report",
+                    component: () => import("@/views/patients/Report.vue"),
                 },
                 {
                     path: "/settings",
