@@ -1,11 +1,19 @@
 :root {
     /* -------- Colors ----------*/
-    --clr-black: #000000;
-    --clr-white: #ffffff;
-    --clr-grey: #595959;
-    --clr-accent: #820097;
-    --clr-danger: #f24e1e;
-    --clr-success: #00b46f;
+    --clr-black: rgb(0, 0, 0);
+    --clr-white: rgb(255, 255, 255);
+
+    --clr-accent: rgb(130, 0, 151);
+    --clr-accent-rgb: 130, 0, 151;
+    
+    --clr-grey: rgb(89, 89, 89);
+    --clr-grey-rgb: 89, 89, 89;
+
+    --clr-danger: rgb(242, 78, 30);
+    --clr-danger-rgb: 242, 78, 30;
+
+    --clr-success: rgb(0, 180, 111);
+    --clr-success-rgb: 0, 180, 111;
 
     /* ------ Typography ------- */
     --fs-base: 16px;
