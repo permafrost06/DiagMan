@@ -1,4 +1,4 @@
-import { getLibsqlClient } from '../db/conn';
+import { getLibsqlClient, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
 import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { testSchema } from '../forms/test';
@@ -21,10 +21,7 @@ export const addTest: RequestHandler = async ({ request, env, res }) => {
 	if (!data.size) {
 		data.size = null;
 	}
-	const qres = await db.execute({
-		sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
-		args: data,
-	});
+	const qres = await insertRow(db, 'tests', data);
 
 	res.setRows([
 		{
@@ -32,6 +29,8 @@ export const addTest: RequestHandler = async ({ request, env, res }) => {
 			...data,
 		},
 	]);
+
+	res.setMsg('Test added successfully!');
 };
 
 export const listTests: RequestHandler = async ({ env, res, query }) => {
