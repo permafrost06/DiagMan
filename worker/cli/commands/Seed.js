@@ -67,7 +67,7 @@ const seedPatients = async (count = 100) => {
 
 	for (let i = 0; i < count; i++) {
 		const ref = records[random()];
-		const date = ref.date.split('-').reverse().join('-');
+		const date = new Date(ref.date.split('-').reverse().join('-'));
 		const row = {
 			id: 'ZZZ-' + (maxId + i + 1).toString().padStart(5, '0'),
 			type: ['histo', 'cyto'][Math.round(Math.random())],
@@ -80,7 +80,7 @@ const seedPatients = async (count = 100) => {
 			contact: faker.phone.number(),
 			specimen: ref.specimen,
 			referer: ref.referer,
-			delivery_date: faker.date.future(date + 'T00:00:00.000Z'),
+			delivery_date: faker.date.future(date),
 			tests: getTests(),
 			discount: Math.round(Math.random() * 1000),
 			advance: Math.round(Math.random() * 1000),
