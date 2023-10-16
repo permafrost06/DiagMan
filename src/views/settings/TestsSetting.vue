@@ -5,7 +5,7 @@ import { fetchApi } from "@/helpers/http";
 import { ref } from "vue";
 
 let tOut = 0;
-const addMode = ref<boolean>(false);
+const formValue = ref<boolean | Record<string, string>>(false);
 const isLoading = ref<boolean>(false);
 const tests = ref<Record<string, string>[]>([]);
 const error = ref<string | null>(null);
@@ -41,14 +41,24 @@ const loadPage = () => {
 };
 
 const onAdded = (test: any) => {
-    tests.value.unshift(test);
+    if (typeof formValue.value !== "object") {
+        tests.value.unshift(test);
+        return;
+    }
+    // @ts-ignore
+    const filtered = tests.value.filter((t) => t.id != formValue.value.id);
+    filtered.unshift(test);
+    tests.value = filtered;
+    formValue.value = false;
 };
 </script>
 <template>
     <div class="tests-settings">
         <h1 class="page-title fs-2xl">Tests</h1>
         <div class="flex items-center gap-sm">
-            <button class="add-btn" @click="addMode = true">+ Add Test</button>
+            <button class="add-btn" @click="formValue = true">
+                + Add Test
+            </button>
             <div class="filter-area flex items-center justify-center">
                 <select v-model="query.type" @input="loadPage">
                     <option value="">All</option>
@@ -116,7 +126,12 @@ const onAdded = (test: any) => {
                         <td>{{ test.price }}</td>
                         <td>
                             <div class="flex gap-sm row-actions">
-                                <button class="btn-outline">Modify</button>
+                                <button
+                                    class="btn-outline"
+                                    @click="formValue = test"
+                                >
+                                    Modify
+                                </button>
                                 <button class="btn-outline">Delete</button>
                             </div>
                         </td>
@@ -126,9 +141,10 @@ const onAdded = (test: any) => {
         </div>
     </div>
     <TestFormModal
-        v-if="addMode"
-        :onClose="() => (addMode = false)"
+        v-if="formValue"
+        :onClose="() => (formValue = false)"
         :onAdded="onAdded"
+        :edit="typeof formValue === 'object' ? formValue : undefined"
     />
 </template>
 

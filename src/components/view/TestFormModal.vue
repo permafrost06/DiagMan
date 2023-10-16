@@ -10,6 +10,7 @@ import { fetchApi } from "@/helpers/http";
 interface Props {
     onClose?: () => void;
     onAdded?: (test: any) => void;
+    edit?: Record<string, string>;
 }
 const props = defineProps<Props>();
 
@@ -46,12 +47,13 @@ async function handleFormSubmit(evt: any) {
 <template>
     <div class="modal-backdrop test-form-modal">
         <div class="modal-body">
-            <h2 class="fs-2xl">Add New Test</h2>
+            <h2 class="fs-2xl">{{ edit ? "Edit" : "Add New" }} Test</h2>
             <form
                 method="POST"
                 :action="API_BASE + '/tests'"
                 @submit.prevent="handleFormSubmit"
             >
+                <input type="hidden" name="id" :value="edit.id" v-if="edit" />
                 <p v-if="error" class="form-alert error">{{ error }}</p>
                 <p v-if="message" class="form-alert success">{{ message }}</p>
                 <div class="input-grid">
@@ -60,12 +62,14 @@ async function handleFormSubmit(evt: any) {
                         name="name"
                         label="Test Name"
                         :hint="fieldErrs.name?.[0]"
+                        :value="edit?.name"
                     />
                     <SimpleSelect
                         :unWrap="true"
                         name="type"
                         label="Type"
                         :hint="fieldErrs.type?.[0]"
+                        :value="edit?.type"
                     >
                         <option value="">Select type</option>
                         <option value="cyto">Cytopathology</option>
@@ -76,6 +80,7 @@ async function handleFormSubmit(evt: any) {
                         name="size"
                         label="Size"
                         :hint="fieldErrs.size?.[0]"
+                        :value="edit?.size"
                     >
                         <option value="">Select size</option>
                         <option value="small">Small</option>
@@ -89,14 +94,19 @@ async function handleFormSubmit(evt: any) {
                         :hint="fieldErrs.price?.[0]"
                     >
                         <div class="price-input flex items-center">
-                            BDT <input type="number" name="price" />
+                            BDT
+                            <input
+                                type="number"
+                                name="price"
+                                :value="edit?.price"
+                            />
                         </div>
                     </SimpleBlankInput>
                 </div>
                 <div class="buttons flex items-center justify-center">
                     <button type="submit">
                         <Loading v-if="isPosting" size="15" />
-                        Add Test
+                        {{ edit ? "Update Test" : "Add Test" }}
                     </button>
                     <button type="button" class="btn-outline" @click="onClose">
                         Cancel
