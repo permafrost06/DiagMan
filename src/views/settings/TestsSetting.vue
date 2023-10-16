@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import TestFormModal from "@/components/view/TestFormModal.vue";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import Loading from "@/Icons/Loading.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { ref } from "vue";
 
 let tOut = 0;
 const formValue = ref<boolean | Record<string, string>>(false);
+const deleteValue = ref();
 const isLoading = ref<boolean>(false);
+const isDeleting = ref<boolean>(false);
 const tests = ref<Record<string, string>[]>([]);
 const error = ref<string | null>(null);
 const query = ref({
@@ -51,6 +55,29 @@ const onAdded = (test: any) => {
     tests.value = filtered;
     formValue.value = false;
 };
+
+async function deleteTest() {
+    if (!deleteValue.value || isDeleting.value) {
+        return;
+    }
+    isDeleting.value = true;
+    const res = await fetchApi(`${API_BASE}/tests/${deleteValue.value.id}`, {
+        method: "DELETE",
+        body: JSON.stringify({
+            id: deleteValue.value?.id,
+        }),
+    });
+    isDeleting.value = false;
+    if (res.success) {
+        error.value = null;
+        tests.value = tests.value.filter(
+            (test) => test.id != deleteValue.value?.id
+        );
+        deleteValue.value = null;
+    } else {
+        error.value = res.message;
+    }
+}
 </script>
 <template>
     <div class="tests-settings">
@@ -132,7 +159,12 @@ const onAdded = (test: any) => {
                                 >
                                     Modify
                                 </button>
-                                <button class="btn-outline">Delete</button>
+                                <button
+                                    class="btn-outline"
+                                    @click="deleteValue = test"
+                                >
+                                    Delete
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -146,6 +178,24 @@ const onAdded = (test: any) => {
         :onAdded="onAdded"
         :edit="typeof formValue === 'object' ? formValue : undefined"
     />
+
+    <ConfirmModal title="Are you sure?" icon="delete" v-if="deleteValue">
+        <p v-if="error" class="form-alert error">{{ error }}</p>
+        <p>
+            Are you sure to delete the test named
+            <span class="bold"> {{ deleteValue.name }} </span>?
+        </p>
+        <p class="danger fs-md bold">It cannot be undone!</p>
+        <template v-slot:buttons>
+            <button @click="deleteTest">
+                <Loading v-if="isDeleting" size="15" />
+                Delete
+            </button>
+            <button class="btn-outline" @click="deleteValue = null">
+                Cancel
+            </button>
+        </template>
+    </ConfirmModal>
 </template>
 
 <style lang="scss">
