@@ -41,7 +41,7 @@ input[type="checkbox"] {
 button, .btn {
   background-color: var(--clr-black);
   color: var(--clr-white);
-  border: 1px solid var(--clr-black);
+  border: none;
   padding: 10px 20px;
   cursor: pointer;
   font-size: 0.75rem;
@@ -56,6 +56,11 @@ button, .btn {
 /* ------------ COMPONENTS ----------- */
 
 .btn-outline {
+  background: transparent;
+  color: var(--clr-black);
+  border: 1px solid var(--clr-black);
+}
+.btn-primary {
   background: transparent;
   color: var(--clr-black);
   border: 1px solid var(--clr-black);
