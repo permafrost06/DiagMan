@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import TestFormModal from "@/components/view/TestFormModal.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { ref } from "vue";
 
 let tOut = 0;
+const addMode = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const tests = ref<Record<string, string>[]>([]);
 const error = ref<string | null>(null);
@@ -37,30 +39,37 @@ const loadPage = () => {
     }
     tOut = setTimeout(getTests, 500);
 };
+
+const onAdded = (test: any) => {
+    tests.value.unshift(test);
+};
 </script>
 <template>
     <div class="tests-settings">
         <h1 class="page-title fs-2xl">Tests</h1>
-        <div class="filter-area flex items-center justify-center">
-            <select v-model="query.type" @input="loadPage">
-                <option value="">All</option>
-                <option value="cyto">Cytopathology</option>
-                <option value="histo">Histopathology</option>
-            </select>
-            <select v-model="query.size" @input="loadPage">
-                <option value="">All</option>
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-            </select>
-            <div class="flex items-center">
-                BDT
-                <input
-                    type="text"
-                    placeholder="Price"
-                    v-model="query.price"
-                    @input="loadPage"
-                />
+        <div class="flex items-center gap-sm">
+            <button class="add-btn" @click="addMode = true">+ Add Test</button>
+            <div class="filter-area flex items-center justify-center">
+                <select v-model="query.type" @input="loadPage">
+                    <option value="">All</option>
+                    <option value="cyto">Cytopathology</option>
+                    <option value="histo">Histopathology</option>
+                </select>
+                <select v-model="query.size" @input="loadPage">
+                    <option value="">All</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+                <div class="flex items-center">
+                    BDT
+                    <input
+                        type="text"
+                        placeholder="Price"
+                        v-model="query.price"
+                        @input="loadPage"
+                    />
+                </div>
             </div>
         </div>
         <div class="table-wrapper">
@@ -116,6 +125,11 @@ const loadPage = () => {
             </table>
         </div>
     </div>
+    <TestFormModal
+        v-if="addMode"
+        :onClose="() => (addMode = false)"
+        :onAdded="onAdded"
+    />
 </template>
 
 <style lang="scss">
@@ -126,11 +140,17 @@ const loadPage = () => {
 
     .page-title {
         border-bottom: 1px solid var(--clr-black);
+        margin-bottom: 30px;
+    }
+
+    .add-btn {
+        padding: 5px 15px;
+        font-weight: bold;
     }
 
     .filter-area {
-        margin-top: 30px;
         gap: 20px;
+        flex-grow: 1;
 
         select,
         input {
