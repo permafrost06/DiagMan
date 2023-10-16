@@ -66,7 +66,7 @@ export const getReport: RequestHandler = async ({ env, params, res }) => {
 		  LEFT JOIN \`reports\` AS r ON r.id = p.id
 		  WHERE p.id=? LIMIT 1
 		`,
-		args: [params.id],
+		args: [decodeURIComponent(params.id)],
 	});
 	if (rows.length === 0) {
 		res.error('The patient does not exist!', 404);
