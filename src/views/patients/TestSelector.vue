@@ -83,28 +83,28 @@ const getSearchUrl = (val: string) => {
         </SearchSelect>
         <div class="tests" v-if="tests.length > 0">
             <template v-for="test in tests" :key="test.id">
-                <p class="t-name">{{ test.name }}</p>
-                <p class="capitalize t-size">{{ test.size }}</p>
-                <div class="price-n-closer">
+                <p>{{ test.name }}</p>
+                <p class="capitalize">{{ test.size }}</p>
+                <p>
                     <input type="hidden" name="tests" :value="test.id" />
-                    <span class="price">{{ test.price }}</span>
-                    <button
-                        type="button"
-                        class="closer"
-                        @click="() => removeTest(test)"
-                    >
-                        <Icon view-box="24" size="18">
-                            <path
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M4 7h16m-10 4v6m4-6v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"
-                            />
-                        </Icon>
-                    </button>
-                </div>
+                    {{ test.price }}
+                </p>
+                <button
+                    type="button"
+                    class="closer"
+                    @click="() => removeTest(test)"
+                >
+                    <Icon view-box="24" size="18">
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 7h16m-10 4v6m4-6v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"
+                        />
+                    </Icon>
+                </button>
             </template>
         </div>
         <div class="total">
@@ -128,13 +128,19 @@ const getSearchUrl = (val: string) => {
         padding-bottom: 10px;
 
         display: grid;
-        grid-template-columns: 1fr max-content max-content;
+        grid-template-columns: 1fr max-content max-content 30px;
         gap: 10px 20px;
+
+        .closer {
+            background: var(--clr-white);
+            color: var(--clr-danger);
+            padding: 0;
+        }
     }
 
     .total {
         display: grid;
-        grid-template-columns: 1fr max-content;
+        grid-template-columns: 1fr max-content 50px;
         padding: 10px 0;
     }
     .test-result,
@@ -190,36 +196,6 @@ const getSearchUrl = (val: string) => {
                 color: var(--clr-black);
             }
         }
-    }
-
-    .price-n-closer {
-        .price {
-            display: inline;
-        }
-
-        .closer {
-            display: none;
-            padding: 0;
-            background: transparent;
-            color: var(--clr-danger);
-            border: none;
-        }
-    }
-    .t-size,
-    .t-name,
-    .price-n-closer {
-        cursor: pointer;
-    }
-
-    .t-name:hover + .t-size + .price-n-closer .closer,
-    .t-size:hover + .price-n-closer .closer,
-    .price-n-closer:hover .closer {
-        display: block;
-    }
-    .t-name:hover + .t-size + .price-n-closer .price,
-    .t-size:hover + .price-n-closer .price,
-    .price-n-closer:hover .price {
-        display: none;
     }
 }
 </style>
