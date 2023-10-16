@@ -92,3 +92,7 @@ body {
 .fs-5xl {
     font-size: var(--fs-5xl);
 }
+
+.danger {
+    color: var(--clr-danger);
+}
