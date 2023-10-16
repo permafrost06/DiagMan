@@ -16,7 +16,6 @@ p{
 
 label {
   display: block;
-  margin-bottom: 5px;
 }
 select,
 input[type="text"],
@@ -29,7 +28,6 @@ textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
-  margin-bottom: 10px;
   border: 1px solid var(--clr-black);
   border-radius: 0;
 }
@@ -43,7 +41,7 @@ input[type="checkbox"] {
 button, .btn {
   background-color: var(--clr-black);
   color: var(--clr-white);
-  border: none;
+  border: 1px solid var(--clr-black);
   padding: 10px 20px;
   cursor: pointer;
   font-size: 0.75rem;
