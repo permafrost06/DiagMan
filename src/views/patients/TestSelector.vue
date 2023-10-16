@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Icon from "@/components/base/Icon.vue";
 import SearchSelect from "@/components/base/SearchSelect.vue";
+import TestFormModal from "@/components/view/TestFormModal.vue";
 import { API_BASE } from "@/helpers/config";
 import { ref } from "vue";
 
@@ -13,6 +14,7 @@ const emit = defineEmits<{ (e: "update:modelValue", total: number): void }>();
 defineProps<Props>();
 const tests = ref<Array<Record<string, number | string>>>([]);
 const total = ref<number>(0);
+const testAdder = ref<boolean>(false);
 
 const addTest = (test: any) => {
     tests.value.push(test);
@@ -45,7 +47,11 @@ const getSearchUrl = (val: string) => {
                         <p class="danger">No results matched your query!</p>
                     </li>
                     <li>
-                        <button type="button" class="add-test-btn">
+                        <button
+                            type="button"
+                            class="add-test-btn"
+                            @click="testAdder = true"
+                        >
                             Add new test
                         </button>
                     </li>
@@ -106,6 +112,12 @@ const getSearchUrl = (val: string) => {
             <p>{{ total }}</p>
         </div>
     </div>
+
+    <TestFormModal
+        v-if="testAdder"
+        :onClose="() => (testAdder = false)"
+        :onAdded="addTest"
+    />
 </template>
 
 <style lang="scss">

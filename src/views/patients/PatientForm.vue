@@ -101,6 +101,7 @@ function createDatePickers() {
             :action="`${API_BASE}/patients`"
             method="POST"
             @submit.prevent="handleFormSubmit"
+            class="add-patient"
         >
             <div class="left-wrapper">
                 <div class="left">
@@ -331,7 +332,7 @@ function createDatePickers() {
         margin: 0;
     }
 
-    form {
+    form.add-patient {
         flex-grow: 1;
         display: grid;
         grid-template-columns: 1fr 1fr;
