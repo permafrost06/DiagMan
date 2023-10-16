@@ -5,15 +5,10 @@ import SimpleBlankInput from "@/components/form/SimpleBlankInput.vue";
 import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
+import TestSelector from "./TestSelector.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { dateToDMY, dmyToDate } from "@/helpers/utils";
-import {
-    TABLES,
-    getRowCount,
-    getRows,
-    insertRowBulk,
-} from "@/helpers/local-db";
 import { onMounted, ref } from "vue";
 // @ts-ignore
 import datepicker from "js-datepicker";
@@ -24,30 +19,15 @@ const sampleDateField = ref<HTMLInputElement>();
 const deliveryDateField = ref<HTMLInputElement>();
 
 const isPosting = ref<"add" | "draft" | boolean>(false);
-const isLoading = ref(false);
 const error = ref<string | null>(null);
 const fieldErrors = ref<undefined | Record<string, string[]>>();
 const message = ref<string | null>(null);
-const tests = ref<Array<Record<string, number | string>>>([]);
+const total = ref(0);
+const discount = ref(0);
+const advance = ref(0);
 
 onMounted(async () => {
     createDatePickers();
-    if (!navigator.onLine) {
-        tests.value = getRows(TABLES.tests);
-        return;
-    }
-
-    isLoading.value = true;
-    const res = await fetchApi(`${API_BASE}/tests`);
-    isLoading.value = false;
-    if (!res.success) {
-        error.value = res.message;
-    } else {
-        tests.value = res.rows || [];
-        if (getRowCount(TABLES.tests) === 0) {
-            insertRowBulk(TABLES.tests, tests.value);
-        }
-    }
 });
 
 async function handleFormSubmit(evt: any) {
@@ -278,9 +258,10 @@ function createDatePickers() {
                 </SimpleBlankInput>
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
-                    <ul class="tests"></ul>
-                    <button>+ Add Test</button>
-                    <div class="total"></div>
+                    <TestSelector v-model="total" />
+                    <p v-if="fieldErrors?.tests" class="hint error">
+                        {{ fieldErrors?.tests?.[0] }}
+                    </p>
                 </div>
 
                 <h4 class="section-title all-col">Payment Information</h4>
@@ -295,7 +276,7 @@ function createDatePickers() {
                             type="number"
                             class="amount-input"
                             name="discount"
-                            value="0"
+                            v-model="discount"
                         />
                     </div>
                 </SimpleBlankInput>
@@ -306,7 +287,7 @@ function createDatePickers() {
                             type="number"
                             class="amount-input"
                             readonly
-                            value="0"
+                            :value="total - discount"
                         />
                     </div>
                 </SimpleBlankInput>
@@ -321,12 +302,18 @@ function createDatePickers() {
                             type="number"
                             class="amount-input"
                             name="advance"
+                            v-model="advance"
                         />
                     </div>
                 </SimpleBlankInput>
                 <SimpleBlankInput label="Due" :un-wrap="true">
                     <div class="flex items-center gap-sm">
-                        BDT <input type="number" class="amount-input" />
+                        BDT
+                        <input
+                            type="number"
+                            class="amount-input"
+                            :value="total - discount - advance"
+                        />
                     </div>
                 </SimpleBlankInput>
             </div>
@@ -391,10 +378,6 @@ function createDatePickers() {
     }
     .right {
         padding-left: 20px;
-        .total {
-            border-top: 1px solid var(--clr-black);
-            margin-top: 10px;
-        }
     }
 
     .section-title {

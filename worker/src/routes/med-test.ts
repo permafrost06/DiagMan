@@ -43,8 +43,11 @@ export const listTests: RequestHandler = async ({ env, res, query }) => {
 	const type = allTypes[allTypes.indexOf(query['type'])];
 	const size = allSizes[allSizes.indexOf(query['size'])];
 	const price = parseInt(query['price'] as any);
+	const search = query['search']?.toString().trim();
+	const notIn = query['not-in']?.toString();
 
 	let where = "WHERE status='active'";
+	const args: Array<string | number> = [];
 
 	if (status) {
 		where += ` AND status='${status}'`;
@@ -62,7 +65,24 @@ export const listTests: RequestHandler = async ({ env, res, query }) => {
 		where += ` AND price='${price}'`;
 	}
 
-	const qres = await db.execute('SELECT * FROM `tests` ' + where);
+	if (notIn) {
+		where += ` AND NOT EXISTS (
+			SELECT * 
+			FROM json_each(?) 
+			WHERE json_each.value = tests.id
+		) `;
+		args.push(notIn);
+	}
+
+	if (search) {
+		where += ' AND name LIKE CONCAT("%", ?, "%")';
+		args.push(search);
+	}
+
+	const qres = await db.execute({
+		sql: 'SELECT * FROM `tests` ' + where,
+		args,
+	});
 	res.setRows(qres.rows);
 };
 
