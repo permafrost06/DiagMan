@@ -10,6 +10,7 @@ import { useRoute } from "vue-router";
 import Quill, { type QuillOptionsStatic } from "quill";
 
 import "quill/dist/quill.snow.css";
+import { dateToDMY } from "@/helpers/utils";
 
 const quillOptions: QuillOptionsStatic = {
     debug: "error",
@@ -229,16 +230,30 @@ const handleFormSubmit = async (evt: any) => {
                     <p class="bold">{{ patient.specimen }}</p>
 
                     <p>Sample collection date</p>
-                    <p>{{ patient.sample_collection_date }}</p>
+                    <p>
+                        {{
+                            dateToDMY(
+                                new Date(
+                                    parseInt(patient.sample_collection_date)
+                                )
+                            )
+                        }}
+                    </p>
 
                     <p>Entry date</p>
-                    <p>{{ patient.entry_date }}</p>
+                    <p>
+                        {{ dateToDMY(new Date(parseInt(patient.entry_date))) }}
+                    </p>
 
                     <p>Tests</p>
                     <p class="bold">{{ patient.test_names }}</p>
 
                     <p>Delivery date</p>
-                    <p>{{ patient.delivery_date }}</p>
+                    <p>
+                        {{
+                            dateToDMY(new Date(parseInt(patient.delivery_date)))
+                        }}
+                    </p>
                 </div>
                 <div v-else-if="isLoading" class="flex justify-center">
                     <Loading size="60" />
