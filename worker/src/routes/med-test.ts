@@ -44,25 +44,22 @@ export const listTests: RequestHandler = async ({ env, res, query }) => {
 	const size = allSizes[allSizes.indexOf(query['size'])];
 	const price = parseInt(query['price'] as any);
 
-	let where = '';
+	let where = "WHERE status='active'";
 
 	if (status) {
-		where += `WHERE status='${status}'`;
+		where += ` AND status='${status}'`;
 	}
 
 	if (type) {
-		where += where ? ' AND ' : 'WHERE ';
-		where += `type='${type}'`;
+		where += ` AND type='${type}'`;
 	}
 
 	if (size) {
-		where += where ? ' AND ' : 'WHERE ';
-		where += `size='${size}'`;
+		where += ` AND size='${size}'`;
 	}
 
 	if (price > 0) {
-		where += where ? ' AND ' : 'WHERE ';
-		where += `price='${price}'`;
+		where += ` AND price='${price}'`;
 	}
 
 	const qres = await db.execute('SELECT * FROM `tests` ' + where);
