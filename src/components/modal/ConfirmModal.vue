@@ -94,6 +94,7 @@ onMounted(() => {
                     height: 40px;
                     width: 40px;
                     min-width: 40px;
+                    border: 1px solid;
                     border-radius: 100%;
 
                     display: flex;
@@ -101,13 +102,11 @@ onMounted(() => {
                     justify-content: center;
 
                     &.delete {
-                        background: rgba($color: #c72121, $alpha: 0.4);
-                        color: #c72121;
+                        color: var(--clr-danger);
                     }
 
                     &.question {
-                        background: rgba($color: #ffbe0b, $alpha: 0.4);
-                        color: #ffbe0b;
+                        color: var(--clr-warning);
                     }
                 }
             }
