@@ -32,6 +32,8 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 	}
 
 	data.total = total;
+	data.advance *= 100;
+	data.discount *= 100;
 
 	try {
 		if (!params.id) {
@@ -200,10 +202,9 @@ export const syncPatients: RequestHandler = async ({ env, res, request }) => {
 		for (let i = 0; i < insert.length; i++) {
 			limitOperations(queries);
 			const data = await validateObject(insert[i], patientSchema);
-			// ZOD does not support only date validation yet
-			['sample_collection_date', 'entry_date', 'delivery_date'].forEach((key) => {
-				data[key] = data[key].substring(0, 10);
-			});
+
+			data.advance *= 100;
+			data.discount *= 100;
 
 			queries.push(generateInsertQuery('patients', data));
 		}

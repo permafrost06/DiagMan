@@ -29,8 +29,8 @@ const error = ref<string | null>(null);
 const fieldErrors = ref<undefined | Record<string, string[]>>();
 const message = ref<string | null>(null);
 const total = ref<number>(0);
-const discount = ref<number>((props.toEdit?.discount as any) || 0);
-const advance = ref<number>((props.toEdit?.advance as any) || 0);
+const discount = ref<number>(0);
+const advance = ref<number>(0);
 const invoice = ref<boolean>(false);
 
 onMounted(async () => {
@@ -41,6 +41,8 @@ onMounted(async () => {
             total2 += t.price;
         });
         total.value = total2;
+        advance.value = (props.toEdit.advance as any) / 100;
+        discount.value = (props.toEdit.discount as any) / 100;
     }
 });
 
@@ -393,7 +395,7 @@ function createDatePickers() {
                             type="number"
                             class="amount-input"
                             readonly
-                            :value="total - discount"
+                            :value="total / 100 - discount"
                         />
                     </div>
                 </SimpleBlankInput>
@@ -418,7 +420,7 @@ function createDatePickers() {
                         <input
                             type="number"
                             class="amount-input"
-                            :value="total - discount - advance"
+                            :value="total / 100 - discount - advance"
                         />
                     </div>
                 </SimpleBlankInput>

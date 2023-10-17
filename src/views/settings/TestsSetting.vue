@@ -150,7 +150,7 @@ async function deleteTest() {
                             {{ test.type ? test.type + "pathology" : "N/A" }}
                         </td>
                         <td class="capitalize">{{ test.size || "N/A" }}</td>
-                        <td>{{ test.price }}</td>
+                        <td>{{ ((test.price as any) / 100).toFixed(2) }}</td>
                         <td>
                             <div class="flex gap-sm row-actions">
                                 <button

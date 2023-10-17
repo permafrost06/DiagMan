@@ -7,6 +7,8 @@ import { JSONError } from '../utils/Response';
 export const addTest: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, testSchema);
 
+	data.price = data.price * 100;
+
 	const db = getLibsqlClient(env);
 	if (data.id) {
 		await db.execute({
@@ -42,7 +44,7 @@ export const listTests: RequestHandler = async ({ env, res, query }) => {
 	const status = allStatus[allStatus.indexOf(query['status'])];
 	const type = allTypes[allTypes.indexOf(query['type'])];
 	const size = allSizes[allSizes.indexOf(query['size'])];
-	const price = parseInt(query['price'] as any);
+	const price = parseInt(query['price'] as any) * 100;
 	const search = query['search']?.toString().trim();
 	const notIn = query['not-in']?.toString();
 	const limit = parseInt(query['limit']?.toString() || '0');
@@ -113,6 +115,7 @@ export const syncTests: RequestHandler = async ({ env, res, request }) => {
 		for (let i = 0; i < insert.length; i++) {
 			limitOperations(queries);
 			delete insert[i].id;
+			insert[i].price *= 100;
 			queries.push({
 				sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
 				args: await validateObject(insert[i], testSchema),
@@ -125,6 +128,7 @@ export const syncTests: RequestHandler = async ({ env, res, request }) => {
 		for (const id in update) {
 			limitOperations(queries);
 			delete update[id].id;
+			update[id].price *= 100;
 			queries.push({
 				sql: "UPDATE `tests` SET status = 'updated' WHERE id = ?",
 				args: [id],

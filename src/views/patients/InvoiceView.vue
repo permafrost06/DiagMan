@@ -114,7 +114,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         <tr v-for="test in record.tests" :key="test.id">
                             <td>{{ test.id }}</td>
                             <td>{{ test.name }}</td>
-                            <td class="right">{{ test.price }}</td>
+                            <td class="right">{{ test.price / 100 }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -123,7 +123,9 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             <td></td>
                             <td class="right">
                                 Sub total:
-                                <span class="spaced">{{ record.total }}</span>
+                                <span class="spaced">{{
+                                    record.total / 100
+                                }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -132,7 +134,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             <td class="right">
                                 Discount:
                                 <span class="spaced">{{
-                                    record.discount
+                                    record.discount / 100
                                 }}</span>
                             </td>
                         </tr>
@@ -142,7 +144,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             <td class="right">
                                 Net Payable:
                                 <span class="spaced">{{
-                                    record.total - record.discount
+                                    (record.total - record.discount) / 100
                                 }}</span>
                             </td>
                         </tr>
@@ -151,7 +153,9 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             <td></td>
                             <td class="right">
                                 Advance:
-                                <span class="spaced">{{ record.advance }}</span>
+                                <span class="spaced">{{
+                                    record.advance / 100
+                                }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -160,9 +164,10 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             <td class="right">
                                 Due:
                                 <span class="spaced">{{
-                                    record.total -
-                                    record.discount -
-                                    record.advance
+                                    (record.total -
+                                        record.discount -
+                                        record.advance) /
+                                    100
                                 }}</span>
                             </td>
                         </tr>

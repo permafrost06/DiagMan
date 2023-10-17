@@ -77,7 +77,10 @@ const getSearchUrl = (val: string) => {
                         >
                             <p class="test-name">{{ item.name }}</p>
                             <div class="tr-details">
-                                <p>BDT {{ item.price }}</p>
+                                <p>
+                                    BDT
+                                    {{ ((item.price as any) / 100).toFixed(2) }}
+                                </p>
                                 <p class="capitalize">
                                     {{ item.size || "N/A" }}
                                 </p>
@@ -96,7 +99,7 @@ const getSearchUrl = (val: string) => {
                 <p class="capitalize">{{ test.size }}</p>
                 <p>
                     <input type="hidden" name="tests" :value="test.id" />
-                    {{ test.price }}
+                    {{ ((test.price as any) / 100).toFixed(2) }}
                 </p>
                 <button
                     type="button"
@@ -118,7 +121,7 @@ const getSearchUrl = (val: string) => {
         </div>
         <div class="total">
             <p>Subtotal</p>
-            <p>{{ total }}</p>
+            <p>{{ (total / 100).toFixed(2) }}</p>
         </div>
     </div>
 

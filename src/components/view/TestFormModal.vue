@@ -98,7 +98,9 @@ async function handleFormSubmit(evt: any) {
                             <input
                                 type="number"
                                 name="price"
-                                :value="edit?.price"
+                                :value="
+                                    edit ? (edit.price as any / 100).toFixed(2) : 0
+                                "
                             />
                         </div>
                     </SimpleBlankInput>
