@@ -14,6 +14,10 @@ import { onMounted, ref } from "vue";
 import datepicker from "js-datepicker";
 import "js-datepicker/dist/datepicker.min.css";
 
+const props = defineProps<{
+    toEdit?: Record<string, string>;
+}>();
+
 const entryDateField = ref<HTMLInputElement>();
 const sampleDateField = ref<HTMLInputElement>();
 const deliveryDateField = ref<HTMLInputElement>();
@@ -22,12 +26,19 @@ const isPosting = ref<"add" | "draft" | boolean>(false);
 const error = ref<string | null>(null);
 const fieldErrors = ref<undefined | Record<string, string[]>>();
 const message = ref<string | null>(null);
-const total = ref(0);
-const discount = ref(0);
-const advance = ref(0);
+const total = ref<number>(0);
+const discount = ref<number>((props.toEdit?.discount as any) || 0);
+const advance = ref<number>((props.toEdit?.advance as any) || 0);
 
 onMounted(async () => {
     createDatePickers();
+    if (props.toEdit) {
+        let total2 = 0;
+        (props.toEdit.tests as any).forEach((t: any) => {
+            total2 += t.price;
+        });
+        total.value = total2;
+    }
 });
 
 async function handleFormSubmit(evt: any) {
@@ -45,6 +56,9 @@ async function handleFormSubmit(evt: any) {
         data.append(df, dmyToDate(val).toLocaleDateString());
     });
 
+    error.value = null;
+    message.value = null;
+
     const res = await fetchApi(evt.target.action, {
         method: "POST",
         body: data,
@@ -52,7 +66,6 @@ async function handleFormSubmit(evt: any) {
 
     isPosting.value = false;
     if (res.success) {
-        error.value = null;
         message.value = res.message!;
     } else {
         error.value = res.message;
@@ -105,7 +118,7 @@ function createDatePickers() {
 </script>
 <template>
     <div class="add-patient-page">
-        <h1 class="fs-2xl">Add Patient</h1>
+        <h1 class="fs-2xl">{{ toEdit ? "Update" : "Add" }} Patient</h1>
         <RouterLink :to="{ name: 'home' }" class="home-url">
             <Icon size="40" view-box="36">
                 <path
@@ -123,7 +136,7 @@ function createDatePickers() {
             {{ message }}
         </div>
         <form
-            :action="`${API_BASE}/patients`"
+            :action="`${API_BASE}/patients/${toEdit?.id}`"
             method="POST"
             @submit.prevent="handleFormSubmit"
             class="add-patient"
@@ -136,6 +149,7 @@ function createDatePickers() {
                         label="Type"
                         :un-wrap="true"
                         :hint="fieldErrors?.type?.[0]"
+                        :value="toEdit?.type"
                     >
                         <option value="cyto">Cytopathology</option>
                         <option value="histo">Histopathology</option>
@@ -145,6 +159,7 @@ function createDatePickers() {
                         label="ID"
                         :un-wrap="true"
                         :hint="fieldErrors?.id?.[0]"
+                        :value="toEdit?.id"
                     />
 
                     <h4 class="section-title all-col">Patient Information</h4>
@@ -154,6 +169,7 @@ function createDatePickers() {
                         label="Name"
                         :un-wrap="true"
                         :hint="fieldErrors?.name?.[0]"
+                        :value="toEdit?.name"
                     />
                     <SimpleBlankInput
                         label="Age"
@@ -161,7 +177,12 @@ function createDatePickers() {
                         :hint="fieldErrors?.age?.[0]"
                     >
                         <div class="flex items-center">
-                            <input type="number" name="age" class="age-input" />
+                            <input
+                                type="number"
+                                name="age"
+                                class="age-input"
+                                :value="toEdit?.age"
+                            />
                             years
                         </div>
                     </SimpleBlankInput>
@@ -178,6 +199,7 @@ function createDatePickers() {
                                     name="gender"
                                     id="gen-male"
                                     value="male"
+                                    :checked="toEdit?.gender === 'male'"
                                 />
                                 <label for="gen-male">Male</label>
                             </div>
@@ -187,6 +209,7 @@ function createDatePickers() {
                                     name="gender"
                                     id="gen-female"
                                     value="female"
+                                    :checked="toEdit?.gender === 'female'"
                                 />
                                 <label for="gen-female">Female</label>
                             </div>
@@ -197,12 +220,14 @@ function createDatePickers() {
                         label="Contact"
                         :un-wrap="true"
                         :hint="fieldErrors?.contact?.[0]"
+                        :value="toEdit?.contact"
                     />
                     <SimpleInput
                         name="referer"
                         label="Referer"
                         :un-wrap="true"
                         :hint="fieldErrors?.referer?.[0]"
+                        :value="toEdit?.referer"
                     />
                     <SimpleBlankInput
                         label="Delivery date"
@@ -216,6 +241,15 @@ function createDatePickers() {
                             class="date-input"
                             autocomplete="off"
                             placeholder="dd-mm-yyyy"
+                            :value="
+                                toEdit
+                                    ? dateToDMY(
+                                          new Date(
+                                              parseInt(toEdit.delivery_date)
+                                          )
+                                      )
+                                    : ''
+                            "
                         />
                     </SimpleBlankInput>
 
@@ -229,7 +263,7 @@ function createDatePickers() {
                                         isPosting === 'add'
                                     "
                                 />
-                                Add Patient
+                                {{ toEdit ? "Update" : "Add" }} Patient
                             </button>
                             <button
                                 type="submit"
@@ -259,6 +293,13 @@ function createDatePickers() {
                         class="date-input"
                         autocomplete="off"
                         placeholder="dd-mm-yyyy"
+                        :value="
+                            toEdit
+                                ? dateToDMY(
+                                      new Date(parseInt(toEdit.entry_date))
+                                  )
+                                : ''
+                        "
                     />
                 </SimpleBlankInput>
 
@@ -267,6 +308,7 @@ function createDatePickers() {
                     :un-wrap="true"
                     name="specimen"
                     :hint="fieldErrors?.specimen?.[0]"
+                    :value="toEdit?.specimen"
                 />
                 <SimpleBlankInput
                     label="Sample collection date"
@@ -280,11 +322,25 @@ function createDatePickers() {
                         class="date-input"
                         autocomplete="off"
                         placeholder="dd-mm-yyyy"
+                        :value="
+                            toEdit
+                                ? dateToDMY(
+                                      new Date(
+                                          parseInt(
+                                              toEdit.sample_collection_date
+                                          )
+                                      )
+                                  )
+                                : ''
+                        "
                     />
                 </SimpleBlankInput>
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
-                    <TestSelector v-model="total" />
+                    <TestSelector
+                        v-model="total"
+                        :tests="(toEdit?.tests as any)"
+                    />
                     <p v-if="fieldErrors?.tests" class="hint error">
                         {{ fieldErrors?.tests?.[0] }}
                     </p>

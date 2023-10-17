@@ -77,15 +77,6 @@ const hightlightText = (data: string, col: string): string => {
     return colH;
 };
 
-const report = (patient: any) => {
-    router.push({
-        name: "report",
-        params: {
-            id: patient.id,
-        },
-    });
-};
-
 onMounted(queryResults);
 watch(page.value, queryResults);
 
@@ -250,7 +241,15 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                         ></td>
                         <td>
                             <div class="flex gap-sm row-actions">
-                                <button @click="() => report(patient)">
+                                <RouterLink
+                                    :to="{
+                                        name: 'report',
+                                        params: {
+                                            id: patient.id,
+                                        },
+                                    }"
+                                    class="btn report-btn"
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="18"
@@ -263,8 +262,18 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                                         />
                                     </svg>
                                     Report
-                                </button>
-                                <button class="btn-outline">Edit</button>
+                                </RouterLink>
+                                <RouterLink
+                                    :to="{
+                                        name: 'patients.edit',
+                                        params: {
+                                            id: patient.id,
+                                        },
+                                    }"
+                                    class="btn btn-outline"
+                                >
+                                    Edit
+                                </RouterLink>
                                 <button class="btn-outline">Delete</button>
                             </div>
                         </td>
@@ -351,9 +360,16 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
     text-align: left;
 }
 
-.patients-page .row-actions button {
-    padding: 5px 15px;
-    font-weight: 600;
+.patients-page .row-actions {
+    button,
+    .btn {
+        padding: 5px 15px;
+        font-weight: 600;
+        gap: 5px;
+    }
+    .report-btn {
+        padding-left: 10px;
+    }
 }
 
 .skeleton.btn {

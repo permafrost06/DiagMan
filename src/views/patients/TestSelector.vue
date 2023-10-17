@@ -7,14 +7,23 @@ import { ref } from "vue";
 
 interface Props {
     modelValue: number;
+    tests?: Array<Record<string, string>>;
 }
 
 const emit = defineEmits<{ (e: "update:modelValue", total: number): void }>();
 
-defineProps<Props>();
-const tests = ref<Array<Record<string, number | string>>>([]);
+const props = defineProps<Props>();
+const tests = ref<Array<Record<string, number | string>>>(props.tests || []);
 const total = ref<number>(0);
 const testAdder = ref<boolean>(false);
+
+if (props.tests) {
+    let total2 = 0;
+    props.tests.forEach((t: any) => {
+        total2 += t.price;
+    });
+    total.value = total2;
+}
 
 const addTest = (test: any) => {
     tests.value.push(test);
