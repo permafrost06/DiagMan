@@ -13,6 +13,7 @@ import { onMounted, ref } from "vue";
 // @ts-ignore
 import datepicker from "js-datepicker";
 import "js-datepicker/dist/datepicker.min.css";
+import router from "@/router";
 
 const props = defineProps<{
     toEdit?: Record<string, string>;
@@ -29,6 +30,7 @@ const message = ref<string | null>(null);
 const total = ref<number>(0);
 const discount = ref<number>((props.toEdit?.discount as any) || 0);
 const advance = ref<number>((props.toEdit?.advance as any) || 0);
+const invoice = ref<boolean>(false);
 
 onMounted(async () => {
     createDatePickers();
@@ -67,6 +69,14 @@ async function handleFormSubmit(evt: any) {
     isPosting.value = false;
     if (res.success) {
         message.value = res.message!;
+        if (invoice.value) {
+            router.push({
+                name: "patients.invoice",
+                params: {
+                    id: res.rows[0].id,
+                },
+            });
+        }
     } else {
         error.value = res.message;
         fieldErrors.value = res.field;
@@ -254,7 +264,10 @@ function createDatePickers() {
                     </SimpleBlankInput>
 
                     <div class="coll-col submit-area">
-                        <CheckBox label="Show invoice on exit" />
+                        <CheckBox
+                            label="Show invoice on exit"
+                            v-model="invoice"
+                        />
                         <div class="flex gap-sm mt-sm">
                             <button type="submit" name="status" value="add">
                                 <Loading

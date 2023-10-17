@@ -81,6 +81,11 @@ const router = createRouter({
                 },
             ],
         },
+        {
+            path: "/patients/invoice/:id",
+            name: "patients.invoice",
+            component: () => import("@/views/patients/InvoiceView.vue"),
+        },
     ],
 });
 
