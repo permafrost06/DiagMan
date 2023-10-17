@@ -45,6 +45,7 @@ export const listTests: RequestHandler = async ({ env, res, query }) => {
 	const price = parseInt(query['price'] as any);
 	const search = query['search']?.toString().trim();
 	const notIn = query['not-in']?.toString();
+	const limit = parseInt(query['limit']?.toString() || '0');
 
 	let where = "WHERE status='active'";
 	const args: Array<string | number> = [];
@@ -80,7 +81,7 @@ export const listTests: RequestHandler = async ({ env, res, query }) => {
 	}
 
 	const qres = await db.execute({
-		sql: 'SELECT * FROM `tests` ' + where,
+		sql: 'SELECT * FROM `tests` ' + where + (limit > 0 ? ` LIMIT ${limit}` : ''),
 		args,
 	});
 	res.setRows(qres.rows);
