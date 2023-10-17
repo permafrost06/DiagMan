@@ -11,6 +11,7 @@ import Quill, { type QuillOptionsStatic } from "quill";
 
 import "quill/dist/quill.snow.css";
 import { dateToDMY } from "@/helpers/utils";
+import EditPatient from "./EditPatient.vue";
 
 const quillOptions: QuillOptionsStatic = {
     debug: "error",
@@ -27,13 +28,15 @@ const quillOptions: QuillOptionsStatic = {
 };
 
 const quillInstances: any = {};
+const route = useRoute();
+
+const editMode = ref(false);
 
 const patient = ref<Record<string, any>>();
 const isLoading = ref<boolean>(false);
 const isPosting = ref<"add" | "draft" | boolean>(false);
 const error = ref<string | null>(null);
 const message = ref<string | null>(null);
-const route = useRoute();
 
 const aspField = ref<HTMLDivElement>();
 const meField = ref<HTMLDivElement>();
@@ -202,11 +205,18 @@ const handleFormSubmit = async (evt: any) => {
             :action="API_BASE + '/reports'"
             method="POST"
             @submit.prevent="handleFormSubmit"
+            :class="{
+                block: editMode,
+                grid: !editMode,
+            }"
         >
-            <div class="left">
+            <div class="left" v-if="!editMode">
                 <div class="patient-info fs-md" v-if="patient">
-                    <p>ID</p>
-                    <p class="bold">{{ patient.id }}</p>
+                    <div class="id-area">
+                        <p>Patient ID:</p>
+                        <p class="bold">{{ patient.id }}</p>
+                    </div>
+                    <button @click="editMode = true">Edit Patient</button>
 
                     <p>Type</p>
                     <p class="capitalize">{{ patient.type }}pathology</p>
@@ -278,6 +288,7 @@ const handleFormSubmit = async (evt: any) => {
                     </div>
                 </div>
             </div>
+            <EditPatient v-else :headless="true" />
             <div class="right">
                 <p class="form-alert error" v-if="error">{{ error }}</p>
                 <p class="form-alert success" v-if="message">{{ message }}</p>
@@ -316,6 +327,22 @@ const handleFormSubmit = async (evt: any) => {
                         + Add Note
                     </button>
                 </div>
+                <div class="submit-area-2" v-if="editMode">
+                    <CheckBox
+                        label="Lock Report"
+                        name="locked"
+                        value="1"
+                        :checked="patient?.locked"
+                    />
+                    <div class="flex gap-sm mt-sm">
+                        <button type="submit" value="add">
+                            <Loading
+                                v-if="isPosting === true || isPosting === 'add'"
+                            />
+                            Add Report
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -328,10 +355,13 @@ const handleFormSubmit = async (evt: any) => {
     min-height: calc(100% - 80px);
 
     form {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
         margin-top: 30px;
         flex-grow: 1;
+
+        &.grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
     }
 
     .left {
@@ -352,6 +382,21 @@ const handleFormSubmit = async (evt: any) => {
                     margin-top: 0;
                 }
             }
+
+            .id-area {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            button {
+                background: transparent;
+                padding: 0;
+                color: inherit;
+                text-decoration: underline;
+                font-size: var(--fs-md);
+                display: block;
+                text-align: left;
+            }
         }
 
         .submit-area {
@@ -364,8 +409,6 @@ const handleFormSubmit = async (evt: any) => {
     }
 
     .right {
-        padding-left: 30px;
-
         .editor-unit {
             margin-bottom: 20px;
 
@@ -384,6 +427,26 @@ const handleFormSubmit = async (evt: any) => {
 
         .form-alert {
             margin-bottom: 20px;
+        }
+
+        .submit-area-2 {
+            padding: 20px 0;
+        }
+    }
+
+    .grid .right {
+        padding-left: 30px;
+    }
+
+    .add-patient-page {
+        padding: 0;
+
+        .left {
+            border-right: none;
+        }
+
+        form.add-patient {
+            margin-top: 0;
         }
     }
 }

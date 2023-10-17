@@ -7,6 +7,10 @@ import { API_BASE } from "@/helpers/config";
 import Loading from "@/Icons/Loading.vue";
 import Icon from "@/components/base/Icon.vue";
 
+defineProps<{
+    headless?: boolean;
+}>();
+
 const route = useRoute();
 const isLoading = ref(true);
 const error = ref("");
@@ -27,7 +31,7 @@ async function loadPatient() {
 loadPatient();
 </script>
 <template>
-    <PatientForm :to-edit="patient" v-if="patient" />
+    <PatientForm :to-edit="patient" v-if="patient" :headless="headless" />
     <div v-else class="add-patient-page">
         <h1 class="fs-2xl">Update Patient</h1>
         <RouterLink :to="{ name: 'home' }" class="home-url">

@@ -17,6 +17,7 @@ import router from "@/router";
 
 const props = defineProps<{
     toEdit?: Record<string, string>;
+    headless?: boolean;
 }>();
 
 const entryDateField = ref<HTMLInputElement>();
@@ -128,16 +129,18 @@ function createDatePickers() {
 </script>
 <template>
     <div class="add-patient-page">
-        <h1 class="fs-2xl">{{ toEdit ? "Update" : "Add" }} Patient</h1>
-        <RouterLink :to="{ name: 'home' }" class="home-url">
-            <Icon size="40" view-box="36">
-                <path
-                    fill="currentColor"
-                    d="m19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
-                    class="clr-i-outline clr-i-outline-path-1"
-                /><path fill="none" d="M0 0h36v36H0z" />
-            </Icon>
-        </RouterLink>
+        <div v-if="!headless">
+            <h1 class="fs-2xl">{{ toEdit ? "Update" : "Add" }} Patient</h1>
+            <RouterLink :to="{ name: 'home' }" class="home-url">
+                <Icon size="40" view-box="36">
+                    <path
+                        fill="currentColor"
+                        d="m19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
+                        class="clr-i-outline clr-i-outline-path-1"
+                    /><path fill="none" d="M0 0h36v36H0z" />
+                </Icon>
+            </RouterLink>
+        </div>
 
         <div v-if="error" class="all-col form-alert error">
             {{ error }}
@@ -263,13 +266,13 @@ function createDatePickers() {
                         />
                     </SimpleBlankInput>
 
-                    <div class="coll-col submit-area">
+                    <div class="all-col submit-area" v-if="!headless">
                         <CheckBox
                             label="Show invoice on exit"
                             v-model="invoice"
                         />
                         <div class="flex gap-sm mt-sm">
-                            <button type="submit" name="status" value="add">
+                            <button type="submit" value="add">
                                 <Loading
                                     v-if="
                                         isPosting === true ||
@@ -288,6 +291,14 @@ function createDatePickers() {
                                 Save Draft
                             </button>
                         </div>
+                    </div>
+                    <div v-else class="all-col headeless-button">
+                        <button type="submit" value="add">
+                            <Loading
+                                v-if="isPosting === true || isPosting === 'add'"
+                            />
+                            {{ toEdit ? "Update" : "Add" }} Patient
+                        </button>
                     </div>
                 </div>
             </div>
@@ -497,6 +508,9 @@ function createDatePickers() {
         left: 0px;
         width: calc(50% - 38px);
         padding-bottom: 40px;
+    }
+    .headeless-button {
+        padding-top: 20px;
     }
 }
 </style>
