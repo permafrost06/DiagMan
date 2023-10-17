@@ -218,3 +218,14 @@ export const syncPatients: RequestHandler = async ({ env, res, request }) => {
 	await db.batch(queries, 'deferred');
 	res.setMsg(`${queries.length} operations performed in the tests table!`);
 };
+
+export const deletePatient: RequestHandler = async ({ env, res, params }) => {
+	const db = getLibsqlClient(env);
+	const { rowsAffected } = await db.execute({
+		sql: 'DELETE FROM `patients` WHERE id=?',
+		args: [decodeURIComponent(params.id)],
+	});
+	res.setData({
+		deleted: rowsAffected,
+	});
+};

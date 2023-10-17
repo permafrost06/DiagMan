@@ -4,6 +4,7 @@ import Pagination from "@/components/Pagination.vue";
 import Icon from "@/components/base/Icon.vue";
 import SearchFilter from "@/components/SearchFilter.vue";
 import ThActionable from "@/components/base/ThActionable.vue";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import {
@@ -13,12 +14,14 @@ import {
     insertRowBulk,
 } from "@/helpers/local-db";
 import type { Sorting } from "@/helpers/utils";
-import router from "@/router";
 import { useUser } from "@/stores/user";
 import { onMounted, ref, watch } from "vue";
+import Loading from "@/Icons/Loading.vue";
 
 const user = useUser();
-const isLoading = ref(false);
+const isLoading = ref<boolean>(false);
+const deleteValue = ref();
+const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
 const page = ref({
@@ -103,6 +106,29 @@ async function queryResults() {
         }
         page.value.page = res.pagination!.page;
         page.value.maxPage = res.pagination!.maxPage;
+    }
+}
+
+async function deletePatient() {
+    if (!deleteValue.value || isDeleting.value) {
+        return;
+    }
+    isDeleting.value = true;
+    const res = await fetchApi(`${API_BASE}/patients/${deleteValue.value.id}`, {
+        method: "DELETE",
+        body: JSON.stringify({
+            id: deleteValue.value?.id,
+        }),
+    });
+    isDeleting.value = false;
+    if (res.success) {
+        error.value = null;
+        patients.value = patients.value.filter(
+            (p) => p.id != deleteValue.value?.id
+        );
+        deleteValue.value = null;
+    } else {
+        error.value = res.message;
     }
 }
 
@@ -274,7 +300,12 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                                 >
                                     Edit
                                 </RouterLink>
-                                <button class="btn-outline">Delete</button>
+                                <button
+                                    class="btn-outline danger"
+                                    @click="deleteValue = patient"
+                                >
+                                    Delete
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -283,6 +314,23 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
         </div>
         <Pagination :pages="page.maxPage" v-model="page.page" class="mt-sm" />
     </div>
+    <ConfirmModal title="Are you sure?" icon="delete" v-if="deleteValue">
+        <p v-if="error" class="form-alert error">{{ error }}</p>
+        <p>
+            Are you sure to delete the patient named
+            <span class="bold"> {{ deleteValue.name }} </span>?
+        </p>
+        <p class="danger fs-md bold">It cannot be undone!</p>
+        <template v-slot:buttons>
+            <button @click="deletePatient">
+                <Loading v-if="isDeleting" size="15" />
+                Delete
+            </button>
+            <button class="btn-outline" @click="deleteValue = null">
+                Cancel
+            </button>
+        </template>
+    </ConfirmModal>
 </template>
 
 <style lang="scss">
