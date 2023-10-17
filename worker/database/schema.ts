@@ -59,6 +59,7 @@ export const patients = sqliteTable('patients', {
 	tests: blob('tests', {
 		mode: 'json',
 	}),
+	total: numeric('total'),
 	discount: numeric('discount'),
 	advance: numeric('advance'),
 	timestamp: integer('timestamp', {
