@@ -32,6 +32,12 @@ const router = createRouter({
                             component: () =>
                                 import("@/views/patients/EditPatient.vue"),
                         },
+                        {
+                            path: "invoice/:id",
+                            name: "patients.invoice",
+                            component: () =>
+                                import("@/views/patients/InvoiceView.vue"),
+                        },
                     ],
                 },
                 {
@@ -80,11 +86,6 @@ const router = createRouter({
                     component: () => import("@/views/auth/Register.vue"),
                 },
             ],
-        },
-        {
-            path: "/patients/invoice/:id",
-            name: "patients.invoice",
-            component: () => import("@/views/patients/InvoiceView.vue"),
         },
     ],
 });
