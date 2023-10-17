@@ -111,13 +111,13 @@ const filter = (filterer: (item: any) => boolean) => {
     .searched-items {
         position: absolute;
         width: 100%;
-        top: 100%;
+        bottom: 100%;
         left: 0;
         background: var(--clr-white);
         box-shadow: 0 0 3px var(--clr-grey);
         margin: 0;
         padding: 0;
-        margin-top: 5px;
+        margin-bottom: 5px;
 
         min-height: 20px;
         max-height: 300px;

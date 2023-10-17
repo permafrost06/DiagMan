@@ -40,7 +40,7 @@ const getSearchUrl = (val: string) => {
     const notIn = encodeURIComponent(
         JSON.stringify(tests.value.map((t) => t.id))
     );
-    return API_BASE + `/tests?search=${val}&not-in=${notIn}`;
+    return API_BASE + `/tests?search=${val}&not-in=${notIn}&limit=5`;
 };
 </script>
 
