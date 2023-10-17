@@ -71,6 +71,31 @@ function createDatePickers() {
             if (val && val.length === 10) {
                 ins.setDate(dmyToDate(val), true);
             }
+            const el = ins.el.nextElementSibling as HTMLDivElement;
+            const box = el.getBoundingClientRect();
+            const pos: {
+                top?: string;
+                bottom?: string;
+                right?: string;
+                left?: string;
+            } = {};
+
+            if (box.right > screen.availWidth) {
+                pos.right = "0px";
+            } else {
+                pos.left = "0px";
+            }
+
+            if (box.bottom > window.innerHeight) {
+                pos.bottom = "100%";
+            } else {
+                pos.top = "100%";
+            }
+            el.removeAttribute("style");
+            for (const i in pos) {
+                // @ts-ignore
+                el.style[i] = pos[i];
+            }
         },
     };
     datepicker(entryDateField.value, options);
