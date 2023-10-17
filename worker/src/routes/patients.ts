@@ -1,10 +1,10 @@
-import { generateInsertQuery, getLibsqlClient, insertRow } from '../db/conn';
+import { generateInsertQuery, getLibsqlClient, getUpdateQuery, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
 import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { JSONError } from '../utils/Response';
 import { patientSchema } from '../forms/patients';
 
-export const addPatient: RequestHandler = async ({ request, env, res }) => {
+export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, params }) => {
 	const data = await validateFormData(request, patientSchema, ['tests']);
 	data.tests = JSON.stringify(data.tests);
 	const db = getLibsqlClient(env);
@@ -14,9 +14,49 @@ export const addPatient: RequestHandler = async ({ request, env, res }) => {
 		data[key] = data[key].getTime();
 	});
 
+	const { rows } = await db.execute({
+		sql: `
+		  SELECT SUM(price) AS total FROM \`tests\` WHERE EXISTS (
+			SELECT * 
+			FROM json_each(?) 
+			WHERE json_each.value = tests.id
+		  )
+		`,
+		args: [data.tests],
+	});
+
+	const total = parseInt(rows[0]?.total?.toString() || '0');
+
+	if (total <= 0) {
+		res.error('Invalid tests selected!');
+	}
+
+	data.total = total;
+
 	try {
-		await insertRow(db, 'patients', data);
-		res.setMsg('Patient added successfully!');
+		if (!params.id) {
+			const { rows } = await db.execute({
+				sql: 'SELECT id FROM `patients` WHERE id = ? LIMIT 1',
+				args: [data.id],
+			});
+			if (rows.length > 0) {
+				res.error('The ID is already taken!', 422, {
+					field: {
+						id: ['The ID is already taken!'],
+					},
+				});
+			}
+			await insertRow(db, 'patients', data);
+			res.setMsg('Patient added successfully!');
+		} else {
+			const { sql, args } = getUpdateQuery('patients', data);
+			args.push(decodeURIComponent(params.id));
+			await db.execute({
+				sql: sql + ' WHERE id = ?',
+				args,
+			});
+			res.setMsg('Patient updated successfully!');
+		}
 		res.setRows([data]);
 	} catch (error: any) {
 		if (error.code === 'SQLITE_CONSTRAINT') {
@@ -118,6 +158,31 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 	});
 	res.setRows(qres.rows);
 	res.pageParams(page, info[0].total || (0 as any), limit);
+};
+
+export const getPatient: RequestHandler = async ({ env, res, params }) => {
+	const db = getLibsqlClient(env);
+	const { rows } = await db.execute({
+		sql: 'SELECT * FROM `patients` WHERE id = ? LIMIT 1',
+		args: [decodeURIComponent(params.id)],
+	});
+
+	if (rows.length === 0) {
+		res.error('The patient does not exist!', 404);
+	}
+
+	const { rows: tests } = await db.execute({
+		sql: `
+		  SELECT * FROM \`tests\` WHERE EXISTS (
+			SELECT * 
+			FROM json_each(?) 
+			WHERE json_each.value = tests.id
+		  )
+		`,
+		args: [rows[0].tests],
+	});
+
+	res.setRows([{ ...rows[0], tests }]);
 };
 
 export const syncPatients: RequestHandler = async ({ env, res, request }) => {

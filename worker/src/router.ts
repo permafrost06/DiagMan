@@ -4,7 +4,7 @@ import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { getUser, logOut, login, register, verifyPin } from './routes/auth';
 import { assignToken, assignUser, ensureAdmin, ensureUser } from './middlewares/auth';
-import { addPatient, listPatients, syncPatients } from './routes/patients';
+import { addOrUpdatePatient, getPatient, listPatients, syncPatients } from './routes/patients';
 import { finalizeReport, getReport } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
@@ -47,7 +47,8 @@ export const buildRouter = (router: RouterType) => {
 	router.delete('/tests/:id', withParams, ensureUser, deleteTest);
 
 	router.post('/patients/sync', syncPatients);
-	router.post('/patients', ensureUser, addPatient);
+	router.post('/patients/:id?', ensureUser, addOrUpdatePatient);
+	router.get('/patients/:id', getPatient);
 	router.get('/patients', listPatients);
 
 	router.get('/reports/:id', getReport);
