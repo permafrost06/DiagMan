@@ -8,17 +8,27 @@ interface Props extends InputHTMLAttributes {
     class?: any;
     id?: string;
     type?: "checkbox";
+    modelValue?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     hintType: "error",
 });
+const emit = defineEmits<{ (e: "update:modelValue", value: boolean): void }>();
+const onChange = (evt: any) => {
+    emit("update:modelValue", evt.target.checked);
+};
 </script>
 <template>
     <div :class="[props.class, 'sq-checkbox']">
         <div class="sq-checkbox-area">
             <label class="sq-field-box">
-                <input type="checkbox" v-bind="$attrs" />
+                <input
+                    type="checkbox"
+                    v-bind="$attrs"
+                    :checked="modelValue"
+                    @input="onChange"
+                />
                 <span class="checkmark"></span>
             </label>
             <label v-if="label" :for="id">{{ label }}</label>
