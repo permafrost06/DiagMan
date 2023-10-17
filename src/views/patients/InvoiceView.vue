@@ -10,7 +10,7 @@ const route = useRoute();
 const isLoading = ref(true);
 const record = ref();
 const error = ref<string | null>(null);
-const print = window.print;
+const print = () => window.print();
 
 fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
     isLoading.value = false;
