@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { nextTick, ref } from "vue";
 import { setCursor as setCursorEl } from "@/helpers/ui";
 import Icon from "./base/Icon.vue";
 import { valueToFilter } from "@/helpers/search-filter";
@@ -19,29 +19,45 @@ defineExpose({
 });
 const inputEl = ref<HTMLInputElement>();
 
-function setCursor(col: string) {
+async function setCursor(col: string) {
     if (!inputEl.value) {
         return;
     }
     inputEl.value.focus();
-    const idx = props.modelValue.indexOf(col + ":");
-    if (idx === -1) {
-        emit("update:modelValue", (props.modelValue + " " + col + ":").trim());
-        return;
+
+    const filterObj = valueToFilter(props.modelValue);
+    const all = filterObj.all;
+    if (all) {
+        delete filterObj.all;
+    }
+    let value = "";
+    for (const i in filterObj) {
+        if (filterObj[i]) {
+            value += i + ":" + filterObj[i] + " ";
+        }
     }
 
+    let idx = value.indexOf(col + ":");
+    if (idx === -1) {
+        idx = value.length;
+        value += col + ": ";
+    }
+
+    if (all) {
+        value += all;
+    }
+
+    emit("update:modelValue", value);
+
+    await nextTick();
+
     const from = idx + col.length + 1;
-    const to = props.modelValue.indexOf(":", from);
+    const to = value.indexOf(" ", from);
     if (to === -1) {
-        setCursorEl(inputEl.value, from, props.modelValue.length);
+        setCursorEl(inputEl.value, from, value.length);
         return;
     }
-    const valWithKey = props.modelValue.substring(from, to + 1);
-    setCursorEl(
-        inputEl.value,
-        from,
-        from + valWithKey.replace(/\s([a-zA-Z0-9_-]+):$/, "").length
-    );
+    setCursorEl(inputEl.value, from, to);
 }
 
 let tOut = 0;
