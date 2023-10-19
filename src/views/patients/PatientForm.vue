@@ -18,6 +18,7 @@ import router from "@/router";
 const props = defineProps<{
     toEdit?: Record<string, string>;
     headless?: boolean;
+    onSuccess?: (row: Record<string, string>, msg: string) => void;
 }>();
 
 const entryDateField = ref<HTMLInputElement>();
@@ -72,7 +73,9 @@ async function handleFormSubmit(evt: any) {
     isPosting.value = false;
     if (res.success) {
         message.value = res.message!;
-        if (invoice.value) {
+        if (props.onSuccess) {
+            props.onSuccess(res.rows[0], res.message!);
+        } else if (invoice.value) {
             router.push({
                 name: "patients.invoice",
                 params: {
@@ -382,6 +385,7 @@ function createDatePickers() {
                         BDT
                         <input
                             type="number"
+                            step="0.01"
                             class="amount-input"
                             name="discount"
                             v-model="discount"
@@ -393,6 +397,7 @@ function createDatePickers() {
                         BDT
                         <input
                             type="number"
+                            step="0.01"
                             class="amount-input"
                             readonly
                             :value="total / 100 - discount"
@@ -408,6 +413,7 @@ function createDatePickers() {
                         BDT
                         <input
                             type="number"
+                            step="0.01"
                             class="amount-input"
                             name="advance"
                             v-model="advance"
@@ -419,6 +425,7 @@ function createDatePickers() {
                         BDT
                         <input
                             type="number"
+                            step="0.01"
                             class="amount-input"
                             :value="total / 100 - discount - advance"
                         />

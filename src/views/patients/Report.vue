@@ -187,6 +187,11 @@ const handleFormSubmit = async (evt: any) => {
         };
     }
 };
+
+const onPatientUpdate = (_row: any, msg: string) => {
+    editMode.value = false;
+    message.value = msg;
+};
 </script>
 <template>
     <div class="report-page">
@@ -288,7 +293,11 @@ const handleFormSubmit = async (evt: any) => {
                     </div>
                 </div>
             </div>
-            <EditPatient v-else :headless="true" />
+            <EditPatient
+                v-else
+                :headless="true"
+                :on-success="onPatientUpdate"
+            />
             <div class="right">
                 <p class="form-alert error" v-if="error">{{ error }}</p>
                 <p class="form-alert success" v-if="message">{{ message }}</p>

@@ -9,6 +9,7 @@ import Icon from "@/components/base/Icon.vue";
 
 defineProps<{
     headless?: boolean;
+    onSuccess?: (row: Record<string, string>, message: string) => void;
 }>();
 
 const route = useRoute();
@@ -31,7 +32,12 @@ async function loadPatient() {
 loadPatient();
 </script>
 <template>
-    <PatientForm :to-edit="patient" v-if="patient" :headless="headless" />
+    <PatientForm
+        :to-edit="patient"
+        v-if="patient"
+        :headless="headless"
+        :on-success="onSuccess"
+    />
     <div v-else class="add-patient-page">
         <div v-if="!headless">
             <h1 class="fs-2xl">Update Patient</h1>
