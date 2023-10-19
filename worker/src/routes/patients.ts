@@ -136,7 +136,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += '(name LIKE CONCAT("%", ?, "%") OR type LIKE CONCAT("%", ?, "%") OR delivery_date LIKE CONCAT("%", ?, "%"))';
+		where += '(id LIKE CONCAT("%", ?, "%") OR name LIKE CONCAT("%", ?, "%") OR type LIKE CONCAT("%", ?, "%"))';
 		args.push(all);
 		args.push(all);
 		args.push(all);
