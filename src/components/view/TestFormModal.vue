@@ -97,6 +97,7 @@ async function handleFormSubmit(evt: any) {
                             BDT
                             <input
                                 type="number"
+                                step="0.01"
                                 name="price"
                                 :value="
                                     edit ? (edit.price as any / 100).toFixed(2) : 0
