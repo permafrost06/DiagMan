@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "dd092020-5737-4224-8ca6-c893f21c0459",
+  "id": "9d9d257a-19ef-47fe-ad6d-38facfb1c03b",
   "prevId": "df5ef730-ec32-4bff-a9d0-6159a87e8293",
   "tables": {
     "patients": {
@@ -137,10 +137,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "numeric",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": true
         },
         "name": {
           "name": "name",

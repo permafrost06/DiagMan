@@ -1,5 +1,5 @@
 CREATE TABLE `report_templates` (
-	`id` numeric PRIMARY KEY NOT NULL,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text,
 	`organ` text,
 	`aspiration_note` text,

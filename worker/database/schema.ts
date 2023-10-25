@@ -78,7 +78,9 @@ export const reports = sqliteTable('reports', {
 });
 
 export const reportTemplates = sqliteTable('report_templates', {
-	id: numeric('id').primaryKey(),
+	id: integer('id').primaryKey({
+		autoIncrement: true,
+	}),
 	name: text('name'),
 	organ: text('organ'),
 	aspiration_note: text('aspiration_note'),
