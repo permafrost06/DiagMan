@@ -76,3 +76,14 @@ export const reports = sqliteTable('reports', {
 	note: text('note'),
 	locked: numeric('locked'),
 });
+
+export const reportTemplates = sqliteTable('report_templates', {
+	id: numeric('id').primaryKey(),
+	name: text('name'),
+	organ: text('organ'),
+	aspiration_note: text('aspiration_note'),
+	gross_examination: text('gross_examination'),
+	microscopic_examination: text('microscopic_examination'),
+	impression: text('impression'),
+	note: text('note'),
+});
