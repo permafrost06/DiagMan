@@ -8,6 +8,7 @@ import { addOrUpdatePatient, deletePatient, getPatient, listPatients, syncPatien
 import { finalizeReport, getReport } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
+import { addReportTemplate, deleteReportTemplate, listReportTemplates } from './routes/settings/report-templates';
 
 export interface RequestEvent {
 	request: Request;
@@ -54,6 +55,10 @@ export const buildRouter = (router: RouterType) => {
 
 	router.get('/reports/:id', getReport);
 	router.post('/reports', ensureUser, finalizeReport);
+
+	router.get('/settings/report-templates', listReportTemplates);
+	router.post('/settings/report-templates', ensureUser, addReportTemplate);
+	router.post('/settings/report-templates/:id', ensureUser, deleteReportTemplate);
 
 	router.post('/settings/account/name', ensureUser, changeName);
 	router.post('/settings/account/pin', ensureUser, changePin);
