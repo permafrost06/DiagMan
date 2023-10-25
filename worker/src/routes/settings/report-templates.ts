@@ -6,6 +6,10 @@ import { reportTemplateSchema } from '../../forms/report-templates';
 export const addReportTemplate: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, reportTemplateSchema);
 
+	if (!data.aspiration_note && !data.microscopic_examination && !data.gross_examination && !data.impression) {
+		res.error('All fields can not be empty!');
+	}
+
 	const db = getLibsqlClient(env);
 
 	if (data.id) {
@@ -70,11 +74,11 @@ export const listReportTemplates: RequestHandler = async ({ env, res, query }) =
 	res.setRows(qres.rows);
 };
 
-export const deleteReportTemplate: RequestHandler = async ({ env, res, id }) => {
+export const deleteReportTemplate: RequestHandler = async ({ env, res, params }) => {
 	const db = getLibsqlClient(env);
 	const { rowsAffected } = await db.execute({
 		sql: 'DELETE FROM `report_templates` WHERE id=?',
-		args: [id],
+		args: [params.id],
 	});
 	res.setMsg('Report Template deleted successfully!');
 	res.setData({

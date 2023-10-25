@@ -1,82 +1,125 @@
 <script setup lang="ts">
-import TestFormModal from "@/components/view/TestFormModal.vue";
+import ReportTemplateFormModal from "./ReportTemplateFormModal.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import Loading from "@/Icons/Loading.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
 let tOut = 0;
 const formValue = ref<boolean | Record<string, string>>(false);
 const deleteValue = ref();
 const isLoading = ref<boolean>(false);
 const isDeleting = ref<boolean>(false);
-const tests = ref<Record<string, string>[]>([]);
+const reportTemplates = ref<Record<string, string>[]>([]);
 const error = ref<string | null>(null);
 const query = ref({
-    type: "",
-    size: "",
-    price: "",
+    organ: "",
 });
 
-getTests();
+const aspField = ref<HTMLDivElement>();
+const meField = ref<HTMLDivElement>();
+const impressionField = ref<HTMLDivElement>();
+const noteField = ref<HTMLDivElement>();
+const geField = ref<HTMLDivElement>();
 
-async function getTests() {
+const active = ref<Record<string, any> | undefined>();
+
+onMounted(getReportTemplates);
+
+async function getReportTemplates() {
     tOut = 0;
     if (isLoading.value) {
         return;
     }
     isLoading.value = true;
     const qs = new URLSearchParams(query.value);
-    const res = await fetchApi(API_BASE + `/tests?${qs.toString()}`);
+    const res = await fetchApi(
+        API_BASE + `/settings/report-templates?${qs.toString()}`
+    );
     isLoading.value = false;
     if (!res.success) {
         error.value = res.message || "Something went wrong!";
         return;
     }
-    tests.value = res.rows;
+    reportTemplates.value = res.rows;
+    showDetails(res.rows[0]);
 }
 
 const loadPage = () => {
     if (tOut) {
         clearTimeout(tOut);
     }
-    tOut = setTimeout(getTests, 500);
+    tOut = setTimeout(getReportTemplates, 500);
 };
 
-const onAdded = (test: any) => {
+const onAdded = (tem: any) => {
     if (typeof formValue.value !== "object") {
-        tests.value.unshift(test);
+        reportTemplates.value.unshift(tem);
         return;
     }
-    // @ts-ignore
-    const filtered = tests.value.filter((t) => t.id != formValue.value.id);
-    filtered.unshift(test);
-    tests.value = filtered;
+    const filtered = reportTemplates.value.filter(
+        // @ts-ignore
+        (t) => t.id != formValue.value.id
+    );
+    filtered.unshift(tem);
+    reportTemplates.value = filtered;
     formValue.value = false;
+    if (active.value?.id == tem.id) {
+        showDetails(tem);
+    }
 };
 
-async function deleteTest() {
+async function deleteTemplate() {
     if (!deleteValue.value || isDeleting.value) {
         return;
     }
     isDeleting.value = true;
-    const res = await fetchApi(`${API_BASE}/tests/${deleteValue.value.id}`, {
-        method: "DELETE",
-        body: JSON.stringify({
-            id: deleteValue.value?.id,
-        }),
-    });
+    const res = await fetchApi(
+        `${API_BASE}/settings/report-templates/${deleteValue.value.id}`,
+        {
+            method: "POST",
+            body: JSON.stringify({
+                id: deleteValue.value?.id,
+            }),
+        }
+    );
     isDeleting.value = false;
     if (res.success) {
         error.value = null;
-        tests.value = tests.value.filter(
-            (test) => test.id != deleteValue.value?.id
+        reportTemplates.value = reportTemplates.value.filter(
+            (tem) => tem.id != deleteValue.value?.id
         );
+        if (deleteValue.value.id == active.value?.id) {
+            showDetails(reportTemplates.value[0]);
+        }
         deleteValue.value = null;
     } else {
         error.value = res.message;
     }
+}
+
+const convertToHtml = (data: string, el: HTMLDivElement) => {
+    try {
+        const delta = JSON.parse(data).ops;
+        const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
+        el.innerHTML = html;
+    } catch (error) {
+        el.innerHTML = "";
+    }
+};
+
+function showDetails(data?: Record<string, any>) {
+    if (!data) {
+        return;
+    }
+    active.value = data;
+    convertToHtml(data.note, noteField.value!);
+    convertToHtml(data.aspiration_note, aspField.value!);
+    convertToHtml(data.gross_examination, geField.value!);
+    convertToHtml(data.impression, impressionField.value!);
+    convertToHtml(data.microscopic_examination, meField.value!);
 }
 </script>
 <template>
@@ -86,78 +129,103 @@ async function deleteTest() {
             <button class="add-btn" @click="formValue = true">
                 + Add Template
             </button>
-            <div class="filter-area flex items-center justify-center">
-                <select v-model="query.type" @input="loadPage">
+            <div class="filter-area flex items-center">
+                <select v-model="query.organ" @input="loadPage">
                     <option value="">All</option>
                     <option value="cyto">Cytopathology</option>
                     <option value="histo">Histopathology</option>
                 </select>
             </div>
         </div>
-        <div class="table-wrapper">
-            <table width="100%">
-                <tr class="font-h">
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Size</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                </tr>
-                <template v-if="isLoading">
-                    <tr v-for="i in 10" :key="i" :class="'skeleton-' + (i % 4)">
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td class="flex items-center gap-sm">
-                            <div class="skeleton btn"></div>
-                            <div class="skeleton btn"></div>
+        <div class="rt-content-area">
+            <div class="table-wrapper">
+                <table width="100%">
+                    <tr class="font-h">
+                        <th>Name</th>
+                        <th>Organ</th>
+                        <th class="actions-col">Actions</th>
+                    </tr>
+                    <template v-if="isLoading">
+                        <tr
+                            v-for="i in 10"
+                            :key="i"
+                            :class="'skeleton-' + (i % 4)"
+                        >
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td class="flex items-center gap-sm">
+                                <div class="skeleton btn"></div>
+                                <div class="skeleton btn"></div>
+                            </td>
+                        </tr>
+                    </template>
+                    <tr v-else-if="!reportTemplates?.length">
+                        <td colspan="3">
+                            {{ error || "No test matched your query!" }}
                         </td>
                     </tr>
-                </template>
-                <tr v-else-if="!tests?.length">
-                    <td colspan="5">
-                        {{ error || "No test matched your query!" }}
-                    </td>
-                </tr>
-                <template v-else>
-                    <tr v-for="test in tests" :key="test.id">
-                        <td class="capitalize">{{ test.name }}</td>
-                        <td class="capitalize">
-                            {{ test.type ? test.type + "pathology" : "N/A" }}
-                        </td>
-                        <td class="capitalize">{{ test.size || "N/A" }}</td>
-                        <td>{{ ((test.price as any) / 100).toFixed(2) }}</td>
-                        <td>
-                            <div class="flex gap-sm row-actions">
-                                <button
-                                    class="btn-outline"
-                                    @click="formValue = test"
-                                >
-                                    Modify
-                                </button>
-                                <button
-                                    class="btn-outline"
-                                    @click="deleteValue = test"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </template>
-            </table>
+                    <template v-else>
+                        <tr
+                            v-for="tem in reportTemplates"
+                            :key="tem.id"
+                            :class="{ active: tem.id === active?.id }"
+                            @click="() => showDetails(tem)"
+                        >
+                            <td class="capitalize">{{ tem.name }}</td>
+                            <td class="capitalize">
+                                {{ tem.organ }}
+                            </td>
+                            <td>
+                                <div class="flex gap-sm row-actions">
+                                    <button
+                                        class="btn-outline"
+                                        @click="formValue = tem"
+                                    >
+                                        Modify
+                                    </button>
+                                    <button
+                                        class="btn-outline"
+                                        @click="deleteValue = tem"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
+            <div class="rt-details">
+                <h2>Details</h2>
+                <div class="editor-unit">
+                    <label>Aspiration Note</label>
+                    <div class="ql-container" ref="aspField"></div>
+                </div>
+                <div class="editor-unit">
+                    <label>Gross Examination</label>
+                    <div class="ql-container" ref="geField"></div>
+                </div>
+                <div class="editor-unit">
+                    <label>Microscopic Examination</label>
+                    <div class="ql-container" ref="meField"></div>
+                </div>
+                <div class="editor-unit">
+                    <label>Impression</label>
+                    <div class="ql-container" ref="impressionField"></div>
+                </div>
+
+                <div class="editor-unit">
+                    <label>Note</label>
+                    <div class="ql-container" ref="noteField"></div>
+                </div>
+            </div>
         </div>
     </div>
-    <TestFormModal
+    <ReportTemplateFormModal
         v-if="formValue"
         :onClose="() => (formValue = false)"
         :onAdded="onAdded"
@@ -167,12 +235,12 @@ async function deleteTest() {
     <ConfirmModal title="Are you sure?" icon="delete" v-if="deleteValue">
         <p v-if="error" class="form-alert error">{{ error }}</p>
         <p>
-            Are you sure to delete the test named
+            Are you sure to delete the template named
             <span class="bold"> {{ deleteValue.name }} </span>?
         </p>
         <p class="danger fs-md bold">It cannot be undone!</p>
         <template v-slot:buttons>
-            <button @click="deleteTest">
+            <button @click="deleteTemplate">
                 <Loading v-if="isDeleting" size="15" />
                 Delete
             </button>
@@ -219,32 +287,73 @@ async function deleteTest() {
 
     .table-wrapper {
         flex-grow: 1;
-        margin-top: 15px;
         overflow: auto;
     }
 
     table {
         border-collapse: collapse;
-    }
-    table tr {
-        border-bottom: 1px solid var(--clr-black);
-    }
-    table tr:first-child {
-        border-bottom-width: 2px;
-    }
-    table th {
-        font-size: var(--fs-base);
-    }
 
-    table th,
-    table td {
-        padding: 8px 15px;
-        text-align: left;
+        .actions-col {
+            width: 165px;
+        }
+
+        tr {
+            border-bottom: 1px solid var(--clr-black);
+            cursor: pointer;
+            &.active {
+                background: rgba(var(--clr-grey-rgb), 0.1);
+            }
+        }
+        tr:first-child {
+            border-bottom-width: 2px;
+        }
+        th {
+            font-size: var(--fs-base);
+        }
+
+        th,
+        td {
+            padding: 8px 15px;
+            text-align: left;
+        }
     }
 
     .row-actions button {
         padding: 3px 10px;
         font-weight: 600;
+    }
+
+    .rt-content-area {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 15px;
+
+        .rt-details {
+            h2 {
+                font-size: var(--fs-base);
+                font-weight: bold;
+                border-bottom: 2px solid var(--clr-black);
+                padding: 8px 15px;
+            }
+        }
+
+        .editor-unit {
+            margin-bottom: 20px;
+            padding: 15px;
+
+            label {
+                font-weight: 500;
+            }
+
+            .ql-container {
+                height: 120px;
+                overflow-y: auto;
+
+                border: 1px solid var(--clr-grey);
+                padding: 10px;
+            }
+        }
     }
 }
 </style>
