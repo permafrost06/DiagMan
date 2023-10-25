@@ -68,6 +68,12 @@ const router = createRouter({
                             component: () =>
                                 import("@/views/settings/TestsSetting.vue"),
                         },
+                        {
+                            path: "report-templates",
+                            name: "settings.report-templates",
+                            component: () =>
+                                import("@/views/settings/ReportTemplates.vue"),
+                        },
                     ],
                 },
             ],

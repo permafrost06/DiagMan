@@ -18,7 +18,10 @@ import Icon from "@/components/base/Icon.vue";
                     </RouterLink>
                 </li> -->
                 <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
+                    <RouterLink
+                        :to="{ name: 'settings.report-templates' }"
+                        class="sidebar-link"
+                    >
                         Report Templates
                     </RouterLink>
                 </li>
