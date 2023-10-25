@@ -15,7 +15,7 @@ const viewBox = ref<string>("0 0 24 24");
 
 const props = withDefaults(defineProps<InputProps>(), {
     type: "text",
-    hintType: "none",
+    hintType: "error",
 });
 
 const init = () => {
@@ -32,17 +32,7 @@ init();
 watch(props, init);
 </script>
 <template>
-    <div
-        :class="[
-            'ic-input',
-            {
-                error: hintType == 'error',
-                warning: hintType == 'warning',
-                success: hintType == 'success',
-            },
-            props.class,
-        ]"
-    >
+    <div :class="['ic-input', props.hintType, props.class]">
         <label class="label" v-if="label">{{ label }}</label>
         <div class="relative">
             <div v-if="$slots.default" class="input-icon">
