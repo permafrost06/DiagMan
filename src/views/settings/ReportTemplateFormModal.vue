@@ -2,6 +2,7 @@
 import { API_BASE } from "@/helpers/config";
 import Loading from "@/Icons/Loading.vue";
 import Input from "../../components/form/Input.vue";
+import InputAutocomplete from "@/components/form/InputAutocomplete.vue";
 import { onMounted, ref } from "vue";
 import { fetchApi } from "@/helpers/http";
 import Quill, { type QuillOptionsStatic } from "quill";
@@ -34,6 +35,7 @@ const isPosting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const message = ref<string | null>(null);
 const fieldErrs = ref<Record<string, string | undefined>>({});
+const organVal = ref<string>(props.edit?.organ || "");
 
 const aspField = ref<HTMLDivElement>();
 const meField = ref<HTMLDivElement>();
@@ -151,6 +153,12 @@ async function handleFormSubmit(evt: any) {
 
     isPosting.value = false;
 }
+
+const getSearchUrl = (val: string) =>
+    API_BASE +
+    `/settings/report-templates/organs?limit=5&search=${encodeURIComponent(
+        val
+    )}`;
 </script>
 <template>
     <div class="modal-backdrop report-template-form-modal">
@@ -171,12 +179,25 @@ async function handleFormSubmit(evt: any) {
                         :hint="fieldErrs.name"
                         :value="edit?.name"
                     />
-                    <Input
+                    <InputAutocomplete
                         name="organ"
                         label="Organ"
+                        :v-model="organVal"
                         :hint="fieldErrs.organ"
-                        :value="edit?.organ"
-                    />
+                        :url="getSearchUrl"
+                        v-slot="{ results, accept }"
+                    >
+                        <button
+                            type="button"
+                            class="organ-res-item"
+                            @click="() => accept(item.organ)"
+                            v-for="item in results"
+                            :key="item.organ"
+                            :value="item.organ"
+                        >
+                            {{ item.organ }}
+                        </button>
+                    </InputAutocomplete>
                     <div class="editor-unit">
                         <label>Aspiration Note</label>
                         <div ref="aspField"></div>
@@ -293,6 +314,16 @@ async function handleFormSubmit(evt: any) {
                 height: 100%;
             }
         }
+    }
+
+    .organ-res-item {
+        display: block;
+        text-align: left;
+        width: 100%;
+        background: var(--clr-white);
+        color: var(--clr-black);
+        border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
+        font-size: var(--fs-base);
     }
 }
 </style>
