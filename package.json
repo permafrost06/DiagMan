@@ -13,7 +13,8 @@
         "build-only": "vite build",
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-        "start": "concurrently \"pnpm run dev\" \"pnpm run dev:worker\""
+        "start": "concurrently \"pnpm run dev\" \"pnpm run dev:worker\"",
+        "tauri": "tauri"
     },
     "dependencies": {
         "concurrently": "^8.2.1",
@@ -21,10 +22,12 @@
         "pinia": "^2.0.28",
         "vue": "^3.2.45",
         "vue-router": "^4.1.6",
-        "zod": "^3.22.2"
+        "zod": "^3.22.2",
+        "@tauri-apps/api": "^1.5.0"
     },
     "devDependencies": {
         "@rushstack/eslint-patch": "^1.1.4",
+        "@tauri-apps/cli": "^1.5.0",
         "@types/jsdom": "^20.0.1",
         "@types/node": "^18.11.12",
         "@types/quill": "^2.0.12",
