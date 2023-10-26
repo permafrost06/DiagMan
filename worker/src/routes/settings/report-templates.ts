@@ -85,3 +85,23 @@ export const deleteReportTemplate: RequestHandler = async ({ env, res, params })
 		deleted: rowsAffected,
 	});
 };
+
+export const listOrgans: RequestHandler = async ({ env, res, query }) => {
+	const db = getLibsqlClient(env);
+
+	const search = query['search']?.toString().trim();
+	const limit = parseInt(query['limit']?.toString() || '0');
+
+	let where = '';
+	const args: Array<any> = [];
+	if (search) {
+		where = 'WHERE organ LIKE CONCAT(?, "%")';
+		args.push(search);
+	}
+
+	const qres = await db.execute({
+		sql: 'SELECT DISTINCT organ FROM `report_templates` ' + where + (limit > 0 ? ` LIMIT ${limit}` : ''),
+		args,
+	});
+	res.setRows(qres.rows);
+};

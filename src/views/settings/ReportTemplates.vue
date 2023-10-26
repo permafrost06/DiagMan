@@ -14,6 +14,7 @@ const isLoading = ref<boolean>(false);
 const isDeleting = ref<boolean>(false);
 const reportTemplates = ref<Record<string, string>[]>([]);
 const error = ref<string | null>(null);
+const organs = ref<{ organ: string }[]>([]);
 const query = ref({
     organ: "",
 });
@@ -26,7 +27,10 @@ const geField = ref<HTMLDivElement>();
 
 const active = ref<Record<string, any> | undefined>();
 
-onMounted(getReportTemplates);
+onMounted(() => {
+    getOrgans();
+    getReportTemplates();
+});
 
 async function getReportTemplates() {
     tOut = 0;
@@ -47,6 +51,16 @@ async function getReportTemplates() {
     showDetails(res.rows[0]);
 }
 
+async function getOrgans() {
+    const res = await fetchApi(API_BASE + `/settings/report-templates/organs`);
+    if (!res.success) {
+        error.value =
+            res.message || "Something went wrong! Couldn't get organs...";
+        return;
+    }
+    organs.value = res.rows;
+}
+
 const loadPage = () => {
     if (tOut) {
         clearTimeout(tOut);
@@ -55,6 +69,11 @@ const loadPage = () => {
 };
 
 const onAdded = (tem: any) => {
+    if (organs.value.findIndex((o) => o.organ == tem.organ) === -1) {
+        organs.value.push({
+            organ: tem.organ,
+        });
+    }
     if (typeof formValue.value !== "object") {
         reportTemplates.value.unshift(tem);
         return;
@@ -132,8 +151,13 @@ function showDetails(data?: Record<string, any>) {
             <div class="filter-area flex items-center">
                 <select v-model="query.organ" @input="loadPage">
                     <option value="">All</option>
-                    <option value="cyto">Cytopathology</option>
-                    <option value="histo">Histopathology</option>
+                    <option
+                        v-for="organ in organs"
+                        :key="organ.organ"
+                        :value="organ.organ"
+                    >
+                        {{ organ.organ }}
+                    </option>
                 </select>
             </div>
         </div>
