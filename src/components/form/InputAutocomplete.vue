@@ -11,7 +11,7 @@ interface InputProps {
     class?: any;
     icBox?: string | number;
     url: (val: string) => string;
-    modelValue?: string;
+    modelValue?: any;
 }
 
 const viewBox = ref<string>("0 0 24 24");
@@ -88,6 +88,7 @@ function handleClick(val: string) {
                 autocomplete="off"
                 v-bind="$attrs"
                 :placeholder="placeholder || label"
+                :value="modelValue"
                 @input="handleInput"
             />
             <div class="result-area">
