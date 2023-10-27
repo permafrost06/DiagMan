@@ -39,7 +39,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
         </div>
         <div class="report">
             <div class="page">
-                <header>
+                <header class="cols-2">
                     <div class="header-left">
                         <p class="logo">The Opinion</p>
                         <p><strong>Dr. Md. Saiful Islam</strong></p>
@@ -173,7 +173,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         </tr>
                     </tfoot>
                 </table>
-                <footer>
+                <footer class="cols-2">
                     <div class="footer-left">
                         <p>১২৫ কে বি ফজলুল কাদের রোড</p>
                         <p>চকবাজার, চট্টগ্রাম</p>
@@ -214,20 +214,19 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
 .report {
     height: 210mm;
     width: 297mm;
-}
+    margin: auto;
 
-.page {
-    font-family: "Calibri";
-    line-height: 1.6rem;
+    .page {
+        font-family: "Calibri";
+        line-height: 1.6rem;
+        font-size: 1.25rem;
+    }
 
-    margin: 0;
-    /* you don't really have to explicitly set it to 0 unless it's already set to something else */
-    font-size: 1.25rem;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
+    .cols-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
 }
 
 .header-right {
@@ -247,11 +246,6 @@ h1 {
 
 .bold {
     font-weight: 800;
-}
-
-.left {
-    display: inline-block;
-    width: 9rem;
 }
 
 .right {
@@ -356,18 +350,13 @@ h3 {
 }
 
 footer {
-    position: absolute;
-    top: 60rem;
-    display: flex;
-    justify-content: space-between;
-
+    margin-top: 100px;
     div {
         font-family: "SolaimanLipi";
     }
 
     .footer-right {
         text-align: right;
-        margin-left: 12.6rem;
         font-family: "SolaimanLipi";
     }
 }
