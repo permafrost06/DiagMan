@@ -1,0 +1,19 @@
+{
+    "version": "v0.0.2",
+    "notes": "Test version",
+    "pub_date": "2020-06-22T19:25:57Z",
+    "platforms": {
+      "darwin-x64": {
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVHg4RzUrQzRpOTJjWWpOVnJydS9QR05jOVVzMzJhY2EvNjFYRTc2b05vc2tJUDNuenNqTUVDU3B5RzcxN2dNMkduZlFZL1FIdDNyUVl1dEFHbmwrZzRndFA2SU9PY1F3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjk4MzgwNDgyCWZpbGU6ZGlhZ21hbi5hcHAudGFyLmd6CnFCckcrQ00zdlcxOW1UOTlzYWh3QVYwWEV6aHowTVFsd3dyYlVDVzFRanRvMVU2aG80VmYvQTNsQ2FKQ2pDTkhzMXI3UjQrZ3ZLUG9DelNaYkwyeEFnPT0K",
+        "url": "https://github.com/protibimbok/diagman/releases/download/v0.0.2/diagman_0.0.2_x64.app.tar.gz"
+      },
+      "linux-x86_64": {
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVHg4RzUrQzRpOTludkI3OFo2dGlDSmljMFRidmFrNlgzemtWVllXNjloQStaK0IrbDZ1Z3VvZnBsaXdZc2haZVhHM3hPMzk1bGFGUC93MjVHWU1RejdyMVkyU3IrOVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjk4MzgwODY0CWZpbGU6ZGlhZ21hbl8wLjAuMl9hbWQ2NC5BcHBJbWFnZS50YXIuZ3oKWVM1QklGeG81cDV2K09VY2czTHRMWkNpUnFWcEdIZnJ5Wmt5ems2Wkg4Q3FiTEdnc08yOHE3bEhsclRUdG5hdm1NUE5sUXlKYTZBdndGVkdvUUlKREE9PQo=",
+        "url": "https://github.com/protibimbok/diagman/releases/download/v0.0.2/diagman_0.0.2_amd64.AppImage.tar.gz"
+      },
+      "windows-x86_64": {
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVHg4RzUrQzRpOXk4VHdocHpvOXBvK0dpZXB0STVFR3FVdmhtZWdmbzkyd0U3ZFJ4a0NZYzdFbStPcTAyWEtWMFR3YkNJRnExeTN5ZFVpQU52WXhDZnpGWFA3ZWR6RUFFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjk4MzgxMzIyCWZpbGU6ZGlhZ21hbl8wLjAuMl94NjQtc2V0dXAubnNpcy56aXAKNExXVklVa05EMFluZFoycXhzQzMyb1RKMGJIKy9QVGpWTnBNYkY0VUZKaHNaNHU0eStiRHd3QmdDdGxrNzNzNXgwemx6S0ZGWlArZG04SUlLejhrQ3c9PQo=",
+        "url": "https://github.com/protibimbok/diagman/releases/download/v0.0.2/diagman_0.0.2_x64-setup.nsis.zip"
+      }
+    }
+  }
