@@ -182,7 +182,7 @@ const getSearchUrl = (val: string) =>
                     <InputAutocomplete
                         name="organ"
                         label="Organ"
-                        :v-model="organVal"
+                        v-model="organVal"
                         :hint="fieldErrs.organ"
                         :url="getSearchUrl"
                         v-slot="{ results, accept }"
