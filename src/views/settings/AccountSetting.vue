@@ -7,7 +7,7 @@ import { useUser } from "@/stores/user";
 import { ref } from "vue";
 const user = useUser();
 
-const tOuts = {
+const tOuts: any = {
     name: 0,
     pin: 0,
     password: 0,

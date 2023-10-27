@@ -7,7 +7,7 @@ import { fetchApi } from "@/helpers/http";
 import { onMounted, ref } from "vue";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
-let tOut = 0;
+let tOut: any = 0;
 const formValue = ref<boolean | Record<string, string>>(false);
 const deleteValue = ref();
 const isLoading = ref<boolean>(false);

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 const dots = ref<HTMLElement>();
-let interval: number = 0;
+let interval: any = 0;
 
 onMounted(() => {
     interval = setInterval(() => {

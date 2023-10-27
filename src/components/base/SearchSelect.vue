@@ -26,7 +26,7 @@ function hideResults() {
     isResultsVisible.value = false;
 }
 
-let tOut = 0,
+let tOut: any = 0,
     str = "",
     ctrl = new AbortController();
 

@@ -60,7 +60,7 @@ async function setCursor(col: string) {
     setCursorEl(inputEl.value, from, to);
 }
 
-let tOut = 0;
+let tOut: any = 0;
 const onInput = (evt: any) => {
     if (tOut) {
         clearTimeout(tOut);
