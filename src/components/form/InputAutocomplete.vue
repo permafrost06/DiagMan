@@ -39,7 +39,7 @@ const init = () => {
 init();
 watch(props, init);
 
-let tOut = 0,
+let tOut: any = 0,
     ctrl = new AbortController(),
     fetchVal: string = "";
 

@@ -6,7 +6,7 @@ import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { ref } from "vue";
 
-let tOut = 0;
+let tOut: any = 0;
 const formValue = ref<boolean | Record<string, string>>(false);
 const deleteValue = ref();
 const isLoading = ref<boolean>(false);
