@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "diagman",
-    "version": "0.0.0"
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -41,6 +41,14 @@
         "width": 800,
         "height": 600
       }
-    ]
+    ],
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://gist.githubusercontent.com/protibimbok/f6a53b8c1dd6c72176ee398910ffdb9a/raw/9823a4e3119ea4e4727302c80b6e6a343d3c9be2/tauri-updater.json"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY3MjIyRUY4QjlDMUM3RDMKUldUVHg4RzUrQzRpOTNmdXlaRTU5cXhUVzIrdlB6VS9OVnhydHFLWWdsMnphVTB5aHBieEtyMEwK"
+    }
   }
 }
