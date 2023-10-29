@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "9d9d257a-19ef-47fe-ad6d-38facfb1c03b",
+  "id": "023c0555-29c3-49aa-b333-311ec2dd237f",
   "prevId": "df5ef730-ec32-4bff-a9d0-6159a87e8293",
   "tables": {
     "patients": {
@@ -144,6 +144,13 @@
         },
         "name": {
           "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "type": {
+          "name": "type",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
