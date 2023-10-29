@@ -264,11 +264,14 @@ h1 {
 }
 
 @media print {
+    * {
+        font-family: "Open Sans", sans-serif;
+    }
     div.page {
         margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
     }
 
-    button {
+    .buttons {
         display: none;
     }
 
