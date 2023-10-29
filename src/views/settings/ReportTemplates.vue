@@ -360,7 +360,7 @@ function showDetails(data?: Record<string, any>) {
         margin-top: 15px;
 
         .rt-details {
-            h2 {
+            > h2 {
                 font-size: var(--fs-base);
                 font-weight: bold;
                 border-bottom: 2px solid var(--clr-black);
@@ -374,13 +374,11 @@ function showDetails(data?: Record<string, any>) {
 
             label {
                 font-weight: 500;
+                border-bottom: 1px solid;
+                padding-bottom: 5px;
             }
 
             .ql-container {
-                height: 120px;
-                overflow-y: auto;
-
-                border: 1px solid var(--clr-grey);
                 padding: 10px;
             }
         }
