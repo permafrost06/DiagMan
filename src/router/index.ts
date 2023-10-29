@@ -46,6 +46,11 @@ const router = createRouter({
                     component: () => import("@/views/patients/Report.vue"),
                 },
                 {
+                    path: "/report/:id/print",
+                    name: "report.print",
+                    component: () => import("@/views/patients/ReportView.vue"),
+                },
+                {
                     path: "/settings",
                     component: () => import("@/layout/SettingsLayout.vue"),
                     children: [

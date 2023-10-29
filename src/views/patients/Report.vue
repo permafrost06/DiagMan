@@ -375,6 +375,12 @@ const onTemAdded = (tem: any) => {
                             />
                             Add Report
                         </button>
+                        <RouterLink
+                            class="btn btn-outline"
+                            :to="{ name: 'report.print' }"
+                        >
+                            Print Report
+                        </RouterLink>
                         <button
                             type="button"
                             class="btn-outline"
@@ -532,7 +538,7 @@ const onTemAdded = (tem: any) => {
 
         &.grid {
             display: grid;
-            grid-template-columns: minmax(400px, auto) 1fr;
+            grid-template-columns: 0.8fr 1.2fr;
         }
     }
 
