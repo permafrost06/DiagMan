@@ -37,7 +37,7 @@ const editMode = ref(false);
 const organs = ref<Record<string, any>[]>([]);
 const templates = ref<Record<string, any>[]>([]);
 const isLoadingOrgans = ref<boolean>(true);
-const isLoadingTemplates = ref<AbortController | null>(null);
+const isLoadingTemplates = ref<boolean>(false);
 
 const patient = ref<Record<string, any>>();
 const isLoading = ref<boolean>(false);
@@ -112,21 +112,24 @@ async function loadOrgans() {
     }
     organs.value = res.rows;
 }
+
+let temAbort = new AbortController();
 async function loadTemplates(organ: string = "") {
     if (isLoadingTemplates.value) {
-        isLoadingTemplates.value.abort();
-        isLoadingTemplates.value = new AbortController();
+        temAbort.abort();
+        temAbort = new AbortController();
     }
+    isLoadingTemplates.value = true;
     const res = await fetchApi(
         API_BASE +
             `/settings/report-templates?${
                 organ ? "organ=" + encodeURIComponent(organ) : ""
             }`,
         {
-            signal: isLoadingTemplates.value?.signal,
+            signal: temAbort?.signal,
         }
     );
-    isLoadingTemplates.value = null;
+    isLoadingTemplates.value = false;
     if (!res.success) {
         console.error(res.message || "Failed to load templates!");
         return;
@@ -454,7 +457,7 @@ const onTemAdded = (tem: any) => {
                             >
                                 <option value="">
                                     {{
-                                        isLoadingOrgans
+                                        isLoadingTemplates
                                             ? "Please wait..."
                                             : "All"
                                     }}
