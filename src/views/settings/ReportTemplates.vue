@@ -127,6 +127,7 @@ const convertToHtml = (data: string, el: HTMLDivElement) => {
         }
         const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
         el.innerHTML = html;
+        el.parentElement?.classList.remove("hidden");
     } catch (error) {
         el.innerHTML = "";
         el.parentElement?.classList.add("hidden");
