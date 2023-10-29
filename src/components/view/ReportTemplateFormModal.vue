@@ -177,6 +177,16 @@ const getSearchUrl = (val: string) =>
                 <p v-if="error" class="form-alert error">{{ error }}</p>
                 <p v-if="message" class="form-alert success">{{ message }}</p>
                 <div class="input-area">
+                    <ICSelect
+                        label="Type"
+                        name="type"
+                        v-model="typeVal"
+                        :hint="fieldErrs.type"
+                    >
+                        <option value="">Select Type</option>
+                        <option value="cyto">Cytopathology</option>
+                        <option value="histo">Histopathology</option>
+                    </ICSelect>
                     <Input
                         name="name"
                         label="Name"
@@ -202,16 +212,6 @@ const getSearchUrl = (val: string) =>
                             {{ item.organ }}
                         </button>
                     </InputAutocomplete>
-                    <ICSelect
-                        label="Type"
-                        name="type"
-                        v-model="typeVal"
-                        :hint="fieldErrs.type"
-                    >
-                        <option value="">Select Type</option>
-                        <option value="cyto">Cytopathology</option>
-                        <option value="histo">Histopathology</option>
-                    </ICSelect>
                     <div
                         class="editor-unit"
                         :class="{ hidden: typeVal !== 'cyto' }"
