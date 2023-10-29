@@ -122,7 +122,7 @@ async function deleteTemplate() {
 const convertToHtml = (data: string, el: HTMLDivElement) => {
     try {
         const delta = JSON.parse(data).ops;
-        if (delta.length < 2) {
+        if (delta.length <= 1 && delta[0]?.insert === "\n") {
             throw new Error("Doesn't matter!");
         }
         const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
