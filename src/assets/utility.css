@@ -4,6 +4,13 @@
     --space-lg: 30px;
 }
 
+.hidden {
+    display: none;
+}
+.block {
+    display: block;
+}
+
 .space-y-md > * {
     margin-top: var(--space-md);
     margin-bottom: var(--space-md);
