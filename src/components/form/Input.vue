@@ -9,6 +9,7 @@ interface InputProps extends InputHTMLAttributes {
     placeholder?: string;
     class?: any;
     icBox?: string | number;
+    modelValue?: any;
 }
 
 const viewBox = ref<string>("0 0 24 24");
@@ -17,6 +18,9 @@ const props = withDefaults(defineProps<InputProps>(), {
     type: "text",
     hintType: "error",
 });
+const emit = defineEmits<{
+    (e: "update:modelValue", val: any): void;
+}>();
 
 const init = () => {
     if (
@@ -40,7 +44,12 @@ watch(props, init);
                     <slot></slot>
                 </svg>
             </div>
-            <input v-bind="$attrs" :placeholder="placeholder || label" />
+            <input
+                v-bind="$attrs"
+                :value="modelValue"
+                :placeholder="placeholder || label"
+                @input="(evt: any) => emit('update:modelValue', evt.target?.value)"
+            />
         </div>
         <label v-if="hint" class="hint">
             {{ hint }}
