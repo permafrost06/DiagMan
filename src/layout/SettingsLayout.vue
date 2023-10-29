@@ -19,18 +19,18 @@ import Icon from "@/components/base/Icon.vue";
                 </li> -->
                 <li>
                     <RouterLink
-                        :to="{ name: 'settings.report-templates' }"
-                        class="sidebar-link"
-                    >
-                        Report Templates
-                    </RouterLink>
-                </li>
-                <li>
-                    <RouterLink
                         :to="{ name: 'settings.tests' }"
                         class="sidebar-link"
                     >
                         Tests
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink
+                        :to="{ name: 'settings.report-templates' }"
+                        class="sidebar-link"
+                    >
+                        Report Templates
                     </RouterLink>
                 </li>
                 <!-- <li>

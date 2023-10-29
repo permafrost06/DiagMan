@@ -58,7 +58,7 @@ const router = createRouter({
                             path: "",
                             name: "settings",
                             redirect: {
-                                name: "settings.account",
+                                name: "settings.tests",
                             },
                         },
                         {
