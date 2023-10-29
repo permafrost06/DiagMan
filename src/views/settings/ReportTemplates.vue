@@ -75,6 +75,7 @@ const onAdded = (tem: any) => {
         });
     }
     if (typeof formValue.value !== "object") {
+        formValue.value = false;
         reportTemplates.value.unshift(tem);
         return;
     }
