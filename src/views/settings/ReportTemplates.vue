@@ -122,10 +122,14 @@ async function deleteTemplate() {
 const convertToHtml = (data: string, el: HTMLDivElement) => {
     try {
         const delta = JSON.parse(data).ops;
+        if (delta.length < 2) {
+            throw new Error("Doesn't matter!");
+        }
         const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
         el.innerHTML = html;
     } catch (error) {
         el.innerHTML = "";
+        el.parentElement?.classList.add("hidden");
     }
 };
 
