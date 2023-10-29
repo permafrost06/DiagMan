@@ -276,7 +276,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                                     }"
                                     class="btn report-btn"
                                 >
-                                    <svg
+                                    <!-- <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="18"
                                         height="18"
@@ -286,7 +286,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                                             fill="currentColor"
                                             d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"
                                         />
-                                    </svg>
+                                    </svg> -->
                                     Report
                                 </RouterLink>
                                 <RouterLink
@@ -415,9 +415,9 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
         font-weight: 600;
         gap: 5px;
     }
-    .report-btn {
-        padding-left: 10px;
-    }
+    // .report-btn {
+    //     padding-left: 10px;
+    // }
 }
 
 .skeleton.btn {
