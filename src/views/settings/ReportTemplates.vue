@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ReportTemplateFormModal from "./ReportTemplateFormModal.vue";
+import ReportTemplateFormModal from "@/components/view/ReportTemplateFormModal.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import Loading from "@/Icons/Loading.vue";
 import { API_BASE } from "@/helpers/config";
@@ -225,11 +225,17 @@ function showDetails(data?: Record<string, any>) {
             </div>
             <div class="rt-details">
                 <h2>Details</h2>
-                <div class="editor-unit">
+                <div
+                    class="editor-unit"
+                    :class="{ hidden: active?.type !== 'cyto' }"
+                >
                     <label>Aspiration Note</label>
                     <div class="ql-container" ref="aspField"></div>
                 </div>
-                <div class="editor-unit">
+                <div
+                    class="editor-unit"
+                    :class="{ hidden: active?.type !== 'histo' }"
+                >
                     <label>Gross Examination</label>
                     <div class="ql-container" ref="geField"></div>
                 </div>

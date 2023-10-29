@@ -14,12 +14,20 @@ const props = withDefaults(defineProps<InputProps>(), {
     type: "text",
     hintType: "error",
 });
+
+const emit = defineEmits<{
+    (e: "input", evt: any): void;
+}>();
 </script>
 <template>
     <div v-if="!unWrap" :class="[props.class, 'simple-input']">
         <label class="si-label" v-if="label">{{ label }}</label>
         <div class="si-field-col">
-            <select v-bind="$attrs" :class="fieldClass">
+            <select
+                v-bind="$attrs"
+                :class="fieldClass"
+                @input="(evt) => emit('input', evt)"
+            >
                 <slot></slot>
             </select>
 
@@ -39,7 +47,11 @@ const props = withDefaults(defineProps<InputProps>(), {
     <template v-else>
         <label class="si-label" v-if="label">{{ label }}</label>
         <div class="si-field-col">
-            <select v-bind="$attrs" :class="fieldClass">
+            <select
+                v-bind="$attrs"
+                :class="fieldClass"
+                @input="(evt) => emit('input', evt)"
+            >
                 <slot></slot>
             </select>
 

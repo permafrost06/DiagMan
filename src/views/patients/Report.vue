@@ -3,6 +3,8 @@
 import Loading from "@/Icons/Loading.vue";
 import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
+import SimpleSelect from "@/components/form/SimpleSelect.vue";
+import ReportTemplateFormModal from "@/components/view/ReportTemplateFormModal.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { nextTick, onMounted, ref, watch } from "vue";
@@ -32,6 +34,11 @@ const route = useRoute();
 
 const editMode = ref(false);
 
+const organs = ref<Record<string, any>[]>([]);
+const templates = ref<Record<string, any>[]>([]);
+const isLoadingOrgans = ref<boolean>(true);
+const isLoadingTemplates = ref<AbortController | null>(null);
+
 const patient = ref<Record<string, any>>();
 const isLoading = ref<boolean>(false);
 const isPosting = ref<"add" | "draft" | boolean>(false);
@@ -44,44 +51,29 @@ const impressionField = ref<HTMLDivElement>();
 const noteField = ref<HTMLDivElement>();
 const noteFieldVisible = ref<boolean>(false);
 
+const templateModalValue = ref<Record<string, any> | false>(false);
+
 const errors = ref<Record<string, string | undefined>>({});
 
 onMounted(async () => {
     initEditors();
+    loadOrgans();
+    loadTemplates();
+
     const id = route.params.id;
     isLoading.value = true;
     const res = await fetchApi(API_BASE + `/reports/${id}`);
     if (res.success) {
         patient.value = res.rows[0];
         const p = res.rows[0];
-        try {
-            const asp = JSON.parse(
-                p.type === "cyto" ? p.aspiration_note : p.gross_examination
-            );
-            quillInstances.asp.setContents(asp.ops);
-        } catch (_e) {
-            /* empty */
-        }
-        try {
-            const me = JSON.parse(p.microscopic_examination);
-            quillInstances.me.setContents(me.ops);
-        } catch (_e) {
-            /* empty */
-        }
-        try {
-            const impression = JSON.parse(p.impression);
-            quillInstances.impression.setContents(impression.ops);
-        } catch (_e) {
-            /* empty */
-        }
-        try {
-            if (patient.value) {
-                patient.value.note = JSON.parse(p.note);
-                noteFieldVisible.value = !!patient.value.note.ops;
-            }
-        } catch (_e) {
-            /* empty */
-        }
+        setEditorContent(
+            quillInstances.asp,
+            p.type === "cyto" ? p.aspiration_note : p.gross_examination
+        );
+        setEditorContent(quillInstances.me, p.microscopic_examination);
+        setEditorContent(quillInstances.impression, p.impression);
+        setEditorContent(quillInstances.note, p.note);
+        noteFieldVisible.value = quillInstances.note.getLength() > 1;
     }
     isLoading.value = false;
 });
@@ -89,17 +81,57 @@ onMounted(async () => {
 watch(noteFieldVisible, async () => {
     await nextTick();
     if (noteFieldVisible.value) {
-        quillInstances.note = new Quill(noteField.value!, quillOptions);
         if (patient.value?.note) {
             quillInstances.note.setContents(patient.value.note.ops);
         }
     }
 });
 
+function setEditorContent(editor: any, data: string) {
+    try {
+        const impression = JSON.parse(data);
+        editor.setContents(impression.ops);
+    } catch (_e) {
+        editor.setContents([]);
+    }
+}
+
 async function initEditors() {
     quillInstances.asp = new Quill(aspField.value!, quillOptions);
     quillInstances.impression = new Quill(impressionField.value!, quillOptions);
     quillInstances.me = new Quill(meField.value!, quillOptions);
+    quillInstances.note = new Quill(noteField.value!, quillOptions);
+}
+
+async function loadOrgans() {
+    const res = await fetchApi(API_BASE + "/settings/report-templates/organs");
+    isLoadingOrgans.value = false;
+    if (!res.success) {
+        console.error(res.message || "Failed to load organs!");
+        return;
+    }
+    organs.value = res.rows;
+}
+async function loadTemplates(organ: string = "") {
+    if (isLoadingTemplates.value) {
+        isLoadingTemplates.value.abort();
+        isLoadingTemplates.value = new AbortController();
+    }
+    const res = await fetchApi(
+        API_BASE +
+            `/settings/report-templates?${
+                organ ? "organ=" + encodeURIComponent(organ) : ""
+            }`,
+        {
+            signal: isLoadingTemplates.value?.signal,
+        }
+    );
+    isLoadingTemplates.value = null;
+    if (!res.success) {
+        console.error(res.message || "Failed to load templates!");
+        return;
+    }
+    templates.value = res.rows;
 }
 
 const handleFormSubmit = async (evt: any) => {
@@ -192,6 +224,48 @@ const onPatientUpdate = (_row: any, msg: string) => {
     editMode.value = false;
     message.value = msg;
 };
+
+const onTemplateChange = (evt: any) => {
+    const template = templates.value[evt.target.value];
+    if (!template) {
+        return;
+    }
+    setEditorContent(
+        quillInstances.asp,
+        patient.value?.type === "cyto"
+            ? template.aspiration_note
+            : template.gross_examination
+    );
+    setEditorContent(quillInstances.me, template.microscopic_examination);
+    setEditorContent(quillInstances.impression, template.impression);
+    setEditorContent(quillInstances.note, template.note);
+    noteFieldVisible.value = quillInstances.note.getLength() > 1;
+};
+
+const showTemplateSaver = () => {
+    templateModalValue.value = {
+        type: patient.value?.type === "cyto" ? "cyto" : "histo",
+        microscopic_examination: JSON.stringify(
+            quillInstances.me.getContents()
+        ),
+        impression: JSON.stringify(quillInstances.impression.getContents()),
+        note: JSON.stringify(quillInstances.note.getContents()),
+    };
+    if (patient.value?.type === "cyto") {
+        templateModalValue.value.aspiration_note = JSON.stringify(
+            quillInstances.asp.getContents()
+        );
+    } else {
+        templateModalValue.value.gross_examination = JSON.stringify(
+            quillInstances.asp.getContents()
+        );
+    }
+};
+
+const onTemAdded = (tem: any) => {
+    templates.value.push(tem);
+    templateModalValue.value = false;
+};
 </script>
 <template>
     <div class="report-page">
@@ -216,59 +290,67 @@ const onPatientUpdate = (_row: any, msg: string) => {
             }"
         >
             <div class="left" v-if="!editMode">
-                <div class="patient-info fs-md" v-if="patient">
-                    <div class="id-area">
-                        <p>Patient ID:</p>
-                        <p class="bold">{{ patient.id }}</p>
-                    </div>
-                    <button @click="editMode = true">Edit Patient</button>
+                <div class="flex-grow" v-if="patient">
+                    <div class="patient-info fs-md">
+                        <div class="id-area">
+                            <p>Patient ID:</p>
+                            <p class="bold">{{ patient.id }}</p>
+                        </div>
+                        <button @click="editMode = true">Edit Patient</button>
 
-                    <p>Type</p>
-                    <p class="capitalize">{{ patient.type }}pathology</p>
+                        <p>Type</p>
+                        <p class="capitalize">{{ patient.type }}pathology</p>
 
-                    <p>Name</p>
-                    <p>{{ patient.name }}</p>
+                        <p>Name</p>
+                        <p>{{ patient.name }}</p>
 
-                    <p>Age</p>
-                    <p>{{ patient.age }}</p>
+                        <p>Age</p>
+                        <p>{{ patient.age }}</p>
 
-                    <p>Gender</p>
-                    <p class="capitalize">{{ patient.gender }}</p>
+                        <p>Gender</p>
+                        <p class="capitalize">{{ patient.gender }}</p>
 
-                    <p>Contact</p>
-                    <p>{{ patient.contact }}</p>
+                        <p>Contact</p>
+                        <p>{{ patient.contact }}</p>
 
-                    <p>Referer</p>
-                    <p>{{ patient.referer }}</p>
+                        <p>Referer</p>
+                        <p>{{ patient.referer }}</p>
 
-                    <p>Specimen</p>
-                    <p class="bold">{{ patient.specimen }}</p>
+                        <p>Specimen</p>
+                        <p class="bold">{{ patient.specimen }}</p>
 
-                    <p>Sample collection date</p>
-                    <p>
-                        {{
-                            dateToDMY(
-                                new Date(
-                                    parseInt(patient.sample_collection_date)
+                        <p>Sample collection date</p>
+                        <p>
+                            {{
+                                dateToDMY(
+                                    new Date(
+                                        parseInt(patient.sample_collection_date)
+                                    )
                                 )
-                            )
-                        }}
-                    </p>
+                            }}
+                        </p>
 
-                    <p>Entry date</p>
-                    <p>
-                        {{ dateToDMY(new Date(parseInt(patient.entry_date))) }}
-                    </p>
+                        <p>Entry date</p>
+                        <p>
+                            {{
+                                dateToDMY(
+                                    new Date(parseInt(patient.entry_date))
+                                )
+                            }}
+                        </p>
 
-                    <p>Tests</p>
-                    <p class="bold">{{ patient.test_names }}</p>
+                        <p>Tests</p>
+                        <p class="bold">{{ patient.test_names }}</p>
 
-                    <p>Delivery date</p>
-                    <p>
-                        {{
-                            dateToDMY(new Date(parseInt(patient.delivery_date)))
-                        }}
-                    </p>
+                        <p>Delivery date</p>
+                        <p>
+                            {{
+                                dateToDMY(
+                                    new Date(parseInt(patient.delivery_date))
+                                )
+                            }}
+                        </p>
+                    </div>
                 </div>
                 <div v-else-if="isLoading" class="flex justify-center">
                     <Loading size="60" />
@@ -290,6 +372,13 @@ const onPatientUpdate = (_row: any, msg: string) => {
                             />
                             Add Report
                         </button>
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            @click="showTemplateSaver"
+                        >
+                            Save As Template
+                        </button>
                     </div>
                 </div>
             </div>
@@ -303,38 +392,103 @@ const onPatientUpdate = (_row: any, msg: string) => {
                 <p class="form-alert success" v-if="message">{{ message }}</p>
 
                 <input type="hidden" name="id" :value="patient?.id" />
-                <div class="editor-unit">
-                    <label v-if="patient?.type === 'cyto'"
-                        >Aspiration Note</label
-                    >
-                    <label v-else>Gross Examination</label>
-                    <div ref="aspField"></div>
-                    <p v-if="errors.asp" class="hint error">{{ errors.asp }}</p>
-                </div>
-                <div class="editor-unit">
-                    <label>Microscopic Examination</label>
-                    <div ref="meField"></div>
-                    <p v-if="errors.me" class="hint error">{{ errors.me }}</p>
-                </div>
-                <div class="editor-unit">
-                    <label>Impression</label>
-                    <div ref="impressionField"></div>
-                    <p v-if="errors.impression" class="hint error">
-                        {{ errors.impression }}
-                    </p>
-                </div>
+                <div class="editor-n-template-grid">
+                    <div>
+                        <div class="editor-unit">
+                            <label v-if="patient?.type === 'cyto'"
+                                >Aspiration Note</label
+                            >
+                            <label v-else>Gross Examination</label>
+                            <div ref="aspField"></div>
+                            <p v-if="errors.asp" class="hint error">
+                                {{ errors.asp }}
+                            </p>
+                        </div>
+                        <div class="editor-unit">
+                            <label>Microscopic Examination</label>
+                            <div ref="meField"></div>
+                            <p v-if="errors.me" class="hint error">
+                                {{ errors.me }}
+                            </p>
+                        </div>
+                        <div class="editor-unit">
+                            <label>Impression</label>
+                            <div ref="impressionField"></div>
+                            <p v-if="errors.impression" class="hint error">
+                                {{ errors.impression }}
+                            </p>
+                        </div>
 
-                <div class="editor-unit" v-if="noteFieldVisible">
-                    <label>Note</label>
-                    <div ref="noteField"></div>
-                </div>
-                <div v-else class="flex justify-end">
-                    <button
-                        class="btn-outline"
-                        @click="noteFieldVisible = true"
-                    >
-                        + Add Note
-                    </button>
+                        <div
+                            class="editor-unit"
+                            :class="{ hidden: !noteFieldVisible }"
+                        >
+                            <label>Note</label>
+                            <div ref="noteField"></div>
+                        </div>
+                        <div
+                            class="justify-end"
+                            :class="{
+                                hidden: noteFieldVisible,
+                                flex: !noteFieldVisible,
+                            }"
+                        >
+                            <button
+                                type="button"
+                                class="btn-outline"
+                                @click="noteFieldVisible = true"
+                            >
+                                + Add Note
+                            </button>
+                        </div>
+                    </div>
+                    <div class="template-selector">
+                        <h2>Template</h2>
+                        <div class="tem-sel-inputs">
+                            <SimpleSelect
+                                label="Organ"
+                                :un-wrap="true"
+                                @input="
+                                    (evt) => loadTemplates(evt.target.value)
+                                "
+                            >
+                                <option value="">
+                                    {{
+                                        isLoadingOrgans
+                                            ? "Please wait..."
+                                            : "All"
+                                    }}
+                                </option>
+                                <option
+                                    v-for="item in organs"
+                                    :key="item.organ"
+                                    :value="item.organ"
+                                >
+                                    {{ item.organ }}
+                                </option>
+                            </SimpleSelect>
+                            <SimpleSelect
+                                label="Template"
+                                :un-wrap="true"
+                                @input="onTemplateChange"
+                            >
+                                <option value="">
+                                    {{
+                                        isLoadingTemplates
+                                            ? "Loading..."
+                                            : "Select Template"
+                                    }}
+                                </option>
+                                <option
+                                    v-for="(item, idx) in templates"
+                                    :key="item.id"
+                                    :value="idx"
+                                >
+                                    {{ item.name }}
+                                </option>
+                            </SimpleSelect>
+                        </div>
+                    </div>
                 </div>
                 <div class="submit-area-2" v-if="editMode">
                     <CheckBox
@@ -344,7 +498,7 @@ const onPatientUpdate = (_row: any, msg: string) => {
                         :checked="patient?.locked"
                     />
                     <div class="flex gap-sm mt-sm">
-                        <button type="submit" value="add">
+                        <button type="submit">
                             <Loading
                                 v-if="isPosting === true || isPosting === 'add'"
                             />
@@ -355,6 +509,12 @@ const onPatientUpdate = (_row: any, msg: string) => {
             </div>
         </form>
     </div>
+    <ReportTemplateFormModal
+        v-if="templateModalValue"
+        :edit="templateModalValue"
+        :on-close="() => (templateModalValue = false)"
+        :on-added="onTemAdded"
+    />
 </template>
 <style lang="scss">
 .report-page {
@@ -369,19 +529,23 @@ const onPatientUpdate = (_row: any, msg: string) => {
 
         &.grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(400px, auto) 1fr;
         }
     }
 
     .left {
         border-right: 1px solid var(--clr-black);
         position: relative;
+        padding-right: 10px;
+        display: flex;
+        flex-flow: column;
 
         .patient-info {
             display: grid;
             grid-template-columns: auto auto;
+            grid-template-rows: min-content;
             gap: 10px;
-            padding-bottom: 120px;
+            padding-bottom: 20px;
 
             p {
                 margin-top: 10px;
@@ -410,10 +574,6 @@ const onPatientUpdate = (_row: any, msg: string) => {
 
         .submit-area {
             background: var(--clr-white);
-            position: absolute;
-            bottom: 0px;
-            left: 0px;
-            width: calc(50% - 38px);
         }
     }
 
@@ -440,6 +600,26 @@ const onPatientUpdate = (_row: any, msg: string) => {
 
         .submit-area-2 {
             padding: 20px 0;
+        }
+
+        .editor-n-template-grid {
+            display: grid;
+            grid-template-columns: 1fr max-content;
+            gap: 10px;
+
+            .template-selector {
+                h2 {
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                    font-size: var(--fs-lg);
+                }
+
+                .tem-sel-inputs {
+                    display: grid;
+                    grid-template-columns: max-content 1fr;
+                    gap: 10px;
+                }
+            }
         }
     }
 
