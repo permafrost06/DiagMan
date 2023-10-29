@@ -160,7 +160,9 @@ const getSearchUrl = (val: string) =>
 <template>
     <div class="modal-backdrop report-template-form-modal">
         <div class="modal-body">
-            <h2 class="fs-2xl">{{ edit?.id ? "Edit" : "Add New" }} Template</h2>
+            <h2 class="modal-title fs-2xl">
+                {{ edit?.id ? "Edit" : "Add New" }} Template
+            </h2>
             <form
                 method="POST"
                 :action="API_BASE + '/settings/report-templates'"
@@ -286,7 +288,7 @@ const getSearchUrl = (val: string) =>
 }
 
 .report-template-form-modal {
-    h2 {
+    .modal-title {
         text-align: center;
         font-weight: bold;
     }
