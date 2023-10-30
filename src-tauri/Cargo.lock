@@ -537,6 +537,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "diagman"
+version = "0.0.1"
+dependencies = [
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+]
+
+[[package]]
 name = "digest"
 version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3020,16 +3030,6 @@ dependencies = [
  "webview2-com",
  "windows 0.39.0",
  "zip",
-]
-
-[[package]]
-name = "tauri-app"
-version = "0.0.0"
-dependencies = [
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
 ]
 
 [[package]]

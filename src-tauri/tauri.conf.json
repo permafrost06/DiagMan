@@ -7,8 +7,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "tauri-app",
-    "version": "0.0.0"
+    "productName": "Diagman",
+    "version": "0.0.6"
   },
   "tauri": {
     "allowlist": {
@@ -20,8 +20,8 @@
     },
     "bundle": {
       "active": true,
-      "targets": "all",
-      "identifier": "com.tauri.dev",
+      "targets": ["msi", "updater"],
+      "identifier": "com.diagman",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -37,10 +37,19 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "tauri-app",
+        "title": "Diagman 0.0.6",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "maximized": true
       }
-    ]
+    ],
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://raw.githubusercontent.com/protibimbok/diagman/dev-production-ui/updater/latest.json"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEFFODUxRkI3MjkxRDcxN0EKUldSNmNSMHB0eCtGcml2Z01lVnR4NlVYbEhMV2ZXckdhbWRSWlFTYWcvVDVqVXUxNEN2WmxPRkgK"
+    }
   }
 }

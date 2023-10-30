@@ -1,0 +1,11 @@
+{
+  "version": "0.0.6",
+  "notes": "See the assets to download and install this version.",
+  "pub_date": "2023-10-30T12:10:34.778Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSNmNSMHB0eCtGcm9zQ3Vjbm9qQkZJZ1cvZEh1dWNiN2lpZjlXTmxsNVRzTkJoQ1U3ZGRJMm56TzRwY09jSG8xREN2R1pWc1J2S3dlWWxISTYvZXQ0RXgxZ0lJR01QU2dBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjk4NjY3ODI5CWZpbGU6RGlhZ21hbl8wLjAuNl94NjRfZW4tVVMubXNpLnppcApvV3M3VmlmWFNRNWxZSFkraGRmMlVPQ3RHWDBVQm92bmJ1UVJlNDZUK3NDS1ZFS0tleXgxWWVKRjd5U1B4VTRqK1hERTJQSEtvS2FZRDFYQWllSmdBdz09Cg==",
+      "url": "https://github.com/protibimbok/diagman/releases/download/v0.0.6/Diagman_0.0.6_x64_en-US.msi.zip"
+    }
+  }
+}
