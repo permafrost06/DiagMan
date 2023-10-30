@@ -41,7 +41,13 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 		});
 		res.setMsg('Report updated successfully!');
 	} else {
-		await insertRow(db, 'reports', data);
+		await Promise.all([
+			insertRow(db, 'reports', data),
+			db.execute({
+				sql: 'UPDATE `patients` SET status = "complete" WHERE id = ?',
+				args: [data.id],
+			}),
+		]);
 		res.setMsg('Report added successfully!');
 	}
 };
@@ -97,7 +103,26 @@ export const toggleReportLock: RequestHandler = async ({ env, params, res }) => 
 			args,
 		});
 	} else {
-		await insertRow(db, 'reports', data);
+		res.error('Please add the report first!');
 	}
 	res.setMsg(`Report ${data.locked ? 'locked' : 'unlocked'} successfully!`);
+};
+
+export const deliverReport: RequestHandler = async ({ res, env, params }) => {
+	const db = getLibsqlClient(env);
+	const { rows } = await db.execute({
+		sql: `SELECT * FROM \`patients\` WHERE id=? LIMIT 1`,
+		args: [params.id],
+	});
+	if (rows.length === 0) {
+		res.error('Invalid patient!', 404);
+	}
+	if (rows[0].status !== 'complete') {
+		res.error('Please add report first!');
+	}
+	await db.execute({
+		sql: 'UPDATE `patients` SET status = "delivered" WHERE id = ?',
+		args: [params.id],
+	});
+	res.setMsg(`Report delivered successfully!`);
 };

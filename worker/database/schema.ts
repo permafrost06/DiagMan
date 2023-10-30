@@ -43,7 +43,7 @@ export const patients = sqliteTable('patients', {
 		enum: ['histo', 'cyto'],
 	}),
 	status: text('status', {
-		enum: ['draft', 'pending', 'locked', 'complete'],
+		enum: ['draft', 'pending', 'locked', 'complete', 'delivered'],
 	}),
 	name: text('name'),
 	sample_collection_date: text('sample_collection_date'),

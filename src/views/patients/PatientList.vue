@@ -138,11 +138,9 @@ const toggleLock = async (patient: any) => {
         return;
     }
     lockReqs.value.add(patient.id);
-    const body = new FormData();
 
     const res = await fetchApi(API_BASE + "/reports/lock/" + patient.id, {
         method: "POST",
-        body,
     });
     lockReqs.value.delete(patient.id);
     if (!res.success) {
@@ -150,6 +148,23 @@ const toggleLock = async (patient: any) => {
         return;
     }
     patient.locked = !patient.locked;
+};
+
+const deliverReqs = ref<Set<number>>(new Set());
+const deliverReport = async (patient: any) => {
+    if (deliverReqs.value.has(patient.id)) {
+        return;
+    }
+    deliverReqs.value.add(patient.id);
+    const res = await fetchApi(API_BASE + "/reports/deliver/" + patient.id, {
+        method: "POST",
+    });
+    deliverReqs.value.delete(patient.id);
+    if (!res.success) {
+        console.error(res.message || "Delivering report failed!");
+        return;
+    }
+    patient.status = "delivered";
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -315,11 +330,23 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                                     class="btn-outline"
                                     @click="() => toggleLock(patient)"
                                 >
-                                    <loading
+                                    <Loading
                                         size="15"
                                         v-if="lockReqs.has(patient.id as any)"
                                     />
                                     {{ patient.locked ? "Unlock" : "Lock" }}
+                                </button>
+                                <button
+                                    v-if="patient.status === 'complete'"
+                                    type="button"
+                                    class="btn-outline"
+                                    @click="() => deliverReport(patient)"
+                                >
+                                    <Loading
+                                        size="15"
+                                        v-if="deliverReqs.has(patient.id as any)"
+                                    />
+                                    Mark as delivered
                                 </button>
                                 <RouterLink
                                     :to="{
