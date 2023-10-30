@@ -6,6 +6,7 @@ import { dateToDMY } from "@/helpers/utils";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+import router from "@/router";
 
 const route = useRoute();
 const isLoading = ref(true);
@@ -39,17 +40,13 @@ const convertToHtml = (data: string) => {
     <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
-            <RouterLink
-                :to="{
-                    name: 'report',
-                    params: {
-                        id: route.params.id,
-                    },
-                }"
+            <button
                 class="btn btn-outline"
+                type="button"
+                @click="() => router.back()"
             >
                 Go back
-            </RouterLink>
+            </button>
         </div>
         <div class="report">
             <div class="page">
