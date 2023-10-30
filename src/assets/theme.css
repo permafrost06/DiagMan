@@ -1,30 +1,106 @@
-:root{
+:root {
     /* -------- Colors ----------*/
-    --clr-bg: #F5F5F5;
-    --clr-one: #F7C8E0; 
-    --clr-two: #DFFFD8;
-    --clr-three: #B4E4FF;
-    --clr-four: #95BDFF;
+    --clr-black: rgb(0, 0, 0);
+    --clr-white: rgb(255, 255, 255);
+
+    --clr-accent: rgb(130, 0, 151);
+    --clr-accent-rgb: 130, 0, 151;
+    
+    --clr-grey: rgb(89, 89, 89);
+    --clr-grey-rgb: 89, 89, 89;
+
+    --clr-danger: rgb(242, 78, 30);
+    --clr-danger-rgb: 242, 78, 30;
+
+    --clr-success: rgb(0, 180, 111);
+    --clr-success-rgb: 0, 180, 111;
 
     /* ------ Typography ------- */
     --fs-base: 16px;
-    --fs-md: 1.25rem;
-    --fs-lg: 1.5rem; 
-    --fs-sm: 0.7rem;
+    --fs-xxs: 0.354rem;
     --fs-xs: 0.5rem;
+    --fs-sm: 0.707rem;
+    --fs-md: 1.15rem;
+    --fs-lg: 1.414rem;
+    --fs-xl: 1.999rem;
+    --fs-2xl: 1.999rem;
+    --fs-3xl: 2.827rem;
+    --fs-4xl: 3.998rem;
+    --fs-5xl: 5.653rem;
 
-
-    /* --------- TableX -------- */
-
-    --tblx-bg: #F7F9FE;
-    --tblx-text: #606060;
-    --tblx-border: #DEDADA;
+    /*------- Spacing -----------*/
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.25rem;
+    --space-xl: 1.5rem;
 }
 
-*{
-    font-family: 'Poppins', sans-serif;
+* {
+    font-family: inherit;
+    box-sizing: border-box;
 }
 
-html, body{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+    font-family: "Space Grotesk", sans-serif;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+html,
+body {
     font-size: var(--fs-base);
+    font-family: "Open Sans", sans-serif;
+}
+
+.font-body {
+    font-family: "Open Sans", sans-serif;
+}
+.font-h {
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.fs-xxs {
+    font-size: var(--fs-xxs);
+}
+.fs-xs {
+    font-size: var(--fs-xs);
+}
+.fs-sm {
+    font-size: var(--fs-sm);
+}
+.fs-base {
+    font-size: var(--fs-base);
+}
+.fs-md {
+    font-size: var(--fs-md);
+}
+.fs-lg {
+    font-size: var(--fs-lg);
+}
+.fs-xl {
+    font-size: var(--fs-xl);
+}
+.fs-2xl {
+    font-size: var(--fs-2xl);
+}
+.fs-3xl {
+    font-size: var(--fs-3xl);
+}
+.fs-4xl {
+    font-size: var(--fs-4xl);
+}
+.fs-5xl {
+    font-size: var(--fs-5xl);
+}
+
+.danger {
+    color: var(--clr-danger);
 }

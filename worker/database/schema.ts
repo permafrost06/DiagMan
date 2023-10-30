@@ -7,6 +7,7 @@ export const users = sqliteTable('users', {
 	email: text('email').unique(),
 	name: text('name'),
 	password: text('password'),
+	pin: integer('pin'),
 	role: text('role'),
 });
 
@@ -24,6 +25,9 @@ export const tests = sqliteTable('tests', {
 		autoIncrement: true,
 	}),
 	name: text('name'),
+	type: text('type', {
+		enum: ['histo', 'cyto'],
+	}),
 	price: numeric('price'),
 	size: text('size', {
 		enum: ['small', 'medium', 'large', 'complex'],
@@ -39,7 +43,7 @@ export const patients = sqliteTable('patients', {
 		enum: ['histo', 'cyto'],
 	}),
 	status: text('status', {
-		enum: ['draft', 'pending', 'locked', 'complete'],
+		enum: ['draft', 'pending', 'locked', 'complete', 'delivered'],
 	}),
 	name: text('name'),
 	sample_collection_date: text('sample_collection_date'),
@@ -55,6 +59,7 @@ export const patients = sqliteTable('patients', {
 	tests: blob('tests', {
 		mode: 'json',
 	}),
+	total: numeric('total'),
 	discount: numeric('discount'),
 	advance: numeric('advance'),
 	timestamp: integer('timestamp', {
@@ -64,6 +69,23 @@ export const patients = sqliteTable('patients', {
 
 export const reports = sqliteTable('reports', {
 	id: text('id').primaryKey(),
+	aspiration_note: text('aspiration_note'),
+	gross_examination: text('gross_examination'),
+	microscopic_examination: text('microscopic_examination'),
+	impression: text('impression'),
+	note: text('note'),
+	locked: numeric('locked'),
+});
+
+export const reportTemplates = sqliteTable('report_templates', {
+	id: integer('id').primaryKey({
+		autoIncrement: true,
+	}),
+	name: text('name'),
+	type: text('type', {
+		enum: ['histo', 'cyto'],
+	}),
+	organ: text('organ'),
 	aspiration_note: text('aspiration_note'),
 	gross_examination: text('gross_examination'),
 	microscopic_examination: text('microscopic_examination'),

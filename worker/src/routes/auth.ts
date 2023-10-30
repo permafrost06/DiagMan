@@ -36,7 +36,7 @@ async function addSession(db: Client, user: Record<string, any>, oldToken?: stri
 	let exists: boolean = true;
 	let maxTry = 5;
 	do {
-		token = crypto.getRandomValues(new Int32Array(16)).reduce((prev, num) => prev + num.toString(36), '');
+		token = user.id + crypto.getRandomValues(new Int32Array(16)).reduce((prev, num) => prev + num.toString(36), '');
 		const { rows } = await db.execute({
 			sql: 'SELECT * FROM `sessions` WHERE token=? LIMIT 1',
 			args: [token],
@@ -83,15 +83,32 @@ export const login: RequestHandler = async ({ request, res, token, env }) => {
 		sql: 'SELECT * FROM `users` WHERE email = ? LIMIT 1',
 		args: [email],
 	});
-
-	const hash = user.password!.toString();
-	if (!user || !pass || !compareSync(pass, hash)) {
+	if (!user || !pass || !compareSync(pass, user.password!.toString())) {
 		res.error('Invalid email or password!');
 	}
 
 	const newToken = await addSession(db, user, token);
 	res.setMsg('Login successful!');
 	res.setData({ token: newToken });
+	res.setRows([
+		{
+			id: user.id?.toString(),
+			name: user.name,
+			email: user.email,
+		},
+	]);
+};
+
+export const verifyPin: RequestHandler = async ({ res, user, request }) => {
+	const formData = await request.formData();
+	const pin = formData.get('pin');
+	if (!user || !pin || pin != user.pin) {
+		res.error('Incorrect PIN!');
+	}
+	res.setMsg('PIN verified successully!');
+	res.setData({
+		pin,
+	});
 };
 
 export const logOut: RequestHandler = async ({ res, env, token }) => {

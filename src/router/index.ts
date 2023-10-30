@@ -12,12 +12,76 @@ const router = createRouter({
                     name: "home",
                     component: () => import("@/views/HomeView.vue"),
                 },
+                {
+                    path: "/users",
+                    name: "users",
+                    component: () => import("@/views/users/Index.vue"),
+                },
+                {
+                    path: "/patients",
+                    children: [
+                        {
+                            path: "add",
+                            name: "patients.add",
+                            component: () =>
+                                import("@/views/patients/AddPatient.vue"),
+                        },
+                        {
+                            path: "edit/:id",
+                            name: "patients.edit",
+                            component: () =>
+                                import("@/views/patients/EditPatient.vue"),
+                        },
+                        {
+                            path: "invoice/:id",
+                            name: "patients.invoice",
+                            component: () =>
+                                import("@/views/patients/InvoiceView.vue"),
+                        },
+                    ],
+                },
+                {
+                    path: "/report/:id",
+                    name: "report",
+                    component: () => import("@/views/patients/Report.vue"),
+                },
+                {
+                    path: "/report/:id/print",
+                    name: "report.print",
+                    component: () => import("@/views/patients/ReportView.vue"),
+                },
+                {
+                    path: "/settings",
+                    component: () => import("@/layout/SettingsLayout.vue"),
+                    children: [
+                        {
+                            path: "",
+                            name: "settings",
+                            redirect: {
+                                name: "settings.tests",
+                            },
+                        },
+                        {
+                            path: "account",
+                            name: "settings.account",
+                            component: () =>
+                                import("@/views/settings/AccountSetting.vue"),
+                        },
+                        {
+                            path: "tests",
+                            name: "settings.tests",
+                            component: () =>
+                                import("@/views/settings/TestsSetting.vue"),
+                        },
+                        {
+                            path: "report-templates",
+                            name: "settings.report-templates",
+                            component: () =>
+                                import("@/views/settings/ReportTemplates.vue"),
+                        },
+                    ],
+                },
             ],
-        },
-        {
-            path: "/components/:name?",
-            name: "components",
-            component: () => import("@/views/ComponentsView.vue"),
         },
         {
             path: "/auth",
@@ -33,26 +97,6 @@ const router = createRouter({
                     component: () => import("@/views/auth/Register.vue"),
                 },
             ],
-        },
-        {
-            path: "/users",
-            name: "users",
-            component: () => import("@/views/users/Index.vue"),
-        },
-        {
-            path: "/tests",
-            name: "tests",
-            component: () => import("@/views/tests/TestForm.vue"),
-        },
-        {
-            path: "/patients",
-            name: "patients",
-            component: () => import("@/views/patients/PatientForm.vue"),
-        },
-        {
-            path: "/reports",
-            name: "reports",
-            component: () => import("@/views/patients/Reports.vue"),
         },
     ],
 });

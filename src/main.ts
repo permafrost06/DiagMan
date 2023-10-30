@@ -5,7 +5,9 @@ import { sync } from "./helpers/offline";
 import App from "./App.vue";
 import router from "./router";
 
+import "./assets/theme.css";
 import "./assets/main.css";
+import "./assets/utility.css";
 
 const app = createApp(App);
 

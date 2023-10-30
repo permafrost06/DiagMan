@@ -22,6 +22,7 @@
 		"wrangler": "^3.0.0"
 	},
 	"dependencies": {
+		"@faker-js/faker": "^8.1.0",
 		"@libsql/client": "^0.3.1",
 		"bcryptjs": "^2.4.3",
 		"itty-router": "^4.0.22",

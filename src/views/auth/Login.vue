@@ -1,8 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { API_BASE, AUTH_TOKEN_KEY } from "@/helpers/config";
+import { API_BASE, AUTH_TOKEN_KEY, TMP_USER_KEY } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { ref } from "vue";
+import Input from "@/components/form/Input.vue";
 
 const isPosting = ref<boolean>(false);
 const error = ref<string | null>(null);
@@ -22,31 +23,36 @@ const handleForm = async (evt: any) => {
         error.value = res.message;
     } else {
         localStorage.setItem(AUTH_TOKEN_KEY, res.data.token);
+        localStorage.setItem(TMP_USER_KEY, res.rows[0]);
         location.replace("/");
     }
 };
 </script>
 <template>
-    <form :action="API_BASE + `/auth/login`" @submit="handleForm">
-        <h3>Login</h3>
-        <p v-if="error" class="alert error">{{ error }}</p>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" />
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" />
-        </div>
-        <button type="submit" :disabled="isPosting">
-            {{ isPosting ? "Please wait..." : "Login" }}
-        </button>
-    </form>
+    <div class="auth-root">
+        <form
+            :action="API_BASE + `/auth/login`"
+            @submit="handleForm"
+            class="space-y-sm"
+        >
+            <h1 class="fs-3xl">DiagMan</h1>
+            <p class="sub-title font-h login-sub">Sign in to your account</p>
+            <p v-if="error" class="alert error">{{ error }}</p>
+            <div class="space-y-sm">
+                <Input
+                    placeholder="Email"
+                    ic-box="20"
+                    type="email"
+                    name="email"
+                />
+                <Input placeholder="Password" type="password" name="password" />
+            </div>
+            <div class="mt-md font-h">
+                <button type="submit" :disabled="isPosting">
+                    {{ isPosting ? "Please wait..." : "Log In" }}
+                </button>
+            </div>
+            <a href="#" class="link-area forgot-link"></a>
+        </form>
+    </div>
 </template>
-<style>
-form {
-    padding: 10px;
-    max-width: 500px;
-    margin: auto;
-}
-</style>

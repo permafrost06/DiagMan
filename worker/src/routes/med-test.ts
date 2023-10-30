@@ -1,4 +1,4 @@
-import { getLibsqlClient } from '../db/conn';
+import { getLibsqlClient, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
 import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { testSchema } from '../forms/test';
@@ -6,6 +6,8 @@ import { JSONError } from '../utils/Response';
 
 export const addTest: RequestHandler = async ({ request, env, res }) => {
 	const data = await validateFormData(request, testSchema);
+
+	data.price = data.price * 100;
 
 	const db = getLibsqlClient(env);
 	if (data.id) {
@@ -21,10 +23,7 @@ export const addTest: RequestHandler = async ({ request, env, res }) => {
 	if (!data.size) {
 		data.size = null;
 	}
-	const qres = await db.execute({
-		sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
-		args: data,
-	});
+	const qres = await insertRow(db, 'tests', data);
 
 	res.setRows([
 		{
@@ -32,21 +31,61 @@ export const addTest: RequestHandler = async ({ request, env, res }) => {
 			...data,
 		},
 	]);
+
+	res.setMsg('Test added successfully!');
 };
 
 export const listTests: RequestHandler = async ({ env, res, query }) => {
 	const db = getLibsqlClient(env);
 	const allStatus = ['active', 'updated', 'deleted'] as any[];
+	const allTypes = ['cyto', 'histo'] as any[];
+	const allSizes = ['small', 'medium', 'large'] as any[];
 
 	const status = allStatus[allStatus.indexOf(query['status'])];
+	const type = allTypes[allTypes.indexOf(query['type'])];
+	const size = allSizes[allSizes.indexOf(query['size'])];
+	const price = parseInt(query['price'] as any) * 100;
+	const search = query['search']?.toString().trim();
+	const notIn = query['not-in']?.toString();
+	const limit = parseInt(query['limit']?.toString() || '0');
 
-	let where = '';
+	let where = "WHERE status='active'";
+	const args: Array<string | number> = [];
 
 	if (status) {
-		where += `WHERE status='${status}'`;
+		where += ` AND status='${status}'`;
 	}
 
-	const qres = await db.execute('SELECT * FROM `tests` ' + where);
+	if (type) {
+		where += ` AND type='${type}'`;
+	}
+
+	if (size) {
+		where += ` AND size='${size}'`;
+	}
+
+	if (price > 0) {
+		where += ` AND price='${price}'`;
+	}
+
+	if (notIn) {
+		where += ` AND NOT EXISTS (
+			SELECT * 
+			FROM json_each(?) 
+			WHERE json_each.value = tests.id
+		) `;
+		args.push(notIn);
+	}
+
+	if (search) {
+		where += ' AND name LIKE CONCAT("%", ?, "%")';
+		args.push(search);
+	}
+
+	const qres = await db.execute({
+		sql: 'SELECT * FROM `tests` ' + where + (limit > 0 ? ` LIMIT ${limit}` : ''),
+		args,
+	});
 	res.setRows(qres.rows);
 };
 
@@ -76,6 +115,7 @@ export const syncTests: RequestHandler = async ({ env, res, request }) => {
 		for (let i = 0; i < insert.length; i++) {
 			limitOperations(queries);
 			delete insert[i].id;
+			insert[i].price *= 100;
 			queries.push({
 				sql: 'INSERT INTO `tests` (name, price, size, status) VALUES (:name, :price, :size, :status)',
 				args: await validateObject(insert[i], testSchema),
@@ -88,6 +128,7 @@ export const syncTests: RequestHandler = async ({ env, res, request }) => {
 		for (const id in update) {
 			limitOperations(queries);
 			delete update[id].id;
+			update[id].price *= 100;
 			queries.push({
 				sql: "UPDATE `tests` SET status = 'updated' WHERE id = ?",
 				args: [id],

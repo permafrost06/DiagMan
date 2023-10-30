@@ -2,11 +2,13 @@ import { IRequest, RouteHandler, RouterType, withParams } from 'itty-router';
 import { Env } from './worker';
 import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
-import { getUser, logOut, login, register } from './routes/auth';
-import { assignToken, assignUser, ensureAdmin } from './middlewares/auth';
-import { addPatient, listPatients, syncPatients } from './routes/patients';
-import { finalizeReport } from './routes/reports';
+import { getUser, logOut, login, register, verifyPin } from './routes/auth';
+import { assignToken, assignUser, ensureAdmin, ensureUser } from './middlewares/auth';
+import { addOrUpdatePatient, deletePatient, getPatient, listPatients, syncPatients } from './routes/patients';
+import { deliverReport, finalizeReport, getReport, toggleReportLock } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
+import { changeName, changePassword, changePin } from './routes/settings/account';
+import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
 
 export interface RequestEvent {
 	request: Request;
@@ -20,6 +22,8 @@ export interface RequestEvent {
 		name: string;
 		email: string;
 		role: 'admin' | 'cashier';
+		pin: string;
+		password: string;
 	};
 }
 export type RequestHandler = RouteHandler<IRequest & RequestEvent>;
@@ -30,6 +34,7 @@ export const buildRouter = (router: RouterType) => {
 	router.get('/auth', assignUser, getUser);
 	router.post('/auth/register', register);
 	router.post('/auth/login', login);
+	router.post('/auth/verify', assignUser, verifyPin);
 	router.post('/auth/logout', logOut);
 
 	router.get('/users', ensureAdmin, getUsers);
@@ -39,13 +44,27 @@ export const buildRouter = (router: RouterType) => {
 
 	router.post('/tests', addTest);
 	router.get('/tests', listTests);
-	router.post('/tests/sync', syncTests);
-	router.delete('/tests/:id', withParams, deleteTest);
+	router.post('/tests/sync', ensureUser, syncTests);
+	router.delete('/tests/:id', withParams, ensureUser, deleteTest);
 
 	router.post('/patients/sync', syncPatients);
-	router.post('/patients', addPatient);
+	router.post('/patients/:id?', ensureUser, addOrUpdatePatient);
+	router.delete('/patients/:id', ensureUser, deletePatient);
+	router.get('/patients/:id', getPatient);
 	router.get('/patients', listPatients);
 
-	router.post('/reports', finalizeReport);
+	router.post('/reports/deliver/:id', ensureUser, deliverReport);
+	router.post('/reports/lock/:id', ensureAdmin, toggleReportLock);
+	router.get('/reports/:id', getReport);
+	router.post('/reports', ensureUser, finalizeReport);
+
+	router.get('/settings/report-templates/organs', listOrgans);
+	router.get('/settings/report-templates', listReportTemplates);
+	router.post('/settings/report-templates', ensureUser, addReportTemplate);
+	router.post('/settings/report-templates/:id', ensureUser, deleteReportTemplate);
+
+	router.post('/settings/account/name', ensureUser, changeName);
+	router.post('/settings/account/pin', ensureUser, changePin);
+	router.post('/settings/account/password', ensureUser, changePassword);
 };
 export default buildRouter;

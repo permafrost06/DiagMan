@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import type { ApiResponse } from "./http";
+import { ref, type Ref } from "vue";
 
 export const formDataToObj = (
     formData: FormData,
@@ -81,4 +82,50 @@ export const validateObject = <T extends z.ZodRawShape>(
         };
     }
     return res;
+};
+
+export type SortType = "desc" | "asc";
+export interface Sorting<T extends string = string> {
+    by: T;
+    order: SortType;
+}
+
+export function useSorter<T extends string = string>(
+    initial: T,
+    order: SortType = "desc"
+): [Ref<Sorting<T>>, (by: T) => Sorting<T>] {
+    let sort_by = initial;
+    let sort_type = order;
+    const sorted = ref<Sorting<T>>({
+        by: sort_by,
+        order: sort_type,
+    }) as Ref<Sorting<T>>;
+    return [
+        sorted,
+        (by: T): Sorting<T> => {
+            if (sort_by == by) {
+                sort_type = sort_type === "desc" ? "asc" : "desc";
+            } else {
+                sort_by = by;
+                sort_type = order;
+            }
+            sorted.value.by = by;
+            sorted.value.order = sort_type;
+            return sorted.value;
+        },
+    ];
+}
+
+export const dateToDMY = (date: Date): string =>
+    `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${date.getFullYear()}`;
+
+export const dmyToDate = (dmy: string): Date => {
+    const items = dmy.split("-");
+    return new Date(
+        parseInt(items[2]),
+        parseInt(items[1]) - 1,
+        parseInt(items[0])
+    );
 };

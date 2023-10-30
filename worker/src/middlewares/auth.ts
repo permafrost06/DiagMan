@@ -15,12 +15,19 @@ export const assignUser: RequestHandler = async (event) => {
 	}
 	const db = getLibsqlClient(event.env);
 	const { rows } = await db.execute({
-		sql: 'SELECT * FROM `sessions` AS s INNER JOIN `users` AS u ON u.id = s.user_id WHERE s.token = ? LIMIT 1',
+		sql: 'SELECT u.* FROM `sessions` AS s INNER JOIN `users` AS u ON u.id = s.user_id WHERE s.token = ? LIMIT 1',
 		args: [event.token],
 	});
 
 	if (rows.length > 0) {
 		event.user = rows[0] as any;
+	}
+};
+
+export const ensureUser: RequestHandler = async (event) => {
+	await assignUser(event);
+	if (!event.user) {
+		event.res.error('You are not authorized to perform this operation!', 401);
 	}
 };
 
