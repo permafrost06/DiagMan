@@ -7,8 +7,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "diagman",
-    "version": "0.0.4"
+    "productName": "Diagman",
+    "version": "0.0.5"
   },
   "tauri": {
     "allowlist": {
@@ -37,7 +37,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "Diagman 0.0.4",
+        "title": "Diagman 0.0.5",
         "width": 800,
         "height": 600,
         "maximized": true
