@@ -154,7 +154,7 @@ function createDatePickers() {
             {{ message }}
         </div>
         <form
-            :action="`${API_BASE}/patients/${toEdit?.id}`"
+            :action="`${API_BASE}/patients/${toEdit?.id ?? ''}`"
             method="POST"
             @submit.prevent="handleFormSubmit"
             class="add-patient"
