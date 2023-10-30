@@ -131,6 +131,13 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		args.push(status);
 	}
 
+	if (search.get('delivered') != '1') {
+		if (where) {
+			where += ' AND ';
+		}
+		where += 'status != "delivered"';
+	}
+
 	const all = search.get('all');
 	if (all?.trim()) {
 		if (where) {

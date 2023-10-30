@@ -17,6 +17,7 @@ import type { Sorting } from "@/helpers/utils";
 import { useUser } from "@/stores/user";
 import { onMounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
+import CheckBox from "@/components/form/CheckBox.vue";
 
 const user = useUser();
 const isLoading = ref<boolean>(false);
@@ -24,6 +25,7 @@ const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
+const hideDelivered = ref<boolean>(true);
 const page = ref({
     maxPage: 1,
     page: 1,
@@ -82,6 +84,7 @@ const hightlightText = (data: string, col: string): string => {
 
 onMounted(queryResults);
 watch(page.value, queryResults);
+watch(hideDelivered, queryResults);
 
 async function queryResults() {
     if (!navigator.onLine) {
@@ -94,11 +97,17 @@ async function queryResults() {
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
+
+    if (!hideDelivered.value) {
+        qs.append("delivered", "1");
+    }
+
     const res = await fetchApi(`${API_BASE}/patients?${qs.toString()}`);
     isLoading.value = false;
 
     if (!res.success) {
         error.value = res.message;
+        patients.value = [];
     } else {
         patients.value = res.rows || [];
         if (getRowCount(TABLES.patients) === 0) {
@@ -371,7 +380,14 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                 </template>
             </table>
         </div>
-        <Pagination :pages="page.maxPage" v-model="page.page" class="mt-sm" />
+        <div class="flex items-center justify-between">
+            <CheckBox label="Hide delivered reports" v-model="hideDelivered" />
+            <Pagination
+                :pages="page.maxPage"
+                v-model="page.page"
+                class="mt-sm"
+            />
+        </div>
     </div>
     <ConfirmModal title="Are you sure?" icon="delete" v-if="deleteValue">
         <p v-if="error" class="form-alert error">{{ error }}</p>
