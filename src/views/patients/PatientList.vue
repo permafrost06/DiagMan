@@ -174,6 +174,9 @@ const deliverReport = async (patient: any) => {
         return;
     }
     patient.status = "delivered";
+    if (hideDelivered.value) {
+        patients.value = patients.value.filter((p) => p.id != patient.id);
+    }
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
