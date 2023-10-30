@@ -310,7 +310,11 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                         </td>
                         <td
                             class="flex capitalize items-center"
-                            v-html="hightlightText(patient.status, 'status')"
+                            v-html="
+                                patient.locked
+                                    ? 'Locked'
+                                    : hightlightText(patient.status, 'status')
+                            "
                         ></td>
                         <td>
                             <div class="flex gap-sm row-actions">
