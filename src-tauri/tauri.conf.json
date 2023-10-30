@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Diagman",
-    "version": "0.0.5"
+    "version": "0.0.6"
   },
   "tauri": {
     "allowlist": {
@@ -20,7 +20,7 @@
     },
     "bundle": {
       "active": true,
-      "targets": ["msi"],
+      "targets": ["msi", "updater"],
       "identifier": "com.diagman",
       "icon": [
         "icons/32x32.png",
@@ -37,7 +37,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "Diagman 0.0.5",
+        "title": "Diagman 0.0.6",
         "width": 800,
         "height": 600,
         "maximized": true
@@ -49,7 +49,7 @@
         "https://raw.githubusercontent.com/protibimbok/diagman/dev-production-ui/updater/latest.json"
       ],
       "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY3MjIyRUY4QjlDMUM3RDMKUldUVHg4RzUrQzRpOTNmdXlaRTU5cXhUVzIrdlB6VS9OVnhydHFLWWdsMnphVTB5aHBieEtyMEwK"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEFFODUxRkI3MjkxRDcxN0EKUldSNmNSMHB0eCtGcml2Z01lVnR4NlVYbEhMV2ZXckdhbWRSWlFTYWcvVDVqVXUxNEN2WmxPRkgK"
     }
   }
 }
