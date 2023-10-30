@@ -7,6 +7,7 @@ interface User {
     name: string;
     email: string;
     pin: number;
+    role: "admin" | "";
 }
 
 export const useUser = defineStore("user", {
@@ -15,6 +16,7 @@ export const useUser = defineStore("user", {
         name: "",
         email: "",
         pin: 0,
+        role: "",
     }),
 
     getters: {
@@ -23,6 +25,9 @@ export const useUser = defineStore("user", {
         },
         verified(state) {
             return state.pin != 0;
+        },
+        isAdmin(state) {
+            return state.role === "admin";
         },
     },
 
@@ -37,10 +42,12 @@ export const useUser = defineStore("user", {
                 this.id = user.id;
                 this.name = user.name;
                 this.email = user.email;
+                this.role = user.role;
                 this.pin = 0;
             } catch (error) {
                 this.id = 0;
                 this.name = "";
+                this.role = "";
                 this.pin = 0;
             }
         },
@@ -50,6 +57,7 @@ export const useUser = defineStore("user", {
             this.name = user.name;
             this.email = user.email;
             this.pin = user.pin;
+            this.role = user.role;
         },
     },
 });
