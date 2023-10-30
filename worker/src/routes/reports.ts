@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { getLibsqlClient, getUpdateQuery, insertRow } from '../db/conn';
 import { reportSchema } from '../forms/patients';
 import { RequestHandler } from '../router';
-import { JSONError } from '../utils/Response';
 import { validateFormData, validateObject } from '../utils/helpers';
 
 export const finalizeReport: RequestHandler = async ({ request, env, res, user }) => {
@@ -13,7 +12,7 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 		args: [data.id],
 	});
 	if (rows.length === 0) {
-		throw new JSONError('Invalid patient!');
+		res.error('Invalid patient!', 404);
 	}
 
 	const patient = rows[0];
@@ -72,4 +71,33 @@ export const getReport: RequestHandler = async ({ env, params, res }) => {
 		res.error('The patient does not exist!', 404);
 	}
 	res.setRows(rows);
+};
+
+export const toggleReportLock: RequestHandler = async ({ env, params, res }) => {
+	const db = getLibsqlClient(env);
+	const { rows } = await db.execute({
+		sql: `SELECT p.*, r.locked, r.id AS rid FROM \`patients\` AS p LEFT JOIN \`reports\` AS r ON r.id = p.id WHERE p.id=? LIMIT 1`,
+		args: [params.id],
+	});
+	if (rows.length === 0) {
+		res.error('Invalid patient!', 404);
+	}
+
+	const patient = rows[0];
+
+	const data = {
+		locked: patient.locked ? 0 : 1,
+	};
+
+	if (patient.rid) {
+		const { sql, args } = getUpdateQuery('reports', data);
+		args.push(patient.id as any);
+		await db.execute({
+			sql: sql + ` WHERE id = ?`,
+			args,
+		});
+	} else {
+		await insertRow(db, 'reports', data);
+	}
+	res.setMsg(`Report ${data.locked ? 'locked' : 'unlocked'} successfully!`);
 };

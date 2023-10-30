@@ -132,6 +132,26 @@ async function deletePatient() {
     }
 }
 
+const lockReqs = ref<Set<number>>(new Set());
+const toggleLock = async (patient: any) => {
+    if (lockReqs.value.has(patient.id)) {
+        return;
+    }
+    lockReqs.value.add(patient.id);
+    const body = new FormData();
+
+    const res = await fetchApi(API_BASE + "/reports/lock/" + patient.id, {
+        method: "POST",
+        body,
+    });
+    lockReqs.value.delete(patient.id);
+    if (!res.success) {
+        console.error(res.message || "Toggling report lock failed!");
+        return;
+    }
+    patient.locked = !patient.locked;
+};
+
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
     day: "2-digit",
     month: "2-digit",
@@ -276,19 +296,31 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                                     }"
                                     class="btn report-btn"
                                 >
-                                    <!-- <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fill="currentColor"
-                                            d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"
-                                        />
-                                    </svg> -->
                                     Report
                                 </RouterLink>
+                                <RouterLink
+                                    :to="{
+                                        name: 'patients.invoice',
+                                        params: {
+                                            id: patient.id,
+                                        },
+                                    }"
+                                    class="btn"
+                                >
+                                    Invoice
+                                </RouterLink>
+                                <button
+                                    v-if="user.isAdmin && patient.is_reported"
+                                    type="button"
+                                    class="btn-outline"
+                                    @click="() => toggleLock(patient)"
+                                >
+                                    <loading
+                                        size="15"
+                                        v-if="lockReqs.has(patient.id as any)"
+                                    />
+                                    {{ patient.locked ? "Unlock" : "Lock" }}
+                                </button>
                                 <RouterLink
                                     :to="{
                                         name: 'patients.edit',
