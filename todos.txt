@@ -1,0 +1,88 @@
+## complete
+
+add sync support
+change field names in view and print
+remove edit button, add delete record button
+make sure export is working
+add missing columns to records view
+add discount in payment
+fix test prop warning - string number something something
+remove search from staged
+manual id system
+reimplement rates (changes according to specimen)
+add monthly summary page
+delivery dates
+cyto - 3 days
+histo - 6 days
+add logging
+add debug/test mode
+add random data generation
+back up data periodically
+add sync now button
+prevent null submission on addNew
+sms support
+replace password with hash
+
+## todo
+
+fix css fgs / I should really work on the design - it's all over the place
+add all columns to final records view
+
+add option: see log
+add option: mail log to dev
+make error dialog
+
+add files sync support
+email support
+
+add changable settings:
+change password
+change sync interval
+
+add login to firebase
+
++---!!! priority !!!
+|
+| remove firebase user/pass from github
+| add user/pass to env variables?
+| change firebase user/pass
+|
++---!!! priority !!!
+
+Tip: disable text selection
+.titlebar {
+-webkit-user-select: none;
+-webkit-app-region: drag;
+}
+
+fix functions getStaged and getRecords
+fix/remove pagination
+
+add support for organ removal
+
+remove spinners on input[type="number"] fields
+
+id generation format: C-0001-2022
+add id to sms
+edit patient and report
+
+sync on exit
+
+order records by date
+
+v3:
+vuex
+vuefire
+tailwind
+composition api setup script
+typescript
+offline database firestore caching only
+export import database
+
+problems:
+edit reports
+add text formatting support to inputs
+add top padding to prints for watermark
+font size too small on print
+
+**something's wrong with the templating system - probe

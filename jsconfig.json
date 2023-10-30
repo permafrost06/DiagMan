@@ -1,7 +1,0 @@
-{
-    "compilerOptions": {
-        "baseUrl": "."
-    },
-    "include": ["./src/**/*", "src/debug/records.jsrds.js"],
-    "exclude": ["node_modules", "dist_electron"]
-}

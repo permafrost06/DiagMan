@@ -1,0 +1,55 @@
+{
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist",
+    "withGlobalTauri": false
+  },
+  "package": {
+    "productName": "Diagman",
+    "version": "0.0.6"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": ["msi", "updater"],
+      "identifier": "com.diagman",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ]
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Diagman",
+        "width": 800,
+        "height": 600,
+        "maximized": true
+      }
+    ],
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://raw.githubusercontent.com/permafrost06/DiagMan/master/updater/latest.json"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDY1ODlEMkU2MDI3QUU4MTcKUldRWDZIb0M1dEtKWlVtRGkzRVMwUnlaaGpuRjRTbG11b3owcHRZekc5dnFLKy9pT1ovZEZzTXcK"
+    }
+  }
+}

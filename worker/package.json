@@ -1,0 +1,31 @@
+{
+	"name": "diagman-api",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"start": "wrangler dev",
+		"db:generate": "drizzle-kit generate:sqlite",
+		"db:push": "node ./database/migrate.js",
+		"db:migrate": "drizzle-kit generate:sqlite && node ./database/migrate.js",
+		"cli": "node ./cli/main.js"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20230419.0",
+		"@inquirer/prompts": "^3.1.1",
+		"@types/bcryptjs": "^2.4.3",
+		"cli-spinner": "^0.2.10",
+		"dotenv": "^16.3.1",
+		"drizzle-kit": "^0.19.13",
+		"drizzle-orm": "^0.28.5",
+		"typescript": "^5.0.4",
+		"wrangler": "^3.0.0"
+	},
+	"dependencies": {
+		"@faker-js/faker": "^8.1.0",
+		"@libsql/client": "^0.3.1",
+		"bcryptjs": "^2.4.3",
+		"itty-router": "^4.0.22",
+		"zod": "^3.22.2"
+	}
+}
