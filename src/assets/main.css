@@ -220,7 +220,8 @@ button, .btn {
 }
 
 .home-url {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  color: var(--clr-black);
 }

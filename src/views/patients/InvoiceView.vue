@@ -3,6 +3,7 @@ import Loading from "@/Icons/Loading.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { dateToDMY } from "@/helpers/utils";
+import router from "@/router";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
@@ -25,17 +26,13 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
     <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
-            <RouterLink
-                :to="{
-                    name: 'patients.edit',
-                    params: {
-                        id: route.params.id,
-                    },
-                }"
+            <button
                 class="btn btn-outline"
+                type="button"
+                @click="() => router.back()"
             >
                 Go back
-            </RouterLink>
+            </button>
         </div>
         <div class="report">
             <div class="page">
@@ -264,11 +261,14 @@ h1 {
 }
 
 @media print {
+    * {
+        font-family: "Open Sans", sans-serif;
+    }
     div.page {
         margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
     }
 
-    button {
+    .buttons {
         display: none;
     }
 

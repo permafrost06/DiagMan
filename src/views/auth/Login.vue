@@ -52,7 +52,7 @@ const handleForm = async (evt: any) => {
                     {{ isPosting ? "Please wait..." : "Log In" }}
                 </button>
             </div>
-            <a href="#" class="link-area forgot-link">Forgot credentials?</a>
+            <a href="#" class="link-area forgot-link"></a>
         </form>
     </div>
 </template>

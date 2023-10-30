@@ -17,6 +17,7 @@ import type { Sorting } from "@/helpers/utils";
 import { useUser } from "@/stores/user";
 import { onMounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
+import CheckBox from "@/components/form/CheckBox.vue";
 
 const user = useUser();
 const isLoading = ref<boolean>(false);
@@ -24,6 +25,7 @@ const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
+const hideDelivered = ref<boolean>(true);
 const page = ref({
     maxPage: 1,
     page: 1,
@@ -82,6 +84,7 @@ const hightlightText = (data: string, col: string): string => {
 
 onMounted(queryResults);
 watch(page.value, queryResults);
+watch(hideDelivered, queryResults);
 
 async function queryResults() {
     if (!navigator.onLine) {
@@ -94,11 +97,17 @@ async function queryResults() {
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
+
+    if (!hideDelivered.value) {
+        qs.append("delivered", "1");
+    }
+
     const res = await fetchApi(`${API_BASE}/patients?${qs.toString()}`);
     isLoading.value = false;
 
     if (!res.success) {
         error.value = res.message;
+        patients.value = [];
     } else {
         patients.value = res.rows || [];
         if (getRowCount(TABLES.patients) === 0) {
@@ -132,6 +141,41 @@ async function deletePatient() {
     }
 }
 
+const lockReqs = ref<Set<number>>(new Set());
+const toggleLock = async (patient: any) => {
+    if (lockReqs.value.has(patient.id)) {
+        return;
+    }
+    lockReqs.value.add(patient.id);
+
+    const res = await fetchApi(API_BASE + "/reports/lock/" + patient.id, {
+        method: "POST",
+    });
+    lockReqs.value.delete(patient.id);
+    if (!res.success) {
+        console.error(res.message || "Toggling report lock failed!");
+        return;
+    }
+    patient.locked = !patient.locked;
+};
+
+const deliverReqs = ref<Set<number>>(new Set());
+const deliverReport = async (patient: any) => {
+    if (deliverReqs.value.has(patient.id)) {
+        return;
+    }
+    deliverReqs.value.add(patient.id);
+    const res = await fetchApi(API_BASE + "/reports/deliver/" + patient.id, {
+        method: "POST",
+    });
+    deliverReqs.value.delete(patient.id);
+    if (!res.success) {
+        console.error(res.message || "Delivering report failed!");
+        return;
+    }
+    patient.status = "delivered";
+};
+
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
     day: "2-digit",
     month: "2-digit",
@@ -146,7 +190,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
             </div>
             <div class="flex items-center">
                 <p class="h-user-name font-h">{{ user.name }}</p>
-                <button class="h-icon-btn">
+                <!-- <button class="h-icon-btn">
                     <Icon size="24" viewBox="24">
                         <path
                             fill="currentColor"
@@ -161,7 +205,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                             d="M10 21h4c0 1.1-.9 2-2 2s-2-.9-2-2m11-2v1H3v-1l2-2v-6c0-3.1 2-5.8 5-6.7V4c0-1.1.9-2 2-2s2 .9 2 2v.3c3 .9 5 3.6 5 6.7v6l2 2m-4-8c0-2.8-2.2-5-5-5s-5 2.2-5 5v7h10v-7Z"
                         />
                     </Icon>
-                </button>
+                </button> -->
                 <RouterLink
                     :to="{ name: 'settings' }"
                     class="h-icon-btn flex items-center"
@@ -276,19 +320,43 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                                     }"
                                     class="btn report-btn"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fill="currentColor"
-                                            d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"
-                                        />
-                                    </svg>
                                     Report
                                 </RouterLink>
+                                <RouterLink
+                                    :to="{
+                                        name: 'patients.invoice',
+                                        params: {
+                                            id: patient.id,
+                                        },
+                                    }"
+                                    class="btn"
+                                >
+                                    Invoice
+                                </RouterLink>
+                                <button
+                                    v-if="user.isAdmin && patient.is_reported"
+                                    type="button"
+                                    class="btn-outline"
+                                    @click="() => toggleLock(patient)"
+                                >
+                                    <Loading
+                                        size="15"
+                                        v-if="lockReqs.has(patient.id as any)"
+                                    />
+                                    {{ patient.locked ? "Unlock" : "Lock" }}
+                                </button>
+                                <button
+                                    v-if="patient.status === 'complete'"
+                                    type="button"
+                                    class="btn-outline"
+                                    @click="() => deliverReport(patient)"
+                                >
+                                    <Loading
+                                        size="15"
+                                        v-if="deliverReqs.has(patient.id as any)"
+                                    />
+                                    Mark as delivered
+                                </button>
                                 <RouterLink
                                     :to="{
                                         name: 'patients.edit',
@@ -312,7 +380,14 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                 </template>
             </table>
         </div>
-        <Pagination :pages="page.maxPage" v-model="page.page" class="mt-sm" />
+        <div class="flex items-center justify-between">
+            <CheckBox label="Hide delivered reports" v-model="hideDelivered" />
+            <Pagination
+                :pages="page.maxPage"
+                v-model="page.page"
+                class="mt-sm"
+            />
+        </div>
     </div>
     <ConfirmModal title="Are you sure?" icon="delete" v-if="deleteValue">
         <p v-if="error" class="form-alert error">{{ error }}</p>
@@ -415,9 +490,9 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
         font-weight: 600;
         gap: 5px;
     }
-    .report-btn {
-        padding-left: 10px;
-    }
+    // .report-btn {
+    //     padding-left: 10px;
+    // }
 }
 
 .skeleton.btn {

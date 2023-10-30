@@ -2,6 +2,7 @@
 import { API_BASE } from "@/helpers/config";
 import Loading from "@/Icons/Loading.vue";
 import Input from "../../components/form/Input.vue";
+import ICSelect from "../../components/form/ICSelect.vue";
 import InputAutocomplete from "@/components/form/InputAutocomplete.vue";
 import { onMounted, ref } from "vue";
 import { fetchApi } from "@/helpers/http";
@@ -36,6 +37,8 @@ const error = ref<string | null>(null);
 const message = ref<string | null>(null);
 const fieldErrs = ref<Record<string, string | undefined>>({});
 const organVal = ref<string>(props.edit?.organ || "");
+const nameVal = ref<string>(props.edit?.name || "");
+const typeVal = ref<string>(props.edit?.type || "");
 
 const aspField = ref<HTMLDivElement>();
 const meField = ref<HTMLDivElement>();
@@ -140,15 +143,9 @@ async function handleFormSubmit(evt: any) {
         props.onAdded && props.onAdded(res.rows[0]);
     } else {
         error.value = res.message;
-        fieldErrs.value = {
-            asp: res.field?.aspiration_note?.[0],
-            ge: res.field?.gross_examination?.[0],
-            me: res.field?.microscopic_examination?.[0],
-            impression: res.field?.impression?.[0],
-            note: res.field?.note?.[0],
-            name: res.field?.name?.[0],
-            organ: res.field?.organ?.[0],
-        };
+        for (const f in res.field || {}) {
+            fieldErrs.value[f] = res.field?.[f][0];
+        }
     }
 
     isPosting.value = false;
@@ -163,21 +160,38 @@ const getSearchUrl = (val: string) =>
 <template>
     <div class="modal-backdrop report-template-form-modal">
         <div class="modal-body">
-            <h2 class="fs-2xl">{{ edit ? "Edit" : "Add New" }} Template</h2>
+            <h2 class="modal-title fs-2xl">
+                {{ edit?.id ? "Edit" : "Add New" }} Template
+            </h2>
             <form
                 method="POST"
                 :action="API_BASE + '/settings/report-templates'"
                 @submit.prevent="handleFormSubmit"
             >
-                <input type="hidden" name="id" :value="edit.id" v-if="edit" />
+                <input
+                    type="hidden"
+                    name="id"
+                    :value="edit.id"
+                    v-if="edit?.id"
+                />
                 <p v-if="error" class="form-alert error">{{ error }}</p>
                 <p v-if="message" class="form-alert success">{{ message }}</p>
                 <div class="input-area">
+                    <ICSelect
+                        label="Type"
+                        name="type"
+                        v-model="typeVal"
+                        :hint="fieldErrs.type"
+                    >
+                        <option value="">Select Type</option>
+                        <option value="cyto">Cytopathology</option>
+                        <option value="histo">Histopathology</option>
+                    </ICSelect>
                     <Input
                         name="name"
                         label="Name"
                         :hint="fieldErrs.name"
-                        :value="edit?.name"
+                        v-model="nameVal"
                     />
                     <InputAutocomplete
                         name="organ"
@@ -198,14 +212,20 @@ const getSearchUrl = (val: string) =>
                             {{ item.organ }}
                         </button>
                     </InputAutocomplete>
-                    <div class="editor-unit">
+                    <div
+                        class="editor-unit"
+                        :class="{ hidden: typeVal !== 'cyto' }"
+                    >
                         <label>Aspiration Note</label>
                         <div ref="aspField"></div>
                         <p v-if="fieldErrs.asp" class="hint error">
                             {{ fieldErrs.asp }}
                         </p>
                     </div>
-                    <div class="editor-unit">
+                    <div
+                        class="editor-unit"
+                        :class="{ hidden: typeVal !== 'histo' }"
+                    >
                         <label>Gross Examination</label>
                         <div ref="geField"></div>
                         <p v-if="fieldErrs.ge" class="hint error">
@@ -238,7 +258,7 @@ const getSearchUrl = (val: string) =>
                 <div class="buttons flex items-center justify-center">
                     <button type="submit">
                         <Loading v-if="isPosting" size="15" />
-                        {{ edit ? "Update" : "Add" }}
+                        {{ edit?.id ? "Update" : "Add" }}
                     </button>
                     <button type="button" class="btn-outline" @click="onClose">
                         Cancel
@@ -268,7 +288,7 @@ const getSearchUrl = (val: string) =>
 }
 
 .report-template-form-modal {
-    h2 {
+    .modal-title {
         text-align: center;
         font-weight: bold;
     }

@@ -286,7 +286,7 @@ function createDatePickers() {
                                 />
                                 {{ toEdit ? "Update" : "Add" }} Patient
                             </button>
-                            <button
+                            <!-- <button
                                 type="submit"
                                 class="btn-outline"
                                 name="status"
@@ -294,7 +294,7 @@ function createDatePickers() {
                             >
                                 <Loading v-if="isPosting === 'draft'" />
                                 Save Draft
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                     <div v-else class="all-col headeless-button">

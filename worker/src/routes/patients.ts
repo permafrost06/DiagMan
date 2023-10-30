@@ -100,7 +100,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 
 	const id = search.get('id');
 	if (id && filterSchema.id.test(id)) {
-		where += 'id LIKE CONCAT("%", ?, "%")';
+		where += 'p.id LIKE CONCAT("%", ?, "%")';
 		args.push(id);
 	}
 
@@ -109,7 +109,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += 'name LIKE CONCAT("%", ?, "%")';
+		where += 'p.name LIKE CONCAT("%", ?, "%")';
 		args.push(name);
 	}
 
@@ -118,7 +118,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += 'type  LIKE CONCAT("%", ?, "%")';
+		where += 'p.type  LIKE CONCAT("%", ?, "%")';
 		args.push(type);
 	}
 
@@ -127,8 +127,15 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += 'status LIKE CONCAT("%", ?, "%")';
+		where += 'p.status LIKE CONCAT("%", ?, "%")';
 		args.push(status);
+	}
+
+	if (search.get('delivered') != '1') {
+		if (where) {
+			where += ' AND ';
+		}
+		where += 'status != "delivered"';
 	}
 
 	const all = search.get('all');
@@ -136,7 +143,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		if (where) {
 			where += ' AND ';
 		}
-		where += '(id LIKE CONCAT("%", ?, "%") OR name LIKE CONCAT("%", ?, "%") OR type LIKE CONCAT("%", ?, "%"))';
+		where += '(p.id LIKE CONCAT("%", ?, "%") OR name LIKE CONCAT("%", ?, "%") OR p.type LIKE CONCAT("%", ?, "%"))';
 		args.push(all);
 		args.push(all);
 		args.push(all);
@@ -145,11 +152,9 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 	const db = getLibsqlClient(env);
 	const qres = await db.execute({
 		sql: `
-			SELECT *, EXISTS(
-				SELECT 1 FROM \`reports\` WHERE id = p.id
-			) AS is_reported FROM \`patients\` AS p
+			SELECT p.*, r.id AS is_reported, r.locked FROM \`patients\` AS p LEFT JOIN \`reports\` AS r ON r.id = p.id
 			${where ? ' WHERE ' + where : ''}
-			ORDER BY ${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
+			ORDER BY p.${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
 		`,
 		args,
 	});

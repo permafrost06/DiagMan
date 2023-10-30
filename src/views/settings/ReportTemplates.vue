@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ReportTemplateFormModal from "./ReportTemplateFormModal.vue";
+import ReportTemplateFormModal from "@/components/view/ReportTemplateFormModal.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import Loading from "@/Icons/Loading.vue";
 import { API_BASE } from "@/helpers/config";
@@ -75,6 +75,7 @@ const onAdded = (tem: any) => {
         });
     }
     if (typeof formValue.value !== "object") {
+        formValue.value = false;
         reportTemplates.value.unshift(tem);
         return;
     }
@@ -122,10 +123,15 @@ async function deleteTemplate() {
 const convertToHtml = (data: string, el: HTMLDivElement) => {
     try {
         const delta = JSON.parse(data).ops;
+        if (delta.length <= 1 && delta[0]?.insert === "\n") {
+            throw new Error("Doesn't matter!");
+        }
         const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
         el.innerHTML = html;
+        el.parentElement?.classList.remove("hidden");
     } catch (error) {
         el.innerHTML = "";
+        el.parentElement?.classList.add("hidden");
     }
 };
 
@@ -225,11 +231,17 @@ function showDetails(data?: Record<string, any>) {
             </div>
             <div class="rt-details">
                 <h2>Details</h2>
-                <div class="editor-unit">
+                <div
+                    class="editor-unit"
+                    :class="{ hidden: active?.type !== 'cyto' }"
+                >
                     <label>Aspiration Note</label>
                     <div class="ql-container" ref="aspField"></div>
                 </div>
-                <div class="editor-unit">
+                <div
+                    class="editor-unit"
+                    :class="{ hidden: active?.type !== 'histo' }"
+                >
                     <label>Gross Examination</label>
                     <div class="ql-container" ref="geField"></div>
                 </div>
@@ -354,7 +366,7 @@ function showDetails(data?: Record<string, any>) {
         margin-top: 15px;
 
         .rt-details {
-            h2 {
+            > h2 {
                 font-size: var(--fs-base);
                 font-weight: bold;
                 border-bottom: 2px solid var(--clr-black);
@@ -368,13 +380,11 @@ function showDetails(data?: Record<string, any>) {
 
             label {
                 font-weight: 500;
+                border-bottom: 1px solid;
+                padding-bottom: 5px;
             }
 
             .ql-container {
-                height: 120px;
-                overflow-y: auto;
-
-                border: 1px solid var(--clr-grey);
                 padding: 10px;
             }
         }

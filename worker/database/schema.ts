@@ -43,7 +43,7 @@ export const patients = sqliteTable('patients', {
 		enum: ['histo', 'cyto'],
 	}),
 	status: text('status', {
-		enum: ['draft', 'pending', 'locked', 'complete'],
+		enum: ['draft', 'pending', 'locked', 'complete', 'delivered'],
 	}),
 	name: text('name'),
 	sample_collection_date: text('sample_collection_date'),
@@ -82,6 +82,9 @@ export const reportTemplates = sqliteTable('report_templates', {
 		autoIncrement: true,
 	}),
 	name: text('name'),
+	type: text('type', {
+		enum: ['histo', 'cyto'],
+	}),
 	organ: text('organ'),
 	aspiration_note: text('aspiration_note'),
 	gross_examination: text('gross_examination'),
