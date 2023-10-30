@@ -37,7 +37,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "Diagman 0.0.6",
+        "title": "Diagman",
         "width": 800,
         "height": 600,
         "maximized": true
@@ -46,10 +46,10 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://raw.githubusercontent.com/protibimbok/diagman/dev-production-ui/updater/latest.json"
+        "https://raw.githubusercontent.com/permafrost06/DiagMan/master/updater/latest.json"
       ],
       "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEFFODUxRkI3MjkxRDcxN0EKUldSNmNSMHB0eCtGcml2Z01lVnR4NlVYbEhMV2ZXckdhbWRSWlFTYWcvVDVqVXUxNEN2WmxPRkgK"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDY1ODlEMkU2MDI3QUU4MTcKUldRWDZIb0M1dEtKWlVtRGkzRVMwUnlaaGpuRjRTbG11b3owcHRZekc5dnFLKy9pT1ovZEZzTXcK"
     }
   }
 }
