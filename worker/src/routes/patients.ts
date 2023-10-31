@@ -180,6 +180,26 @@ export const getPatient: RequestHandler = async ({ env, res, params }) => {
 	res.setRows([{ ...rows[0], tests }]);
 };
 
+export const listReferers: RequestHandler = async ({ env, res, query }) => {
+	const db = getLibsqlClient(env);
+
+	const search = query['search']?.toString().trim();
+	const limit = parseInt(query['limit']?.toString() || '0');
+
+	let where = '';
+	const args: Array<any> = [];
+	if (search) {
+		where = 'WHERE referer LIKE CONCAT(?, "%")';
+		args.push(search);
+	}
+
+	const qres = await db.execute({
+		sql: 'SELECT DISTINCT referer FROM `patients` ' + where + (limit > 0 ? ` LIMIT ${limit}` : ''),
+		args,
+	});
+	res.setRows(qres.rows);
+};
+
 export const syncPatients: RequestHandler = async ({ env, res, request }) => {
 	const body = (await request.json()) as any;
 	const queries: any[] = [];

@@ -2,6 +2,7 @@
 import SimpleInput from "@/components/form/SimpleInput.vue";
 import SimpleSelect from "@/components/form/SimpleSelect.vue";
 import SimpleBlankInput from "@/components/form/SimpleBlankInput.vue";
+import SInputAutocomplete from "@/components/form/SInputAutocomplete.vue";
 import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
@@ -34,6 +35,8 @@ const discount = ref<number>(0);
 const advance = ref<number>(0);
 const invoice = ref<boolean>(false);
 
+const refererValue = ref<string>("");
+
 onMounted(async () => {
     createDatePickers();
     if (props.toEdit) {
@@ -44,6 +47,7 @@ onMounted(async () => {
         total.value = total2;
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;
+        refererValue.value = props.toEdit.referer;
     }
 });
 
@@ -131,6 +135,9 @@ function createDatePickers() {
     datepicker(sampleDateField.value, options);
     datepicker(deliveryDateField.value, options);
 }
+
+const getRefererSearchUrl = (val: string) =>
+    API_BASE + `/patients-referers?search=${encodeURIComponent(val)}&limit=5`;
 </script>
 <template>
     <div class="add-patient-page">
@@ -240,13 +247,26 @@ function createDatePickers() {
                         :hint="fieldErrors?.contact?.[0]"
                         :value="toEdit?.contact"
                     />
-                    <SimpleInput
+                    <SInputAutocomplete
                         name="referer"
                         label="Referer"
                         :un-wrap="true"
                         :hint="fieldErrors?.referer?.[0]"
-                        :value="toEdit?.referer"
-                    />
+                        :url="getRefererSearchUrl"
+                        v-model="refererValue"
+                        v-slot="{ results, accept }"
+                    >
+                        <button
+                            type="button"
+                            class="referer-res-item"
+                            @click="() => accept(item.referer)"
+                            v-for="item in results"
+                            :key="item.referer"
+                            :value="item.referer"
+                        >
+                            {{ item.referer }}
+                        </button>
+                    </SInputAutocomplete>
                     <SimpleBlankInput
                         label="Delivery date"
                         :un-wrap="true"
@@ -520,6 +540,16 @@ function createDatePickers() {
     }
     .headeless-button {
         padding-top: 20px;
+    }
+
+    .referer-res-item {
+        display: block;
+        text-align: left;
+        width: 100%;
+        background: var(--clr-white);
+        color: var(--clr-black);
+        border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
+        font-size: var(--fs-base);
     }
 }
 </style>
