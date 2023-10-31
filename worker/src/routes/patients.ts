@@ -100,35 +100,35 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 
 	const id = search.get('id');
 	if (id && filterSchema.id.test(id)) {
-		where += ' AND id LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.id LIKE CONCAT("%", ?, "%")';
 		args.push(id);
 	}
 
 	const name = search.get('name');
 	if (name && filterSchema.name.test(name)) {
-		where += ' AND name LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.name LIKE CONCAT("%", ?, "%")';
 		args.push(name);
 	}
 
 	const type = search.get('type');
 	if (type && filterSchema.type.test(type)) {
-		where += ' AND type  LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.type LIKE CONCAT("%", ?, "%")';
 		args.push(type);
 	}
 
 	const status = search.get('status');
 	if (status && filterSchema.status.test(status)) {
-		where += ' AND status LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.status LIKE CONCAT("%", ?, "%")';
 		args.push(status);
 	}
 
 	if (search.get('delivered') != '1') {
-		where += ' AND status != "delivered"';
+		where += ' AND p.status != "delivered"';
 	}
 
 	const all = search.get('all');
 	if (all?.trim()) {
-		where += ' AND (id LIKE CONCAT("%", ?, "%") OR name LIKE CONCAT("%", ?, "%") OR type LIKE CONCAT("%", ?, "%"))';
+		where += ' AND (p.id LIKE CONCAT("%", ?, "%") OR p.name LIKE CONCAT("%", ?, "%") OR p.type LIKE CONCAT("%", ?, "%"))';
 		args.push(all);
 		args.push(all);
 		args.push(all);
@@ -137,123 +137,18 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		where = 'WHERE ' + where.substring(5);
 	}
 
-	const sql = `
-		SELECT *, EXISTS(
-			SELECT id FROM \`reports\` WHERE id = p.id
-		) AS is_reported, (
-			SELECT locked FROM \`reports\` WHERE id = p.id
-		) AS locked FROM \`patients\` AS p
-		${where}
-		ORDER BY ${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
-	`;
-
-	const db = getLibsqlClient(env);
-
-	const qres = await db.execute({
-		sql,
-		args,
-	});
-
-	const { rows: info } = await db.execute({
-		sql: `SELECT COUNT(id) AS total FROM \`patients\` ${where}`,
-		args,
-	});
-	res.setRows(qres.rows);
-	res.pageParams(page, info[0].total || (0 as any), limit);
-};
-
-export const listPatientsMain: RequestHandler = async ({ env, res, url }) => {
-	const limit = 10;
-	const search = new URL(url).searchParams;
-	const filterSchema = {
-		id: /^([a-zA-Z0-9\s,_-]+)$/,
-		name: /^([a-zA-Z0-9\s_]+)$/,
-		type: /^([a-zA-Z0-9\s_]+)$/,
-		delivery_date: /^([0-9\s/-]+)$/,
-		status: /^([a-zA-Z0-9\s_]+)$/,
-	};
-
-	let page = parseInt(search.get('page') || '1');
-	if (page < 1) {
-		page = 1;
-	}
-	const offset = (page - 1) * limit;
-	let orderBy = search.get('order_by') || 'id';
-	// @ts-ignore
-	if (!filterSchema[orderBy]) {
-		orderBy = 'id';
-	}
-	let order = search.get('order') || 'desc';
-	if (order !== 'desc' && order !== 'asc') {
-		order = 'desc';
-	}
-
-	let where = '';
-	const args: any[] = [];
-
-	const id = search.get('id');
-	if (id && filterSchema.id.test(id)) {
-		where += 'p.id LIKE CONCAT("%", ?, "%")';
-		args.push(id);
-	}
-
-	const name = search.get('name');
-	if (name && filterSchema.name.test(name)) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'p.name LIKE CONCAT("%", ?, "%")';
-		args.push(name);
-	}
-
-	const type = search.get('type');
-	if (type && filterSchema.type.test(type)) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'p.type  LIKE CONCAT("%", ?, "%")';
-		args.push(type);
-	}
-
-	const status = search.get('status');
-	if (status && filterSchema.status.test(status)) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'p.status LIKE CONCAT("%", ?, "%")';
-		args.push(status);
-	}
-
-	if (search.get('delivered') != '1') {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'status != "delivered"';
-	}
-
-	const all = search.get('all');
-	if (all?.trim()) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += '(p.id LIKE CONCAT("%", ?, "%") OR name LIKE CONCAT("%", ?, "%") OR p.type LIKE CONCAT("%", ?, "%"))';
-		args.push(all);
-		args.push(all);
-		args.push(all);
-	}
-
 	const db = getLibsqlClient(env);
 	const qres = await db.execute({
 		sql: `
 			SELECT p.*, r.id AS is_reported, r.locked FROM \`patients\` AS p LEFT JOIN \`reports\` AS r ON r.id = p.id
-			${where ? ' WHERE ' + where : ''}
+			${where}
 			ORDER BY p.${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
 		`,
 		args,
 	});
 
 	const { rows: info } = await db.execute({
-		sql: `SELECT COUNT(id) AS total FROM \`patients\` ${where ? ' WHERE ' + where : ''}`,
+		sql: `SELECT COUNT(id) AS total FROM \`patients\` AS p ${where}`,
 		args,
 	});
 	res.setRows(qres.rows);
