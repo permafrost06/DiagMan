@@ -213,6 +213,10 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
     width: 297mm;
     margin: auto;
 
+    * {
+        font-family: "Open Sans", sans-serif;
+    }
+
     .page {
         font-family: "Calibri";
         line-height: 1.6rem;
@@ -261,9 +265,6 @@ h1 {
 }
 
 @media print {
-    * {
-        font-family: "Open Sans", sans-serif;
-    }
     div.page {
         margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
     }
