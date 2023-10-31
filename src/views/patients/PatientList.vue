@@ -41,14 +41,26 @@ const filterRef = ref();
 let queryParams: Record<string, string> = {};
 
 const tableDescription = {
-    id: "ID",
-    name: "Name",
-    type: "Type",
+    id: {
+        label: "ID",
+        filter: false,
+    },
+    name: {
+        label: "Name",
+        filter: false,
+    },
+    type: {
+        label: "Type",
+        filter: false,
+    },
     delivery_date: {
         label: "Delivery Date",
         filter: false,
     },
-    status: "Status",
+    status: {
+        label: "Status",
+        filter: false,
+    },
 };
 
 const sortBy = (newSortState: Sorting<string>) => {
@@ -60,7 +72,7 @@ const showFilter = (col: string) => {
 };
 
 const filterChange = (val: Record<string, string>) => {
-    queryParams = val;
+    queryParams.all = val.all;
     page.value.page = 1;
     queryResults();
 };
