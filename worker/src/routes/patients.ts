@@ -1,7 +1,6 @@
 import { generateInsertQuery, getLibsqlClient, getUpdateQuery, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
 import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
-import { JSONError } from '../utils/Response';
 import { patientSchema } from '../forms/patients';
 
 export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, params }) => {
@@ -60,9 +59,22 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 			res.setMsg('Patient updated successfully!');
 		}
 		res.setRows([data]);
+
+		await db.execute({
+			sql: `
+				INSERT INTO \`misc_strings\` (name, data)
+				SELECT 'referer', :data
+				WHERE NOT EXISTS(
+					SELECT id FROM \`misc_strings\` WHERE name = "referer" AND data = :data
+				)
+			`,
+			args: {
+				data: data.referer.trim(),
+			},
+		});
 	} catch (error: any) {
 		if (error.code === 'SQLITE_CONSTRAINT') {
-			throw new JSONError('This patient id already exists!');
+			res.error('This patient id already exists!');
 		} else {
 			throw error;
 		}
@@ -100,67 +112,55 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 
 	const id = search.get('id');
 	if (id && filterSchema.id.test(id)) {
-		where += 'p.id LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.id LIKE CONCAT("%", ?, "%")';
 		args.push(id);
 	}
 
 	const name = search.get('name');
 	if (name && filterSchema.name.test(name)) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'p.name LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.name LIKE CONCAT("%", ?, "%")';
 		args.push(name);
 	}
 
 	const type = search.get('type');
 	if (type && filterSchema.type.test(type)) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'p.type  LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.type LIKE CONCAT("%", ?, "%")';
 		args.push(type);
 	}
 
 	const status = search.get('status');
 	if (status && filterSchema.status.test(status)) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'p.status LIKE CONCAT("%", ?, "%")';
+		where += ' AND p.status LIKE CONCAT("%", ?, "%")';
 		args.push(status);
 	}
 
 	if (search.get('delivered') != '1') {
-		if (where) {
-			where += ' AND ';
-		}
-		where += 'status != "delivered"';
+		where += ' AND p.status != "delivered"';
 	}
 
 	const all = search.get('all');
 	if (all?.trim()) {
-		if (where) {
-			where += ' AND ';
-		}
-		where += '(p.id LIKE CONCAT("%", ?, "%") OR name LIKE CONCAT("%", ?, "%") OR p.type LIKE CONCAT("%", ?, "%"))';
+		where += ' AND (p.id LIKE CONCAT("%", ?, "%") OR p.name LIKE CONCAT("%", ?, "%") OR p.type LIKE CONCAT("%", ?, "%"))';
 		args.push(all);
 		args.push(all);
 		args.push(all);
+	}
+	if (where) {
+		where = 'WHERE ' + where.substring(5);
 	}
 
 	const db = getLibsqlClient(env);
 	const qres = await db.execute({
 		sql: `
 			SELECT p.*, r.id AS is_reported, r.locked FROM \`patients\` AS p LEFT JOIN \`reports\` AS r ON r.id = p.id
-			${where ? ' WHERE ' + where : ''}
+			${where}
 			ORDER BY p.${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
 		`,
 		args,
 	});
 
 	const { rows: info } = await db.execute({
-		sql: `SELECT COUNT(id) AS total FROM \`patients\` ${where ? ' WHERE ' + where : ''}`,
+		sql: `SELECT COUNT(id) AS total FROM \`patients\` AS p ${where}`,
 		args,
 	});
 	res.setRows(qres.rows);
@@ -199,7 +199,7 @@ export const syncPatients: RequestHandler = async ({ env, res, request }) => {
 	const total = (body.insert?.length || 0) + (body.update?.length || 0) + (body.remove?.length || 0);
 
 	if (total > 100) {
-		throw new JSONError('Operation limit exceeded!');
+		res.error('Operation limit exceeded!');
 	}
 
 	if (body.insert) {

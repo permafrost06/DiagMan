@@ -92,3 +92,11 @@ export const reportTemplates = sqliteTable('report_templates', {
 	impression: text('impression'),
 	note: text('note'),
 });
+
+export const miscStrings = sqliteTable('misc_strings', {
+	id: integer('id').primaryKey({
+		autoIncrement: true,
+	}),
+	name: text('name'),
+	data: text('data'),
+});

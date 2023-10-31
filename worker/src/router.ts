@@ -9,6 +9,7 @@ import { deliverReport, finalizeReport, getReport, toggleReportLock } from './ro
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
+import { deleteMiscString, listMiscStrings } from './routes/misc-strings';
 
 export interface RequestEvent {
 	request: Request;
@@ -66,5 +67,8 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/settings/account/name', ensureUser, changeName);
 	router.post('/settings/account/pin', ensureUser, changePin);
 	router.post('/settings/account/password', ensureUser, changePassword);
+
+	router.get('/misc', listMiscStrings);
+	router.post('/misc/remove/:id', deleteMiscString);
 };
 export default buildRouter;

@@ -2,6 +2,7 @@
 import SimpleInput from "@/components/form/SimpleInput.vue";
 import SimpleSelect from "@/components/form/SimpleSelect.vue";
 import SimpleBlankInput from "@/components/form/SimpleBlankInput.vue";
+import SInputAutocomplete from "@/components/form/SInputAutocomplete.vue";
 import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
@@ -34,6 +35,8 @@ const discount = ref<number>(0);
 const advance = ref<number>(0);
 const invoice = ref<boolean>(false);
 
+const refererValue = ref<string>("");
+
 onMounted(async () => {
     createDatePickers();
     if (props.toEdit) {
@@ -44,6 +47,7 @@ onMounted(async () => {
         total.value = total2;
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;
+        refererValue.value = props.toEdit.referer;
     }
 });
 
@@ -131,6 +135,30 @@ function createDatePickers() {
     datepicker(sampleDateField.value, options);
     datepicker(deliveryDateField.value, options);
 }
+
+const getRefererSearchUrl = (val: string) =>
+    API_BASE +
+    `/misc?name=referer&end-search=${encodeURIComponent(val)}&limit=5`;
+
+const rmRefReqs = ref(new Set<string>());
+const removeReferer = async (id: string, all: Record<string, string>[]) => {
+    if (rmRefReqs.value.has(id)) {
+        return;
+    }
+    rmRefReqs.value.add(id);
+    const res = await fetchApi(API_BASE + `/misc/remove/` + id, {
+        method: "POST",
+    });
+    rmRefReqs.value.delete(id);
+    if (!res.success) {
+        console.error(res.message || "Failed to remove referer!");
+        return;
+    }
+    const idx = all.findIndex((v) => v.id == id);
+    if (idx > -1) {
+        all.splice(idx, 1);
+    }
+};
 </script>
 <template>
     <div class="add-patient-page">
@@ -240,13 +268,31 @@ function createDatePickers() {
                         :hint="fieldErrors?.contact?.[0]"
                         :value="toEdit?.contact"
                     />
-                    <SimpleInput
+                    <SInputAutocomplete
                         name="referer"
                         label="Referer"
                         :un-wrap="true"
                         :hint="fieldErrors?.referer?.[0]"
-                        :value="toEdit?.referer"
-                    />
+                        field-class="full-size"
+                        :url="getRefererSearchUrl"
+                        v-model="refererValue"
+                        v-slot="{ results, accept }"
+                    >
+                        <button
+                            type="button"
+                            class="referer-res-item"
+                            @click="() => accept(item.data)"
+                            v-for="item in results"
+                            :key="item.id"
+                        >
+                            <span>{{ item.data }}</span>
+                            <span
+                                class="remover"
+                                @click="() => removeReferer(item.id, results)"
+                                >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
+                            >
+                        </button>
+                    </SInputAutocomplete>
                     <SimpleBlankInput
                         label="Delivery date"
                         :un-wrap="true"
@@ -457,6 +503,10 @@ function createDatePickers() {
         select {
             max-width: 300px;
             padding: 3px 5px;
+
+            &.full-size {
+                max-width: none;
+            }
         }
 
         .amount-input {
@@ -520,6 +570,28 @@ function createDatePickers() {
     }
     .headeless-button {
         padding-top: 20px;
+    }
+
+    .referer-res-item {
+        display: block;
+        position: relative;
+        text-align: left;
+        width: 100%;
+        background: var(--clr-white);
+        color: var(--clr-black);
+        border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
+        font-size: var(--fs-sm);
+        padding-right: 15px;
+
+        .remover {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: var(--fs-base);
+            color: var(--clr-danger);
+        }
     }
 }
 </style>

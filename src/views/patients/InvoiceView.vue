@@ -209,9 +209,12 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
     }
 }
 .report {
-    height: 210mm;
     width: 297mm;
     margin: auto;
+
+    * {
+        font-family: "Open Sans", sans-serif;
+    }
 
     .page {
         font-family: "Calibri";
@@ -261,15 +264,24 @@ h1 {
 }
 
 @media print {
-    * {
-        font-family: "Open Sans", sans-serif;
+    html,
+    body {
+        height: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
     }
     div.page {
         margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
     }
 
     .buttons {
-        display: none;
+        /**
+        * I don't know why but nothing else seems to prevent the extra empty page
+        */
+        height: 0 !important;
+        width: 0 !important;
+        opacity: 0;
     }
 
     #nav {

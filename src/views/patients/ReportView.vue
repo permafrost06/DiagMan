@@ -150,6 +150,10 @@ const convertToHtml = (data: string) => {
     width: 297mm;
     margin: auto;
 
+    * {
+        font-family: "Times New Roman" !important;
+    }
+
     .page {
         font-family: "Times New Roman";
 
@@ -199,9 +203,6 @@ const convertToHtml = (data: string) => {
 }
 
 @media print {
-    * {
-        font-family: "Times New Roman" !important;
-    }
     div.page {
         margin: 10mm; /* Browser will apply the correct margins when it prints */
         margin-top: 1.8in;

@@ -50,6 +50,11 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 		]);
 		res.setMsg('Report added successfully!');
 	}
+	res.setRows([
+		{
+			locked: !!data.locked,
+		},
+	]);
 };
 
 export const getReport: RequestHandler = async ({ env, params, res }) => {
