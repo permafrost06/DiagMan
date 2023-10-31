@@ -150,13 +150,13 @@ function handleClick(val: string) {
     .result-area {
         display: none;
         position: absolute;
-        width: calc(100% - 10px);
+        width: calc(100% - 6px);
         max-height: 500px;
         overflow-y: auto;
         top: 100%;
         background: var(--clr-white);
-        box-shadow: 0 0 10px gray;
-        margin: 5px;
+        box-shadow: 0 0 7px #d7d7d7;
+        margin: 3px;
         z-index: 2;
     }
 

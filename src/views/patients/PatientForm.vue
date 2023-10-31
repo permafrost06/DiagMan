@@ -252,6 +252,7 @@ const getRefererSearchUrl = (val: string) =>
                         label="Referer"
                         :un-wrap="true"
                         :hint="fieldErrors?.referer?.[0]"
+                        field-class="full-size"
                         :url="getRefererSearchUrl"
                         v-model="refererValue"
                         v-slot="{ results, accept }"
@@ -477,6 +478,10 @@ const getRefererSearchUrl = (val: string) =>
         select {
             max-width: 300px;
             padding: 3px 5px;
+
+            &.full-size {
+                max-width: none;
+            }
         }
 
         .amount-input {
@@ -549,7 +554,7 @@ const getRefererSearchUrl = (val: string) =>
         background: var(--clr-white);
         color: var(--clr-black);
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
-        font-size: var(--fs-base);
+        font-size: var(--fs-sm);
     }
 }
 </style>
