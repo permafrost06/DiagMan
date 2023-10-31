@@ -14,6 +14,7 @@ import Quill, { type QuillOptionsStatic } from "quill";
 import "quill/dist/quill.snow.css";
 import { dateToDMY } from "@/helpers/utils";
 import EditPatient from "./EditPatient.vue";
+import { useUser } from "@/stores/user";
 
 const quillOptions: QuillOptionsStatic = {
     debug: "error",
@@ -31,6 +32,7 @@ const quillOptions: QuillOptionsStatic = {
 
 const quillInstances: any = {};
 const route = useRoute();
+const user = useUser();
 
 const editMode = ref(false);
 
@@ -74,6 +76,7 @@ onMounted(async () => {
         setEditorContent(quillInstances.impression, p.impression);
         setEditorContent(quillInstances.note, p.note);
         noteFieldVisible.value = quillInstances.note.getLength() > 1;
+        reCheckEditors();
     }
     isLoading.value = false;
 });
@@ -135,6 +138,18 @@ async function loadTemplates(organ: string = "") {
         return;
     }
     templates.value = res.rows;
+}
+
+function reCheckEditors() {
+    if (patient.value?.locked) {
+        for (const i in quillInstances) {
+            quillInstances[i].disable();
+        }
+        return;
+    }
+    for (const i in quillInstances) {
+        quillInstances[i].enable();
+    }
 }
 
 const handleFormSubmit = async (evt: any) => {
@@ -210,6 +225,8 @@ const handleFormSubmit = async (evt: any) => {
     if (res.success) {
         error.value = null;
         message.value = res.message!;
+        patient.value.locked = res.rows[0].locked;
+        reCheckEditors();
         // router.back();
     } else {
         error.value = res.message;
@@ -268,6 +285,25 @@ const showTemplateSaver = () => {
 const onTemAdded = (tem: any) => {
     templates.value.push(tem);
     templateModalValue.value = false;
+};
+
+const isUnLocking = ref<boolean>(false);
+const toggleLock = async () => {
+    if (isUnLocking.value || !patient.value) {
+        return;
+    }
+    isUnLocking.value = true;
+
+    const res = await fetchApi(API_BASE + "/reports/lock/" + patient.value.id, {
+        method: "POST",
+    });
+    isUnLocking.value = false;
+    if (!res.success) {
+        console.error(res.message || "Toggling report lock failed!");
+        return;
+    }
+    patient.value.locked = !patient.value.locked;
+    reCheckEditors();
 };
 </script>
 <template>
@@ -363,17 +399,27 @@ const onTemAdded = (tem: any) => {
                 </div>
                 <div class="submit-area">
                     <CheckBox
+                        v-if="!patient?.locked"
                         label="Lock Report"
                         name="locked"
                         value="1"
                         :checked="patient?.locked"
                     />
                     <div class="flex gap-sm mt-sm">
-                        <button type="submit" value="add">
+                        <button type="submit">
                             <Loading
                                 v-if="isPosting === true || isPosting === 'add'"
                             />
                             Add Report
+                        </button>
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            v-if="patient?.locked && user.isAdmin"
+                            @click="toggleLock"
+                        >
+                            <Loading v-if="isUnLocking" />
+                            Unlock
                         </button>
                         <RouterLink
                             class="btn btn-outline"
@@ -501,6 +547,7 @@ const onTemAdded = (tem: any) => {
                 </div>
                 <div class="submit-area-2" v-if="editMode">
                     <CheckBox
+                        v-if="!patient?.locked"
                         label="Lock Report"
                         name="locked"
                         value="1"
