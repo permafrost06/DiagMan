@@ -137,7 +137,28 @@ function createDatePickers() {
 }
 
 const getRefererSearchUrl = (val: string) =>
-    API_BASE + `/patients-referers?search=${encodeURIComponent(val)}&limit=5`;
+    API_BASE +
+    `/misc?name=referer&end-search=${encodeURIComponent(val)}&limit=5`;
+
+const rmRefReqs = ref(new Set<string>());
+const removeReferer = async (id: string, all: Record<string, string>[]) => {
+    if (rmRefReqs.value.has(id)) {
+        return;
+    }
+    rmRefReqs.value.add(id);
+    const res = await fetchApi(API_BASE + `/misc/remove/` + id, {
+        method: "POST",
+    });
+    rmRefReqs.value.delete(id);
+    if (!res.success) {
+        console.error(res.message || "Failed to remove referer!");
+        return;
+    }
+    const idx = all.findIndex((v) => v.id == id);
+    if (idx > -1) {
+        all.splice(idx, 1);
+    }
+};
 </script>
 <template>
     <div class="add-patient-page">
@@ -260,12 +281,16 @@ const getRefererSearchUrl = (val: string) =>
                         <button
                             type="button"
                             class="referer-res-item"
-                            @click="() => accept(item.referer)"
+                            @click="() => accept(item.data)"
                             v-for="item in results"
-                            :key="item.referer"
-                            :value="item.referer"
+                            :key="item.id"
                         >
-                            {{ item.referer }}
+                            <span>{{ item.data }}</span>
+                            <span
+                                class="remover"
+                                @click="() => removeReferer(item.id, results)"
+                                >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
+                            >
                         </button>
                     </SInputAutocomplete>
                     <SimpleBlankInput
@@ -549,12 +574,24 @@ const getRefererSearchUrl = (val: string) =>
 
     .referer-res-item {
         display: block;
+        position: relative;
         text-align: left;
         width: 100%;
         background: var(--clr-white);
         color: var(--clr-black);
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
         font-size: var(--fs-sm);
+        padding-right: 15px;
+
+        .remover {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: var(--fs-base);
+            color: var(--clr-danger);
+        }
     }
 }
 </style>

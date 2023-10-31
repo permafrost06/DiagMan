@@ -1,7 +1,6 @@
 import { generateInsertQuery, getLibsqlClient, getUpdateQuery, insertRow } from '../db/conn';
 import { RequestHandler } from '../router';
 import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
-import { JSONError } from '../utils/Response';
 import { patientSchema } from '../forms/patients';
 
 export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, params }) => {
@@ -60,9 +59,22 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 			res.setMsg('Patient updated successfully!');
 		}
 		res.setRows([data]);
+
+		await db.execute({
+			sql: `
+				INSERT INTO \`misc_strings\` (name, data)
+				SELECT 'referer', :data
+				WHERE NOT EXISTS(
+					SELECT id FROM \`misc_strings\` WHERE name = "referer" AND data = :data
+				)
+			`,
+			args: {
+				data: data.referer.trim(),
+			},
+		});
 	} catch (error: any) {
 		if (error.code === 'SQLITE_CONSTRAINT') {
-			throw new JSONError('This patient id already exists!');
+			res.error('This patient id already exists!');
 		} else {
 			throw error;
 		}
@@ -180,26 +192,6 @@ export const getPatient: RequestHandler = async ({ env, res, params }) => {
 	res.setRows([{ ...rows[0], tests }]);
 };
 
-export const listReferers: RequestHandler = async ({ env, res, query }) => {
-	const db = getLibsqlClient(env);
-
-	const search = query['search']?.toString().trim();
-	const limit = parseInt(query['limit']?.toString() || '0');
-
-	let where = '';
-	const args: Array<any> = [];
-	if (search) {
-		where = 'WHERE referer LIKE CONCAT(?, "%")';
-		args.push(search);
-	}
-
-	const qres = await db.execute({
-		sql: 'SELECT DISTINCT referer FROM `patients` ' + where + (limit > 0 ? ` LIMIT ${limit}` : ''),
-		args,
-	});
-	res.setRows(qres.rows);
-};
-
 export const syncPatients: RequestHandler = async ({ env, res, request }) => {
 	const body = (await request.json()) as any;
 	const queries: any[] = [];
@@ -207,7 +199,7 @@ export const syncPatients: RequestHandler = async ({ env, res, request }) => {
 	const total = (body.insert?.length || 0) + (body.update?.length || 0) + (body.remove?.length || 0);
 
 	if (total > 100) {
-		throw new JSONError('Operation limit exceeded!');
+		res.error('Operation limit exceeded!');
 	}
 
 	if (body.insert) {

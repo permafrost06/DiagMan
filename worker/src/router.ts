@@ -4,11 +4,12 @@ import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { getUser, logOut, login, register, verifyPin } from './routes/auth';
 import { assignToken, assignUser, ensureAdmin, ensureUser } from './middlewares/auth';
-import { addOrUpdatePatient, deletePatient, getPatient, listPatients, listReferers, syncPatients } from './routes/patients';
+import { addOrUpdatePatient, deletePatient, getPatient, listPatients, syncPatients } from './routes/patients';
 import { deliverReport, finalizeReport, getReport, toggleReportLock } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
+import { deleteMiscString, listMiscStrings } from './routes/misc-strings';
 
 export interface RequestEvent {
 	request: Request;
@@ -50,7 +51,6 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/patients/sync', syncPatients);
 	router.post('/patients/:id?', ensureUser, addOrUpdatePatient);
 	router.delete('/patients/:id', ensureUser, deletePatient);
-	router.get('/patients-referers', listReferers);
 	router.get('/patients/:id', getPatient);
 	router.get('/patients', listPatients);
 
@@ -67,5 +67,8 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/settings/account/name', ensureUser, changeName);
 	router.post('/settings/account/pin', ensureUser, changePin);
 	router.post('/settings/account/password', ensureUser, changePassword);
+
+	router.get('/misc', listMiscStrings);
+	router.post('/misc/remove/:id', deleteMiscString);
 };
 export default buildRouter;
