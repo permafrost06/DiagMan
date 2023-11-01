@@ -22,6 +22,7 @@ if (authToken === undefined) {
 const db = createClient({ url, authToken });
 
 async function main() {
+	await createMigrationsTable();
 	const allMigrations = readdirSync(MIGRATIONS_PATH)
 		.filter((path) => path.endsWith('.sql'))
 		.sort();
@@ -31,13 +32,8 @@ async function main() {
 		const done = res.rows.map((row) => row.name);
 		migrations = allMigrations.filter((file) => done.indexOf(file) === -1);
 	} catch (error) {
-		if (error.code === 'SQLITE_UNKNOWN') {
-			await createMigrationsTable();
-			migrations = allMigrations;
-		} else {
-			console.log(error.message);
-			return;
-		}
+		console.error(error.message || error);
+		return;
 	}
 	if (migrations.length === 0) {
 		console.log('Everything is up to date!');
@@ -49,8 +45,8 @@ async function main() {
 }
 
 async function createMigrationsTable() {
-	db.execute(`
-        CREATE TABLE migrations (
+	await db.execute(`
+        CREATE TABLE IF NOT EXISTS migrations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             timestamp DATETIME NOT NULL
