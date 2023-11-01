@@ -1,6 +1,6 @@
 {
 	"name": "diagman-api",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@faker-js/faker": "^8.1.0",
-		"@libsql/client": "^0.3.1",
+		"@libsql/client": "^0.3.6",
 		"bcryptjs": "^2.4.3",
 		"itty-router": "^4.0.22",
 		"zod": "^3.22.2"
