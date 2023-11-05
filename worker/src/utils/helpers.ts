@@ -16,10 +16,24 @@ export const getFormError = (err: z.typeToFlattenedError<any, any>): string => {
 	return error;
 };
 
+const parseObjectField = (key: string, value: any, body: Record<string, any>) => {
+	const parts = key.split(/\[|\]/).filter(Boolean);
+	let parent = body;
+	for (let i = 0; i < parts.length - 1; i++) {
+		if (!parent[parts[i]]) {
+			parent[parts[i]] = {};
+		}
+		parent = parent[parts[i]];
+	}
+	const lastKey = parts[parts.length - 1];
+	parent[lastKey] = value;
+};
+
 export const validateFormData = async <T extends z.ZodRawShape>(
 	request: Request,
 	schema: z.ZodObject<T>,
-	arrays: string[] = []
+	arrays: string[] = [],
+	objects: string[] = []
 ): Promise<Record<string, any> | never> => {
 	const formData = await request.formData();
 	const body: Record<string, any> = {};
@@ -29,9 +43,21 @@ export const validateFormData = async <T extends z.ZodRawShape>(
 		formData.delete(key);
 	});
 
-	formData.forEach((value, key) => {
+	let adder = (value: any, key: any) => {
 		body[key] = value;
-	});
+	};
+
+	if (objects.length > 0) {
+		const regex = new RegExp('^(' + objects.join('|') + ')\\[');
+		adder = (value, key) => {
+			if (regex.test(key)) {
+				parseObjectField(key, value, body);
+			} else {
+				body[key] = value;
+			}
+		};
+	}
+	formData.forEach(adder);
 	return await validateObject<Record<string, any>>(body, schema);
 };
 
