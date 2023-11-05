@@ -13,26 +13,32 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 		data[key] = data[key].getTime();
 	});
 
-	const { rows } = await db.execute({
-		sql: `
-		  SELECT SUM(price) AS total FROM \`tests\` WHERE EXISTS (
-			SELECT * 
-			FROM json_each(?) 
-			WHERE json_each.value = tests.id
-		  )
-		`,
-		args: [data.tests],
-	});
+	if (data.complementary) {
+		data.total = 0;
+		data.advance = 0;
+		data.discount = 0;
+	} else {
+		const { rows } = await db.execute({
+			sql: `
+			  SELECT SUM(price) AS total FROM \`tests\` WHERE EXISTS (
+				SELECT * 
+				FROM json_each(?) 
+				WHERE json_each.value = tests.id
+			  )
+			`,
+			args: [data.tests],
+		});
 
-	const total = parseInt(rows[0]?.total?.toString() || '0');
+		const total = parseInt(rows[0]?.total?.toString() || '0');
 
-	if (total <= 0) {
-		res.error('Invalid tests selected!');
+		if (total <= 0) {
+			res.error('Invalid tests selected!');
+		}
+
+		data.total = total;
+		data.advance *= 100;
+		data.discount *= 100;
 	}
-
-	data.total = total;
-	data.advance *= 100;
-	data.discount *= 100;
 
 	try {
 		if (!params.id) {

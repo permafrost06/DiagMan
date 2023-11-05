@@ -3,37 +3,45 @@ import Icon from "@/components/base/Icon.vue";
 import SearchSelect from "@/components/base/SearchSelect.vue";
 import TestFormModal from "@/components/view/TestFormModal.vue";
 import { API_BASE } from "@/helpers/config";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 interface Props {
-    modelValue: number;
     tests?: Array<Record<string, string>>;
+    isComplementary?: boolean;
+    onTotalChange: (total: number) => void;
 }
-
-const emit = defineEmits<{ (e: "update:modelValue", total: number): void }>();
 
 const props = defineProps<Props>();
 const tests = ref<Array<Record<string, number | string>>>(props.tests || []);
 const total = ref<number>(0);
 const testAdder = ref<boolean>(false);
 
-if (props.tests) {
+watch(props, () => {
     let total2 = 0;
-    props.tests.forEach((t: any) => {
-        total2 += t.price;
-    });
+    if (!props.isComplementary) {
+        tests.value.forEach((t: any) => {
+            total2 += t.price;
+        });
+    }
     total.value = total2;
-}
+    props.onTotalChange(total2);
+});
 
 const addTest = (test: any) => {
     tests.value.push(test);
+    if (props.isComplementary) {
+        return;
+    }
     total.value += parseInt(test.price);
-    emit("update:modelValue", total.value);
+    props.onTotalChange(total.value);
 };
 const removeTest = (test: any) => {
-    total.value -= parseInt(test.price);
     tests.value = tests.value.filter((t) => t.id != test.id);
-    emit("update:modelValue", total.value);
+    if (props.isComplementary) {
+        return;
+    }
+    total.value -= parseInt(test.price);
+    props.onTotalChange(total.value);
 };
 
 const getSearchUrl = (val: string) => {
@@ -99,7 +107,11 @@ const getSearchUrl = (val: string) => {
                 <p class="capitalize">{{ test.size }}</p>
                 <p>
                     <input type="hidden" name="tests" :value="test.id" />
-                    {{ ((test.price as any) / 100).toFixed(2) }}
+                    {{
+                        isComplementary
+                            ? 0
+                            : ((test.price as any) / 100).toFixed(2)
+                    }}
                 </p>
                 <button
                     type="button"

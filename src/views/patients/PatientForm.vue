@@ -34,20 +34,17 @@ const total = ref<number>(0);
 const discount = ref<number>(0);
 const advance = ref<number>(0);
 const invoice = ref<boolean>(false);
+const complementary = ref<boolean>(false);
 
 const refererValue = ref<string>("");
 
 onMounted(async () => {
     createDatePickers();
     if (props.toEdit) {
-        let total2 = 0;
-        (props.toEdit.tests as any).forEach((t: any) => {
-            total2 += t.price;
-        });
-        total.value = total2;
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;
         refererValue.value = props.toEdit.referer;
+        complementary.value = !!props.toEdit.complementary;
     }
 });
 
@@ -157,6 +154,17 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
     const idx = all.findIndex((v) => v.id == id);
     if (idx > -1) {
         all.splice(idx, 1);
+    }
+};
+
+const onComplementaryChange = (evt: any) => {
+    if (evt.target.checked) {
+        total.value = 0;
+        discount.value = 0;
+        advance.value = 0;
+    } else if (props.toEdit) {
+        discount.value = parseInt(props.toEdit.discount) / 100;
+        advance.value = parseInt(props.toEdit.advance) / 100;
     }
 };
 </script>
@@ -332,15 +340,6 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                                 />
                                 {{ toEdit ? "Update" : "Add" }} Patient
                             </button>
-                            <!-- <button
-                                type="submit"
-                                class="btn-outline"
-                                name="status"
-                                value="draft"
-                            >
-                                <Loading v-if="isPosting === 'draft'" />
-                                Save Draft
-                            </button> -->
                         </div>
                     </div>
                     <div v-else class="all-col headeless-button">
@@ -413,8 +412,9 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
                     <TestSelector
-                        v-model="total"
+                        :on-total-change="(val) => (total = val)"
                         :tests="(toEdit?.tests as any)"
+                        :is-complementary="complementary"
                     />
                     <p v-if="fieldErrors?.tests" class="hint error">
                         {{ fieldErrors?.tests?.[0] }}
@@ -446,7 +446,7 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                             step="0.01"
                             class="amount-input"
                             readonly
-                            :value="total / 100 - discount"
+                            :value="complementary ? 0 : total / 100 - discount"
                         />
                     </div>
                 </SimpleBlankInput>
@@ -473,10 +473,25 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                             type="number"
                             step="0.01"
                             class="amount-input"
-                            :value="total / 100 - discount - advance"
+                            :value="
+                                complementary
+                                    ? 0
+                                    : total / 100 - discount - advance
+                            "
                         />
                     </div>
                 </SimpleBlankInput>
+                <div class="all-col">
+                    <div class="complementary">
+                        <CheckBox
+                            label="Complementary"
+                            v-model="complementary"
+                            name="complementary"
+                            value="1"
+                            @input="onComplementaryChange"
+                        />
+                    </div>
+                </div>
             </div>
         </form>
     </div>
