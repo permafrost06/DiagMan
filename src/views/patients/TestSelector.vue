@@ -15,12 +15,15 @@ const props = defineProps<Props>();
 const tests = ref<Array<Record<string, number | string>>>(props.tests || []);
 const total = ref<number>(0);
 const testAdder = ref<boolean>(false);
+const testPrices = ref<Record<string, string>>({});
 
 watch(props, () => {
     let total2 = 0;
     if (!props.isComplementary) {
         tests.value.forEach((t: any) => {
-            total2 += t.price;
+            const price = parseInt(t.price);
+            total2 += price;
+            testPrices.value[t.id] = (price / 100).toFixed(2);
         });
     }
     total.value = total2;
@@ -32,7 +35,9 @@ const addTest = (test: any) => {
     if (props.isComplementary) {
         return;
     }
-    total.value += parseInt(test.price);
+    const price = parseInt(test.price);
+    testPrices.value[test.id] = (price / 100).toFixed(2);
+    total.value += price;
     props.onTotalChange(total.value);
 };
 const removeTest = (test: any) => {
@@ -104,15 +109,16 @@ const getSearchUrl = (val: string) => {
         <div class="tests" v-if="tests.length > 0">
             <template v-for="test in tests" :key="test.id">
                 <p>{{ test.name }}</p>
-                <p class="capitalize">{{ test.size }}</p>
-                <p>
-                    <input type="hidden" name="tests" :value="test.id" />
-                    {{
-                        isComplementary
-                            ? 0
-                            : ((test.price as any) / 100).toFixed(2)
-                    }}
-                </p>
+                <p><input type="hidden" name="tests" :value="test.id" /></p>
+                <p v-if="isComplementary">0</p>
+                <input
+                    v-else
+                    type="number"
+                    step="0.01"
+                    v-model="testPrices[test.id]"
+                    :name="`test_price[${test.id}]`"
+                    class="test_price"
+                />
                 <button
                     type="button"
                     class="closer"
@@ -152,13 +158,17 @@ const getSearchUrl = (val: string) => {
         padding-bottom: 10px;
 
         display: grid;
-        grid-template-columns: 1fr max-content max-content 30px;
+        grid-template-columns: 1fr max-content 100px 30px;
         gap: 10px 20px;
 
         .closer {
             background: var(--clr-white);
             color: var(--clr-danger);
             padding: 0;
+        }
+
+        .test_price {
+            padding: 1px 3px;
         }
     }
 

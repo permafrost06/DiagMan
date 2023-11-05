@@ -2,10 +2,79 @@ import { generateInsertQuery, getLibsqlClient, getUpdateQuery, insertRow } from 
 import { RequestHandler } from '../router';
 import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { patientSchema } from '../forms/patients';
+import { Client } from '@libsql/client';
+
+const replaceTestID = async (db: Client, tests: number[], id: number, price: number): Promise<[number, bigint]> => {
+	const sql = `
+		INSERT INTO \`tests\` (name, price, size, type, status)
+		SELECT name, ${price}, size, type, 'active' FROM \`tests\` WHERE id = ${id}
+	`;
+	const { lastInsertRowid } = await db.execute(sql);
+	if (!lastInsertRowid) {
+		throw new Error(id.toString());
+	}
+	const newId = lastInsertRowid;
+	tests.push(newId.toString() as any);
+	const idx = tests.findIndex((tid) => tid == id);
+	if (idx > -1) {
+		tests.splice(idx, 1);
+	}
+	return [id, newId];
+};
+
+const updateTestPrices = async (db: Client, tests: number[], prices: Record<number, number>): Promise<[Record<string, any>[], number]> => {
+	const { rows } = await db.execute({
+		sql: `
+		  SELECT * FROM \`tests\` WHERE EXISTS (
+			SELECT * 
+			FROM json_each(?) 
+			WHERE json_each.value = tests.id
+		  )
+		`,
+		args: [JSON.stringify(tests)],
+	});
+
+	let total = 0;
+
+	const misMatch: Promise<[number, bigint]>[] = [];
+
+	rows.forEach((test: any, idx: number) => {
+		const price = parseInt(test.price);
+		const price2 = prices[test.id] * 100;
+		total += price2;
+		if (price !== price2) {
+			misMatch.push(replaceTestID(db, tests, test.id, price2));
+			rows[idx] = {
+				...rows[idx],
+				price: price2,
+			};
+		}
+	});
+
+	const err = (await Promise.allSettled(misMatch)).reduce((prev, cur) => {
+		if (cur.status === 'rejected') {
+			prev += cur.reason + ', ';
+		} else {
+			const test = rows.findIndex((t) => t.id == cur.value[0]);
+			if (test > -1) {
+				rows[test] = {
+					...rows[test],
+					id: cur.value[1].toString(),
+				};
+			}
+		}
+		return prev;
+	}, '');
+
+	if (err) {
+		throw new Error('Failed to update tests: ' + err);
+	}
+
+	return [rows, total];
+};
 
 export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, params }) => {
-	const data = await validateFormData(request, patientSchema, ['tests']);
-	data.tests = JSON.stringify(data.tests);
+	const data = await validateFormData(request, patientSchema, ['tests'], ['test_price']);
 	const db = getLibsqlClient(env);
 
 	// ZOD does not support only date validation yet
@@ -17,28 +86,19 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 		data.total = 0;
 		data.advance = 0;
 		data.discount = 0;
-	} else {
-		const { rows } = await db.execute({
-			sql: `
-			  SELECT SUM(price) AS total FROM \`tests\` WHERE EXISTS (
-				SELECT * 
-				FROM json_each(?) 
-				WHERE json_each.value = tests.id
-			  )
-			`,
-			args: [data.tests],
-		});
-
-		const total = parseInt(rows[0]?.total?.toString() || '0');
-
-		if (total <= 0) {
-			res.error('Invalid tests selected!');
+	} else
+		try {
+			const [tests, total] = await updateTestPrices(db, data.tests, data.test_price);
+			res.setData({ tests });
+			data.total = total;
+			data.advance *= 100;
+			data.discount *= 100;
+		} catch (err: any) {
+			res.error(err.message);
 		}
 
-		data.total = total;
-		data.advance *= 100;
-		data.discount *= 100;
-	}
+	delete data.test_price;
+	data.tests = JSON.stringify(data.tests);
 
 	try {
 		if (!params.id) {

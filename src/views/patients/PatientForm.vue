@@ -35,6 +35,8 @@ const discount = ref<number>(0);
 const advance = ref<number>(0);
 const invoice = ref<boolean>(false);
 const complementary = ref<boolean>(false);
+const tests = ref<Record<string, any>[]>((props.toEdit?.tests as any) ?? []);
+const reRenderTests = ref<number>(0);
 
 const refererValue = ref<string>("");
 
@@ -83,6 +85,10 @@ async function handleFormSubmit(evt: any) {
                     id: res.rows[0].id,
                 },
             });
+        }
+        if (res.data?.tests) {
+            tests.value = res.data.tests;
+            reRenderTests.value++;
         }
     } else {
         error.value = res.message;
@@ -412,8 +418,9 @@ const onComplementaryChange = (evt: any) => {
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
                     <TestSelector
+                        :key="reRenderTests"
                         :on-total-change="(val) => (total = val)"
-                        :tests="(toEdit?.tests as any)"
+                        :tests="tests"
                         :is-complementary="complementary"
                     />
                     <p v-if="fieldErrors?.tests" class="hint error">
