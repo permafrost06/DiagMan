@@ -140,8 +140,7 @@ function createDatePickers() {
 }
 
 const getRefererSearchUrl = (val: string) =>
-    API_BASE +
-    `/misc?name=referer&end-search=${encodeURIComponent(val)}&limit=5`;
+    API_BASE + `/misc?name=referer&search=${encodeURIComponent(val)}&limit=5`;
 
 const rmRefReqs = ref(new Set<string>());
 const removeReferer = async (id: string, all: Record<string, string>[]) => {
