@@ -6,7 +6,6 @@ interface Props extends InputHTMLAttributes {
     hintType?: "error" | "warning" | "success" | "none";
     label?: string;
     class?: any;
-    id?: string;
     type?: "checkbox";
     modelValue?: boolean;
 }
@@ -20,9 +19,9 @@ const onChange = (evt: any) => {
 };
 </script>
 <template>
-    <div :class="[props.class, 'sq-checkbox']">
+    <label :class="[props.class, 'sq-checkbox']">
         <div class="sq-checkbox-area">
-            <label class="sq-field-box">
+            <div class="sq-field-box">
                 <input
                     type="checkbox"
                     v-bind="$attrs"
@@ -30,11 +29,10 @@ const onChange = (evt: any) => {
                     @input="onChange"
                 />
                 <span class="checkmark"></span>
-            </label>
-            <label v-if="label" :for="id">{{ label }}</label>
+            </div>
+            <p v-if="label">{{ label }}</p>
         </div>
-        <label
-            :for="id"
+        <p
             v-if="hint"
             :class="{
                 hint: true,
@@ -44,11 +42,13 @@ const onChange = (evt: any) => {
             }"
         >
             {{ hint }}
-        </label>
-    </div>
+        </p>
+    </label>
 </template>
 <style lang="scss">
 .sq-checkbox {
+    cursor: pointer;
+
     .sq-checkbox-area {
         display: flex;
         align-items: center;
