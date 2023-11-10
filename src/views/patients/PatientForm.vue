@@ -609,6 +609,11 @@ const onComplementaryChange = (evt: any) => {
         font-size: var(--fs-sm);
         padding-right: 15px;
 
+        &:hover {
+            color: var(--clr-white);
+            background: var(--clr-black);
+        }
+
         .remover {
             position: absolute;
             right: 10px;
