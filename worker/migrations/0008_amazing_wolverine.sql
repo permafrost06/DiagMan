@@ -1,0 +1,1 @@
+ALTER TABLE patients ADD `complementary` integer;

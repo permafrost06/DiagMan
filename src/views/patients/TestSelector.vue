@@ -3,37 +3,50 @@ import Icon from "@/components/base/Icon.vue";
 import SearchSelect from "@/components/base/SearchSelect.vue";
 import TestFormModal from "@/components/view/TestFormModal.vue";
 import { API_BASE } from "@/helpers/config";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 interface Props {
-    modelValue: number;
     tests?: Array<Record<string, string>>;
+    isComplementary?: boolean;
+    onTotalChange: (total: number) => void;
 }
-
-const emit = defineEmits<{ (e: "update:modelValue", total: number): void }>();
 
 const props = defineProps<Props>();
 const tests = ref<Array<Record<string, number | string>>>(props.tests || []);
 const total = ref<number>(0);
 const testAdder = ref<boolean>(false);
+const testPrices = ref<Record<string, string>>({});
 
-if (props.tests) {
+watch(props, () => {
     let total2 = 0;
-    props.tests.forEach((t: any) => {
-        total2 += t.price;
-    });
+    if (!props.isComplementary) {
+        tests.value.forEach((t: any) => {
+            const price = parseInt(t.price);
+            total2 += price;
+            testPrices.value[t.id] = (price / 100).toFixed(2);
+        });
+    }
     total.value = total2;
-}
+    props.onTotalChange(total2);
+});
 
 const addTest = (test: any) => {
     tests.value.push(test);
-    total.value += parseInt(test.price);
-    emit("update:modelValue", total.value);
+    if (props.isComplementary) {
+        return;
+    }
+    const price = parseInt(test.price);
+    testPrices.value[test.id] = (price / 100).toFixed(2);
+    total.value += price;
+    props.onTotalChange(total.value);
 };
 const removeTest = (test: any) => {
-    total.value -= parseInt(test.price);
     tests.value = tests.value.filter((t) => t.id != test.id);
-    emit("update:modelValue", total.value);
+    if (props.isComplementary) {
+        return;
+    }
+    total.value -= parseInt(test.price);
+    props.onTotalChange(total.value);
 };
 
 const getSearchUrl = (val: string) => {
@@ -96,11 +109,16 @@ const getSearchUrl = (val: string) => {
         <div class="tests" v-if="tests.length > 0">
             <template v-for="test in tests" :key="test.id">
                 <p>{{ test.name }}</p>
-                <p class="capitalize">{{ test.size }}</p>
-                <p>
-                    <input type="hidden" name="tests" :value="test.id" />
-                    {{ ((test.price as any) / 100).toFixed(2) }}
-                </p>
+                <p><input type="hidden" name="tests" :value="test.id" /></p>
+                <p v-if="isComplementary">0</p>
+                <input
+                    v-else
+                    type="number"
+                    step="0.01"
+                    v-model="testPrices[test.id]"
+                    :name="`test_price[${test.id}]`"
+                    class="test_price"
+                />
                 <button
                     type="button"
                     class="closer"
@@ -140,13 +158,17 @@ const getSearchUrl = (val: string) => {
         padding-bottom: 10px;
 
         display: grid;
-        grid-template-columns: 1fr max-content max-content 30px;
+        grid-template-columns: 1fr max-content 100px 30px;
         gap: 10px 20px;
 
         .closer {
             background: var(--clr-white);
             color: var(--clr-danger);
             padding: 0;
+        }
+
+        .test_price {
+            padding: 1px 3px;
         }
     }
 

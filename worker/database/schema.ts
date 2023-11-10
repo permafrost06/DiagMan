@@ -60,6 +60,7 @@ export const patients = sqliteTable('patients', {
 		mode: 'json',
 	}),
 	total: numeric('total'),
+	complementary: integer('complementary'),
 	discount: numeric('discount'),
 	advance: numeric('advance'),
 	timestamp: integer('timestamp', {
