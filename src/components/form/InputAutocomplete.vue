@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { fetchApi } from "@/helpers/http";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 interface InputProps {
     hint?: string;
@@ -66,6 +66,14 @@ const handleInput = (evt: any) => {
     emit("update:modelValue", fetchVal);
     tOut = setTimeout(fetchResults, 500);
 };
+
+onMounted(() => {
+    handleInput({
+        target: {
+            value: "",
+        },
+    });
+});
 
 function handleClick(val: string) {
     emit("update:modelValue", val);
