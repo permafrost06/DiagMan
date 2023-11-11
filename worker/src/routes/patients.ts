@@ -113,6 +113,8 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 					},
 				});
 			}
+
+			data.timestamp = Date.now();
 			await insertRow(db, 'patients', data);
 			res.setMsg('Patient added successfully!');
 		} else {
