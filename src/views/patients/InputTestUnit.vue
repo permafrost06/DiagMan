@@ -118,6 +118,7 @@ const blur = () => {
         <input
             v-model="current.name"
             placeholder="Test name"
+            autocomplete="off"
             type="text"
             name="tests"
             @input="handleInput"
@@ -141,6 +142,7 @@ const blur = () => {
         <input
             v-model="current.price"
             type="number"
+            autocomplete="off"
             step="0.01"
             name="prices"
             placeholder="Test price"
