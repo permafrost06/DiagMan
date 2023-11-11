@@ -344,6 +344,11 @@ const getSearchUrl = (val: string) =>
         color: var(--clr-black);
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
         font-size: var(--fs-base);
+
+        &:hover {
+            background: var(--clr-black);
+            color: var(--clr-white);
+        }
     }
 }
 </style>

@@ -144,8 +144,7 @@ function createDatePickers() {
     datepicker(deliveryDateField.value, options);
 }
 
-const getRefererSearchUrl = (val: string) =>
-    API_BASE + `/misc?name=referer&search=${encodeURIComponent(val)}&limit=5`;
+const getRefererSearchUrl = () => API_BASE + `/misc?name=referer`;
 
 const rmRefReqs = ref(new Set<string>());
 const removeReferer = async (id: string, all: Record<string, string>[]) => {
@@ -176,6 +175,39 @@ const onComplementaryChange = (evt: any) => {
         discount.value = parseInt(props.toEdit.discount) / 100;
         advance.value = parseInt(props.toEdit.advance) / 100;
     }
+};
+
+const filterRefs = (all: Array<any>, search: string): Array<any> => {
+    const matches: {
+        row: Record<string, any>;
+        weight: number;
+    }[] = [];
+    if (!search) {
+        return all.slice(0, 5);
+    }
+
+    all.forEach((item) => {
+        const match1 = item.data.toLowerCase().indexOf(search.toLowerCase());
+        if (match1 > -1) {
+            matches.push({
+                row: item,
+                weight: match1,
+            });
+        }
+    });
+
+    return matches
+        .sort((a, b) => {
+            if (a.weight > b.weight) {
+                return 1;
+            }
+            if (b.weight > a.weight) {
+                return -1;
+            }
+            return 0;
+        })
+        .slice(0, 5)
+        .map((item) => item.row);
 };
 </script>
 <template>
@@ -293,6 +325,7 @@ const onComplementaryChange = (evt: any) => {
                         :hint="fieldErrors?.referer?.[0]"
                         field-class="full-size"
                         :url="getRefererSearchUrl"
+                        :cached-search="filterRefs"
                         v-model="refererValue"
                         v-slot="{ results, accept }"
                     >
@@ -608,6 +641,11 @@ const onComplementaryChange = (evt: any) => {
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
         font-size: var(--fs-sm);
         padding-right: 15px;
+
+        &:hover {
+            color: var(--clr-white);
+            background: var(--clr-black);
+        }
 
         .remover {
             position: absolute;

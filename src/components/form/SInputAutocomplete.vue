@@ -10,6 +10,7 @@ interface InputProps {
     placeholder?: string;
     class?: any;
     url: (val: string) => string;
+    cachedSearch?: (all: Array<any>, search: string) => Array<any>;
     modelValue?: any;
     unWrap?: boolean;
     id?: string;
@@ -17,6 +18,7 @@ interface InputProps {
 }
 
 const results = ref<Record<string, any>[]>([]);
+const allResults = ref<Record<string, any>[]>([]);
 const inputRef = ref<HTMLInputElement>();
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -32,6 +34,11 @@ let tOut: any = 0,
     fetchVal: string = "";
 
 const fetchResults = async () => {
+    if (props.cachedSearch && allResults.value.length > 0) {
+        results.value = props.cachedSearch(allResults.value, fetchVal);
+        return;
+    }
+
     const res = await fetchApi(props.url(fetchVal), {
         signal: ctrl.signal,
     });
@@ -41,17 +48,27 @@ const fetchResults = async () => {
         );
         return;
     }
-    results.value = res.rows;
+    if (!props.cachedSearch) {
+        results.value = res.rows;
+        return;
+    }
+    allResults.value = res.rows;
+    results.value = props.cachedSearch(
+        allResults.value,
+        inputRef.value?.value || ""
+    );
 };
 
 const handleInput = (evt: any) => {
-    if (tOut) {
-        clearTimeout(tOut);
-        ctrl.abort();
-        ctrl = new AbortController();
-    }
     fetchVal = evt.target.value;
     emit("update:modelValue", fetchVal);
+    if (tOut) {
+        clearTimeout(tOut);
+        if (!props.cachedSearch) {
+            ctrl.abort();
+            ctrl = new AbortController();
+        }
+    }
     tOut = setTimeout(fetchResults, 500);
 };
 
