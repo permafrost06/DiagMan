@@ -15,6 +15,7 @@ import "quill/dist/quill.snow.css";
 import { dateToDMY } from "@/helpers/utils";
 import EditPatient from "./EditPatient.vue";
 import { useUser } from "@/stores/user";
+import router from "@/router";
 
 const quillOptions: QuillOptionsStatic = {
     debug: "error",
@@ -226,8 +227,8 @@ const handleFormSubmit = async (evt: any) => {
         error.value = null;
         message.value = res.message!;
         patient.value.locked = res.rows[0].locked;
-        reCheckEditors();
-        // router.back();
+        // reCheckEditors();
+        router.back();
     } else {
         error.value = res.message;
         errors.value = {

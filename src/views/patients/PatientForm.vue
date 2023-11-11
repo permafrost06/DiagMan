@@ -19,7 +19,11 @@ import router from "@/router";
 const props = defineProps<{
     toEdit?: Record<string, string>;
     headless?: boolean;
-    onSuccess?: (row: Record<string, string>, msg: string) => void;
+    onSuccess?: (
+        row: Record<string, string>,
+        msg: string,
+        showInvoice: boolean
+    ) => void;
 }>();
 
 const entryDateField = ref<HTMLInputElement>();
@@ -77,8 +81,9 @@ async function handleFormSubmit(evt: any) {
     if (res.success) {
         message.value = res.message!;
         if (props.onSuccess) {
-            props.onSuccess(res.rows[0], res.message!);
-        } else if (invoice.value) {
+            props.onSuccess(res.rows[0], res.message!, invoice.value);
+        }
+        if (invoice.value) {
             router.push({
                 name: "patients.invoice",
                 params: {
