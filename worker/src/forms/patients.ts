@@ -14,7 +14,7 @@ export const patientSchema = z.object({
 	referer: z.string(),
 	delivery_date: z.coerce.date(),
 	tests: z.array(z.string()).min(1),
-	test_price: z.record(z.coerce.number().positive(), z.coerce.number().nonnegative()).optional(),
+	prices: z.array(z.coerce.number().nonnegative()).min(1),
 	discount: z.coerce.number().nonnegative(),
 	advance: z.coerce.number().nonnegative(),
 	complementary: z.coerce.boolean(),

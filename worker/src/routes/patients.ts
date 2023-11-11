@@ -4,64 +4,45 @@ import { limitOperations, validateFormData, validateObject } from '../utils/help
 import { patientSchema } from '../forms/patients';
 import { Client } from '@libsql/client';
 
-const replaceTestID = async (db: Client, tests: number[], id: number, price: number): Promise<[number, bigint]> => {
-	const sql = `
-		INSERT INTO \`tests\` (name, price, size, type, status)
-		SELECT name, ${price}, size, type, 'active' FROM \`tests\` WHERE id = ${id}
-	`;
-	const { lastInsertRowid } = await db.execute(sql);
-	if (!lastInsertRowid) {
-		throw new Error(id.toString());
-	}
-	const newId = lastInsertRowid;
-	tests.push(newId.toString() as any);
-	const idx = tests.findIndex((tid) => tid == id);
-	if (idx > -1) {
-		tests.splice(idx, 1);
-	}
-	return [id, newId];
-};
-
-const updateTestPrices = async (db: Client, tests: number[], prices: Record<number, number>): Promise<[Record<string, any>[], number]> => {
-	const { rows } = await db.execute({
-		sql: `
-		  SELECT * FROM \`tests\` WHERE EXISTS (
-			SELECT * 
-			FROM json_each(?) 
-			WHERE json_each.value = tests.id
-		  )
-		`,
-		args: [JSON.stringify(tests)],
-	});
-
+const updateTestPrices = async (client: Client, tests: string[], prices: number[]): Promise<[Record<string, any>[], number]> => {
 	let total = 0;
+	if (tests.length != prices.length) {
+		throw new Error('Invalid tests!');
+	}
 
-	const misMatch: Promise<[number, bigint]>[] = [];
-
-	rows.forEach((test: any, idx: number) => {
-		const price = parseInt(test.price);
-		const price2 = prices[test.id] * 100;
-		total += price2;
-		if (price !== price2) {
-			misMatch.push(replaceTestID(db, tests, test.id, price2));
-			rows[idx] = {
-				...rows[idx],
-				price: price2,
+	const insertOps: Promise<any>[] = [];
+	const filteredTests: Array<any> = [];
+	tests.forEach((test, idx) => {
+		test = test.trim();
+		if (test) {
+			const testObj = {
+				name: test,
+				price: prices[idx] * 100,
 			};
+			filteredTests.push(testObj);
+			total += prices[idx] * 100;
+			insertOps.push(
+				client.execute({
+					sql: `
+					  INSERT INTO \`misc_strings\`(name, data)
+					  SELECT 'test', :data
+					  WHERE NOT EXISTS (
+						SELECT id FROM \`misc_strings\`
+						WHERE name='test' AND data == :data
+					  )
+					`,
+					args: { data: JSON.stringify(testObj) },
+				})
+			);
 		}
 	});
+	if (filteredTests.length === 0) {
+		throw new Error('At least one test should be selected!');
+	}
 
-	const err = (await Promise.allSettled(misMatch)).reduce((prev, cur) => {
+	const err = (await Promise.allSettled(insertOps)).reduce((prev, cur) => {
 		if (cur.status === 'rejected') {
 			prev += cur.reason + ', ';
-		} else {
-			const test = rows.findIndex((t) => t.id == cur.value[0]);
-			if (test > -1) {
-				rows[test] = {
-					...rows[test],
-					id: cur.value[1].toString(),
-				};
-			}
 		}
 		return prev;
 	}, '');
@@ -70,11 +51,11 @@ const updateTestPrices = async (db: Client, tests: number[], prices: Record<numb
 		throw new Error('Failed to update tests: ' + err);
 	}
 
-	return [rows, total];
+	return [filteredTests, total];
 };
 
 export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, params }) => {
-	const data = await validateFormData(request, patientSchema, ['tests'], ['test_price']);
+	const data = await validateFormData(request, patientSchema, ['tests', 'prices']);
 	const db = getLibsqlClient(env);
 
 	// ZOD does not support only date validation yet
@@ -82,22 +63,23 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 		data[key] = data[key].getTime();
 	});
 
+	try {
+		const [tests, total] = await updateTestPrices(db, data.tests, data.prices);
+		data.tests = tests;
+		data.total = total;
+		data.advance *= 100;
+		data.discount *= 100;
+	} catch (err: any) {
+		res.error(err.message);
+	}
+
 	if (data.complementary) {
 		data.total = 0;
 		data.advance = 0;
 		data.discount = 0;
-	} else
-		try {
-			const [tests, total] = await updateTestPrices(db, data.tests, data.test_price);
-			res.setData({ tests });
-			data.total = total;
-			data.advance *= 100;
-			data.discount *= 100;
-		} catch (err: any) {
-			res.error(err.message);
-		}
+	}
 
-	delete data.test_price;
+	delete data.prices;
 	data.tests = JSON.stringify(data.tests);
 
 	try {
@@ -122,6 +104,7 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 				sql: sql + ' WHERE id = ?',
 				args,
 			});
+
 			res.setMsg('Patient updated successfully!');
 		}
 		res.setRows([data]);
@@ -243,18 +226,12 @@ export const getPatient: RequestHandler = async ({ env, res, params }) => {
 	if (rows.length === 0) {
 		res.error('The patient does not exist!', 404);
 	}
-
-	const { rows: tests } = await db.execute({
-		sql: `
-		  SELECT * FROM \`tests\` WHERE EXISTS (
-			SELECT * 
-			FROM json_each(?) 
-			WHERE json_each.value = tests.id
-		  )
-		`,
-		args: [rows[0].tests],
-	});
-
+	let tests: Array<any> = [];
+	try {
+		tests = JSON.parse(rows[0].tests as any);
+	} catch (_err) {
+		// This happens means the tests are in old style
+	}
 	res.setRows([{ ...rows[0], tests }]);
 };
 
