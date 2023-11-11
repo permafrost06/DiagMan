@@ -2,6 +2,7 @@
 const { existsSync } = require('fs');
 const path = require('path');
 const { config } = require('dotenv');
+const { run: help } = require('./commands/Help');
 
 config({
 	path: '.dev.vars',
@@ -12,6 +13,7 @@ async function main() {
 	args.splice(0, 2);
 	if (args.length === 0) {
 		console.log('No command is provided!');
+		help();
 		return;
 	}
 	let fileName = args[0];
@@ -21,6 +23,7 @@ async function main() {
 		filePath = path.join(__dirname, 'commands', fileName + '.js');
 		if (!existsSync(filePath)) {
 			console.log(`Command ${args[0]} does not exist!`);
+			help();
 			return;
 		}
 	}
