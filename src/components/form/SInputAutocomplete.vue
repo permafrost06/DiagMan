@@ -53,7 +53,10 @@ const fetchResults = async () => {
         return;
     }
     allResults.value = res.rows;
-    results.value = props.cachedSearch(allResults.value, fetchVal);
+    results.value = props.cachedSearch(
+        allResults.value,
+        inputRef.value?.value || ""
+    );
 };
 
 const handleInput = (evt: any) => {
