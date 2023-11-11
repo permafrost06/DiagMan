@@ -36,7 +36,8 @@ const filterResults = () => {
             if (
                 props.selectedTests.findIndex(
                     (test) =>
-                        test.name.toLowerCase() == test1.name.toLowerCase()
+                        test.name.toLowerCase() == test1.name.toLowerCase() &&
+                        test.price == test1.price
                 ) == -1
             ) {
                 newArr.push(test1);
@@ -59,7 +60,8 @@ const filterResults = () => {
         if (
             match1 > -1 &&
             props.selectedTests.findIndex(
-                (test) => test.name.toLowerCase() == name
+                (test) =>
+                    test.name.toLowerCase() == name && test.price == item.price
             ) == -1
         ) {
             matches.push({
