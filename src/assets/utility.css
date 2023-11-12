@@ -121,3 +121,15 @@
 .bold {
     font-weight: bold;
 }
+
+/* Chrome, Safari, Edge, Opera */
+input.arrow-hidden-input::-webkit-outer-spin-button,
+input.arrow-hidden-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input.arrow-hidden-input[type="number"] {
+    -moz-appearance: textfield;
+}

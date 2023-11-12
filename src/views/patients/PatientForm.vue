@@ -276,7 +276,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             <input
                                 type="number"
                                 name="age"
-                                class="age-input"
+                                class="age-input arrow-hidden-input"
                                 :value="toEdit?.age"
                             />
                             years
@@ -476,7 +476,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input arrow-hidden-input"
                             name="discount"
                             v-model="discount"
                         />
@@ -504,7 +504,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input arrow-hidden-input"
                             name="advance"
                             v-model="advance"
                         />

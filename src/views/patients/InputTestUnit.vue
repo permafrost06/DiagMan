@@ -150,7 +150,7 @@ const blur = () => {
             step="0.01"
             name="prices"
             placeholder="Test price"
-            class="price-input"
+            class="price-input arrow-hidden-input"
             @blur="blur"
         />
         <input v-else value="0" readonly="true" name="prices" />
