@@ -158,7 +158,7 @@ const blur = () => {
 .patient-test-unit {
     display: grid;
     grid-template-columns: 1fr 100px;
-    gap: 5px 20px;
+    gap: 5px 10px;
     position: relative;
 
     input {
@@ -180,13 +180,23 @@ const blur = () => {
             border-bottom: 1px solid var(--clr-black);
             width: 100%;
             display: grid;
-            grid-template-columns: 1fr 80px;
+            grid-template-columns: 1fr 104px;
             text-align: left;
-            gap: 0 20px;
-            padding: 7px 5px;
+            padding: 7px 0;
+            gap: 0;
+
             &:hover {
                 background-color: var(--clr-accent);
                 color: var(--clr-white);
+            }
+
+            .suggestion-name {
+                padding: 0 5px;
+                border-right: 1px solid var(--clr-grey);
+            }
+
+            .suggestion-price {
+                padding-left: 8px;
             }
         }
     }
