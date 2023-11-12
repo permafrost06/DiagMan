@@ -7,6 +7,7 @@ import InputTestUnit from "./InputTestUnit.vue";
 interface Props {
     tests?: Array<Record<string, string>>;
     onTotalChange: (total: number) => void;
+    isComplementary?: boolean;
 }
 
 const props = defineProps<Props>();
@@ -52,18 +53,20 @@ const total = computed(() => {
                 v-model="selectedTests[key]"
                 :tests="(allTests as any)"
                 :selected-tests="(selectedTests as any)"
+                :is-complementary="isComplementary"
                 @remove="() => selectedTests.splice(key, 1)"
             />
             <InputTestUnit
                 :key="selectedTests.length"
                 :selected-tests="(selectedTests as any)"
                 :tests="(allTests as any)"
+                :is-complementary="isComplementary"
                 @add="(t) => selectedTests.push(t as any)"
             />
         </div>
         <div class="total">
             <p>Subtotal</p>
-            <p>{{ (total / 100).toFixed(2) }}</p>
+            <p>{{ isComplementary ? 0 : (total / 100).toFixed(2) }}</p>
         </div>
     </div>
 </template>
@@ -81,7 +84,7 @@ const total = computed(() => {
 
     .total {
         display: grid;
-        grid-template-columns: 1fr max-content 50px;
+        grid-template-columns: 1fr 95px;
         padding: 10px 0;
     }
 }

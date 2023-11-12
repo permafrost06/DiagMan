@@ -10,6 +10,7 @@ const props = defineProps<{
     tests: Test[];
     modelValue?: any;
     selectedTests: Test[];
+    isComplementary?: boolean;
 }>();
 const emit = defineEmits<{
     (e: "remove"): void;
@@ -142,6 +143,7 @@ const blur = () => {
             </button>
         </div>
         <input
+            v-if="!isComplementary"
             v-model="current.price"
             type="number"
             autocomplete="off"
@@ -151,6 +153,7 @@ const blur = () => {
             class="price-input"
             @blur="blur"
         />
+        <input v-else value="0" readonly="true" name="prices" />
     </div>
 </template>
 
