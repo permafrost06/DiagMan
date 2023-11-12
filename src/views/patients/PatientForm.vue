@@ -514,6 +514,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                     <div class="flex items-center gap-sm">
                         BDT
                         <input
+                            readonly="true"
                             type="number"
                             step="0.01"
                             class="amount-input"
@@ -566,6 +567,10 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             &.full-size {
                 max-width: none;
             }
+        }
+
+        input:read-only {
+            border: 0;
         }
 
         .amount-input {
