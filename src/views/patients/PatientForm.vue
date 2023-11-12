@@ -411,11 +411,11 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         autocomplete="off"
                         placeholder="dd-mm-yyyy"
                         :value="
-                            toEdit
-                                ? dateToDMY(
-                                      new Date(parseInt(toEdit.entry_date))
-                                  )
-                                : ''
+                            dateToDMY(
+                                toEdit
+                                    ? new Date(parseInt(toEdit.entry_date))
+                                    : new Date()
+                            )
                         "
                     />
                 </SimpleBlankInput>
