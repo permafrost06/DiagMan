@@ -36,7 +36,7 @@ getAllTests();
 
 const total = computed(() => {
     const total = selectedTests.value.reduce(
-        (prev, cur) => prev + parseInt(cur.price || ""),
+        (prev, cur) => prev + parseInt(cur.price || "0"),
         0
     );
     props.onTotalChange(total);
