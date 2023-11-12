@@ -38,6 +38,16 @@ input[type="checkbox"] {
   display: inline-block;
 }
 
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(var(--clr-accent-rgb), 0.5);
+  border-color: var(--clr-accent);
+}
+input:read-only:focus {
+  box-shadow: none;
+}
+
 button, .btn {
   background-color: var(--clr-black);
   color: var(--clr-white);
