@@ -7,13 +7,11 @@ import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
 import TestSelector from "./TestSelector.vue";
+import DatePicker from "@/components/form/DatePicker.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { dateToDMY, dmyToDate } from "@/helpers/utils";
 import { onMounted, ref } from "vue";
-// @ts-ignore
-import datepicker from "js-datepicker";
-import "js-datepicker/dist/datepicker.min.css";
 import router from "@/router";
 
 const props = defineProps<{
@@ -25,10 +23,6 @@ const props = defineProps<{
         showInvoice: boolean
     ) => void;
 }>();
-
-const entryDateField = ref<HTMLInputElement>();
-const sampleDateField = ref<HTMLInputElement>();
-const deliveryDateField = ref<HTMLInputElement>();
 
 const isPosting = ref<"add" | "draft" | boolean>(false);
 const error = ref<string | null>(null);
@@ -45,7 +39,6 @@ const reRenderTests = ref<number>(0);
 const refererValue = ref<string>("");
 
 onMounted(async () => {
-    createDatePickers();
     if (props.toEdit) {
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;
@@ -99,49 +92,6 @@ async function handleFormSubmit(evt: any) {
         error.value = res.message;
         fieldErrors.value = res.field;
     }
-}
-
-function createDatePickers() {
-    const options = {
-        showAllDates: true,
-        formatter(input: HTMLInputElement, date: Date) {
-            input.value = dateToDMY(date);
-        },
-        onShow(ins: any) {
-            const val = ins.el.value;
-            if (val && val.length === 10) {
-                ins.setDate(dmyToDate(val), true);
-            }
-            const el = ins.el.nextElementSibling as HTMLDivElement;
-            const box = el.getBoundingClientRect();
-            const pos: {
-                top?: string;
-                bottom?: string;
-                right?: string;
-                left?: string;
-            } = {};
-
-            if (box.right > screen.availWidth) {
-                pos.right = "0px";
-            } else {
-                pos.left = "0px";
-            }
-
-            if (box.bottom > window.innerHeight) {
-                pos.bottom = "100%";
-            } else {
-                pos.top = "100%";
-            }
-            el.removeAttribute("style");
-            for (const i in pos) {
-                // @ts-ignore
-                el.style[i] = pos[i];
-            }
-        },
-    };
-    datepicker(entryDateField.value, options);
-    datepicker(sampleDateField.value, options);
-    datepicker(deliveryDateField.value, options);
 }
 
 const getRefererSearchUrl = () => API_BASE + `/misc?name=referer`;
@@ -349,13 +299,9 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         :un-wrap="true"
                         :hint="fieldErrors?.delivery_date?.[0]"
                     >
-                        <input
-                            ref="deliveryDateField"
-                            type="text"
+                        <DatePicker
                             name="delivery_date"
                             class="date-input"
-                            autocomplete="off"
-                            placeholder="dd-mm-yyyy"
                             :value="
                                 toEdit
                                     ? dateToDMY(
@@ -403,13 +349,9 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                     :un-wrap="true"
                     :hint="fieldErrors?.entry_date?.[0]"
                 >
-                    <input
-                        ref="entryDateField"
-                        type="text"
+                    <DatePicker
                         name="entry_date"
                         class="date-input"
-                        autocomplete="off"
-                        placeholder="dd-mm-yyyy"
                         :value="
                             dateToDMY(
                                 toEdit
@@ -432,13 +374,9 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                     :un-wrap="true"
                     :hint="fieldErrors?.sample_collection_date?.[0]"
                 >
-                    <input
-                        ref="sampleDateField"
-                        type="text"
+                    <DatePicker
                         name="sample_collection_date"
                         class="date-input"
-                        autocomplete="off"
-                        placeholder="dd-mm-yyyy"
                         :value="
                             toEdit
                                 ? dateToDMY(
