@@ -42,7 +42,7 @@ const options = {
         if (curVal.value) {
             ins.setDate(curVal.value, true);
         }
-        const el = ins.el.nextElementSibling as HTMLDivElement;
+        const el = ins.el.parentElement.lastElementChild as HTMLDivElement;
         const box = el.getBoundingClientRect();
         const pos: {
             top?: string;
@@ -67,6 +67,7 @@ const options = {
             // @ts-ignore
             el.style[i] = pos[i];
         }
+        insertButtons(el, ins);
     },
     onSelect: (_: any, date: Date) => {
         updateDate(date);
@@ -97,12 +98,42 @@ function updateDate(date: Date) {
     iValue.value = props.formatter(curVal.value);
 }
 
-const increment = () => {
+function insertButtons(el: HTMLDivElement, ins: any) {
+    if (el.querySelector(":scope > .date-picker-custom-buttons")) {
+        return;
+    }
+
+    const mainDiv = document.createElement("div");
+    mainDiv.className = "date-picker-custom-buttons";
+    const btn1 = document.createElement("button");
+    btn1.type = "button";
+    btn1.innerHTML = "Today";
+
+    mainDiv.appendChild(btn1);
+
+    const btn2 = btn1.cloneNode() as HTMLButtonElement;
+    btn2.innerHTML = "+7 Days";
+    mainDiv.appendChild(btn2);
+
+    btn1.addEventListener("click", () => {
+        updateDate(new Date());
+        ins.setDate(curVal.value, true);
+    });
+
+    btn2.addEventListener("click", () => {
+        increment(7);
+        ins.setDate(curVal.value, true);
+    });
+
+    el.appendChild(mainDiv);
+}
+
+function increment(days: number = 1) {
     const date = curVal.value || new Date();
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate() + days);
     updateDate(date);
     emit("update:modelValue", date);
-};
+}
 const decrement = () => {
     const date = curVal.value || new Date();
     date.setDate(date.getDate() - 1);
@@ -136,11 +167,13 @@ const onBlur = () => {
             @input="(evt: any) => emit('update:modelValue', evt.target.value)"
             @blur="onBlur"
         />
-        <button type="button" class="date-inc" @click="increment">+</button>
+        <button type="button" class="date-inc" @click="() => increment()">
+            +
+        </button>
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .datep-f-wrapper {
     display: flex;
     align-items: center;
@@ -157,6 +190,13 @@ const onBlur = () => {
         background: none;
         color: var(--clr-black);
         font-size: var(--fs-base);
+    }
+
+    .date-picker-custom-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 5px;
     }
 }
 </style>
