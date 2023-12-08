@@ -1,31 +1,36 @@
 <script setup lang="ts">
-import { dateToDMY, dmyToDate } from "@/helpers/utils";
 import { onMounted, ref, watch, type InputHTMLAttributes } from "vue";
 // @ts-ignore
 import datepicker from "js-datepicker";
 import "js-datepicker/dist/datepicker.min.css";
+import { dateToDMY } from "@/helpers/utils";
 
 interface Props extends InputHTMLAttributes {
     formatter?: (date: Date) => string;
-    parser?: (text: string) => Date;
-    modelValue?: string;
-    value?: string;
+    parser?: (val: string) => Date;
+    modelValue?: Date | string;
+    value?: Date | string;
+    name?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    formatter: dateToDMY,
-    parser: dmyToDate,
+    formatter: (date: Date) =>
+        date
+            .toDateString()
+            .replace(" " + date.getFullYear(), ", " + date.getFullYear()),
 });
 
 const emit = defineEmits<{
-    (evt: "update:modelValue", value: string): void;
+    (evt: "update:modelValue", value: Date): void;
 }>();
 
 const el = ref<HTMLInputElement>();
-const iValue = ref(props.modelValue || props.value || "");
+const iValue = ref("");
+
+const curVal = ref<Date>();
 
 watch(props, (upt) => {
-    iValue.value = upt.modelValue || upt.value || "";
+    updateDateExternal(upt.modelValue || upt.value);
 });
 
 const options = {
@@ -34,9 +39,8 @@ const options = {
         input.value = props.formatter(date);
     },
     onShow(ins: any) {
-        const val = ins.el.value;
-        if (val && val.length === 10) {
-            ins.setDate(props.parser(val), true);
+        if (curVal.value) {
+            ins.setDate(curVal.value, true);
         }
         const el = ins.el.nextElementSibling as HTMLDivElement;
         const box = el.getBoundingClientRect();
@@ -64,6 +68,9 @@ const options = {
             el.style[i] = pos[i];
         }
     },
+    onSelect: (_: any, date: Date) => {
+        updateDate(date);
+    },
 };
 
 onMounted(() => {
@@ -71,31 +78,63 @@ onMounted(() => {
         return;
     }
     datepicker(el.value, options);
+    updateDateExternal(props.modelValue || props.value);
 });
 
+function updateDateExternal(date?: string | Date) {
+    if (!date) {
+        return;
+    }
+    if (typeof date !== "object") {
+        updateDate(new Date(date));
+    } else {
+        updateDate(date);
+    }
+}
+
+function updateDate(date: Date) {
+    curVal.value = date;
+    iValue.value = props.formatter(curVal.value);
+}
+
 const increment = () => {
-    const date = props.parser(el.value?.value || "");
+    const date = curVal.value || new Date();
     date.setDate(date.getDate() + 1);
-    iValue.value = props.formatter(date);
-    emit("update:modelValue", iValue.value);
+    updateDate(date);
+    emit("update:modelValue", date);
 };
 const decrement = () => {
-    const date = props.parser(el.value?.value || "");
+    const date = curVal.value || new Date();
     date.setDate(date.getDate() - 1);
-    iValue.value = props.formatter(date);
-    emit("update:modelValue", iValue.value);
+    updateDate(date);
+    emit("update:modelValue", date);
+};
+
+const onBlur = () => {
+    if (!props.parser || !el.value) {
+        return;
+    }
+    updateDate(props.parser(el.value.value));
 };
 </script>
 <template>
     <div class="datep-f-wrapper">
         <button type="button" class="date-dec" @click="decrement">-</button>
         <input
+            v-if="name"
+            type="hidden"
+            :name="name"
+            :value="curVal ? dateToDMY(curVal) : ''"
+        />
+        <input
             v-bind="$attrs"
             ref="el"
             type="text"
             autocomplete="off"
+            :readonly="!props.parser"
             :value="iValue"
             @input="(evt: any) => emit('update:modelValue', evt.target.value)"
+            @blur="onBlur"
         />
         <button type="button" class="date-inc" @click="increment">+</button>
     </div>

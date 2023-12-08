@@ -426,7 +426,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input read-only"
                             readonly
                             :value="complementary ? 0 : total / 100 - discount"
                         />
@@ -452,10 +452,10 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                     <div class="flex items-center gap-sm">
                         BDT
                         <input
-                            readonly="true"
+                            readonly
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input read-only"
                             :value="
                                 complementary
                                     ? 0
@@ -507,7 +507,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             }
         }
 
-        input:read-only {
+        input.read-only {
             border: 0;
         }
 
@@ -558,7 +558,6 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
     }
 
     .date-input {
-        width: max-content;
         padding: 3px 5px;
     }
 
