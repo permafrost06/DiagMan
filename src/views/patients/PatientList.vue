@@ -459,7 +459,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 .patients-header .h-user-name {
     font-weight: bold;
     margin-right: 10px;
-    font-size: var(--fs-lg);
+    font-size: var(--fs-md);
 
     .h-user-role {
         font-weight: normal;
