@@ -10,7 +10,7 @@ import TestSelector from "./TestSelector.vue";
 import DatePicker from "@/components/form/DatePicker.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
-import { dateToDMY, dmyToDate } from "@/helpers/utils";
+import { dmyToDate } from "@/helpers/utils";
 import { onMounted, ref } from "vue";
 import router from "@/router";
 
@@ -304,11 +304,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             class="date-input"
                             :value="
                                 toEdit
-                                    ? dateToDMY(
-                                          new Date(
-                                              parseInt(toEdit.delivery_date)
-                                          )
-                                      )
+                                    ? new Date(parseInt(toEdit.delivery_date))
                                     : ''
                             "
                         />
@@ -353,11 +349,9 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         name="entry_date"
                         class="date-input"
                         :value="
-                            dateToDMY(
-                                toEdit
-                                    ? new Date(parseInt(toEdit.entry_date))
-                                    : new Date()
-                            )
+                            toEdit
+                                ? new Date(parseInt(toEdit.entry_date))
+                                : new Date()
                         "
                     />
                 </SimpleBlankInput>
@@ -379,12 +373,8 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         class="date-input"
                         :value="
                             toEdit
-                                ? dateToDMY(
-                                      new Date(
-                                          parseInt(
-                                              toEdit.sample_collection_date
-                                          )
-                                      )
+                                ? new Date(
+                                      parseInt(toEdit.sample_collection_date)
                                   )
                                 : ''
                         "
