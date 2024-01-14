@@ -37,7 +37,7 @@ const convertToHtml = (data: string) => {
 </script>
 
 <template>
-    <template v-if="record">
+    <!--    <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
             <button
@@ -126,6 +126,96 @@ const convertToHtml = (data: string) => {
     <div v-else class="f-scr">
         <Loading v-if="isLoading" size="100" />
         <p v-else>{{ error }}</p>
+        </div> -->
+    <template v-if="record">
+        <div class="flex items-center gap-sm buttons">
+            <button @click="print" class="btn print-btn">Print</button>
+            <button
+                class="btn btn-outline"
+                type="button"
+                @click="() => router.back()"
+            >
+                Go back
+            </button>
+        </div>
+        <div class="report">
+            <div class="page">
+                <table class="patient-details underline">
+                    <tr>
+                        <td class="bold">ID No: 2021-H-02</td>
+                        <td class="bold">Patient: Miss Tabia</td>
+                    </tr>
+                    <tr>
+                        <td>Collected: 01-01-2021</td>
+                        <td>Age: 14 years</td>
+                    </tr>
+                    <tr>
+                        <td>Received: 01-01-2021</td>
+                        <td>Sex: Female</td>
+                    </tr>
+                </table>
+
+                <p class="referrer underline">
+                    Referred by: Prof. Dr. Mostofa Mahfuzul Anwar, MBBS, FCPS
+                    (ENT)
+                </p>
+                <table class="report-details">
+                    <tr>
+                        <td class="bold">Diagnosis:</td>
+                        <td>
+                            <p>Left thyroid nodule, Excised</p>
+                            <p class="large bold">Follicular adenoma</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Indication:</td>
+                        <td>
+                            Thyroid swelling with FNA diagnosis of Follicular
+                            neoplasm
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Anatomical source:</td>
+                        <td>Left Thyroid nodule</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Gross description:</td>
+                        <td>
+                            Excised thyroid tissue, measured 4x2.5x15cm
+                            containing a solid mass if 3x2x1.2 cm
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">No of sections embedded:</td>
+                        <td>04</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">No of paraffin blocks:</td>
+                        <td>02</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Microscopic description:</td>
+                        <td>
+                            <p>
+                                Sections showed thyroid tissue revealing a
+                                benign neoplasm composed of closely packed
+                                trabeculae of follicular epithelium with solid
+                                areas with an intact capsule.
+                            </p>
+                            <p>No granuloma or malignancy was seen.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Note:</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </template>
+    <div v-else class="f-scr">
+        <Loading v-if="isLoading" size="100" />
+        <p v-else>{{ error }}</p>
     </div>
 </template>
 
@@ -145,76 +235,67 @@ const convertToHtml = (data: string) => {
         border: 1px solid black;
     }
 }
+
 .report {
-    height: 210mm; /* DIN A4 standard paper size */
+    height: 210mm;
+    /* DIN A4 standard paper size */
     width: 297mm;
     margin: auto;
-
-    * {
-        font-family: "Times New Roman" !important;
-    }
-
-    .page {
-        font-family: "Times New Roman";
-
-        margin: 0;
-        /* you don't really have to explicitly set it to 0 unless it's already set to something else */
-        header h1 {
-            color: black;
-            text-align: center;
-            text-transform: uppercase;
-            text-decoration: underline;
-            font-size: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        font-size: 1.2rem;
-    }
-
-    .bold {
-        font-weight: 800;
-    }
-
-    .right {
-        text-align: right;
-    }
-
-    .box {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .reference {
-        margin-top: 1rem;
-        border-bottom: 1px solid black;
-    }
-
-    h3 {
-        font-weight: 800;
-        margin: 0;
-        margin-top: 1.5rem;
-    }
-}
-
-@media screen {
-    div.page {
-        margin: 1in 1in 1.2in 1in; /* printers usually have a bigger bottom margin*/
-    }
+    font-size: 1.5rem;
 }
 
 @media print {
-    div.page {
-        margin: 10mm; /* Browser will apply the correct margins when it prints */
-        margin-top: 1.8in;
-        font-size: 1.5rem;
-    }
-
     .buttons {
         display: none;
     }
+}
 
-    #nav {
-        display: none;
+.page {
+    margin: 1in 1in 1.2in 1in;
+    padding: 1rem;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.large {
+    font-size: 1.75rem;
+}
+
+.underline::after {
+    display: block;
+    position: absolute;
+    content: "";
+    height: 1px;
+    width: 930px;
+    background-color: black;
+}
+
+.referrer {
+    padding-inline: 3px;
+    margin-block: 2rem;
+}
+
+table.patient-details {
+    width: 100%;
+
+    td:nth-of-type(2) {
+        text-align: right;
     }
+}
+
+table.report-details {
+    td:nth-of-type(1) {
+        vertical-align: top;
+        width: 320px;
+    }
+
+    td:nth-of-type(2) {
+        vertical-align: bottom;
+    }
+
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
 }
 </style>
