@@ -39,7 +39,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 <header class="cols-2">
                     <div class="header-left">
                         <p class="logo">The Opinion</p>
-                        <p><strong>Dr. Md. Saiful Islam</strong></p>
+                        <p class="bold">Dr. Md. Saiful Islam</p>
                         <p>Cyto and Histopathology Specialist</p>
                         <p>Associate Professor</p>
                         <p>Department of Pathology</p>
@@ -193,6 +193,8 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
 </template>
 
 <style lang="scss" scoped>
+@import url("https://fonts.maateen.me/solaiman-lipi/font.css");
+
 .f-scr {
     height: 100%;
     display: flex;
@@ -212,14 +214,15 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
     width: 297mm;
     margin: auto;
 
-    * {
-        font-family: "Open Sans", sans-serif;
+    h1 {
+        font-family: "Open sans", sans-serif;
     }
 
     .page {
-        font-family: "Calibri";
+        font-family: "Open Sans", sans-serif;
         line-height: 1.6rem;
-        font-size: 1.25rem;
+        font-size: 1.15rem;
+        --margin-x: 2.5in;
     }
 
     .cols-2 {
@@ -245,7 +248,7 @@ h1 {
 }
 
 .bold {
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .right {
@@ -259,7 +262,7 @@ h1 {
 
 @media screen {
     div.page {
-        margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
+        margin: 10mm var(--margin-x) 0 var(--margin-x); /* Browser will apply the correct margins when it prints */
     }
 }
 
@@ -272,7 +275,7 @@ h1 {
         overflow: hidden;
     }
     div.page {
-        margin: 10mm 2.5in 0 2.5in; /* Browser will apply the correct margins when it prints */
+        margin: 10mm var(--margin-x) 0 var(--margin-x); /* Browser will apply the correct margins when it prints */
     }
 
     .buttons {
@@ -362,7 +365,9 @@ h3 {
 }
 
 footer {
-    margin-top: 100px;
+    position: absolute;
+    top: 63rem;
+
     div {
         font-family: "SolaimanLipi";
     }
@@ -370,6 +375,7 @@ footer {
     .footer-right {
         text-align: right;
         font-family: "SolaimanLipi";
+        margin-left: 7.8rem;
     }
 }
 
