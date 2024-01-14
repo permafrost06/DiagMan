@@ -190,6 +190,21 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             <div class="left-wrapper">
                 <div class="left">
                     <h4 class="section-title all-col">Metadata</h4>
+                    <SimpleBlankInput
+                        label="Entry date"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.entry_date?.[0]"
+                    >
+                        <DatePicker
+                            name="entry_date"
+                            class="date-input"
+                            :value="
+                                toEdit
+                                    ? new Date(parseInt(toEdit.entry_date))
+                                    : new Date()
+                            "
+                        />
+                    </SimpleBlankInput>
                     <SimpleSelect
                         name="type"
                         label="Type"
@@ -340,22 +355,6 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             <div class="right">
                 <h4 class="section-title all-col">Specimen Information</h4>
 
-                <SimpleBlankInput
-                    label="Entry date"
-                    :un-wrap="true"
-                    :hint="fieldErrors?.entry_date?.[0]"
-                >
-                    <DatePicker
-                        name="entry_date"
-                        class="date-input"
-                        :value="
-                            toEdit
-                                ? new Date(parseInt(toEdit.entry_date))
-                                : new Date()
-                        "
-                    />
-                </SimpleBlankInput>
-
                 <SimpleInput
                     label="Specimen"
                     :un-wrap="true"
@@ -497,6 +496,10 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             }
         }
 
+        input.date-input {
+            max-width: 240px;
+        }
+
         input.read-only {
             border: 0;
         }
@@ -549,6 +552,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
 
     .date-input {
         padding: 3px 5px;
+        max-width: 240px;
     }
 
     .submit-area {
