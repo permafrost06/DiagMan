@@ -130,11 +130,7 @@ const convertToHtml = (data: string) => {
     <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
-            <button
-                class="btn btn-outline"
-                type="button"
-                @click="() => router.back()"
-            >
+            <button class="btn btn-outline" type="button" @click="() => router.back()">
                 Go back
             </button>
         </div>
@@ -174,25 +170,45 @@ const convertToHtml = (data: string) => {
                             neoplasm
                         </td>
                     </tr>
-                    <tr>
-                        <td class="bold">Anatomical source:</td>
-                        <td>Left Thyroid nodule</td>
-                    </tr>
-                    <tr>
-                        <td class="bold">Gross description:</td>
-                        <td>
-                            Excised thyroid tissue, measured 4x2.5x15cm
-                            containing a solid mass if 3x2x1.2 cm
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="bold">No of sections embedded:</td>
-                        <td>04</td>
-                    </tr>
-                    <tr>
-                        <td class="bold">No of paraffin blocks:</td>
-                        <td>02</td>
-                    </tr>
+                    <template v-if="record.type === 'histo'">
+                        <tr>
+                            <td class="bold">Anatomical source:</td>
+                            <td>Left Thyroid nodule</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Gross description:</td>
+                            <td>
+                                Excised thyroid tissue, measured 4x2.5x15cm
+                                containing a solid mass if 3x2x1.2 cm
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bold">No of sections embedded:</td>
+                            <td>04</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">No of paraffin blocks:</td>
+                            <td>02</td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr>
+                            <td class="bold">Clinical Information:</td>
+                            <td>H/O 3 months, size>4 cm, euthyroid, USDG: TIRAD IV</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Aspiration note:</td>
+                            <td>Blood mixed cellular material came out on aspiration</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">No of slides made:</td>
+                            <td>06</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">No of slides stained:</td>
+                            <td>04</td>
+                        </tr>
+                    </template>
                     <tr>
                         <td class="bold">Microscopic description:</td>
                         <td>
@@ -229,6 +245,7 @@ const convertToHtml = (data: string) => {
 
 .buttons {
     padding: 10px;
+
     .btn {
         border-radius: 5px;
         padding: 5px 10px;
