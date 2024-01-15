@@ -87,7 +87,6 @@ watch(noteFieldVisible, async () => {
     await nextTick();
     if (noteFieldVisible.value) {
         if (patient.value?.note) {
-            console.log(patient.value.note);
             quillInstances.note.setContents(
                 JSON.parse(patient.value.note || "{}").ops
             );
