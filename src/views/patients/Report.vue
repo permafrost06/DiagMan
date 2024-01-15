@@ -215,23 +215,14 @@ const onTemplateChange = (evt: any) => {
 };
 
 const showTemplateSaver = () => {
-    templateModalValue.value = {
-        type: patient.value?.type === "cyto" ? "cyto" : "histo",
-        microscopic_examination: JSON.stringify(
-            quillInstances.me.getContents()
-        ),
-        impression: JSON.stringify(quillInstances.impression.getContents()),
-        note: JSON.stringify(quillInstances.note.getContents()),
-    };
-    if (patient.value?.type === "cyto") {
-        templateModalValue.value.aspiration_note = JSON.stringify(
-            quillInstances.asp.getContents()
-        );
-    } else {
-        templateModalValue.value.gross_examination = JSON.stringify(
-            quillInstances.asp.getContents()
+    const newTemplate: any = {};
+    for (const fName in quillInstances) {
+        newTemplate[fName] = JSON.stringify(
+            quillInstances[fName].getContents()
         );
     }
+    newTemplate["type"] = patient.value?.type === "cyto" ? "cyto" : "histo";
+    templateModalValue.value = newTemplate;
 };
 
 const onTemAdded = (tem: any) => {

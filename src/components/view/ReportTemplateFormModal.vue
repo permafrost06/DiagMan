@@ -9,6 +9,7 @@ import { fetchApi } from "@/helpers/http";
 import Quill, { type QuillOptionsStatic } from "quill";
 
 import "quill/dist/quill.snow.css";
+import SimpleInput from "../form/SimpleInput.vue";
 
 interface Props {
     onClose?: () => void;
@@ -40,36 +41,49 @@ const organVal = ref<string>(props.edit?.organ || "");
 const nameVal = ref<string>(props.edit?.name || "");
 const typeVal = ref<string>(props.edit?.type || "");
 
+const diagField = ref<HTMLDivElement>();
+const indicationField = ref<HTMLDivElement>();
+const microField = ref<HTMLDivElement>();
+const srcField = ref<HTMLDivElement>();
+const grossField = ref<HTMLDivElement>();
+const clinicField = ref<HTMLDivElement>();
 const aspField = ref<HTMLDivElement>();
-const meField = ref<HTMLDivElement>();
-const impressionField = ref<HTMLDivElement>();
+
 const noteField = ref<HTMLDivElement>();
-const geField = ref<HTMLDivElement>();
 
 onMounted(() => {
     initEditors();
     if (props.edit) {
-        loadContents(props.edit.note, quillInstances.note);
-        loadContents(props.edit.aspiration_note, quillInstances.asp);
-        loadContents(props.edit.gross_examination, quillInstances.ge);
-        loadContents(props.edit.impression, quillInstances.impression);
-        loadContents(props.edit.microscopic_examination, quillInstances.me);
+        loadContents(props.edit);
     }
 });
 
-function loadContents(data: string, quillIns: Quill) {
-    try {
-        quillIns.setContents(JSON.parse(data).ops);
-    } catch (_e) {
-        /* empty */
+function loadContents(data: any) {
+    for (const fName in quillInstances) {
+        try {
+            const delta = JSON.parse(data[fName] || "{}");
+            quillInstances[fName].setContents(delta.ops);
+        } catch (_e) {
+            /* empty */
+        }
     }
 }
 
 async function initEditors() {
-    quillInstances.asp = new Quill(aspField.value!, quillOptions);
-    quillInstances.ge = new Quill(geField.value!, quillOptions);
-    quillInstances.impression = new Quill(impressionField.value!, quillOptions);
-    quillInstances.me = new Quill(meField.value!, quillOptions);
+    quillInstances.diagnosis = new Quill(diagField.value!, quillOptions);
+    quillInstances.indication = new Quill(indicationField.value!, quillOptions);
+    quillInstances.microscopic_description = new Quill(
+        microField.value!,
+        quillOptions
+    );
+    quillInstances.anatomical_source = new Quill(srcField.value!, quillOptions);
+    quillInstances.gross_description = new Quill(
+        grossField.value!,
+        quillOptions
+    );
+    quillInstances.clinical_info = new Quill(clinicField.value!, quillOptions);
+    quillInstances.asp_note = new Quill(aspField.value!, quillOptions);
+
     quillInstances.note = new Quill(noteField.value!, quillOptions);
 }
 
@@ -85,52 +99,8 @@ async function handleFormSubmit(evt: any) {
     message.value = null;
     fieldErrs.value = {};
 
-    let errCount = 0;
-    if ((quillInstances.asp?.getLength() || 1) < 2) {
-        errCount++;
-    } else {
-        data.append(
-            "aspiration_note",
-            JSON.stringify(quillInstances.asp.getContents())
-        );
-    }
-
-    if ((quillInstances.ge?.getLength() || 1) < 2) {
-        errCount++;
-    } else {
-        data.append(
-            "gross_examination",
-            JSON.stringify(quillInstances.ge.getContents())
-        );
-    }
-
-    if ((quillInstances.me?.getLength() || 1) < 2) {
-        errCount++;
-    } else {
-        data.append(
-            "microscopic_examination",
-            JSON.stringify(quillInstances.me.getContents())
-        );
-    }
-
-    if ((quillInstances.impression?.getLength() || 1) < 2) {
-        errCount++;
-    } else {
-        data.append(
-            "impression",
-            JSON.stringify(quillInstances.impression.getContents())
-        );
-    }
-
-    if (errCount == 4) {
-        error.value =
-            "At least one of 'Aspiration Note', 'Gross Examination', 'Microscopic Examination' and 'Impression' must contain something!";
-        isPosting.value = false;
-        return;
-    }
-
-    if (quillInstances.note) {
-        data.append("note", JSON.stringify(quillInstances.note.getContents()));
+    for (const fName in quillInstances) {
+        data.append(fName, JSON.stringify(quillInstances[fName].getContents()));
     }
 
     const res = await fetchApi(evt.target.action, {
@@ -212,47 +182,109 @@ const getSearchUrl = (val: string) =>
                             {{ item.organ }}
                         </button>
                     </InputAutocomplete>
-                    <div
-                        class="editor-unit"
-                        :class="{ hidden: typeVal !== 'cyto' }"
-                    >
-                        <label>Aspiration Note</label>
-                        <div ref="aspField"></div>
-                        <p v-if="fieldErrs.asp" class="hint error">
-                            {{ fieldErrs.asp }}
-                        </p>
-                    </div>
-                    <div
-                        class="editor-unit"
-                        :class="{ hidden: typeVal !== 'histo' }"
-                    >
-                        <label>Gross Examination</label>
-                        <div ref="geField"></div>
-                        <p v-if="fieldErrs.ge" class="hint error">
-                            {{ fieldErrs.ge }}
-                        </p>
-                    </div>
                     <div class="editor-unit">
-                        <label>Microscopic Examination</label>
-                        <div ref="meField"></div>
-                        <p v-if="fieldErrs.me" class="hint error">
-                            {{ fieldErrs.me }}
-                        </p>
-                    </div>
-                    <div class="editor-unit">
-                        <label>Impression</label>
-                        <div ref="impressionField"></div>
-                        <p v-if="fieldErrs.impression" class="hint error">
-                            {{ fieldErrs.impression }}
+                        <label>Diagnosis</label>
+                        <div ref="diagField"></div>
+                        <p v-if="fieldErrs.diagnosis" class="hint error">
+                            {{ fieldErrs.diagnosis }}
                         </p>
                     </div>
 
                     <div class="editor-unit">
+                        <label>Indication</label>
+                        <div ref="indicationField"></div>
+                        <p v-if="fieldErrs.indication" class="hint error">
+                            {{ fieldErrs.indication }}
+                        </p>
+                    </div>
+
+                    <div class="editor-unit">
+                        <label>Microscopic Description</label>
+                        <div ref="microField"></div>
+                        <p
+                            v-if="fieldErrs.microscopic_description"
+                            class="hint error"
+                        >
+                            {{ fieldErrs.microscopic_description }}
+                        </p>
+                    </div>
+
+                    <div :class="{ hidden: edit?.type !== 'cyto' }">
+                        <div class="editor-unit">
+                            <label>Clinical Info</label>
+                            <div ref="clinicField"></div>
+                            <p
+                                v-if="fieldErrs.clinical_info"
+                                class="hint error"
+                            >
+                                {{ fieldErrs.clinical_info }}
+                            </p>
+                        </div>
+                        <div class="editor-unit">
+                            <label>Aspiration Note</label>
+                            <div ref="aspField"></div>
+                            <p v-if="fieldErrs.asp_note" class="hint error">
+                                {{ fieldErrs.asp_note }}
+                            </p>
+                        </div>
+                        <div class="text-inputs">
+                            <SimpleInput
+                                :un-wrap="true"
+                                label="No of sections embedded:"
+                                name="embedded_sections"
+                                :value="edit?.embedded_sections"
+                                :hint="fieldErrs.embedded_sections"
+                            />
+                            <SimpleInput
+                                :un-wrap="true"
+                                label="No of paraffin blocks:"
+                                name="paraffin_blocks"
+                                :value="edit?.paraffin_blocks"
+                                :hint="fieldErrs.paraffin_blocks"
+                            />
+                        </div>
+                    </div>
+                    <div :class="{ hidden: edit?.type === 'cyto' }">
+                        <div class="editor-unit">
+                            <label>Anatomical Source</label>
+                            <div ref="srcField"></div>
+                            <p
+                                v-if="fieldErrs.anatomical_source"
+                                class="hint error"
+                            >
+                                {{ fieldErrs.anatomical_source }}
+                            </p>
+                        </div>
+                        <div class="editor-unit">
+                            <label>Gross Description</label>
+                            <div ref="grossField"></div>
+                            <p
+                                v-if="fieldErrs.gross_description"
+                                class="hint error"
+                            >
+                                {{ fieldErrs.gross_description }}
+                            </p>
+                        </div>
+                        <div class="text-inputs">
+                            <SimpleInput
+                                :un-wrap="true"
+                                label="No of slides made:"
+                                name="slides_made"
+                                :value="edit?.slides_made"
+                                :hint="fieldErrs.slides_made"
+                            />
+                            <SimpleInput
+                                :un-wrap="true"
+                                label="No of slides stained:"
+                                name="slides_stained"
+                                :value="edit?.slides_stained"
+                                :hint="fieldErrs.slides_stained"
+                            />
+                        </div>
+                    </div>
+                    <div class="editor-unit">
                         <label>Note</label>
                         <div ref="noteField"></div>
-                        <p v-if="fieldErrs.note" class="hint error">
-                            {{ fieldErrs.note }}
-                        </p>
                     </div>
                 </div>
                 <div class="buttons flex items-center justify-center">
@@ -349,6 +381,12 @@ const getSearchUrl = (val: string) =>
             background: var(--clr-black);
             color: var(--clr-white);
         }
+    }
+
+    .text-inputs {
+        display: grid;
+        grid-template-columns: max-content auto;
+        gap: 10px;
     }
 }
 </style>
