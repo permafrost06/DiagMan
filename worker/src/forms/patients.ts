@@ -22,10 +22,17 @@ export const patientSchema = z.object({
 
 export const reportSchema = z.object({
 	id: z.string().nonempty(),
-	aspiration_note: z.string().optional(),
-	gross_examination: z.string().optional(),
-	impression: z.string().nonempty(),
-	microscopic_examination: z.string().nonempty(),
+	diagnosis: z.string().optional(),
+	indication: z.string().optional(),
+	microscopic_description: z.string().optional(),
+	anatomical_source: z.string().optional(),
+	gross_description: z.string().optional(),
+	embedded_sections: z.string().optional(),
+	paraffin_blocks: z.string().optional(),
+	clinical_info: z.string().optional(),
+	asp_note: z.string().optional(),
+	slides_made: z.number().min(0).default(0),
+	slides_stained: z.number().min(0).default(0),
 	note: z.string().optional(),
 	locked: z.coerce.boolean(),
 });
