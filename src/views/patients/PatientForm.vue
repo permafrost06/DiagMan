@@ -170,7 +170,8 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         fill="currentColor"
                         d="m19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
                         class="clr-i-outline clr-i-outline-path-1"
-                    /><path fill="none" d="M0 0h36v36H0z" />
+                    />
+                    <path fill="none" d="M0 0h36v36H0z" />
                 </Icon>
             </RouterLink>
         </div>
@@ -187,174 +188,86 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             @submit.prevent="handleFormSubmit"
             class="add-patient"
         >
-            <div class="left-wrapper">
-                <div class="left">
-                    <h4 class="section-title all-col">Metadata</h4>
-                    <SimpleBlankInput
-                        label="Entry date"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.entry_date?.[0]"
-                    >
-                        <DatePicker
-                            name="entry_date"
-                            class="date-input"
-                            :value="
-                                toEdit
-                                    ? new Date(parseInt(toEdit.entry_date))
-                                    : new Date()
-                            "
+            <div class="form-container">
+                <h4 class="section-title all-col">Metadata</h4>
+                <SimpleSelect
+                    name="type"
+                    label="Type"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.type?.[0]"
+                    :value="toEdit?.type"
+                >
+                    <option value="cyto">Cytopathology</option>
+                    <option value="histo">Histopathology</option>
+                </SimpleSelect>
+                <SimpleInput
+                    name="id"
+                    label="ID"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.id?.[0]"
+                    :value="toEdit?.id"
+                />
+
+                <h4 class="section-title all-col">Patient Information</h4>
+
+                <SimpleInput
+                    name="name"
+                    label="Name"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.name?.[0]"
+                    :value="toEdit?.name"
+                />
+                <SimpleBlankInput
+                    label="Age"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.age?.[0]"
+                >
+                    <div class="flex items-center">
+                        <input
+                            type="number"
+                            name="age"
+                            class="age-input arrow-hidden-input"
+                            :value="toEdit?.age"
                         />
-                    </SimpleBlankInput>
-                    <SimpleSelect
-                        name="type"
-                        label="Type"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.type?.[0]"
-                        :value="toEdit?.type"
-                    >
-                        <option value="cyto">Cytopathology</option>
-                        <option value="histo">Histopathology</option>
-                    </SimpleSelect>
-                    <SimpleInput
-                        name="id"
-                        label="ID"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.id?.[0]"
-                        :value="toEdit?.id"
-                    />
+                        years
+                    </div>
+                </SimpleBlankInput>
 
-                    <h4 class="section-title all-col">Patient Information</h4>
-
-                    <SimpleInput
-                        name="name"
-                        label="Name"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.name?.[0]"
-                        :value="toEdit?.name"
-                    />
-                    <SimpleBlankInput
-                        label="Age"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.age?.[0]"
-                    >
+                <SimpleBlankInput
+                    label="Gender"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.gender?.[0]"
+                >
+                    <div class="flex items-center">
                         <div class="flex items-center">
                             <input
-                                type="number"
-                                name="age"
-                                class="age-input arrow-hidden-input"
-                                :value="toEdit?.age"
+                                type="radio"
+                                name="gender"
+                                id="gen-male"
+                                value="male"
+                                :checked="toEdit?.gender === 'male'"
                             />
-                            years
+                            <label for="gen-male">Male</label>
                         </div>
-                    </SimpleBlankInput>
-
-                    <SimpleBlankInput
-                        label="Gender"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.gender?.[0]"
-                    >
                         <div class="flex items-center">
-                            <div class="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    id="gen-male"
-                                    value="male"
-                                    :checked="toEdit?.gender === 'male'"
-                                />
-                                <label for="gen-male">Male</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    id="gen-female"
-                                    value="female"
-                                    :checked="toEdit?.gender === 'female'"
-                                />
-                                <label for="gen-female">Female</label>
-                            </div>
-                        </div>
-                    </SimpleBlankInput>
-                    <SimpleInput
-                        name="contact"
-                        label="Contact"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.contact?.[0]"
-                        :value="toEdit?.contact"
-                    />
-                    <SInputAutocomplete
-                        name="referer"
-                        label="Referer"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.referer?.[0]"
-                        field-class="full-size"
-                        :url="getRefererSearchUrl"
-                        :cached-search="filterRefs"
-                        v-model="refererValue"
-                        v-slot="{ results, accept }"
-                    >
-                        <button
-                            type="button"
-                            class="referer-res-item"
-                            @click="() => accept(item.data)"
-                            v-for="item in results"
-                            :key="item.id"
-                        >
-                            <span>{{ item.data }}</span>
-                            <span
-                                class="remover"
-                                @click="() => removeReferer(item.id, results)"
-                                >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
-                            >
-                        </button>
-                    </SInputAutocomplete>
-                    <SimpleBlankInput
-                        label="Delivery date"
-                        :un-wrap="true"
-                        :hint="fieldErrors?.delivery_date?.[0]"
-                    >
-                        <DatePicker
-                            name="delivery_date"
-                            class="date-input"
-                            :value="
-                                toEdit
-                                    ? new Date(parseInt(toEdit.delivery_date))
-                                    : ''
-                            "
-                        />
-                    </SimpleBlankInput>
-
-                    <div class="all-col submit-area" v-if="!headless">
-                        <CheckBox
-                            label="Show invoice on exit"
-                            v-model="invoice"
-                        />
-                        <div class="flex gap-sm mt-sm">
-                            <button type="submit" value="add">
-                                <Loading
-                                    v-if="
-                                        isPosting === true ||
-                                        isPosting === 'add'
-                                    "
-                                />
-                                {{ toEdit ? "Update" : "Add" }} Patient
-                            </button>
-                        </div>
-                    </div>
-                    <div v-else class="all-col headeless-button">
-                        <button type="submit" value="add">
-                            <Loading
-                                v-if="isPosting === true || isPosting === 'add'"
+                            <input
+                                type="radio"
+                                name="gender"
+                                id="gen-female"
+                                value="female"
+                                :checked="toEdit?.gender === 'female'"
                             />
-                            {{ toEdit ? "Update" : "Add" }} Patient
-                        </button>
+                            <label for="gen-female">Female</label>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="right">
-                <h4 class="section-title all-col">Specimen Information</h4>
-
+                </SimpleBlankInput>
+                <SimpleInput
+                    name="contact"
+                    label="Contact"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.contact?.[0]"
+                    :value="toEdit?.contact"
+                />
                 <SimpleInput
                     label="Specimen"
                     :un-wrap="true"
@@ -362,8 +275,37 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                     :hint="fieldErrors?.specimen?.[0]"
                     :value="toEdit?.specimen"
                 />
+                <SInputAutocomplete
+                    name="referer"
+                    label="Referer"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.referer?.[0]"
+                    field-class="full-size"
+                    :url="getRefererSearchUrl"
+                    :cached-search="filterRefs"
+                    v-model="refererValue"
+                    v-slot="{ results, accept }"
+                >
+                    <button
+                        type="button"
+                        class="referer-res-item"
+                        @click="() => accept(item.data)"
+                        v-for="item in results"
+                        :key="item.id"
+                    >
+                        <span>{{ item.data }}</span>
+                        <span
+                            class="remover"
+                            @click="() => removeReferer(item.id, results)"
+                            >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
+                        >
+                    </button>
+                </SInputAutocomplete>
+
+                <h4 class="section-title all-col">Dates</h4>
+
                 <SimpleBlankInput
-                    label="Sample collection date"
+                    label="Specimen Collection Date"
                     :un-wrap="true"
                     :hint="fieldErrors?.sample_collection_date?.[0]"
                 >
@@ -375,10 +317,41 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                                 ? new Date(
                                       parseInt(toEdit.sample_collection_date)
                                   )
+                                : new Date()
+                        "
+                    />
+                </SimpleBlankInput>
+                <SimpleBlankInput
+                    label="Specimen Receiving Date"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.entry_date?.[0]"
+                >
+                    <DatePicker
+                        name="entry_date"
+                        class="date-input"
+                        :value="
+                            toEdit
+                                ? new Date(parseInt(toEdit.entry_date))
+                                : new Date()
+                        "
+                    />
+                </SimpleBlankInput>
+                <SimpleBlankInput
+                    label="Report delivery date"
+                    :un-wrap="true"
+                    :hint="fieldErrors?.delivery_date?.[0]"
+                >
+                    <DatePicker
+                        name="delivery_date"
+                        class="date-input"
+                        :value="
+                            toEdit
+                                ? new Date(parseInt(toEdit.delivery_date))
                                 : ''
                         "
                     />
                 </SimpleBlankInput>
+
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
                     <TestSelector
@@ -464,6 +437,26 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         />
                     </div>
                 </div>
+
+                <div class="all-col submit-area flex gap-sm" v-if="!headless">
+                    <div class="flex gap-sm">
+                        <button type="submit" value="add">
+                            <Loading
+                                v-if="isPosting === true || isPosting === 'add'"
+                            />
+                            {{ toEdit ? "Update" : "Add" }} Patient
+                        </button>
+                    </div>
+                    <CheckBox label="Show invoice on exit" v-model="invoice" />
+                </div>
+                <div v-else class="all-col headeless-button">
+                    <button type="submit" value="add">
+                        <Loading
+                            v-if="isPosting === true || isPosting === 'add'"
+                        />
+                        {{ toEdit ? "Update" : "Add" }} Patient
+                    </button>
+                </div>
             </div>
         </form>
     </div>
@@ -482,9 +475,10 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
     form.add-patient {
         flex-grow: 1;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        position: relative;
+        grid-template-columns: 1fr;
         padding-bottom: 40px;
+        width: 60vw;
+        margin-inline: auto;
 
         input,
         select {
@@ -514,30 +508,17 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
         margin: 10px 0;
     }
 
-    .left-wrapper {
-        border-right: 1px solid var(--clr-black);
-        padding-right: 20px;
-        padding-bottom: 120px;
-        overflow: hidden;
-    }
-
-    .left,
-    .right {
+    .form-container {
         display: grid;
         gap: 10px;
         grid-template-columns: minmax(max-content, 200px) auto;
         height: max-content;
     }
 
-    .left {
-        .age-input {
-            margin: 0;
-            margin-right: 10px;
-            width: 100px;
-        }
-    }
-    .right {
-        padding-left: 20px;
+    .age-input {
+        margin: 0;
+        margin-right: 10px;
+        width: 100px;
     }
 
     .section-title {
@@ -556,13 +537,11 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
     }
 
     .submit-area {
-        background: var(--clr-white);
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        width: calc(50% - 38px);
-        padding-bottom: 40px;
+        display: flex;
+        align-items: center;
+        padding-top: 40px;
     }
+
     .headeless-button {
         padding-top: 20px;
     }
