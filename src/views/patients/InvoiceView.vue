@@ -88,11 +88,11 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                     <span class="left">Referred by</span>: {{ record.referer }}
                 </div>
                 <div class="gap-top bold large">
-                    <span class="left">Receiving Date</span>:
+                    <span class="left date">Receiving Date</span>:
                     {{ dateToDMY(new Date(parseInt(record.entry_date))) }}
                 </div>
                 <div class="bold large">
-                    <span class="left">Delivery Date</span>:
+                    <span class="left date">Delivery Date</span>:
                     {{ dateToDMY(new Date(parseInt(record.delivery_date))) }}
                 </div>
                 <table class="invoice-table">
@@ -302,6 +302,11 @@ h1 {
 .box {
     display: flex;
     justify-content: space-between;
+}
+
+span.date {
+    display: inline-block;
+    width: 10rem;
 }
 
 .reference {
