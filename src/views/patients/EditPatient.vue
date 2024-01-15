@@ -6,10 +6,15 @@ import { fetchApi } from "@/helpers/http";
 import { API_BASE } from "@/helpers/config";
 import Loading from "@/Icons/Loading.vue";
 import Icon from "@/components/base/Icon.vue";
+import router from "@/router";
 
 defineProps<{
     headless?: boolean;
-    onSuccess?: (row: Record<string, string>, message: string) => void;
+    onSuccess?: (
+        row: Record<string, string>,
+        message: string,
+        invoice: boolean
+    ) => void;
 }>();
 
 const route = useRoute();
@@ -28,15 +33,21 @@ async function loadPatient() {
     }
     isLoading.value = false;
 }
-
 loadPatient();
+
+const onLocalSuccess = (_a: any, _b: any, invoice: boolean) => {
+    if (invoice) {
+        return;
+    }
+    router.back();
+};
 </script>
 <template>
     <PatientForm
         :to-edit="patient"
         v-if="patient"
         :headless="headless"
-        :on-success="onSuccess"
+        :on-success="onSuccess || onLocalSuccess"
     />
     <div v-else class="add-patient-page">
         <div v-if="!headless">

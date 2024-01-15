@@ -60,6 +60,7 @@ export const patients = sqliteTable('patients', {
 		mode: 'json',
 	}),
 	total: numeric('total'),
+	complementary: integer('complementary'),
 	discount: numeric('discount'),
 	advance: numeric('advance'),
 	timestamp: integer('timestamp', {
@@ -69,10 +70,23 @@ export const patients = sqliteTable('patients', {
 
 export const reports = sqliteTable('reports', {
 	id: text('id').primaryKey(),
-	aspiration_note: text('aspiration_note'),
-	gross_examination: text('gross_examination'),
-	microscopic_examination: text('microscopic_examination'),
-	impression: text('impression'),
+
+	diagnosis: text('diagnosis'),
+	indication: text('indication'),
+	microscopic_description: text('microscopic_description'),
+
+	// Histo specific
+	anatomical_source: text('anatomical_source'),
+	gross_description: text('gross_description'),
+	embedded_sections: text('embedded_sections'),
+	paraffin_blocks: text('paraffin_blocks'),
+
+	// Cyto Specific
+	clinical_info: text('clinical_info'),
+	asp_note: text('asp_note'),
+	slides_made: text('slides_made'),
+	slides_stained: text('slides_stained'),
+
 	note: text('note'),
 	locked: numeric('locked'),
 });
@@ -86,10 +100,23 @@ export const reportTemplates = sqliteTable('report_templates', {
 		enum: ['histo', 'cyto'],
 	}),
 	organ: text('organ'),
-	aspiration_note: text('aspiration_note'),
-	gross_examination: text('gross_examination'),
-	microscopic_examination: text('microscopic_examination'),
-	impression: text('impression'),
+
+	diagnosis: text('diagnosis'),
+	indication: text('indication'),
+	microscopic_description: text('microscopic_description'),
+
+	// Histo specific
+	anatomical_source: text('anatomical_source'),
+	gross_description: text('gross_description'),
+	embedded_sections: text('embedded_sections'),
+	paraffin_blocks: text('paraffin_blocks'),
+
+	// Cyto Specific
+	clinical_info: text('clinical_info'),
+	asp_note: text('asp_note'),
+	slides_made: text('slides_made'),
+	slides_stained: text('slides_stained'),
+
 	note: text('note'),
 });
 

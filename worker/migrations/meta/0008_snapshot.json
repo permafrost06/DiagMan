@@ -1,9 +1,39 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "390ab9a7-d785-4f8f-af04-52dc6c083fab",
-  "prevId": "50f506d9-153f-4ede-be90-91c958c0865a",
+  "id": "1aa25ea2-1639-4ce6-be41-a896b5e26b4a",
+  "prevId": "338ced49-2999-483b-86b9-aff5de4f1a14",
   "tables": {
+    "misc_strings": {
+      "name": "misc_strings",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "data": {
+          "name": "data",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "patients": {
       "name": "patients",
       "columns": {
@@ -98,6 +128,20 @@
           "notNull": false,
           "autoincrement": false
         },
+        "total": {
+          "name": "total",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "complementary": {
+          "name": "complementary",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "discount": {
           "name": "discount",
           "type": "numeric",
@@ -115,64 +159,6 @@
         "timestamp": {
           "name": "timestamp",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "reports": {
-      "name": "reports",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "aspiration_note": {
-          "name": "aspiration_note",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "gross_examination": {
-          "name": "gross_examination",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "microscopic_examination": {
-          "name": "microscopic_examination",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "impression": {
-          "name": "impression",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "note": {
-          "name": "note",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "locked": {
-          "name": "locked",
-          "type": "numeric",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

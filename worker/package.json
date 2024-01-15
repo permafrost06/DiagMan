@@ -1,6 +1,6 @@
 {
 	"name": "diagman-api",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
@@ -8,6 +8,7 @@
 		"db:generate": "drizzle-kit generate:sqlite",
 		"db:push": "node ./database/migrate.js",
 		"db:migrate": "drizzle-kit generate:sqlite && node ./database/migrate.js",
+		"db:drop": "drizzle-kit drop",
 		"cli": "node ./cli/main.js"
 	},
 	"devDependencies": {

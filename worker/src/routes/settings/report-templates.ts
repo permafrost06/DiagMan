@@ -95,7 +95,7 @@ export const listOrgans: RequestHandler = async ({ env, res, query }) => {
 	let where = '';
 	const args: Array<any> = [];
 	if (search) {
-		where = 'WHERE organ LIKE CONCAT(?, "%")';
+		where = 'WHERE organ LIKE CONCAT("%", ?, "%")';
 		args.push(search);
 	}
 

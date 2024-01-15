@@ -2,10 +2,60 @@ import { generateInsertQuery, getLibsqlClient, getUpdateQuery, insertRow } from 
 import { RequestHandler } from '../router';
 import { limitOperations, validateFormData, validateObject } from '../utils/helpers';
 import { patientSchema } from '../forms/patients';
+import { Client } from '@libsql/client';
+
+const updateTestPrices = async (client: Client, tests: string[], prices: number[]): Promise<[Record<string, any>[], number]> => {
+	let total = 0;
+	if (tests.length != prices.length) {
+		throw new Error('Invalid tests!');
+	}
+
+	const insertOps: Promise<any>[] = [];
+	const filteredTests: Array<any> = [];
+	tests.forEach((test, idx) => {
+		test = test.trim();
+		if (test) {
+			const testObj = {
+				name: test,
+				price: prices[idx] * 100,
+			};
+			filteredTests.push(testObj);
+			total += prices[idx] * 100;
+			insertOps.push(
+				client.execute({
+					sql: `
+					  INSERT INTO \`misc_strings\`(name, data)
+					  SELECT 'test', :data
+					  WHERE NOT EXISTS (
+						SELECT id FROM \`misc_strings\`
+						WHERE name='test' AND data == :data
+					  )
+					`,
+					args: { data: JSON.stringify(testObj) },
+				})
+			);
+		}
+	});
+	if (filteredTests.length === 0) {
+		throw new Error('At least one test should be selected!');
+	}
+
+	const err = (await Promise.allSettled(insertOps)).reduce((prev, cur) => {
+		if (cur.status === 'rejected') {
+			prev += cur.reason + ', ';
+		}
+		return prev;
+	}, '');
+
+	if (err) {
+		throw new Error('Failed to update tests: ' + err);
+	}
+
+	return [filteredTests, total];
+};
 
 export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, params }) => {
-	const data = await validateFormData(request, patientSchema, ['tests']);
-	data.tests = JSON.stringify(data.tests);
+	const data = await validateFormData(request, patientSchema, ['tests', 'prices']);
 	const db = getLibsqlClient(env);
 
 	// ZOD does not support only date validation yet
@@ -13,26 +63,24 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 		data[key] = data[key].getTime();
 	});
 
-	const { rows } = await db.execute({
-		sql: `
-		  SELECT SUM(price) AS total FROM \`tests\` WHERE EXISTS (
-			SELECT * 
-			FROM json_each(?) 
-			WHERE json_each.value = tests.id
-		  )
-		`,
-		args: [data.tests],
-	});
-
-	const total = parseInt(rows[0]?.total?.toString() || '0');
-
-	if (total <= 0) {
-		res.error('Invalid tests selected!');
+	try {
+		const [tests, total] = await updateTestPrices(db, data.tests, data.prices);
+		data.tests = tests;
+		data.total = total;
+		data.advance *= 100;
+		data.discount *= 100;
+	} catch (err: any) {
+		res.error(err.message);
 	}
 
-	data.total = total;
-	data.advance *= 100;
-	data.discount *= 100;
+	if (data.complementary) {
+		data.total = 0;
+		data.advance = 0;
+		data.discount = 0;
+	}
+
+	delete data.prices;
+	data.tests = JSON.stringify(data.tests);
 
 	try {
 		if (!params.id) {
@@ -47,6 +95,8 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 					},
 				});
 			}
+
+			data.timestamp = Date.now();
 			await insertRow(db, 'patients', data);
 			res.setMsg('Patient added successfully!');
 		} else {
@@ -56,6 +106,7 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 				sql: sql + ' WHERE id = ?',
 				args,
 			});
+
 			res.setMsg('Patient updated successfully!');
 		}
 		res.setRows([data]);
@@ -177,18 +228,12 @@ export const getPatient: RequestHandler = async ({ env, res, params }) => {
 	if (rows.length === 0) {
 		res.error('The patient does not exist!', 404);
 	}
-
-	const { rows: tests } = await db.execute({
-		sql: `
-		  SELECT * FROM \`tests\` WHERE EXISTS (
-			SELECT * 
-			FROM json_each(?) 
-			WHERE json_each.value = tests.id
-		  )
-		`,
-		args: [rows[0].tests],
-	});
-
+	let tests: Array<any> = [];
+	try {
+		tests = JSON.parse(rows[0].tests as any);
+	} catch (_err) {
+		// This happens means the tests are in old style
+	}
 	res.setRows([{ ...rows[0], tests }]);
 };
 

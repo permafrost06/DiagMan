@@ -204,7 +204,10 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                 <h1 class="fs-2xl">Patient List</h1>
             </div>
             <div class="flex items-center">
-                <p class="h-user-name font-h">{{ user.name }}</p>
+                <div class="h-user-name font-h">
+                    <p>{{ user.name }}</p>
+                    <p class="h-user-role">{{ user.role }} - The Opinion</p>
+                </div>
                 <!-- <button class="h-icon-btn">
                     <Icon size="24" viewBox="24">
                         <path
@@ -456,6 +459,13 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 .patients-header .h-user-name {
     font-weight: bold;
     margin-right: 10px;
+    font-size: var(--fs-md);
+
+    .h-user-role {
+        font-weight: normal;
+        text-transform: capitalize;
+        font-size: var(--fs-base);
+    }
 }
 
 .query-info {

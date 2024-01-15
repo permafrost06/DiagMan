@@ -7,24 +7,22 @@ import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
 import TestSelector from "./TestSelector.vue";
+import DatePicker from "@/components/form/DatePicker.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
-import { dateToDMY, dmyToDate } from "@/helpers/utils";
+import { dmyToDate } from "@/helpers/utils";
 import { onMounted, ref } from "vue";
-// @ts-ignore
-import datepicker from "js-datepicker";
-import "js-datepicker/dist/datepicker.min.css";
 import router from "@/router";
 
 const props = defineProps<{
     toEdit?: Record<string, string>;
     headless?: boolean;
-    onSuccess?: (row: Record<string, string>, msg: string) => void;
+    onSuccess?: (
+        row: Record<string, string>,
+        msg: string,
+        showInvoice: boolean
+    ) => void;
 }>();
-
-const entryDateField = ref<HTMLInputElement>();
-const sampleDateField = ref<HTMLInputElement>();
-const deliveryDateField = ref<HTMLInputElement>();
 
 const isPosting = ref<"add" | "draft" | boolean>(false);
 const error = ref<string | null>(null);
@@ -34,20 +32,18 @@ const total = ref<number>(0);
 const discount = ref<number>(0);
 const advance = ref<number>(0);
 const invoice = ref<boolean>(false);
+const complementary = ref<boolean>(false);
+const tests = ref<Record<string, any>[]>((props.toEdit?.tests as any) ?? []);
+const reRenderTests = ref<number>(0);
 
 const refererValue = ref<string>("");
 
 onMounted(async () => {
-    createDatePickers();
     if (props.toEdit) {
-        let total2 = 0;
-        (props.toEdit.tests as any).forEach((t: any) => {
-            total2 += t.price;
-        });
-        total.value = total2;
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;
         refererValue.value = props.toEdit.referer;
+        complementary.value = !!props.toEdit.complementary;
     }
 });
 
@@ -78,8 +74,9 @@ async function handleFormSubmit(evt: any) {
     if (res.success) {
         message.value = res.message!;
         if (props.onSuccess) {
-            props.onSuccess(res.rows[0], res.message!);
-        } else if (invoice.value) {
+            props.onSuccess(res.rows[0], res.message!, invoice.value);
+        }
+        if (invoice.value) {
             router.push({
                 name: "patients.invoice",
                 params: {
@@ -87,58 +84,17 @@ async function handleFormSubmit(evt: any) {
                 },
             });
         }
+        if (res.data?.tests) {
+            tests.value = res.data.tests;
+            reRenderTests.value++;
+        }
     } else {
         error.value = res.message;
         fieldErrors.value = res.field;
     }
 }
 
-function createDatePickers() {
-    const options = {
-        showAllDates: true,
-        formatter(input: HTMLInputElement, date: Date) {
-            input.value = dateToDMY(date);
-        },
-        onShow(ins: any) {
-            const val = ins.el.value;
-            if (val && val.length === 10) {
-                ins.setDate(dmyToDate(val), true);
-            }
-            const el = ins.el.nextElementSibling as HTMLDivElement;
-            const box = el.getBoundingClientRect();
-            const pos: {
-                top?: string;
-                bottom?: string;
-                right?: string;
-                left?: string;
-            } = {};
-
-            if (box.right > screen.availWidth) {
-                pos.right = "0px";
-            } else {
-                pos.left = "0px";
-            }
-
-            if (box.bottom > window.innerHeight) {
-                pos.bottom = "100%";
-            } else {
-                pos.top = "100%";
-            }
-            el.removeAttribute("style");
-            for (const i in pos) {
-                // @ts-ignore
-                el.style[i] = pos[i];
-            }
-        },
-    };
-    datepicker(entryDateField.value, options);
-    datepicker(sampleDateField.value, options);
-    datepicker(deliveryDateField.value, options);
-}
-
-const getRefererSearchUrl = (val: string) =>
-    API_BASE +
-    `/misc?name=referer&end-search=${encodeURIComponent(val)}&limit=5`;
+const getRefererSearchUrl = () => API_BASE + `/misc?name=referer`;
 
 const rmRefReqs = ref(new Set<string>());
 const removeReferer = async (id: string, all: Record<string, string>[]) => {
@@ -158,6 +114,50 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
     if (idx > -1) {
         all.splice(idx, 1);
     }
+};
+
+const onComplementaryChange = (evt: any) => {
+    if (evt.target.checked) {
+        total.value = 0;
+        discount.value = 0;
+        advance.value = 0;
+    } else if (props.toEdit) {
+        discount.value = parseInt(props.toEdit.discount) / 100;
+        advance.value = parseInt(props.toEdit.advance) / 100;
+    }
+};
+
+const filterRefs = (all: Array<any>, search: string): Array<any> => {
+    const matches: {
+        row: Record<string, any>;
+        weight: number;
+    }[] = [];
+    if (!search) {
+        return all.slice(0, 5);
+    }
+
+    all.forEach((item) => {
+        const match1 = item.data.toLowerCase().indexOf(search.toLowerCase());
+        if (match1 > -1) {
+            matches.push({
+                row: item,
+                weight: match1,
+            });
+        }
+    });
+
+    return matches
+        .sort((a, b) => {
+            if (a.weight > b.weight) {
+                return 1;
+            }
+            if (b.weight > a.weight) {
+                return -1;
+            }
+            return 0;
+        })
+        .slice(0, 5)
+        .map((item) => item.row);
 };
 </script>
 <template>
@@ -190,6 +190,21 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
             <div class="left-wrapper">
                 <div class="left">
                     <h4 class="section-title all-col">Metadata</h4>
+                    <SimpleBlankInput
+                        label="Entry date"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.entry_date?.[0]"
+                    >
+                        <DatePicker
+                            name="entry_date"
+                            class="date-input"
+                            :value="
+                                toEdit
+                                    ? new Date(parseInt(toEdit.entry_date))
+                                    : new Date()
+                            "
+                        />
+                    </SimpleBlankInput>
                     <SimpleSelect
                         name="type"
                         label="Type"
@@ -226,7 +241,7 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                             <input
                                 type="number"
                                 name="age"
-                                class="age-input"
+                                class="age-input arrow-hidden-input"
                                 :value="toEdit?.age"
                             />
                             years
@@ -275,6 +290,7 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                         :hint="fieldErrors?.referer?.[0]"
                         field-class="full-size"
                         :url="getRefererSearchUrl"
+                        :cached-search="filterRefs"
                         v-model="refererValue"
                         v-slot="{ results, accept }"
                     >
@@ -298,20 +314,12 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                         :un-wrap="true"
                         :hint="fieldErrors?.delivery_date?.[0]"
                     >
-                        <input
-                            ref="deliveryDateField"
-                            type="text"
+                        <DatePicker
                             name="delivery_date"
                             class="date-input"
-                            autocomplete="off"
-                            placeholder="dd-mm-yyyy"
                             :value="
                                 toEdit
-                                    ? dateToDMY(
-                                          new Date(
-                                              parseInt(toEdit.delivery_date)
-                                          )
-                                      )
+                                    ? new Date(parseInt(toEdit.delivery_date))
                                     : ''
                             "
                         />
@@ -332,15 +340,6 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                                 />
                                 {{ toEdit ? "Update" : "Add" }} Patient
                             </button>
-                            <!-- <button
-                                type="submit"
-                                class="btn-outline"
-                                name="status"
-                                value="draft"
-                            >
-                                <Loading v-if="isPosting === 'draft'" />
-                                Save Draft
-                            </button> -->
                         </div>
                     </div>
                     <div v-else class="all-col headeless-button">
@@ -356,28 +355,6 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
             <div class="right">
                 <h4 class="section-title all-col">Specimen Information</h4>
 
-                <SimpleBlankInput
-                    label="Entry date"
-                    :un-wrap="true"
-                    :hint="fieldErrors?.entry_date?.[0]"
-                >
-                    <input
-                        ref="entryDateField"
-                        type="text"
-                        name="entry_date"
-                        class="date-input"
-                        autocomplete="off"
-                        placeholder="dd-mm-yyyy"
-                        :value="
-                            toEdit
-                                ? dateToDMY(
-                                      new Date(parseInt(toEdit.entry_date))
-                                  )
-                                : ''
-                        "
-                    />
-                </SimpleBlankInput>
-
                 <SimpleInput
                     label="Specimen"
                     :un-wrap="true"
@@ -390,21 +367,13 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.sample_collection_date?.[0]"
                 >
-                    <input
-                        ref="sampleDateField"
-                        type="text"
+                    <DatePicker
                         name="sample_collection_date"
                         class="date-input"
-                        autocomplete="off"
-                        placeholder="dd-mm-yyyy"
                         :value="
                             toEdit
-                                ? dateToDMY(
-                                      new Date(
-                                          parseInt(
-                                              toEdit.sample_collection_date
-                                          )
-                                      )
+                                ? new Date(
+                                      parseInt(toEdit.sample_collection_date)
                                   )
                                 : ''
                         "
@@ -413,8 +382,10 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
                     <TestSelector
-                        v-model="total"
-                        :tests="(toEdit?.tests as any)"
+                        :key="reRenderTests"
+                        :on-total-change="(val) => (total = val)"
+                        :tests="tests"
+                        :is-complementary="complementary"
                     />
                     <p v-if="fieldErrors?.tests" class="hint error">
                         {{ fieldErrors?.tests?.[0] }}
@@ -432,7 +403,7 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input arrow-hidden-input"
                             name="discount"
                             v-model="discount"
                         />
@@ -444,9 +415,9 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input read-only"
                             readonly
-                            :value="total / 100 - discount"
+                            :value="complementary ? 0 : total / 100 - discount"
                         />
                     </div>
                 </SimpleBlankInput>
@@ -460,7 +431,7 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input arrow-hidden-input"
                             name="advance"
                             v-model="advance"
                         />
@@ -470,13 +441,29 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
                     <div class="flex items-center gap-sm">
                         BDT
                         <input
+                            readonly
                             type="number"
                             step="0.01"
-                            class="amount-input"
-                            :value="total / 100 - discount - advance"
+                            class="amount-input read-only"
+                            :value="
+                                complementary
+                                    ? 0
+                                    : total / 100 - discount - advance
+                            "
                         />
                     </div>
                 </SimpleBlankInput>
+                <div class="all-col">
+                    <div class="complementary">
+                        <CheckBox
+                            label="Complementary"
+                            v-model="complementary"
+                            name="complementary"
+                            value="1"
+                            @input="onComplementaryChange"
+                        />
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -507,6 +494,14 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
             &.full-size {
                 max-width: none;
             }
+        }
+
+        input.date-input {
+            max-width: 240px;
+        }
+
+        input.read-only {
+            border: 0;
         }
 
         .amount-input {
@@ -556,8 +551,8 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
     }
 
     .date-input {
-        width: max-content;
         padding: 3px 5px;
+        max-width: 240px;
     }
 
     .submit-area {
@@ -582,6 +577,11 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
         font-size: var(--fs-sm);
         padding-right: 15px;
+
+        &:hover {
+            color: var(--clr-white);
+            background: var(--clr-black);
+        }
 
         .remover {
             position: absolute;

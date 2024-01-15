@@ -17,15 +17,6 @@ CREATE TABLE `patients` (
 	`timestamp` integer
 );
 
-CREATE TABLE `reports` (
-	`id` text PRIMARY KEY NOT NULL,
-	`aspiration_note` text,
-	`gross_examination` text,
-	`microscopic_examination` text,
-	`impression` text,
-	`note` text
-);
-
 CREATE TABLE `tests` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text,
