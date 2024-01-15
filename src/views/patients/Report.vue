@@ -41,6 +41,7 @@ const organs = ref<Record<string, any>[]>([]);
 const templates = ref<Record<string, any>[]>([]);
 const isLoadingOrgans = ref<boolean>(true);
 const isLoadingTemplates = ref<boolean>(false);
+const templatePaneOpen = ref<boolean>(true);
 
 const patient = ref<Record<string, any>>();
 const isLoading = ref<boolean>(false);
@@ -448,6 +449,59 @@ const toggleLock = async () => {
                 <p class="form-alert success" v-if="message">{{ message }}</p>
 
                 <input type="hidden" name="id" :value="patient?.id" />
+                <div :class="['template-selector', { open: templatePaneOpen }]">
+                    <div
+                        class="opener"
+                        @click="templatePaneOpen = !templatePaneOpen"
+                    >
+                        <h3>
+                            {{ templatePaneOpen ? "Close" : "Templates" }}
+                        </h3>
+                    </div>
+                    <h2>Template</h2>
+                    <div class="tem-sel-inputs">
+                        <SimpleSelect
+                            label="Organ"
+                            :un-wrap="true"
+                            @input="(evt) => loadTemplates(evt.target.value)"
+                        >
+                            <option value="">
+                                {{
+                                    isLoadingTemplates
+                                        ? "Please wait..."
+                                        : "All"
+                                }}
+                            </option>
+                            <option
+                                v-for="item in organs"
+                                :key="item.organ"
+                                :value="item.organ"
+                            >
+                                {{ item.organ }}
+                            </option>
+                        </SimpleSelect>
+                        <SimpleSelect
+                            label="Template"
+                            :un-wrap="true"
+                            @input="onTemplateChange"
+                        >
+                            <option value="">
+                                {{
+                                    isLoadingTemplates
+                                        ? "Loading..."
+                                        : "Select Template"
+                                }}
+                            </option>
+                            <option
+                                v-for="(item, idx) in templates"
+                                :key="item.id"
+                                :value="idx"
+                            >
+                                {{ item.name }}
+                            </option>
+                        </SimpleSelect>
+                    </div>
+                </div>
                 <div class="editor-n-template-grid">
                     <div>
                         <div class="editor-unit">
@@ -496,53 +550,6 @@ const toggleLock = async () => {
                             >
                                 + Add Note
                             </button>
-                        </div>
-                    </div>
-                    <div class="template-selector">
-                        <h2>Template</h2>
-                        <div class="tem-sel-inputs">
-                            <SimpleSelect
-                                label="Organ"
-                                :un-wrap="true"
-                                @input="
-                                    (evt) => loadTemplates(evt.target.value)
-                                "
-                            >
-                                <option value="">
-                                    {{
-                                        isLoadingTemplates
-                                            ? "Please wait..."
-                                            : "All"
-                                    }}
-                                </option>
-                                <option
-                                    v-for="item in organs"
-                                    :key="item.organ"
-                                    :value="item.organ"
-                                >
-                                    {{ item.organ }}
-                                </option>
-                            </SimpleSelect>
-                            <SimpleSelect
-                                label="Template"
-                                :un-wrap="true"
-                                @input="onTemplateChange"
-                            >
-                                <option value="">
-                                    {{
-                                        isLoadingTemplates
-                                            ? "Loading..."
-                                            : "Select Template"
-                                    }}
-                                </option>
-                                <option
-                                    v-for="(item, idx) in templates"
-                                    :key="item.id"
-                                    :value="idx"
-                                >
-                                    {{ item.name }}
-                                </option>
-                            </SimpleSelect>
                         </div>
                     </div>
                 </div>
@@ -663,21 +670,48 @@ const toggleLock = async () => {
             display: grid;
             grid-template-columns: 1fr max-content;
             gap: 10px;
-
-            .template-selector {
-                h2 {
-                    margin-top: 20px;
-                    margin-bottom: 10px;
-                    font-size: var(--fs-lg);
-                }
-
-                .tem-sel-inputs {
-                    display: grid;
-                    grid-template-columns: max-content 1fr;
-                    gap: 10px;
-                }
-            }
         }
+    }
+
+    .template-selector {
+        position: fixed;
+        width: 30rem;
+        background-color: white;
+        z-index: 999;
+        padding: 2rem;
+        padding-left: 4rem;
+        right: 0;
+        transform: translateX(93%);
+        border: 1px solid black;
+
+        h2 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: var(--fs-lg);
+        }
+
+        .tem-sel-inputs {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 10px;
+        }
+
+        .opener {
+            height: 1.5rem;
+            width: 11.5rem;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform-origin: 0 0;
+            rotate: -90deg;
+            transform: translate(-100%, 20%);
+            cursor: pointer;
+        }
+    }
+
+    .template-selector.open {
+        transform: translateX(0);
     }
 
     .grid .right {
