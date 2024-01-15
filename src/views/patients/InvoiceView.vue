@@ -26,11 +26,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
     <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
-            <button
-                class="btn btn-outline"
-                type="button"
-                @click="() => router.back()"
-            >
+            <button class="btn btn-outline" type="button" @click="() => router.back()">
                 Go back
             </button>
         </div>
@@ -55,7 +51,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                     </div>
                 </header>
                 <h1>Invoice</h1>
-                <div class="box bold">
+                <div class="box bold large">
                     <div><span class="left">ID No</span>: {{ record.id }}</div>
                 </div>
                 <div>
@@ -68,14 +64,10 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                     </div>
                     <div>Contact No: {{ record.contact }}</div>
                 </div>
-                <div>
-                    <span class="left">Gender</span>:
-                    <p class="capital">{{ record.gender }}</p>
-                </div>
                 <div class="box">
                     <div>
-                        <span class="left">Specimen</span>:
-                        {{ record.specimen }}
+                        <span class="left">Gender</span>:
+                        <p class="capital">{{ record.gender }}</p>
                     </div>
                     <div>
                         Collection Date:
@@ -89,13 +81,17 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                     </div>
                 </div>
                 <div>
+                    <span class="left">Specimen</span>:
+                    {{ record.specimen }}
+                </div>
+                <div>
                     <span class="left">Referred by</span>: {{ record.referer }}
                 </div>
-                <div class="gap-top bold">
+                <div class="gap-top bold large">
                     <span class="left">Receiving Date</span>:
                     {{ dateToDMY(new Date(parseInt(record.entry_date))) }}
                 </div>
-                <div class="bold">
+                <div class="bold large">
                     <span class="left">Delivery Date</span>:
                     {{ dateToDMY(new Date(parseInt(record.delivery_date))) }}
                 </div>
@@ -170,17 +166,22 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         </tr>
                     </tfoot>
                 </table>
-                <footer class="cols-2">
-                    <div class="footer-left">
-                        <p>১২৫ কে বি ফজলুল কাদের রোড</p>
-                        <p>চকবাজার, চট্টগ্রাম</p>
-                        <p>(পিপলস হাসপাতাল-এর পাশে)</p>
+                <footer>
+                    <div class="cols-2">
+                        <div class="footer-left">
+                            <p>১২৫ কে বি ফজলুল কাদের রোড</p>
+                            <p>চকবাজার, চট্টগ্রাম</p>
+                            <p>(পিপলস হাসপাতাল-এর পাশে)</p>
+                        </div>
+                        <div class="footer-right">
+                            <p>রিপোর্টের জন্য যোগাযোগ</p>
+                            <p class="large bold">ফোন: <span class="escape">01883569391</span></p>
+                            <p>সকাল ১০টা থেকে রাত ০৯টা</p>
+                            <p>শুক্রবার বন্ধ</p>
+                        </div>
                     </div>
-                    <div class="footer-right">
-                        <p>রিপোর্টের জন্য যোগাযোগ</p>
-                        <p>ফোন: <span class="escape">01883569391</span></p>
-                        <p>সকাল ১০টা থেকে রাত ০৯টা</p>
-                        <p>শুক্রবার বন্ধ</p>
+                    <div class="bold large center">
+                        বি.দ্র: রিপোর্টের জন্য ফোন করে, মানি রিসিট সাথে নিয়ে আসবেন।
                     </div>
                 </footer>
             </div>
@@ -204,12 +205,14 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
 
 .buttons {
     padding: 10px;
+
     .btn {
         border-radius: 5px;
         padding: 5px 10px;
         border: 1px solid black;
     }
 }
+
 .report {
     width: 297mm;
     margin: auto;
@@ -262,11 +265,13 @@ h1 {
 
 @media screen {
     div.page {
-        margin: 10mm var(--margin-x) 0 var(--margin-x); /* Browser will apply the correct margins when it prints */
+        margin: 10mm var(--margin-x) 0 var(--margin-x);
+        /* Browser will apply the correct margins when it prints */
     }
 }
 
 @media print {
+
     html,
     body {
         height: 100%;
@@ -274,8 +279,10 @@ h1 {
         padding: 0 !important;
         overflow: hidden;
     }
+
     div.page {
-        margin: 10mm var(--margin-x) 0 var(--margin-x); /* Browser will apply the correct margins when it prints */
+        margin: 10mm var(--margin-x) 0 var(--margin-x);
+        /* Browser will apply the correct margins when it prints */
     }
 
     .buttons {
@@ -359,6 +366,7 @@ h3 {
 
 .capital {
     display: inline-block;
+
     &::first-letter {
         text-transform: capitalize;
     }
@@ -386,6 +394,14 @@ footer {
 }
 
 .escape {
-    font-family: auto;
+    font-family: "Open sans", sans-serif;
+}
+
+.large {
+    font-size: 1.35rem;
+}
+
+.center {
+    text-align: center;
 }
 </style>
