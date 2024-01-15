@@ -1,8 +1,7 @@
-import { z } from 'zod';
 import { getLibsqlClient, getUpdateQuery, insertRow } from '../db/conn';
 import { reportSchema } from '../forms/patients';
 import { RequestHandler } from '../router';
-import { validateFormData, validateObject } from '../utils/helpers';
+import { validateFormData } from '../utils/helpers';
 
 export const finalizeReport: RequestHandler = async ({ request, env, res, user }) => {
 	const data = await validateFormData(request, reportSchema);
@@ -16,18 +15,6 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 	}
 
 	const patient = rows[0];
-
-	if (patient.type === 'cyto') {
-		// prettier-ignore
-		await validateObject(data, z.object({
-			aspiration_note: z.string().nonempty()
-		}));
-	} else {
-		// prettier-ignore
-		await validateObject(data, z.object({
-			gross_examination: z.string().nonempty()
-		}));
-	}
 
 	if (patient.rid) {
 		if (patient.locked && user!.role !== 'admin') {
@@ -67,8 +54,8 @@ export const getReport: RequestHandler = async ({ env, params, res }) => {
 				GROUP_CONCAT(tests.name, ', ')
 			  FROM tests
 			  WHERE EXISTS (
-				SELECT * 
-				FROM json_each(p.tests) 
+				SELECT *
+				FROM json_each(p.tests)
 				WHERE json_each.value = tests.id
 			  )
 		    ) as test_names

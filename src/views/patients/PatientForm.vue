@@ -7,13 +7,11 @@ import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
 import TestSelector from "./TestSelector.vue";
+import DatePicker from "@/components/form/DatePicker.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
-import { dateToDMY, dmyToDate } from "@/helpers/utils";
+import { dmyToDate } from "@/helpers/utils";
 import { onMounted, ref } from "vue";
-// @ts-ignore
-import datepicker from "js-datepicker";
-import "js-datepicker/dist/datepicker.min.css";
 import router from "@/router";
 
 const props = defineProps<{
@@ -25,10 +23,6 @@ const props = defineProps<{
         showInvoice: boolean
     ) => void;
 }>();
-
-const entryDateField = ref<HTMLInputElement>();
-const sampleDateField = ref<HTMLInputElement>();
-const deliveryDateField = ref<HTMLInputElement>();
 
 const isPosting = ref<"add" | "draft" | boolean>(false);
 const error = ref<string | null>(null);
@@ -45,7 +39,6 @@ const reRenderTests = ref<number>(0);
 const refererValue = ref<string>("");
 
 onMounted(async () => {
-    createDatePickers();
     if (props.toEdit) {
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;
@@ -99,49 +92,6 @@ async function handleFormSubmit(evt: any) {
         error.value = res.message;
         fieldErrors.value = res.field;
     }
-}
-
-function createDatePickers() {
-    const options = {
-        showAllDates: true,
-        formatter(input: HTMLInputElement, date: Date) {
-            input.value = dateToDMY(date);
-        },
-        onShow(ins: any) {
-            const val = ins.el.value;
-            if (val && val.length === 10) {
-                ins.setDate(dmyToDate(val), true);
-            }
-            const el = ins.el.nextElementSibling as HTMLDivElement;
-            const box = el.getBoundingClientRect();
-            const pos: {
-                top?: string;
-                bottom?: string;
-                right?: string;
-                left?: string;
-            } = {};
-
-            if (box.right > screen.availWidth) {
-                pos.right = "0px";
-            } else {
-                pos.left = "0px";
-            }
-
-            if (box.bottom > window.innerHeight) {
-                pos.bottom = "100%";
-            } else {
-                pos.top = "100%";
-            }
-            el.removeAttribute("style");
-            for (const i in pos) {
-                // @ts-ignore
-                el.style[i] = pos[i];
-            }
-        },
-    };
-    datepicker(entryDateField.value, options);
-    datepicker(sampleDateField.value, options);
-    datepicker(deliveryDateField.value, options);
 }
 
 const getRefererSearchUrl = () => API_BASE + `/misc?name=referer`;
@@ -240,6 +190,21 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             <div class="left-wrapper">
                 <div class="left">
                     <h4 class="section-title all-col">Metadata</h4>
+                    <SimpleBlankInput
+                        label="Entry date"
+                        :un-wrap="true"
+                        :hint="fieldErrors?.entry_date?.[0]"
+                    >
+                        <DatePicker
+                            name="entry_date"
+                            class="date-input"
+                            :value="
+                                toEdit
+                                    ? new Date(parseInt(toEdit.entry_date))
+                                    : new Date()
+                            "
+                        />
+                    </SimpleBlankInput>
                     <SimpleSelect
                         name="type"
                         label="Type"
@@ -276,7 +241,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             <input
                                 type="number"
                                 name="age"
-                                class="age-input"
+                                class="age-input arrow-hidden-input"
                                 :value="toEdit?.age"
                             />
                             years
@@ -349,20 +314,12 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         :un-wrap="true"
                         :hint="fieldErrors?.delivery_date?.[0]"
                     >
-                        <input
-                            ref="deliveryDateField"
-                            type="text"
+                        <DatePicker
                             name="delivery_date"
                             class="date-input"
-                            autocomplete="off"
-                            placeholder="dd-mm-yyyy"
                             :value="
                                 toEdit
-                                    ? dateToDMY(
-                                          new Date(
-                                              parseInt(toEdit.delivery_date)
-                                          )
-                                      )
+                                    ? new Date(parseInt(toEdit.delivery_date))
                                     : ''
                             "
                         />
@@ -398,28 +355,6 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             <div class="right">
                 <h4 class="section-title all-col">Specimen Information</h4>
 
-                <SimpleBlankInput
-                    label="Entry date"
-                    :un-wrap="true"
-                    :hint="fieldErrors?.entry_date?.[0]"
-                >
-                    <input
-                        ref="entryDateField"
-                        type="text"
-                        name="entry_date"
-                        class="date-input"
-                        autocomplete="off"
-                        placeholder="dd-mm-yyyy"
-                        :value="
-                            toEdit
-                                ? dateToDMY(
-                                      new Date(parseInt(toEdit.entry_date))
-                                  )
-                                : ''
-                        "
-                    />
-                </SimpleBlankInput>
-
                 <SimpleInput
                     label="Specimen"
                     :un-wrap="true"
@@ -432,21 +367,13 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                     :un-wrap="true"
                     :hint="fieldErrors?.sample_collection_date?.[0]"
                 >
-                    <input
-                        ref="sampleDateField"
-                        type="text"
+                    <DatePicker
                         name="sample_collection_date"
                         class="date-input"
-                        autocomplete="off"
-                        placeholder="dd-mm-yyyy"
                         :value="
                             toEdit
-                                ? dateToDMY(
-                                      new Date(
-                                          parseInt(
-                                              toEdit.sample_collection_date
-                                          )
-                                      )
+                                ? new Date(
+                                      parseInt(toEdit.sample_collection_date)
                                   )
                                 : ''
                         "
@@ -476,7 +403,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input arrow-hidden-input"
                             name="discount"
                             v-model="discount"
                         />
@@ -488,7 +415,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input read-only"
                             readonly
                             :value="complementary ? 0 : total / 100 - discount"
                         />
@@ -504,7 +431,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <input
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input arrow-hidden-input"
                             name="advance"
                             v-model="advance"
                         />
@@ -514,9 +441,10 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                     <div class="flex items-center gap-sm">
                         BDT
                         <input
+                            readonly
                             type="number"
                             step="0.01"
-                            class="amount-input"
+                            class="amount-input read-only"
                             :value="
                                 complementary
                                     ? 0
@@ -568,6 +496,14 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             }
         }
 
+        input.date-input {
+            max-width: 240px;
+        }
+
+        input.read-only {
+            border: 0;
+        }
+
         .amount-input {
             width: 100px;
             margin-bottom: 0;
@@ -615,8 +551,8 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
     }
 
     .date-input {
-        width: max-content;
         padding: 3px 5px;
+        max-width: 240px;
     }
 
     .submit-area {
