@@ -90,7 +90,7 @@ const handleInput = (evt: any) => {
     if (tOut) {
         clearTimeout(tOut);
     }
-    tOut = setTimeout(filterResults, 500);
+    tOut = window.setTimeout(filterResults, 500);
 };
 const suggestionClicked = (test: Test) => {
     if (current.value.name === "" && current.value.price === "") {
