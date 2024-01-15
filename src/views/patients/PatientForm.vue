@@ -186,7 +186,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             :action="`${API_BASE}/patients/${toEdit?.id ?? ''}`"
             method="POST"
             @submit.prevent="handleFormSubmit"
-            class="add-patient"
+            :class="['add-patient', {'slim': headless}]"
         >
             <div class="form-container">
                 <h4 class="section-title all-col">Metadata</h4>
@@ -479,6 +479,10 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
         padding-bottom: 40px;
         width: 60vw;
         margin-inline: auto;
+
+        &.slim {
+            width: 40vw;
+        }
 
         input,
         select {

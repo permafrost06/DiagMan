@@ -41,7 +41,7 @@ const organs = ref<Record<string, any>[]>([]);
 const templates = ref<Record<string, any>[]>([]);
 const isLoadingOrgans = ref<boolean>(true);
 const isLoadingTemplates = ref<boolean>(false);
-const templatePaneOpen = ref<boolean>(true);
+const templatePaneOpen = ref<boolean>(false);
 
 const patient = ref<Record<string, any>>();
 const isLoading = ref<boolean>(false);
@@ -317,7 +317,8 @@ const toggleLock = async () => {
                     fill="currentColor"
                     d="m19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
                     class="clr-i-outline clr-i-outline-path-1"
-                /><path fill="none" d="M0 0h36v36H0z" />
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
             </Icon>
         </RouterLink>
 
@@ -325,10 +326,7 @@ const toggleLock = async () => {
             :action="API_BASE + '/reports'"
             method="POST"
             @submit.prevent="handleFormSubmit"
-            :class="{
-                block: editMode,
-                grid: !editMode,
-            }"
+            class="grid"
         >
             <div class="left" v-if="!editMode">
                 <div class="flex-grow" v-if="patient">
@@ -360,7 +358,7 @@ const toggleLock = async () => {
                         <p>Specimen</p>
                         <p class="bold">{{ patient.specimen }}</p>
 
-                        <p>Sample collection date</p>
+                        <p>Specimen collection date</p>
                         <p>
                             {{
                                 dateToDMY(
@@ -371,7 +369,7 @@ const toggleLock = async () => {
                             }}
                         </p>
 
-                        <p>Entry date</p>
+                        <p>Specimen receiving date</p>
                         <p>
                             {{
                                 dateToDMY(
@@ -383,7 +381,7 @@ const toggleLock = async () => {
                         <p>Tests</p>
                         <p class="bold">{{ patient.test_names }}</p>
 
-                        <p>Delivery date</p>
+                        <p>Report delivery date</p>
                         <p>
                             {{
                                 dateToDMY(
@@ -443,6 +441,10 @@ const toggleLock = async () => {
                 v-else
                 :headless="true"
                 :on-success="onPatientUpdate"
+                style="
+                    padding-right: 0.5rem;
+                    border-right: 1px solid var(--clr-black);
+                "
             />
             <div class="right">
                 <p class="form-alert error" v-if="error">{{ error }}</p>
@@ -583,17 +585,13 @@ const toggleLock = async () => {
 <style lang="scss">
 .report-page {
     margin: 30px;
-    display: flex;
-    flex-flow: column;
-    min-height: calc(100% - 80px);
 
     form {
         margin-top: 30px;
-        flex-grow: 1;
 
         &.grid {
             display: grid;
-            grid-template-columns: 0.8fr 1.2fr;
+            grid-template-columns: 1fr 1fr;
         }
     }
 
@@ -625,6 +623,7 @@ const toggleLock = async () => {
                 align-items: center;
                 gap: 5px;
             }
+
             button {
                 background: transparent;
                 padding: 0;
@@ -652,6 +651,7 @@ const toggleLock = async () => {
             .ql-container {
                 height: 120px;
                 overflow-y: auto;
+
                 & > .ql-editor {
                     height: 100%;
                 }
