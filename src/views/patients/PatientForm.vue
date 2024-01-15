@@ -347,7 +347,11 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         :value="
                             toEdit
                                 ? new Date(parseInt(toEdit.delivery_date))
-                                : ''
+                                : new Date(
+                                      new Date().getFullYear(),
+                                      new Date().getMonth(),
+                                      new Date().getDate() + 7
+                                  )
                         "
                     />
                 </SimpleBlankInput>
