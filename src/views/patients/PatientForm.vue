@@ -114,6 +114,9 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
     if (idx > -1) {
         all.splice(idx, 1);
     }
+    (
+        document.querySelector("input[name='referer']")! as HTMLInputElement
+    ).focus();
 };
 
 const onComplementaryChange = (evt: any) => {
@@ -186,7 +189,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             :action="`${API_BASE}/patients/${toEdit?.id ?? ''}`"
             method="POST"
             @submit.prevent="handleFormSubmit"
-            :class="['add-patient', {'slim': headless}]"
+            :class="['add-patient', { slim: headless }]"
         >
             <div class="form-container">
                 <h4 class="section-title all-col">Metadata</h4>
@@ -296,7 +299,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <span>{{ item.data }}</span>
                         <span
                             class="remover"
-                            @click="() => removeReferer(item.id, results)"
+                            @click.stop="() => removeReferer(item.id, results)"
                             >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
                         >
                     </button>
@@ -562,7 +565,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
         background: var(--clr-white);
         color: var(--clr-black);
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
-        font-size: var(--fs-sm);
+        font-size: var(--fs-md);
         padding-right: 15px;
 
         &:hover {
