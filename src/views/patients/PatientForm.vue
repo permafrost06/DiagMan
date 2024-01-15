@@ -8,7 +8,7 @@ import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
 import TestSelector from "./TestSelector.vue";
 import DatePicker from "@/components/form/DatePicker.vue";
-import { API_BASE } from "@/helpers/config";
+import { API_BASE, TMP_PIN_BYPASS_KEY } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { dmyToDate } from "@/helpers/utils";
 import { onMounted, ref } from "vue";
@@ -77,12 +77,18 @@ async function handleFormSubmit(evt: any) {
             props.onSuccess(res.rows[0], res.message!, invoice.value);
         }
         if (invoice.value) {
-            router.push({
-                name: "patients.invoice",
-                params: {
-                    id: res.rows[0].id,
-                },
-            });
+            router
+                .push({
+                    name: "patients.invoice",
+                    params: {
+                        id: res.rows[0].id,
+                    },
+                })
+                .then(() => {
+                    localStorage.setItem(TMP_PIN_BYPASS_KEY, "1");
+                    location.reload();
+                });
+            return;
         }
         if (res.data?.tests) {
             tests.value = res.data.tests;
