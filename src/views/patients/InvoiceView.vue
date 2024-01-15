@@ -32,6 +32,9 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
         </div>
         <div class="report">
             <div class="page">
+                <div class="status">
+                    {{ (record.total - record.discount - record.advance) === 0 ? "PAID" : "DUE" }}
+                </div>
                 <header class="cols-2">
                     <div class="header-left">
                         <p class="logo">The Opinion</p>
@@ -88,11 +91,11 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                     <span class="left">Referred by</span>: {{ record.referer }}
                 </div>
                 <div class="gap-top bold large">
-                    <span class="left">Receiving Date</span>:
+                    <span class="left date">Receiving Date</span>:
                     {{ dateToDMY(new Date(parseInt(record.entry_date))) }}
                 </div>
                 <div class="bold large">
-                    <span class="left">Delivery Date</span>:
+                    <span class="left date">Delivery Date</span>:
                     {{ dateToDMY(new Date(parseInt(record.delivery_date))) }}
                 </div>
                 <table class="invoice-table">
@@ -304,6 +307,11 @@ h1 {
     justify-content: space-between;
 }
 
+span.date {
+    display: inline-block;
+    width: 10rem;
+}
+
 .reference {
     margin-top: 1rem;
     border-bottom: 1px solid black;
@@ -374,7 +382,7 @@ h3 {
 
 footer {
     position: absolute;
-    top: 63rem;
+    top: 55rem;
 
     div {
         font-family: "SolaimanLipi";
@@ -403,5 +411,16 @@ footer {
 
 .center {
     text-align: center;
+}
+
+.status {
+    position: absolute;
+    font-family: serif;
+    top: 750px;
+    left: 450px;
+    font-size: 5rem;
+    border-block: 3px double black;
+    height: 5rem;
+    padding: 1.3rem;
 }
 </style>
