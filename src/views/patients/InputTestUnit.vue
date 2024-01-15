@@ -187,6 +187,7 @@ const blur = () => {
             text-align: left;
             padding: 7px 0;
             gap: 0;
+            font-size: var(--fs-md);
 
             &:hover {
                 background-color: var(--clr-accent);
