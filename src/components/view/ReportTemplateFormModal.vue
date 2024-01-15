@@ -227,20 +227,21 @@ const getSearchUrl = (val: string) =>
                                 {{ fieldErrs.asp_note }}
                             </p>
                         </div>
+
                         <div class="text-inputs">
                             <SimpleInput
                                 :un-wrap="true"
-                                label="No of sections embedded:"
-                                name="embedded_sections"
-                                :value="edit?.embedded_sections"
-                                :hint="fieldErrs.embedded_sections"
+                                label="No of slides made:"
+                                name="slides_made"
+                                :value="edit?.slides_made"
+                                :hint="fieldErrs.slides_made"
                             />
                             <SimpleInput
                                 :un-wrap="true"
-                                label="No of paraffin blocks:"
-                                name="paraffin_blocks"
-                                :value="edit?.paraffin_blocks"
-                                :hint="fieldErrs.paraffin_blocks"
+                                label="No of slides stained:"
+                                name="slides_stained"
+                                :value="edit?.slides_stained"
+                                :hint="fieldErrs.slides_stained"
                             />
                         </div>
                     </div>
@@ -268,17 +269,17 @@ const getSearchUrl = (val: string) =>
                         <div class="text-inputs">
                             <SimpleInput
                                 :un-wrap="true"
-                                label="No of slides made:"
-                                name="slides_made"
-                                :value="edit?.slides_made"
-                                :hint="fieldErrs.slides_made"
+                                label="No of sections embedded:"
+                                name="embedded_sections"
+                                :value="edit?.embedded_sections"
+                                :hint="fieldErrs.embedded_sections"
                             />
                             <SimpleInput
                                 :un-wrap="true"
-                                label="No of slides stained:"
-                                name="slides_stained"
-                                :value="edit?.slides_stained"
-                                :hint="fieldErrs.slides_stained"
+                                label="No of paraffin blocks:"
+                                name="paraffin_blocks"
+                                :value="edit?.paraffin_blocks"
+                                :hint="fieldErrs.paraffin_blocks"
                             />
                         </div>
                     </div>

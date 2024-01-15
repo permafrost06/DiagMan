@@ -490,17 +490,17 @@ const toggleLock = async () => {
                     <div class="text-inputs">
                         <SimpleInput
                             :un-wrap="true"
-                            label="No of sections embedded:"
-                            name="embedded_sections"
-                            :value="patient?.embedded_sections"
-                            :hint="errors.embedded_sections"
+                            label="No of slides made:"
+                            name="slides_made"
+                            :value="patient?.slides_made"
+                            :hint="errors.slides_made"
                         />
                         <SimpleInput
                             :un-wrap="true"
-                            label="No of paraffin blocks:"
-                            name="paraffin_blocks"
-                            :value="patient?.paraffin_blocks"
-                            :hint="errors.paraffin_blocks"
+                            label="No of slides stained:"
+                            name="slides_stained"
+                            :value="patient?.slides_stained"
+                            :hint="errors.slides_stained"
                         />
                     </div>
                 </div>
@@ -522,17 +522,17 @@ const toggleLock = async () => {
                     <div class="text-inputs">
                         <SimpleInput
                             :un-wrap="true"
-                            label="No of slides made:"
-                            name="slides_made"
-                            :value="patient?.slides_made"
-                            :hint="errors.slides_made"
+                            label="No of sections embedded:"
+                            name="embedded_sections"
+                            :value="patient?.embedded_sections"
+                            :hint="errors.embedded_sections"
                         />
                         <SimpleInput
                             :un-wrap="true"
-                            label="No of slides stained:"
-                            name="slides_stained"
-                            :value="patient?.slides_stained"
-                            :hint="errors.slides_stained"
+                            label="No of paraffin blocks:"
+                            name="paraffin_blocks"
+                            :value="patient?.paraffin_blocks"
+                            :hint="errors.paraffin_blocks"
                         />
                     </div>
                 </div>
