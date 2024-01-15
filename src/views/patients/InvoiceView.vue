@@ -379,7 +379,7 @@ h3 {
 
 footer {
     position: absolute;
-    top: 63rem;
+    top: 55rem;
 
     div {
         font-family: "SolaimanLipi";
