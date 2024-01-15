@@ -478,7 +478,7 @@ const toggleLock = async () => {
                     </p>
                 </div>
 
-                <div :class="{ hidden: patient?.type !== 'histo' }">
+                <div :class="{ hidden: patient?.type !== 'cyto' }">
                     <div class="editor-unit">
                         <label>Clinical Info</label>
                         <div ref="clinicField"></div>
@@ -487,10 +487,10 @@ const toggleLock = async () => {
                         </p>
                     </div>
                     <div class="editor-unit">
-                        <label>Gross Description</label>
-                        <div ref="grossField"></div>
-                        <p v-if="errors.gross_description" class="hint error">
-                            {{ errors.gross_description }}
+                        <label>Aspiration Note</label>
+                        <div ref="aspField"></div>
+                        <p v-if="errors.asp_note" class="hint error">
+                            {{ errors.asp_note }}
                         </p>
                     </div>
                     <div class="text-inputs">
@@ -510,7 +510,7 @@ const toggleLock = async () => {
                         />
                     </div>
                 </div>
-                <div :class="{ hidden: patient?.type === 'histo' }">
+                <div :class="{ hidden: patient?.type === 'cyto' }">
                     <div class="editor-unit">
                         <label>Anatomical Source</label>
                         <div ref="srcField"></div>
@@ -519,10 +519,10 @@ const toggleLock = async () => {
                         </p>
                     </div>
                     <div class="editor-unit">
-                        <label>Aspiration Note</label>
-                        <div ref="aspField"></div>
-                        <p v-if="errors.asp_note" class="hint error">
-                            {{ errors.asp_note }}
+                        <label>Gross Description</label>
+                        <div ref="grossField"></div>
+                        <p v-if="errors.gross_description" class="hint error">
+                            {{ errors.gross_description }}
                         </p>
                     </div>
                     <div class="text-inputs">

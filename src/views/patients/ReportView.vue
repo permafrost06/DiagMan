@@ -212,7 +212,7 @@ const convertToHtml = (data: string) => {
                         </tr>
                         <tr>
                             <td class="bold">Aspiration note:</td>
-                            <td v-html="record.asp_note"></td>
+                            <td v-html="convertToHtml(record.asp_note)"></td>
                         </tr>
                         <tr>
                             <td class="bold">No of slides made:</td>
