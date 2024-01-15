@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<InputProps>(), {
                 :type="type || 'text'"
                 :class="fieldClass"
                 v-bind="$attrs"
+                autocomplete="off"
             />
 
             <label
@@ -50,6 +51,7 @@ const props = withDefaults(defineProps<InputProps>(), {
                 :type="type || 'text'"
                 :class="fieldClass"
                 v-bind="$attrs"
+                autocomplete="off"
             />
 
             <label

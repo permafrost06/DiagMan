@@ -230,6 +230,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             type="number"
                             name="age"
                             class="age-input arrow-hidden-input"
+                            autocomplete="off"
                             :value="toEdit?.age"
                         />
                         years
@@ -248,6 +249,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                                 name="gender"
                                 id="gen-male"
                                 value="male"
+                                autocomplete="off"
                                 :checked="toEdit?.gender === 'male'"
                             />
                             <label for="gen-male">Male</label>
@@ -258,6 +260,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                                 name="gender"
                                 id="gen-female"
                                 value="female"
+                                autocomplete="off"
                                 :checked="toEdit?.gender === 'female'"
                             />
                             <label for="gen-female">Female</label>
@@ -385,6 +388,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             step="0.01"
                             class="amount-input arrow-hidden-input"
                             name="discount"
+                            autocomplete="off"
                             v-model="discount"
                         />
                     </div>
@@ -397,6 +401,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             step="0.01"
                             class="amount-input read-only"
                             readonly
+                            autocomplete="off"
                             :value="complementary ? 0 : total / 100 - discount"
                         />
                     </div>
@@ -413,6 +418,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             step="0.01"
                             class="amount-input arrow-hidden-input"
                             name="advance"
+                            autocomplete="off"
                             v-model="advance"
                         />
                     </div>
