@@ -32,6 +32,9 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
         </div>
         <div class="report">
             <div class="page">
+                <div class="status">
+                    {{ (record.total - record.discount - record.advance) === 0 ? "PAID" : "DUE" }}
+                </div>
                 <header class="cols-2">
                     <div class="header-left">
                         <p class="logo">The Opinion</p>
@@ -408,5 +411,16 @@ footer {
 
 .center {
     text-align: center;
+}
+
+.status {
+    position: absolute;
+    font-family: serif;
+    top: 750px;
+    left: 450px;
+    font-size: 5rem;
+    border-block: 3px double black;
+    height: 5rem;
+    padding: 1.3rem;
 }
 </style>
