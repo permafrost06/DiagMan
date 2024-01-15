@@ -130,7 +130,11 @@ const convertToHtml = (data: string) => {
     <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
-            <button class="btn btn-outline" type="button" @click="() => router.back()">
+            <button
+                class="btn btn-outline"
+                type="button"
+                @click="() => router.back()"
+            >
                 Go back
             </button>
         </div>
@@ -138,92 +142,98 @@ const convertToHtml = (data: string) => {
             <div class="page">
                 <table class="patient-details underline">
                     <tr>
-                        <td class="bold">ID No: 2021-H-02</td>
-                        <td class="bold">Patient: Miss Tabia</td>
+                        <td class="bold">ID No: {{ record.id }}</td>
+                        <td class="bold">Patient: {{ record.name }}</td>
                     </tr>
                     <tr>
-                        <td>Collected: 01-01-2021</td>
-                        <td>Age: 14 years</td>
+                        <td>
+                            Collected:
+                            {{
+                                dateToDMY(
+                                    new Date(
+                                        parseInt(record.sample_collection_date)
+                                    )
+                                )
+                            }}
+                        </td>
+                        <td>Age: {{ record.age }} years</td>
                     </tr>
                     <tr>
-                        <td>Received: 01-01-2021</td>
-                        <td>Sex: Female</td>
+                        <td>
+                            Received:
+                            {{
+                                dateToDMY(new Date(parseInt(record.entry_date)))
+                            }}
+                        </td>
+                        <td>Sex: {{ record.gender }}</td>
                     </tr>
                 </table>
 
                 <p class="referrer underline">
-                    Referred by: Prof. Dr. Mostofa Mahfuzul Anwar, MBBS, FCPS
-                    (ENT)
+                    Referred by: {{ record.referer }}
                 </p>
                 <table class="report-details">
                     <tr>
                         <td class="bold">Diagnosis:</td>
-                        <td>
-                            <p>Left thyroid nodule, Excised</p>
-                            <p class="large bold">Follicular adenoma</p>
-                        </td>
+                        <td v-html="convertToHtml(record.diagnosis)"></td>
                     </tr>
                     <tr>
                         <td class="bold">Indication:</td>
-                        <td>
-                            Thyroid swelling with FNA diagnosis of Follicular
-                            neoplasm
-                        </td>
+                        <td v-html="convertToHtml(record.indication)"></td>
                     </tr>
                     <template v-if="record.type === 'histo'">
                         <tr>
                             <td class="bold">Anatomical source:</td>
-                            <td>Left Thyroid nodule</td>
+                            <td
+                                v-html="convertToHtml(record.anatomical_source)"
+                            ></td>
                         </tr>
                         <tr>
                             <td class="bold">Gross description:</td>
-                            <td>
-                                Excised thyroid tissue, measured 4x2.5x15cm
-                                containing a solid mass if 3x2x1.2 cm
-                            </td>
+                            <td
+                                v-html="convertToHtml(record.gross_description)"
+                            ></td>
                         </tr>
                         <tr>
                             <td class="bold">No of sections embedded:</td>
-                            <td>04</td>
+                            <td>{{ record.embedded_sections }}</td>
                         </tr>
                         <tr>
                             <td class="bold">No of paraffin blocks:</td>
-                            <td>02</td>
+                            <td>{{ record.paraffin_blocks }}</td>
                         </tr>
                     </template>
                     <template v-else>
                         <tr>
                             <td class="bold">Clinical Information:</td>
-                            <td>H/O 3 months, size>4 cm, euthyroid, USDG: TIRAD IV</td>
+                            <td
+                                v-html="convertToHtml(record.clinical_info)"
+                            ></td>
                         </tr>
                         <tr>
                             <td class="bold">Aspiration note:</td>
-                            <td>Blood mixed cellular material came out on aspiration</td>
+                            <td v-html="record.asp_note"></td>
                         </tr>
                         <tr>
                             <td class="bold">No of slides made:</td>
-                            <td>06</td>
+                            <td>{{ record.slides_made }}</td>
                         </tr>
                         <tr>
                             <td class="bold">No of slides stained:</td>
-                            <td>04</td>
+                            <td>{{ record.slides_stained }}</td>
                         </tr>
                     </template>
                     <tr>
                         <td class="bold">Microscopic description:</td>
-                        <td>
-                            <p>
-                                Sections showed thyroid tissue revealing a
-                                benign neoplasm composed of closely packed
-                                trabeculae of follicular epithelium with solid
-                                areas with an intact capsule.
-                            </p>
-                            <p>No granuloma or malignancy was seen.</p>
-                        </td>
+                        <td
+                            v-html="
+                                convertToHtml(record.microscopic_description)
+                            "
+                        ></td>
                     </tr>
                     <tr>
                         <td class="bold">Note:</td>
-                        <td></td>
+                        <td v-html="convertToHtml(record.note)"></td>
                     </tr>
                 </table>
             </div>
