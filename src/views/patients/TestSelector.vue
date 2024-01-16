@@ -48,20 +48,10 @@ const total = computed(() => {
     <div class="patient-tests-selector">
         <div class="tests">
             <InputTestUnit
-                v-for="(_, key) in selectedTests"
-                :key="key"
-                v-model="selectedTests[key]"
+                v-model="selectedTests[0]"
                 :tests="(allTests as any)"
                 :selected-tests="(selectedTests as any)"
                 :is-complementary="isComplementary"
-                @remove="() => selectedTests.splice(key, 1)"
-            />
-            <InputTestUnit
-                :key="selectedTests.length"
-                :selected-tests="(selectedTests as any)"
-                :tests="(allTests as any)"
-                :is-complementary="isComplementary"
-                @add="(t) => selectedTests.push(t as any)"
             />
         </div>
         <div class="total">
