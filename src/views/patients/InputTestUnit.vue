@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 interface Test {
     name: string;
@@ -91,8 +91,21 @@ const handleInput = (evt: any) => {
         clearTimeout(tOut);
     }
     tOut = window.setTimeout(filterResults, 500);
+
+    const newVal = { ...current.value };
+    newVal.price = (parseFloat(newVal.price) * 100) as any;
+
+    emit("update:modelValue", newVal);
 };
 const suggestionClicked = (test: Test) => {
+    (document.querySelector(".suggestions")! as HTMLDivElement).style.display =
+        "none";
+    setTimeout(() => {
+        (
+            document.querySelector(".suggestions")! as HTMLDivElement
+        ).style.removeProperty("display");
+    }, 5);
+
     if (current.value.name === "" && current.value.price === "") {
         emit("add", test);
     }
@@ -100,11 +113,14 @@ const suggestionClicked = (test: Test) => {
         name: test.name,
         price: (parseInt(test.price) / 100).toFixed(2),
     };
+
+    const newVal = { ...current.value };
+    newVal.price = (parseFloat(newVal.price) * 100) as any;
+
+    emit("update:modelValue", newVal);
 };
 const blur = () => {
-    if (current.value.name === "" && current.value.price === "") {
-        emit("remove");
-    } else if (!props.modelValue?.name) {
+    if (!props.modelValue?.name) {
         const newVal = { ...current.value };
         newVal.price = (parseFloat(newVal.price) * 100) as any;
         emit("add", newVal);
@@ -114,6 +130,10 @@ const blur = () => {
         emit("update:modelValue", newVal);
     }
 };
+
+const suggestedTestsTrimmed = computed(() => {
+    return suggestedTests.value?.slice(0, 5);
+});
 </script>
 
 <template>
@@ -132,9 +152,10 @@ const blur = () => {
             <button
                 type="button"
                 class="suggestion-holder"
-                v-for="test in suggestedTests"
+                v-for="test in suggestedTestsTrimmed"
                 :key="test.name"
                 @click="suggestionClicked(test)"
+                tabindex="-1"
             >
                 <div class="suggestion-name">{{ test.name }}</div>
                 <div class="suggestion-price">
@@ -152,6 +173,7 @@ const blur = () => {
             placeholder="Test price"
             class="price-input arrow-hidden-input"
             @blur="blur"
+            @input="handleInput"
         />
         <input v-else value="0" readonly="true" name="prices" />
     </div>
