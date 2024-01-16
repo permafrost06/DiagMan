@@ -593,6 +593,7 @@ const toggleLock = async () => {
         &.grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            padding-bottom: 50px;
         }
     }
 
