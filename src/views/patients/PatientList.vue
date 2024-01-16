@@ -432,7 +432,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 
 <style lang="scss">
 .patients-page {
-    padding: 30px;
+    padding: 20px 30px;
 }
 .patients-page .h-link-btn {
     background: var(--clr-black);
