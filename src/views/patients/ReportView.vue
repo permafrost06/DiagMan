@@ -145,6 +145,9 @@ const convertToHtml = (data: string) => {
                         <td class="bold">Note:</td>
                         <td v-html="convertToHtml(record.note)"></td>
                     </tr>
+                    <tr>
+                        <td class="signature">Signature</td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -234,5 +237,10 @@ table.report-details {
 
     border-collapse: separate;
     border-spacing: 0 0.5rem;
+
+    .signature {
+        padding-top: 600px;
+        padding-bottom: 50px;
+    }
 }
 </style>
