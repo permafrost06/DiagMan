@@ -25,7 +25,7 @@ const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
-const hideDelivered = ref<boolean>(true);
+const hideDelivered = ref<boolean>(false);
 const page = ref({
     maxPage: 1,
     page: 1,
