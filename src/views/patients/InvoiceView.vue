@@ -26,14 +26,22 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
     <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
-            <button class="btn btn-outline" type="button" @click="() => router.back()">
-                Go back
+            <button
+                class="btn btn-outline"
+                type="button"
+                @click="() => router.push({ name: 'home' })"
+            >
+                Go to Home
             </button>
         </div>
         <div class="report">
             <div class="page">
                 <div class="status">
-                    {{ (record.total - record.discount - record.advance) === 0 ? "PAID" : "DUE" }}
+                    {{
+                        record.total - record.discount - record.advance === 0
+                            ? "PAID"
+                            : "DUE"
+                    }}
                 </div>
                 <header class="cols-2">
                     <div class="header-left">
@@ -178,13 +186,16 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         </div>
                         <div class="footer-right">
                             <p>রিপোর্টের জন্য যোগাযোগ</p>
-                            <p class="large bold">ফোন: <span class="escape">01883569391</span></p>
+                            <p class="large bold">
+                                ফোন: <span class="escape">01883569391</span>
+                            </p>
                             <p>সকাল ১০টা থেকে রাত ০৯টা</p>
                             <p>শুক্রবার বন্ধ</p>
                         </div>
                     </div>
                     <div class="bold large center">
-                        বি.দ্র: রিপোর্টের জন্য ফোন করে, মানি রিসিট সাথে নিয়ে আসবেন।
+                        বি.দ্র: রিপোর্টের জন্য ফোন করে, মানি রিসিট সাথে নিয়ে
+                        আসবেন।
                     </div>
                 </footer>
             </div>
@@ -274,7 +285,6 @@ h1 {
 }
 
 @media print {
-
     html,
     body {
         height: 100%;

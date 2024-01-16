@@ -37,7 +37,7 @@ const convertToHtml = (data: string) => {
 </script>
 
 <template>
-    <!--    <template v-if="record">
+    <template v-if="record">
         <div class="flex items-center gap-sm buttons">
             <button @click="print" class="btn print-btn">Print</button>
             <button
@@ -50,16 +50,13 @@ const convertToHtml = (data: string) => {
         </div>
         <div class="report">
             <div class="page">
-                <header>
-                    <h1 v-if="record.type === 'histo'">
-                        Histopathology Report
-                    </h1>
-                    <h1 v-else>Cytopathology Report</h1>
-                </header>
-                <div class="box">
-                    <div>
-                        <div class="bold">ID No: {{ record.id }}</div>
-                        <div>
+                <table class="patient-details underline">
+                    <tr>
+                        <td class="bold">ID No: {{ record.id }}</td>
+                        <td class="bold">Patient: {{ record.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>
                             Collected:
                             {{
                                 dateToDMY(
@@ -68,162 +65,88 @@ const convertToHtml = (data: string) => {
                                     )
                                 )
                             }}
-                        </div>
-                        <div>
+                        </td>
+                        <td>Age: {{ record.age }} years</td>
+                    </tr>
+                    <tr>
+                        <td>
                             Received:
                             {{
                                 dateToDMY(new Date(parseInt(record.entry_date)))
                             }}
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="bold">Patient: {{ record.name }}</div>
-                        <div>
-                            Age:
-                            {{ record.age + " Years" }}
-                        </div>
-                        <div>Gender: {{ record.gender }}</div>
-                        <div>Contact No: {{ record.contact }}</div>
-                    </div>
-                </div>
-                <div class="reference">Referred by: {{ record.referer }}</div>
-                <h3>Impression:</h3>
-                <div
-                    v-html="convertToHtml(record.impression)"
-                    class="ql-container"
-                ></div>
-                <h3>Specimen</h3>
-                {{ record.specimen }}
-                <template v-if="record.type === 'histo'">
-                    <h3>Gross Examination:</h3>
-                    <div
-                        v-html="convertToHtml(record.gross_examination)"
-                        class="ql-container"
-                    ></div>
-                </template>
-                <template v-else>
-                    <h3>Aspiration Note:</h3>
-                    <div
-                        v-html="convertToHtml(record.aspiration_note)"
-                        class="ql-container"
-                    ></div>
-                </template>
-                <h3>M/E:</h3>
-
-                <div
-                    v-html="convertToHtml(record.microscopic_examination)"
-                    class="ql-container"
-                ></div>
-                <h3>Note:</h3>
-
-                <div
-                    v-html="convertToHtml(record.note)"
-                    class="ql-container"
-                ></div>
-            </div>
-        </div>
-    </template>
-    <div v-else class="f-scr">
-        <Loading v-if="isLoading" size="100" />
-        <p v-else>{{ error }}</p>
-        </div> -->
-    <template v-if="record">
-        <div class="flex items-center gap-sm buttons">
-            <button @click="print" class="btn print-btn">Print</button>
-            <button class="btn btn-outline" type="button" @click="() => router.back()">
-                Go back
-            </button>
-        </div>
-        <div class="report">
-            <div class="page">
-                <table class="patient-details underline">
-                    <tr>
-                        <td class="bold">ID No: 2021-H-02</td>
-                        <td class="bold">Patient: Miss Tabia</td>
-                    </tr>
-                    <tr>
-                        <td>Collected: 01-01-2021</td>
-                        <td>Age: 14 years</td>
-                    </tr>
-                    <tr>
-                        <td>Received: 01-01-2021</td>
-                        <td>Sex: Female</td>
+                        </td>
+                        <td>Sex: {{ record.gender }}</td>
                     </tr>
                 </table>
 
                 <p class="referrer underline">
-                    Referred by: Prof. Dr. Mostofa Mahfuzul Anwar, MBBS, FCPS
-                    (ENT)
+                    Referred by: {{ record.referer }}
                 </p>
                 <table class="report-details">
                     <tr>
                         <td class="bold">Diagnosis:</td>
-                        <td>
-                            <p>Left thyroid nodule, Excised</p>
-                            <p class="large bold">Follicular adenoma</p>
-                        </td>
+                        <td v-html="convertToHtml(record.diagnosis)"></td>
                     </tr>
                     <tr>
                         <td class="bold">Indication:</td>
-                        <td>
-                            Thyroid swelling with FNA diagnosis of Follicular
-                            neoplasm
-                        </td>
+                        <td v-html="convertToHtml(record.indication)"></td>
                     </tr>
                     <template v-if="record.type === 'histo'">
                         <tr>
                             <td class="bold">Anatomical source:</td>
-                            <td>Left Thyroid nodule</td>
+                            <td
+                                v-html="convertToHtml(record.anatomical_source)"
+                            ></td>
                         </tr>
                         <tr>
                             <td class="bold">Gross description:</td>
-                            <td>
-                                Excised thyroid tissue, measured 4x2.5x15cm
-                                containing a solid mass if 3x2x1.2 cm
-                            </td>
+                            <td
+                                v-html="convertToHtml(record.gross_description)"
+                            ></td>
                         </tr>
                         <tr>
                             <td class="bold">No of sections embedded:</td>
-                            <td>04</td>
+                            <td>{{ record.embedded_sections }}</td>
                         </tr>
                         <tr>
                             <td class="bold">No of paraffin blocks:</td>
-                            <td>02</td>
+                            <td>{{ record.paraffin_blocks }}</td>
                         </tr>
                     </template>
                     <template v-else>
                         <tr>
                             <td class="bold">Clinical Information:</td>
-                            <td>H/O 3 months, size>4 cm, euthyroid, USDG: TIRAD IV</td>
+                            <td
+                                v-html="convertToHtml(record.clinical_info)"
+                            ></td>
                         </tr>
                         <tr>
                             <td class="bold">Aspiration note:</td>
-                            <td>Blood mixed cellular material came out on aspiration</td>
+                            <td v-html="convertToHtml(record.asp_note)"></td>
                         </tr>
                         <tr>
                             <td class="bold">No of slides made:</td>
-                            <td>06</td>
+                            <td>{{ record.slides_made }}</td>
                         </tr>
                         <tr>
                             <td class="bold">No of slides stained:</td>
-                            <td>04</td>
+                            <td>{{ record.slides_stained }}</td>
                         </tr>
                     </template>
                     <tr>
                         <td class="bold">Microscopic description:</td>
-                        <td>
-                            <p>
-                                Sections showed thyroid tissue revealing a
-                                benign neoplasm composed of closely packed
-                                trabeculae of follicular epithelium with solid
-                                areas with an intact capsule.
-                            </p>
-                            <p>No granuloma or malignancy was seen.</p>
-                        </td>
+                        <td
+                            v-html="
+                                convertToHtml(record.microscopic_description)
+                            "
+                        ></td>
                     </tr>
                     <tr>
                         <td class="bold">Note:</td>
-                        <td></td>
+                        <td v-html="convertToHtml(record.note)"></td>
+                    </tr>
+                    <tr>
+                        <td class="signature">Signature</td>
                     </tr>
                 </table>
             </div>
@@ -314,5 +237,10 @@ table.report-details {
 
     border-collapse: separate;
     border-spacing: 0 0.5rem;
+
+    .signature {
+        padding-top: 600px;
+        padding-bottom: 50px;
+    }
 }
 </style>

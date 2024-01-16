@@ -38,6 +38,10 @@ input[type="checkbox"] {
   display: inline-block;
 }
 
+input[type="radio"]:focus {
+    outline: 1px solid var(--clr-grey);
+}
+
 input:focus,
 select:focus {
   outline: none;
@@ -235,3 +239,8 @@ button, .btn {
   top: 1rem;
   color: var(--clr-black);
 }
+
+.ql-container {
+    font-size: 16px !important;
+}
+

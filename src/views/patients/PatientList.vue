@@ -31,7 +31,7 @@ const page = ref({
     page: 1,
 });
 const sortState = ref<Sorting>({
-    by: "delivery_date",
+    by: "id",
     order: "desc",
 });
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
@@ -273,7 +273,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                         :description="tableDescription"
                         :on-filter="showFilter"
                         :on-sort="sortBy"
-                        sort-by="delivery_date"
+                        sort-by="id"
                         sort-order="desc"
                     />
                     <th>Actions</th>

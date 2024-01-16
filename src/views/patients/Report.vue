@@ -4,6 +4,7 @@ import Loading from "@/Icons/Loading.vue";
 import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import SimpleSelect from "@/components/form/SimpleSelect.vue";
+import SimpleInput from "@/components/form/SimpleInput.vue";
 import ReportTemplateFormModal from "@/components/view/ReportTemplateFormModal.vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
@@ -49,9 +50,14 @@ const isPosting = ref<"add" | "draft" | boolean>(false);
 const error = ref<string | null>(null);
 const message = ref<string | null>(null);
 
+const diagField = ref<HTMLDivElement>();
+const indicationField = ref<HTMLDivElement>();
+const microField = ref<HTMLDivElement>();
+const srcField = ref<HTMLDivElement>();
+const grossField = ref<HTMLDivElement>();
+const clinicField = ref<HTMLDivElement>();
 const aspField = ref<HTMLDivElement>();
-const meField = ref<HTMLDivElement>();
-const impressionField = ref<HTMLDivElement>();
+
 const noteField = ref<HTMLDivElement>();
 const noteFieldVisible = ref<boolean>(false);
 
@@ -70,13 +76,7 @@ onMounted(async () => {
     if (res.success) {
         patient.value = res.rows[0];
         const p = res.rows[0];
-        setEditorContent(
-            quillInstances.asp,
-            p.type === "cyto" ? p.aspiration_note : p.gross_examination
-        );
-        setEditorContent(quillInstances.me, p.microscopic_examination);
-        setEditorContent(quillInstances.impression, p.impression);
-        setEditorContent(quillInstances.note, p.note);
+        setEditorContent(p);
         noteFieldVisible.value = quillInstances.note.getLength() > 1;
         reCheckEditors();
     }
@@ -87,24 +87,39 @@ watch(noteFieldVisible, async () => {
     await nextTick();
     if (noteFieldVisible.value) {
         if (patient.value?.note) {
-            quillInstances.note.setContents(patient.value.note.ops);
+            quillInstances.note.setContents(
+                JSON.parse(patient.value.note || "{}").ops
+            );
         }
     }
 });
 
-function setEditorContent(editor: any, data: string) {
-    try {
-        const impression = JSON.parse(data);
-        editor.setContents(impression.ops);
-    } catch (_e) {
-        editor.setContents([]);
+function setEditorContent(res: any) {
+    for (const fName in quillInstances) {
+        try {
+            const delta = JSON.parse(res[fName] || "{}");
+            quillInstances[fName].setContents(delta.ops);
+        } catch (_e) {
+            quillInstances[fName].setContents([]);
+        }
     }
 }
 
 async function initEditors() {
-    quillInstances.asp = new Quill(aspField.value!, quillOptions);
-    quillInstances.impression = new Quill(impressionField.value!, quillOptions);
-    quillInstances.me = new Quill(meField.value!, quillOptions);
+    quillInstances.diagnosis = new Quill(diagField.value!, quillOptions);
+    quillInstances.indication = new Quill(indicationField.value!, quillOptions);
+    quillInstances.microscopic_description = new Quill(
+        microField.value!,
+        quillOptions
+    );
+    quillInstances.anatomical_source = new Quill(srcField.value!, quillOptions);
+    quillInstances.gross_description = new Quill(
+        grossField.value!,
+        quillOptions
+    );
+    quillInstances.clinical_info = new Quill(clinicField.value!, quillOptions);
+    quillInstances.asp_note = new Quill(aspField.value!, quillOptions);
+
     quillInstances.note = new Quill(noteField.value!, quillOptions);
 }
 
@@ -166,57 +181,8 @@ const handleFormSubmit = async (evt: any) => {
     error.value = null;
     message.value = null;
 
-    let errCount = 0;
-    if ((quillInstances.asp?.getLength() || 1) < 2) {
-        errors.value.asp = `${
-            patient.value?.type === "cyto"
-                ? "Aspiration note"
-                : "Gross examination"
-        } is required!`;
-        errCount++;
-    } else {
-        data.append(
-            patient.value?.type === "cyto"
-                ? "aspiration_note"
-                : "gross_examination",
-            JSON.stringify(quillInstances.asp.getContents())
-        );
-    }
-
-    if ((quillInstances.me?.getLength() || 1) < 2) {
-        errors.value.me = "Microscopic examination is required!";
-        errCount++;
-    } else {
-        data.append(
-            "microscopic_examination",
-            JSON.stringify(quillInstances.me.getContents())
-        );
-    }
-    if ((quillInstances.impression?.getLength() || 1) < 2) {
-        errors.value.impression = "Impression is required!";
-        errCount++;
-    } else {
-        data.append(
-            "impression",
-            JSON.stringify(quillInstances.impression.getContents())
-        );
-    }
-
-    if (errCount > 0) {
-        error.value =
-            errors.value.asp ||
-            errors.value.me ||
-            errors.value.impression ||
-            "";
-        if (errCount > 1) {
-            error.value += ` (+${errCount - 1} errors)`;
-        }
-        isPosting.value = false;
-        return;
-    }
-
-    if (quillInstances.note) {
-        data.append("note", JSON.stringify(quillInstances.note.getContents()));
+    for (const fName in quillInstances) {
+        data.append(fName, JSON.stringify(quillInstances[fName].getContents()));
     }
 
     const res = await fetchApi(evt.target.action, {
@@ -232,13 +198,7 @@ const handleFormSubmit = async (evt: any) => {
         router.back();
     } else {
         error.value = res.message;
-        errors.value = {
-            asp:
-                res.field?.aspiration_note?.[0] ||
-                res.field?.gross_examination?.[0],
-            me: res.field?.microscopic_examination?.[0],
-            impression: res.field?.impression?.[0],
-        };
+        errors.value = res.field as any;
     }
 };
 
@@ -252,36 +212,19 @@ const onTemplateChange = (evt: any) => {
     if (!template) {
         return;
     }
-    setEditorContent(
-        quillInstances.asp,
-        patient.value?.type === "cyto"
-            ? template.aspiration_note
-            : template.gross_examination
-    );
-    setEditorContent(quillInstances.me, template.microscopic_examination);
-    setEditorContent(quillInstances.impression, template.impression);
-    setEditorContent(quillInstances.note, template.note);
+    setEditorContent(template);
     noteFieldVisible.value = quillInstances.note.getLength() > 1;
 };
 
 const showTemplateSaver = () => {
-    templateModalValue.value = {
-        type: patient.value?.type === "cyto" ? "cyto" : "histo",
-        microscopic_examination: JSON.stringify(
-            quillInstances.me.getContents()
-        ),
-        impression: JSON.stringify(quillInstances.impression.getContents()),
-        note: JSON.stringify(quillInstances.note.getContents()),
-    };
-    if (patient.value?.type === "cyto") {
-        templateModalValue.value.aspiration_note = JSON.stringify(
-            quillInstances.asp.getContents()
-        );
-    } else {
-        templateModalValue.value.gross_examination = JSON.stringify(
-            quillInstances.asp.getContents()
+    const newTemplate: any = {};
+    for (const fName in quillInstances) {
+        newTemplate[fName] = JSON.stringify(
+            quillInstances[fName].getContents()
         );
     }
+    newTemplate["type"] = patient.value?.type === "cyto" ? "cyto" : "histo";
+    templateModalValue.value = newTemplate;
 };
 
 const onTemAdded = (tem: any) => {
@@ -504,73 +447,131 @@ const toggleLock = async () => {
                         </SimpleSelect>
                     </div>
                 </div>
-                <div class="editor-n-template-grid">
-                    <div>
-                        <div class="editor-unit">
-                            <label v-if="patient?.type === 'cyto'"
-                                >Aspiration Note</label
-                            >
-                            <label v-else>Gross Examination</label>
-                            <div ref="aspField"></div>
-                            <p v-if="errors.asp" class="hint error">
-                                {{ errors.asp }}
-                            </p>
-                        </div>
-                        <div class="editor-unit">
-                            <label>Microscopic Examination</label>
-                            <div ref="meField"></div>
-                            <p v-if="errors.me" class="hint error">
-                                {{ errors.me }}
-                            </p>
-                        </div>
-                        <div class="editor-unit">
-                            <label>Impression</label>
-                            <div ref="impressionField"></div>
-                            <p v-if="errors.impression" class="hint error">
-                                {{ errors.impression }}
-                            </p>
-                        </div>
+                <div class="editor-unit">
+                    <label>Diagnosis</label>
+                    <div ref="diagField"></div>
+                    <p v-if="errors.diagnosis" class="hint error">
+                        {{ errors.diagnosis }}
+                    </p>
+                </div>
 
-                        <div
-                            class="editor-unit"
-                            :class="{ hidden: !noteFieldVisible }"
-                        >
-                            <label>Note</label>
-                            <div ref="noteField"></div>
-                        </div>
-                        <div
-                            class="justify-end"
-                            :class="{
-                                hidden: noteFieldVisible,
-                                flex: !noteFieldVisible,
-                            }"
-                        >
-                            <button
-                                type="button"
-                                class="btn-outline"
-                                @click="noteFieldVisible = true"
-                            >
-                                + Add Note
-                            </button>
-                        </div>
+                <div class="editor-unit">
+                    <label>Indication</label>
+                    <div ref="indicationField"></div>
+                    <p v-if="errors.indication" class="hint error">
+                        {{ errors.indication }}
+                    </p>
+                </div>
+
+                <div :class="{ hidden: patient?.type !== 'cyto' }">
+                    <div class="editor-unit">
+                        <label>Clinical Info</label>
+                        <div ref="clinicField"></div>
+                        <p v-if="errors.clinical_info" class="hint error">
+                            {{ errors.clinical_info }}
+                        </p>
+                    </div>
+                    <div class="editor-unit">
+                        <label>Aspiration Note</label>
+                        <div ref="aspField"></div>
+                        <p v-if="errors.asp_note" class="hint error">
+                            {{ errors.asp_note }}
+                        </p>
+                    </div>
+                    <div class="text-inputs">
+                        <SimpleInput
+                            :un-wrap="true"
+                            label="No of slides made:"
+                            name="slides_made"
+                            :value="patient?.slides_made"
+                            :hint="errors.slides_made"
+                        />
+                        <SimpleInput
+                            :un-wrap="true"
+                            label="No of slides stained:"
+                            name="slides_stained"
+                            :value="patient?.slides_stained"
+                            :hint="errors.slides_stained"
+                        />
                     </div>
                 </div>
-                <div class="submit-area-2" v-if="editMode">
-                    <CheckBox
-                        v-if="!patient?.locked"
-                        label="Lock Report"
-                        name="locked"
-                        value="1"
-                        :checked="patient?.locked"
-                    />
-                    <div class="flex gap-sm mt-sm">
-                        <button type="submit">
-                            <Loading
-                                v-if="isPosting === true || isPosting === 'add'"
-                            />
-                            Add Report
-                        </button>
+
+                <div :class="{ hidden: patient?.type === 'cyto' }">
+                    <div class="editor-unit">
+                        <label>Anatomical Source</label>
+                        <div ref="srcField"></div>
+                        <p v-if="errors.anatomical_source" class="hint error">
+                            {{ errors.anatomical_source }}
+                        </p>
                     </div>
+                    <div class="editor-unit">
+                        <label>Gross Description</label>
+                        <div ref="grossField"></div>
+                        <p v-if="errors.gross_description" class="hint error">
+                            {{ errors.gross_description }}
+                        </p>
+                    </div>
+                    <div class="text-inputs">
+                        <SimpleInput
+                            :un-wrap="true"
+                            label="No of sections embedded:"
+                            name="embedded_sections"
+                            :value="patient?.embedded_sections"
+                            :hint="errors.embedded_sections"
+                        />
+                        <SimpleInput
+                            :un-wrap="true"
+                            label="No of paraffin blocks:"
+                            name="paraffin_blocks"
+                            :value="patient?.paraffin_blocks"
+                            :hint="errors.paraffin_blocks"
+                        />
+                    </div>
+                </div>
+
+                <div class="editor-unit">
+                    <label>Microscopic Description</label>
+                    <div ref="microField"></div>
+                    <p v-if="errors.microscopic_description" class="hint error">
+                        {{ errors.microscopic_description }}
+                    </p>
+                </div>
+
+                <div class="editor-unit" :class="{ hidden: !noteFieldVisible }">
+                    <label>Note</label>
+                    <div ref="noteField"></div>
+                </div>
+                <div
+                    class="justify-end"
+                    :class="{
+                        hidden: noteFieldVisible,
+                        flex: !noteFieldVisible,
+                    }"
+                >
+                    <button
+                        type="button"
+                        class="btn-outline"
+                        @click="noteFieldVisible = true"
+                    >
+                        + Add Note
+                    </button>
+                </div>
+            </div>
+            <div class="submit-area-2" v-if="editMode">
+                <CheckBox
+                    v-if="!patient?.locked"
+                    label="Lock Report"
+                    name="locked"
+                    value="1"
+                    :checked="patient?.locked"
+                />
+                <div class="flex gap-sm mt-sm">
+                    <button type="submit">
+                        <Loading
+                            v-if="isPosting === true || isPosting === 'add'"
+                        />
+                        Add Report
+                    </button>
                 </div>
             </div>
         </form>
@@ -592,6 +593,7 @@ const toggleLock = async () => {
         &.grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            padding-bottom: 50px;
         }
     }
 
@@ -641,6 +643,12 @@ const toggleLock = async () => {
     }
 
     .right {
+        .text-inputs {
+            display: grid;
+            grid-template-columns: max-content auto;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
         .editor-unit {
             margin-bottom: 20px;
 

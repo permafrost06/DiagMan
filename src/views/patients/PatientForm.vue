@@ -8,7 +8,7 @@ import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
 import TestSelector from "./TestSelector.vue";
 import DatePicker from "@/components/form/DatePicker.vue";
-import { API_BASE } from "@/helpers/config";
+import { API_BASE, TMP_PIN_BYPASS_KEY } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { dmyToDate } from "@/helpers/utils";
 import { onMounted, ref } from "vue";
@@ -31,7 +31,7 @@ const message = ref<string | null>(null);
 const total = ref<number>(0);
 const discount = ref<number>(0);
 const advance = ref<number>(0);
-const invoice = ref<boolean>(false);
+const invoice = ref<boolean>(props.toEdit ? false : true);
 const complementary = ref<boolean>(false);
 const tests = ref<Record<string, any>[]>((props.toEdit?.tests as any) ?? []);
 const reRenderTests = ref<number>(0);
@@ -77,12 +77,18 @@ async function handleFormSubmit(evt: any) {
             props.onSuccess(res.rows[0], res.message!, invoice.value);
         }
         if (invoice.value) {
-            router.push({
-                name: "patients.invoice",
-                params: {
-                    id: res.rows[0].id,
-                },
-            });
+            router
+                .push({
+                    name: "patients.invoice",
+                    params: {
+                        id: res.rows[0].id,
+                    },
+                })
+                .then(() => {
+                    localStorage.setItem(TMP_PIN_BYPASS_KEY, "1");
+                    location.reload();
+                });
+            return;
         }
         if (res.data?.tests) {
             tests.value = res.data.tests;
@@ -114,6 +120,9 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
     if (idx > -1) {
         all.splice(idx, 1);
     }
+    (
+        document.querySelector("input[name='referer']")! as HTMLInputElement
+    ).focus();
 };
 
 const onComplementaryChange = (evt: any) => {
@@ -186,7 +195,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
             :action="`${API_BASE}/patients/${toEdit?.id ?? ''}`"
             method="POST"
             @submit.prevent="handleFormSubmit"
-            :class="['add-patient', {'slim': headless}]"
+            :class="['add-patient', { slim: headless }]"
         >
             <div class="form-container">
                 <h4 class="section-title all-col">Metadata</h4>
@@ -227,6 +236,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             type="number"
                             name="age"
                             class="age-input arrow-hidden-input"
+                            autocomplete="off"
                             :value="toEdit?.age"
                         />
                         years
@@ -245,6 +255,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                                 name="gender"
                                 id="gen-male"
                                 value="male"
+                                autocomplete="off"
                                 :checked="toEdit?.gender === 'male'"
                             />
                             <label for="gen-male">Male</label>
@@ -255,6 +266,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                                 name="gender"
                                 id="gen-female"
                                 value="female"
+                                autocomplete="off"
                                 :checked="toEdit?.gender === 'female'"
                             />
                             <label for="gen-female">Female</label>
@@ -296,7 +308,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                         <span>{{ item.data }}</span>
                         <span
                             class="remover"
-                            @click="() => removeReferer(item.id, results)"
+                            @click.stop="() => removeReferer(item.id, results)"
                             >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
                         >
                     </button>
@@ -382,6 +394,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             step="0.01"
                             class="amount-input arrow-hidden-input"
                             name="discount"
+                            autocomplete="off"
                             v-model="discount"
                         />
                     </div>
@@ -394,6 +407,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             step="0.01"
                             class="amount-input read-only"
                             readonly
+                            autocomplete="off"
                             :value="complementary ? 0 : total / 100 - discount"
                         />
                     </div>
@@ -410,6 +424,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             step="0.01"
                             class="amount-input arrow-hidden-input"
                             name="advance"
+                            autocomplete="off"
                             v-model="advance"
                         />
                     </div>
@@ -451,7 +466,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             {{ toEdit ? "Update" : "Add" }} Patient
                         </button>
                     </div>
-                    <CheckBox label="Show invoice on exit" v-model="invoice" />
+                    <CheckBox label="Show invoice on save" v-model="invoice" />
                 </div>
                 <div v-else class="all-col headeless-button">
                     <button type="submit" value="add">
@@ -562,7 +577,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
         background: var(--clr-white);
         color: var(--clr-black);
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
-        font-size: var(--fs-sm);
+        font-size: var(--fs-md);
         padding-right: 15px;
 
         &:hover {

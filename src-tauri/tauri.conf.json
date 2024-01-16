@@ -46,7 +46,7 @@
         "updater": {
             "active": true,
             "endpoints": [
-                "https://raw.githubusercontent.com/permafrost06/DiagMan/master/updater/latest.json"
+                "https://rshlog.com/diagman.json"
             ],
             "dialog": true,
             "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDY1ODlEMkU2MDI3QUU4MTcKUldRWDZIb0M1dEtKWlVtRGkzRVMwUnlaaGpuRjRTbG11b3owcHRZekc5dnFLKy9pT1ovZEZzTXcK"

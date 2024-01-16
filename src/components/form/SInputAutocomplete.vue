@@ -81,6 +81,14 @@ onMounted(() => {
 });
 
 function handleClick(val: string) {
+    (document.querySelector(".result-area")! as HTMLDivElement).style.display =
+        "none";
+    setTimeout(() => {
+        (
+            document.querySelector(".result-area")! as HTMLDivElement
+        ).style.removeProperty("display");
+    }, 5);
+
     emit("update:modelValue", val);
     // @ts-ignore
     inputRef.value.value = val;
