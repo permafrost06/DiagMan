@@ -13,7 +13,7 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import type { Sorting } from "@/helpers/utils";
+import { type Sorting, dateToDMY } from "@/helpers/utils";
 import { useUser } from "@/stores/user";
 import { onMounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
@@ -190,12 +190,6 @@ const deliverReport = async (patient: any) => {
         patients.value = patients.value.filter((p) => p.id != patient.id);
     }
 };
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-});
 </script>
 <template>
     <div class="patients-page">
@@ -318,8 +312,8 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
                         ></td>
                         <td>
                             {{
-                                dateFormatter.format(
-                                    parseInt(patient.delivery_date)
+                                dateToDMY(
+                                    new Date(parseInt(patient.delivery_date))
                                 )
                             }}
                         </td>
