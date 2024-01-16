@@ -463,14 +463,6 @@ const toggleLock = async () => {
                     </p>
                 </div>
 
-                <div class="editor-unit">
-                    <label>Microscopic Description</label>
-                    <div ref="microField"></div>
-                    <p v-if="errors.microscopic_description" class="hint error">
-                        {{ errors.microscopic_description }}
-                    </p>
-                </div>
-
                 <div :class="{ hidden: patient?.type !== 'cyto' }">
                     <div class="editor-unit">
                         <label>Clinical Info</label>
@@ -503,6 +495,7 @@ const toggleLock = async () => {
                         />
                     </div>
                 </div>
+
                 <div :class="{ hidden: patient?.type === 'cyto' }">
                     <div class="editor-unit">
                         <label>Anatomical Source</label>
@@ -535,6 +528,15 @@ const toggleLock = async () => {
                         />
                     </div>
                 </div>
+
+                <div class="editor-unit">
+                    <label>Microscopic Description</label>
+                    <div ref="microField"></div>
+                    <p v-if="errors.microscopic_description" class="hint error">
+                        {{ errors.microscopic_description }}
+                    </p>
+                </div>
+
                 <div class="editor-unit" :class="{ hidden: !noteFieldVisible }">
                     <label>Note</label>
                     <div ref="noteField"></div>
