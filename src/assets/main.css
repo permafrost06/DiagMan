@@ -235,3 +235,8 @@ button, .btn {
   top: 1rem;
   color: var(--clr-black);
 }
+
+.ql-container {
+    font-size: 16px !important;
+}
+
