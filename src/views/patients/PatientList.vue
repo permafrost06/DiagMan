@@ -366,7 +366,7 @@ const unDeliverReport = async (patient: any) => {
                             }}
                         </td>
                         <td
-                            class="flex capitalize items-center"
+                            class="capitalize"
                             v-html="
                                 patient.locked
                                     ? 'Locked'
