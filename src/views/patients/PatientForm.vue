@@ -49,6 +49,8 @@ onMounted(async () => {
         discount.value = (props.toEdit.discount as any) / 100;
         refererValue.value = props.toEdit.referer;
         complementary.value = !!props.toEdit.complementary;
+        // @ts-ignore
+        total.value = props.toEdit.tests[0].price;
     }
     getAllTests();
 });
