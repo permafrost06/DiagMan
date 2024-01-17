@@ -218,7 +218,7 @@ const unDeliverReport = async (patient: any) => {
         console.error(res.message || "Unmarking as delivered failed!");
         return;
     }
-    patient.status = "complete";
+    patient.status = res.data.status;
 };
 </script>
 <template>
