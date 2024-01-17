@@ -196,6 +196,9 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
 const onSelectionChange = (newValue: any) => {
     total.value = parseInt(newValue?.price || "0") || 0;
 };
+const onTestDelete = (id: string) => {
+    allTests.value = allTests.value.filter((item) => item.id != id);
+};
 </script>
 <template>
     <div class="add-patient-page">
@@ -405,6 +408,7 @@ const onSelectionChange = (newValue: any) => {
                                 :tests="(allTests as any)"
                                 :selected-tests="([selectedTest] as any)"
                                 :is-complementary="complementary"
+                                :on-delete="onTestDelete"
                                 @update:model-value="onSelectionChange"
                             />
                         </div>

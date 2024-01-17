@@ -13,6 +13,7 @@ const props = defineProps<{
     tests: Test[];
     modelValue?: any;
     isComplementary?: boolean;
+    onDelete: (id: string) => void;
 }>();
 const emit = defineEmits<{
     (e: "remove"): void;
@@ -44,6 +45,7 @@ const removeTest = async (id: string, all: Record<string, string>[]) => {
         console.error(res.message || "Failed to remove test!");
         return;
     }
+    props.onDelete(id);
     const idx = all.findIndex((v) => v.id == id);
     if (idx > -1) {
         all.splice(idx, 1);
