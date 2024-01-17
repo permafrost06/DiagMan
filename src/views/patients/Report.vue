@@ -225,6 +225,16 @@ const showTemplateSaver = () => {
         );
     }
     newTemplate["type"] = patient.value?.type === "cyto" ? "cyto" : "histo";
+    [
+        "embedded_sections",
+        "paraffin_blocks",
+        "slides_made",
+        "slides_stained",
+    ].forEach((name) => {
+        newTemplate[name] = document.querySelector<HTMLInputElement>(
+            `input[name=${name}]`
+        )?.value;
+    });
     templateModalValue.value = newTemplate;
 };
 
@@ -409,7 +419,7 @@ const toggleLock = async () => {
                         <SimpleSelect
                             label="Organ"
                             :un-wrap="true"
-                            @input="(evt) => loadTemplates(evt.target.value)"
+                            @input="(evt: any) => loadTemplates(evt.target.value)"
                         >
                             <option value="">
                                 {{
