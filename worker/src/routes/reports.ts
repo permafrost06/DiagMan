@@ -126,7 +126,7 @@ export const unDeliverReport: RequestHandler = async ({ res, env, params }) => {
 		args: [id],
 	});
 
-	const status = rows.length > 1 && isReportComplete(rows[0]) ? 'complete' : 'pending';
+	const status = rows.length > 0 && isReportComplete(rows[0]) ? 'complete' : 'pending';
 
 	await db.execute({
 		sql: 'UPDATE `patients` SET status = ? WHERE id = ?',
@@ -145,6 +145,7 @@ function isReportComplete(report: Record<string, any>): boolean {
 		'gross_description',
 		'clinical_info',
 		'asp_note',
+		'note',
 	];
 	try {
 		for (const colName of quillFields) {
