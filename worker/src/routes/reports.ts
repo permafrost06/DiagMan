@@ -109,12 +109,18 @@ export const deliverReport: RequestHandler = async ({ res, env, params }) => {
 	if (rows.length === 0) {
 		res.error('Invalid patient!', 404);
 	}
-	if (rows[0].status !== 'complete') {
-		res.error('Please add report first!');
-	}
 	await db.execute({
 		sql: 'UPDATE `patients` SET status = "delivered" WHERE id = ?',
 		args: [params.id],
 	});
 	res.setMsg(`Report delivered successfully!`);
+};
+
+export const unDeliverReport: RequestHandler = async ({ res, env, params }) => {
+	const db = getLibsqlClient(env);
+	await db.execute({
+		sql: 'UPDATE `patients` SET status = "complete" WHERE id = ?',
+		args: [params.id],
+	});
+	res.setMsg(`Unmarked as delivered successfully!`);
 };

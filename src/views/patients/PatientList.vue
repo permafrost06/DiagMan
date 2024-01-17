@@ -190,6 +190,23 @@ const deliverReport = async (patient: any) => {
         patients.value = patients.value.filter((p) => p.id != patient.id);
     }
 };
+
+const unDeliverReqs = ref<Set<number>>(new Set());
+const unDeliverReport = async (patient: any) => {
+    if (unDeliverReqs.value.has(patient.id)) {
+        return;
+    }
+    unDeliverReqs.value.add(patient.id);
+    const res = await fetchApi(API_BASE + "/reports/un-deliver/" + patient.id, {
+        method: "POST",
+    });
+    unDeliverReqs.value.delete(patient.id);
+    if (!res.success) {
+        console.error(res.message || "Unmarking as delivered failed!");
+        return;
+    }
+    patient.status = "complete";
+};
 </script>
 <template>
     <div class="patients-page">
@@ -362,7 +379,7 @@ const deliverReport = async (patient: any) => {
                                     {{ patient.locked ? "Unlock" : "Lock" }}
                                 </button>
                                 <button
-                                    v-if="patient.status === 'complete'"
+                                    v-if="patient.status !== 'delivered'"
                                     type="button"
                                     class="btn-outline"
                                     @click="() => deliverReport(patient)"
@@ -372,6 +389,18 @@ const deliverReport = async (patient: any) => {
                                         v-if="deliverReqs.has(patient.id as any)"
                                     />
                                     Mark as delivered
+                                </button>
+                                <button
+                                    v-else
+                                    type="button"
+                                    class="btn-outline"
+                                    @click="() => unDeliverReport(patient)"
+                                >
+                                    <Loading
+                                        size="15"
+                                        v-if="unDeliverReqs.has(patient.id as any)"
+                                    />
+                                    Unmark as delivered
                                 </button>
                                 <RouterLink
                                     :to="{
