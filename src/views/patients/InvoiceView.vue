@@ -109,21 +109,18 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 <table class="invoice-table">
                     <thead>
                         <tr>
-                            <th class="col-1">Code</th>
-                            <th class="col-2">Test Name</th>
-                            <th class="col-3 right">Price (BDT)</th>
+                            <th class="col-1">Test Name</th>
+                            <th class="col-2 right">Price (BDT)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="test in record.tests" :key="test.id">
-                            <td>{{ test.id }}</td>
                             <td>{{ test.name }}</td>
                             <td class="right">{{ test.price / 100 }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td class="right">
                                 Sub total:
@@ -134,7 +131,6 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         </tr>
                         <tr>
                             <td></td>
-                            <td></td>
                             <td class="right">
                                 Discount:
                                 <span class="spaced">{{
@@ -143,7 +139,6 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td class="right">
                                 Net Payable:
@@ -154,7 +149,6 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         </tr>
                         <tr>
                             <td></td>
-                            <td></td>
                             <td class="right">
                                 Advance:
                                 <span class="spaced">{{
@@ -163,7 +157,6 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td class="right">
                                 Due:
@@ -366,15 +359,11 @@ h3 {
     }
 
     .col-1 {
-        width: 15rem;
+        width: 60rem;
     }
 
     .col-2 {
-        width: 55rem;
-    }
-
-    .col-3 {
-        width: 20rem;
+        width: 30rem;
     }
 }
 

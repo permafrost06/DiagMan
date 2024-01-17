@@ -15,6 +15,7 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 	}
 
 	const patient = rows[0];
+	const isComplete = isReportComplete(data);
 
 	if (patient.rid) {
 		if (patient.locked && user!.role !== 'admin') {
@@ -28,15 +29,13 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 		});
 		res.setMsg('Report updated successfully!');
 	} else {
-		await Promise.all([
-			insertRow(db, 'reports', data),
-			db.execute({
-				sql: 'UPDATE `patients` SET status = "complete" WHERE id = ?',
-				args: [data.id],
-			}),
-		]);
+		await insertRow(db, 'reports', data);
 		res.setMsg('Report added successfully!');
 	}
+	await db.execute({
+		sql: 'UPDATE `patients` SET status = ? WHERE id = ?',
+		args: [isComplete ? 'complete' : 'pending', patient.id],
+	});
 	res.setRows([
 		{
 			locked: !!data.locked,
@@ -73,9 +72,10 @@ export const getReport: RequestHandler = async ({ env, params, res }) => {
 
 export const toggleReportLock: RequestHandler = async ({ env, params, res }) => {
 	const db = getLibsqlClient(env);
+	const id = decodeURIComponent(params.id);
 	const { rows } = await db.execute({
 		sql: `SELECT p.*, r.locked, r.id AS rid FROM \`patients\` AS p LEFT JOIN \`reports\` AS r ON r.id = p.id WHERE p.id=? LIMIT 1`,
-		args: [params.id],
+		args: [id],
 	});
 	if (rows.length === 0) {
 		res.error('Invalid patient!', 404);
@@ -101,20 +101,68 @@ export const toggleReportLock: RequestHandler = async ({ env, params, res }) => 
 };
 
 export const deliverReport: RequestHandler = async ({ res, env, params }) => {
+	const id = decodeURIComponent(params.id);
 	const db = getLibsqlClient(env);
 	const { rows } = await db.execute({
 		sql: `SELECT * FROM \`patients\` WHERE id=? LIMIT 1`,
-		args: [params.id],
+		args: [id],
 	});
 	if (rows.length === 0) {
 		res.error('Invalid patient!', 404);
 	}
-	if (rows[0].status !== 'complete') {
-		res.error('Please add report first!');
-	}
 	await db.execute({
 		sql: 'UPDATE `patients` SET status = "delivered" WHERE id = ?',
-		args: [params.id],
+		args: [id],
 	});
 	res.setMsg(`Report delivered successfully!`);
 };
+
+export const unDeliverReport: RequestHandler = async ({ res, env, params }) => {
+	const id = decodeURIComponent(params.id);
+	const db = getLibsqlClient(env);
+
+	const { rows } = await db.execute({
+		sql: 'SELECT * FROM `reports` WHERE id = ?',
+		args: [id],
+	});
+
+	const status = rows.length > 0 && isReportComplete(rows[0]) ? 'complete' : 'pending';
+
+	await db.execute({
+		sql: 'UPDATE `patients` SET status = ? WHERE id = ?',
+		args: [status, id],
+	});
+	res.setMsg(`Unmarked as delivered successfully!`);
+	res.setData({ status });
+};
+
+function isReportComplete(report: Record<string, any>): boolean {
+	const quillFields = [
+		'diagnosis',
+		'indication',
+		'microscopic_description',
+		'anatomical_source',
+		'gross_description',
+		'clinical_info',
+		'asp_note',
+		'note',
+	];
+	try {
+		for (const colName of quillFields) {
+			const ops = JSON.parse((report[colName] as any) || '{}')?.ops;
+			if (ops.length > 1 || ops[0]?.insert !== '\n') {
+				return true;
+			}
+		}
+	} catch (_) {
+		// Empty
+	}
+
+	const numFields = ['embedded_sections', 'paraffin_blocks', 'slides_made', 'slides_stained'];
+	for (const colName of numFields) {
+		if (parseInt(report[colName] as any) > 0) {
+			return true;
+		}
+	}
+	return false;
+}

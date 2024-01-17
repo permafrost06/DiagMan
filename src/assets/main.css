@@ -65,6 +65,13 @@ button, .btn {
   gap: 10px;
   font-weight: 500;
   text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease, outline 0.05s ease;
+
+  &:hover {
+      background-color: var(--clr-white);
+      color: black;
+      outline: 2px solid var(--clr-black);
+  }
 }
 
 /* ------------ COMPONENTS ----------- */

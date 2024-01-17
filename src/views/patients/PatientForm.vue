@@ -6,8 +6,8 @@ import SInputAutocomplete from "@/components/form/SInputAutocomplete.vue";
 import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
-import TestSelector from "./TestSelector.vue";
 import DatePicker from "@/components/form/DatePicker.vue";
+import InputTestUnit from "./InputTestUnit.vue";
 import { API_BASE, TMP_PIN_BYPASS_KEY } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { dmyToDate } from "@/helpers/utils";
@@ -32,20 +32,45 @@ const total = ref<number>(0);
 const discount = ref<number>(0);
 const advance = ref<number>(0);
 const invoice = ref<boolean>(props.toEdit ? false : true);
+
 const complementary = ref<boolean>(false);
+const selectedTest = ref<Record<string, string> | undefined>(
+    props.toEdit?.tests?.[0] as any
+);
+const allTests = ref<Record<string, any>[]>([]);
 const tests = ref<Record<string, any>[]>((props.toEdit?.tests as any) ?? []);
-const reRenderTests = ref<number>(0);
 
 const refererValue = ref<string>("");
 
 onMounted(async () => {
+    window.scrollTo(0, 0);
     if (props.toEdit) {
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;
         refererValue.value = props.toEdit.referer;
         complementary.value = !!props.toEdit.complementary;
     }
+    getAllTests();
 });
+
+async function getAllTests() {
+    const res = await fetchApi(API_BASE + "/misc?name=test");
+    if (!res.success) {
+        console.error(res.message);
+        return;
+    }
+    const parsed: Array<any> = [];
+    res.rows.forEach((row: any) => {
+        try {
+            const data = JSON.parse(row.data);
+            data.id = row.id;
+            parsed.push(data);
+        } catch (_err) {
+            console.error("Invalid test data:", row.data);
+        }
+    });
+    allTests.value = parsed;
+}
 
 async function handleFormSubmit(evt: any) {
     const status = evt.submitter?.value === "draft" ? "draft" : "pending";
@@ -92,7 +117,6 @@ async function handleFormSubmit(evt: any) {
         }
         if (res.data?.tests) {
             tests.value = res.data.tests;
-            reRenderTests.value++;
         }
     } else {
         error.value = res.message;
@@ -133,6 +157,7 @@ const onComplementaryChange = (evt: any) => {
     } else if (props.toEdit) {
         discount.value = parseInt(props.toEdit.discount) / 100;
         advance.value = parseInt(props.toEdit.advance) / 100;
+        total.value = parseInt(selectedTest.value?.price || "0") || 0;
     }
 };
 
@@ -167,6 +192,13 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
         })
         .slice(0, 5)
         .map((item) => item.row);
+};
+
+const onSelectionChange = (newValue: any) => {
+    total.value = parseInt(newValue?.price || "0") || 0;
+};
+const onTestDelete = (id: string) => {
+    allTests.value = allTests.value.filter((item) => item.id != id);
 };
 </script>
 <template>
@@ -362,7 +394,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                                 : new Date(
                                       new Date().getFullYear(),
                                       new Date().getMonth(),
-                                      new Date().getDate() + 7
+                                      new Date().getDate() + 6
                                   )
                         "
                     />
@@ -370,12 +402,26 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
 
                 <h4 class="section-title all-col">Tests</h4>
                 <div class="all-col">
-                    <TestSelector
-                        :key="reRenderTests"
-                        :on-total-change="(val) => (total = val)"
-                        :tests="tests"
-                        :is-complementary="complementary"
-                    />
+                    <div class="patient-tests-selector">
+                        <div class="tests">
+                            <InputTestUnit
+                                v-model="selectedTest"
+                                :tests="(allTests as any)"
+                                :selected-tests="([selectedTest] as any)"
+                                :is-complementary="complementary"
+                                :on-delete="onTestDelete"
+                                @update:model-value="onSelectionChange"
+                            />
+                        </div>
+                        <div class="total">
+                            <p>Subtotal</p>
+                            <p>
+                                {{
+                                    complementary ? 0 : (total / 100).toFixed(2)
+                                }}
+                            </p>
+                        </div>
+                    </div>
                     <p v-if="fieldErrors?.tests" class="hint error">
                         {{ fieldErrors?.tests?.[0] }}
                     </p>
@@ -466,7 +512,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
                             {{ toEdit ? "Update" : "Add" }} Patient
                         </button>
                     </div>
-                    <CheckBox label="Show invoice on save" v-model="invoice" />
+                    <CheckBox label="Print invoice on save" v-model="invoice" />
                 </div>
                 <div v-else class="all-col headeless-button">
                     <button type="submit" value="add">
@@ -583,16 +629,47 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
         &:hover {
             color: var(--clr-white);
             background: var(--clr-black);
+
+            &:has(.remover:hover) {
+                background-color: #ffd4d4;
+                color: var(--clr-black);
+            }
         }
 
         .remover {
+            display: block;
+            height: 47px;
+            width: 40px;
+            padding-top: 10px;
+            text-align: center;
             position: absolute;
-            right: 10px;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             font-size: var(--fs-base);
             color: var(--clr-danger);
+        }
+
+        .remover:hover {
+            background-color: #ffd4d4;
+            border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
+        }
+    }
+    .patient-tests-selector {
+        .tests {
+            border-bottom: 1px solid var(--clr-black);
+            padding-bottom: 10px;
+
+            > * {
+                margin-bottom: 5px;
+            }
+        }
+
+        .total {
+            display: grid;
+            grid-template-columns: 1fr 95px;
+            padding: 10px 0;
         }
     }
 }

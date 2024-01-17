@@ -5,7 +5,7 @@ import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { getUser, logOut, login, register, verifyPin } from './routes/auth';
 import { assignToken, assignUser, ensureAdmin, ensureUser } from './middlewares/auth';
 import { addOrUpdatePatient, deletePatient, getPatient, listPatients, syncPatients } from './routes/patients';
-import { deliverReport, finalizeReport, getReport, toggleReportLock } from './routes/reports';
+import { deliverReport, finalizeReport, getReport, toggleReportLock, unDeliverReport } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
@@ -55,6 +55,7 @@ export const buildRouter = (router: RouterType) => {
 	router.get('/patients', listPatients);
 
 	router.post('/reports/deliver/:id', ensureUser, deliverReport);
+	router.post('/reports/un-deliver/:id', ensureUser, unDeliverReport);
 	router.post('/reports/lock/:id', ensureAdmin, toggleReportLock);
 	router.get('/reports/:id', getReport);
 	router.post('/reports', ensureUser, finalizeReport);

@@ -58,7 +58,7 @@ const router = createRouter({
                             path: "",
                             name: "settings",
                             redirect: {
-                                name: "settings.tests",
+                                name: "settings.account",
                             },
                         },
                         {
@@ -66,12 +66,6 @@ const router = createRouter({
                             name: "settings.account",
                             component: () =>
                                 import("@/views/settings/AccountSetting.vue"),
-                        },
-                        {
-                            path: "tests",
-                            name: "settings.tests",
-                            component: () =>
-                                import("@/views/settings/TestsSetting.vue"),
                         },
                         {
                             path: "report-templates",
