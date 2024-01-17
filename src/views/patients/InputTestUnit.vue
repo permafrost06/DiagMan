@@ -9,7 +9,6 @@ interface Test {
 const props = defineProps<{
     tests: Test[];
     modelValue?: any;
-    selectedTests: Test[];
     isComplementary?: boolean;
 }>();
 const emit = defineEmits<{
@@ -35,11 +34,9 @@ const filterResults = () => {
         for (let i = 0; i < props.tests.length; i++) {
             const test1 = props.tests[i];
             if (
-                props.selectedTests.findIndex(
-                    (test) =>
-                        test.name.toLowerCase() == test1.name.toLowerCase() &&
-                        test.price == test1.price
-                ) == -1
+                props.modelValue?.name?.toLowerCase() ==
+                    test1.name.toLowerCase() &&
+                props.modelValue?.price == test1.price
             ) {
                 newArr.push(test1);
             }
@@ -60,10 +57,11 @@ const filterResults = () => {
         const match1 = name.indexOf(search.toLowerCase());
         if (
             match1 > -1 &&
-            props.selectedTests.findIndex(
-                (test) =>
-                    test.name.toLowerCase() == name && test.price == item.price
-            ) == -1
+            !(
+                props.modelValue?.name.toLowerCase() ==
+                    item.name.toLowerCase() &&
+                props.modelValue?.price == item.price
+            )
         ) {
             matches.push({
                 row: item,
