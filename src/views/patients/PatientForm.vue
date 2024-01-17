@@ -199,6 +199,13 @@ const onSelectionChange = (newValue: any) => {
 const onTestDelete = (id: string) => {
     allTests.value = allTests.value.filter((item) => item.id != id);
 };
+const clearError = (evt: any) => {
+    const name = evt.target.name;
+    if (!fieldErrors.value?.[name]) {
+        return;
+    }
+    fieldErrors.value[name] = [];
+};
 </script>
 <template>
     <div class="add-patient-page">
@@ -236,6 +243,7 @@ const onTestDelete = (id: string) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.type?.[0]"
                     :value="toEdit?.type"
+                    @input="clearError"
                 >
                     <option value="cyto">Cytopathology</option>
                     <option value="histo">Histopathology</option>
@@ -246,6 +254,7 @@ const onTestDelete = (id: string) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.id?.[0]"
                     :value="toEdit?.id"
+                    @input="clearError"
                 />
 
                 <h4 class="section-title all-col">Patient Information</h4>
@@ -256,6 +265,7 @@ const onTestDelete = (id: string) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.name?.[0]"
                     :value="toEdit?.name"
+                    @input="clearError"
                 />
                 <SimpleBlankInput
                     label="Age"
@@ -269,6 +279,7 @@ const onTestDelete = (id: string) => {
                             class="age-input arrow-hidden-input"
                             autocomplete="off"
                             :value="toEdit?.age"
+                            @input="clearError"
                         />
                         years
                     </div>
@@ -288,6 +299,7 @@ const onTestDelete = (id: string) => {
                                 value="male"
                                 autocomplete="off"
                                 :checked="toEdit?.gender === 'male'"
+                                @input="clearError"
                             />
                             <label for="gen-male">Male</label>
                         </div>
@@ -299,6 +311,7 @@ const onTestDelete = (id: string) => {
                                 value="female"
                                 autocomplete="off"
                                 :checked="toEdit?.gender === 'female'"
+                                @input="clearError"
                             />
                             <label for="gen-female">Female</label>
                         </div>
@@ -310,6 +323,7 @@ const onTestDelete = (id: string) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.contact?.[0]"
                     :value="toEdit?.contact"
+                    @input="clearError"
                 />
                 <SimpleInput
                     label="Specimen"
@@ -317,6 +331,7 @@ const onTestDelete = (id: string) => {
                     name="specimen"
                     :hint="fieldErrors?.specimen?.[0]"
                     :value="toEdit?.specimen"
+                    @input="clearError"
                 />
                 <SInputAutocomplete
                     name="referer"
@@ -441,6 +456,7 @@ const onTestDelete = (id: string) => {
                             name="discount"
                             autocomplete="off"
                             v-model="discount"
+                            @input="clearError"
                         />
                     </div>
                 </SimpleBlankInput>
@@ -471,6 +487,7 @@ const onTestDelete = (id: string) => {
                             name="advance"
                             autocomplete="off"
                             v-model="advance"
+                            @input="clearError"
                         />
                     </div>
                 </SimpleBlankInput>
