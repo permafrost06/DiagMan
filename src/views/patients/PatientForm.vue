@@ -200,13 +200,6 @@ const onSelectionChange = (newValue: any) => {
 const onTestDelete = (id: string) => {
     allTests.value = allTests.value.filter((item) => item.id != id);
 };
-const clearError = (evt: any) => {
-    const name = evt.target.name;
-    if (!fieldErrors.value?.[name]) {
-        return;
-    }
-    fieldErrors.value[name] = [];
-};
 </script>
 <template>
     <div class="add-patient-page">
@@ -244,7 +237,6 @@ const clearError = (evt: any) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.type?.[0]"
                     :value="toEdit?.type"
-                    @click="clearError"
                 >
                     <option value="cyto">Cytopathology</option>
                     <option value="histo">Histopathology</option>
@@ -255,7 +247,6 @@ const clearError = (evt: any) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.id?.[0]"
                     :value="toEdit?.id"
-                    @keydown="clearError"
                 />
 
                 <h4 class="section-title all-col">Patient Information</h4>
@@ -266,7 +257,6 @@ const clearError = (evt: any) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.name?.[0]"
                     :value="toEdit?.name"
-                    @keydown="clearError"
                 />
                 <SimpleBlankInput
                     label="Age"
@@ -280,7 +270,6 @@ const clearError = (evt: any) => {
                             class="age-input arrow-hidden-input"
                             autocomplete="off"
                             :value="toEdit?.age"
-                            @keydown="clearError"
                         />
                         years
                     </div>
@@ -300,7 +289,6 @@ const clearError = (evt: any) => {
                                 value="male"
                                 autocomplete="off"
                                 :checked="toEdit?.gender === 'male'"
-                                @keydown="clearError"
                             />
                             <label for="gen-male">Male</label>
                         </div>
@@ -312,7 +300,6 @@ const clearError = (evt: any) => {
                                 value="female"
                                 autocomplete="off"
                                 :checked="toEdit?.gender === 'female'"
-                                @keydown="clearError"
                             />
                             <label for="gen-female">Female</label>
                         </div>
@@ -324,7 +311,6 @@ const clearError = (evt: any) => {
                     :un-wrap="true"
                     :hint="fieldErrors?.contact?.[0]"
                     :value="toEdit?.contact"
-                    @keydown="clearError"
                 />
                 <SimpleInput
                     label="Specimen"
@@ -332,7 +318,6 @@ const clearError = (evt: any) => {
                     name="specimen"
                     :hint="fieldErrors?.specimen?.[0]"
                     :value="toEdit?.specimen"
-                    @keydown="clearError"
                 />
                 <SInputAutocomplete
                     name="referer"
@@ -457,7 +442,6 @@ const clearError = (evt: any) => {
                             name="discount"
                             autocomplete="off"
                             v-model="discount"
-                            @keydown="clearError"
                         />
                     </div>
                 </SimpleBlankInput>
@@ -488,7 +472,6 @@ const clearError = (evt: any) => {
                             name="advance"
                             autocomplete="off"
                             v-model="advance"
-                            @keydown="clearError"
                         />
                     </div>
                 </SimpleBlankInput>
