@@ -83,11 +83,11 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 	data.tests = JSON.stringify(data.tests);
 
 	try {
+		const { rows } = await db.execute({
+			sql: 'SELECT id, timestamp FROM `patients` WHERE id = ? LIMIT 1',
+			args: [data.id],
+		});
 		if (!params.id) {
-			const { rows } = await db.execute({
-				sql: 'SELECT id FROM `patients` WHERE id = ? LIMIT 1',
-				args: [data.id],
-			});
 			if (rows.length > 0) {
 				res.error('The ID is already taken!', 422, {
 					field: {
@@ -100,6 +100,9 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 			await insertRow(db, 'patients', data);
 			res.setMsg('Patient added successfully!');
 		} else {
+			if (!rows[0]?.timestamp) {
+				data.timestamp = Date.now();
+			}
 			const { sql, args } = getUpdateQuery('patients', data);
 			args.push(decodeURIComponent(params.id));
 			await db.execute({
@@ -151,7 +154,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 	let orderBy = search.get('order_by') || 'id';
 	// @ts-ignore
 	if (!filterSchema[orderBy]) {
-		orderBy = 'id';
+		orderBy = 'timestamp';
 	}
 	let order = search.get('order') || 'desc';
 	if (order !== 'desc' && order !== 'asc') {

@@ -31,7 +31,7 @@ const page = ref({
     page: 1,
 });
 const sortState = ref<Sorting>({
-    by: "id",
+    by: "timestamp",
     order: "desc",
 });
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
@@ -55,6 +55,10 @@ const tableDescription = {
     },
     delivery_date: {
         label: "Delivery Date",
+        filter: false,
+    },
+    timestamp: {
+        label: "Date Added",
         filter: false,
     },
     status: {
@@ -284,13 +288,16 @@ const unDeliverReport = async (patient: any) => {
                         :description="tableDescription"
                         :on-filter="showFilter"
                         :on-sort="sortBy"
-                        sort-by="id"
-                        sort-order="desc"
+                        :sort-by="sortState.by"
+                        :sort-order="sortState.order"
                     />
                     <th>Actions</th>
                 </tr>
                 <template v-if="isLoading">
                     <tr v-for="i in 10" :key="i" :class="'skeleton-' + (i % 4)">
+                        <td>
+                            <div class="skeleton"></div>
+                        </td>
                         <td>
                             <div class="skeleton"></div>
                         </td>
@@ -314,7 +321,7 @@ const unDeliverReport = async (patient: any) => {
                     </tr>
                 </template>
                 <tr v-else-if="!patients?.length">
-                    <td colspan="6">{{ error || "No patients added yet!" }}</td>
+                    <td colspan="7">{{ error || "No patients added yet!" }}</td>
                 </tr>
                 <template v-else>
                     <tr v-for="patient in patients" :key="patient.id">
@@ -332,6 +339,15 @@ const unDeliverReport = async (patient: any) => {
                                 dateToDMY(
                                     new Date(parseInt(patient.delivery_date))
                                 )
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                patient.timestamp
+                                    ? dateToDMY(
+                                          new Date(parseInt(patient.timestamp))
+                                      )
+                                    : "N/A"
                             }}
                         </td>
                         <td
