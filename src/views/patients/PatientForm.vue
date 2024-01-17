@@ -645,16 +645,31 @@ const clearError = (evt: any) => {
         &:hover {
             color: var(--clr-white);
             background: var(--clr-black);
+
+            &:has(.remover:hover) {
+                background-color: #ffd4d4;
+                color: var(--clr-black);
+            }
         }
 
         .remover {
+            display: block;
+            height: 47px;
+            width: 40px;
+            padding-top: 10px;
+            text-align: center;
             position: absolute;
-            right: 10px;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             font-size: var(--fs-base);
             color: var(--clr-danger);
+        }
+
+        .remover:hover {
+            background-color: #ffd4d4;
+            border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
         }
     }
     .patient-tests-selector {
