@@ -127,7 +127,11 @@ async function handleFormSubmit(evt: any) {
 const getRefererSearchUrl = () => API_BASE + `/misc?name=referer`;
 
 const rmRefReqs = ref(new Set<string>());
-const removeReferer = async (id: string, all: Record<string, string>[]) => {
+const removeReferer = async (
+    id: string,
+    all: Record<string, string>[],
+    cacheFilter: (filterFn: (val: any, key: any) => boolean) => void
+) => {
     if (rmRefReqs.value.has(id)) {
         return;
     }
@@ -147,6 +151,7 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
     (
         document.querySelector("input[name='referer']")! as HTMLInputElement
     ).focus();
+    cacheFilter((val) => val.id !== id);
 };
 
 const onComplementaryChange = (evt: any) => {
@@ -328,7 +333,7 @@ const onTestDelete = (id: string) => {
                     :url="getRefererSearchUrl"
                     :cached-search="filterRefs"
                     v-model="refererValue"
-                    v-slot="{ results, accept }"
+                    v-slot="{ results, accept, filter }"
                 >
                     <button
                         type="button"
@@ -340,7 +345,9 @@ const onTestDelete = (id: string) => {
                         <span>{{ item.data }}</span>
                         <span
                             class="remover"
-                            @click.stop="() => removeReferer(item.id, results)"
+                            @click.stop="
+                                () => removeReferer(item.id, results, filter)
+                            "
                             >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
                         >
                     </button>
