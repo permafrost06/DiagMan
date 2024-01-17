@@ -66,6 +66,7 @@ const templateModalValue = ref<Record<string, any> | false>(false);
 const errors = ref<Record<string, string | undefined>>({});
 
 onMounted(async () => {
+    window.scrollTo(0, 0);
     initEditors();
     loadOrgans();
     loadTemplates();
