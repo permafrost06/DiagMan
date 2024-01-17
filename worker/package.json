@@ -3,7 +3,8 @@
 	"version": "1.1.0",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy",
+		"deploy": "wrangler deploy --name diagman-api-dev --var TURSO_DB_URL:libsql://diagman-opinion-dev-permafrost06.turso.io",
+		"deploy:prod": "wrangler deploy",
 		"start": "wrangler dev",
 		"db:generate": "drizzle-kit generate:sqlite",
 		"db:push": "node ./database/migrate.js",
