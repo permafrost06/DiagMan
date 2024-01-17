@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<InputProps>(), {
 });
 
 const emit = defineEmits<{
-    (e: "input", evt: any): void;
+    (e: "click", evt: any): void;
 }>();
 </script>
 <template>
@@ -26,7 +26,11 @@ const emit = defineEmits<{
             <select
                 v-bind="$attrs"
                 :class="fieldClass"
-                @input="(evt) => emit('input', evt)"
+                @click="
+                    (evt) => {
+                        emit('click', evt);
+                    }
+                "
             >
                 <slot></slot>
             </select>
@@ -50,7 +54,11 @@ const emit = defineEmits<{
             <select
                 v-bind="$attrs"
                 :class="fieldClass"
-                @input="(evt) => emit('input', evt)"
+                @click="
+                    (evt) => {
+                        emit('click', evt);
+                    }
+                "
             >
                 <slot></slot>
             </select>

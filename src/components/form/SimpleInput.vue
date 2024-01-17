@@ -13,7 +13,7 @@ interface InputProps extends InputHTMLAttributes {
 }
 
 const emit = defineEmits<{
-    (e: "input", value: Event): void;
+    (e: "keydown", value: Event): void;
 }>();
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<InputProps>(), {
                 :class="fieldClass"
                 v-bind="$attrs"
                 autocomplete="off"
-                @input="(evt) => emit('input', evt)"
+                @keydown="(evt) => emit('keydown', evt)"
             />
 
             <label
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<InputProps>(), {
                 :class="fieldClass"
                 v-bind="$attrs"
                 autocomplete="off"
-                @input="(evt) => emit('input', evt)"
+                @keydown="(evt) => emit('keydown', evt)"
             />
 
             <label
