@@ -48,15 +48,20 @@ const convertToHtml = (data: string) => {
                 Go back
             </button>
         </div>
-        <div class="report">
-            <div class="page">
-                <table class="patient-details underline">
-                    <tr>
-                        <td class="bold">ID No: {{ record.id }}</td>
-                        <td class="bold">Patient: {{ record.name }}</td>
-                    </tr>
-                    <tr>
-                        <td>
+        <div class="page">
+            <div class="report">
+                <h1>
+                    {{
+                        record.type === "cyto"
+                            ? "Cytopathology"
+                            : "Histopathology"
+                    }}
+                    Report
+                </h1>
+                <div class="patient-info underline">
+                    <div>
+                        <div class="bold">ID No: {{ record.id }}</div>
+                        <div>
                             Collected:
                             {{
                                 dateToDMY(
@@ -65,101 +70,102 @@ const convertToHtml = (data: string) => {
                                     )
                                 )
                             }}
-                        </td>
-                        <td>Age: {{ record.age }} years</td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </div>
+                        <div>
                             Received:
                             {{
                                 dateToDMY(new Date(parseInt(record.entry_date)))
                             }}
-                        </td>
-                        <td>Sex: {{ record.gender }}</td>
-                    </tr>
-                </table>
+                        </div>
+                    </div>
+                    <div class="right-align">
+                        <div class="bold">Patient: {{ record.name }}</div>
+                        <div>Age: {{ record.age }} years</div>
+                        <div>
+                            Sex:
+                            <span class="capitalize">{{ record.gender }}</span>
+                        </div>
+                    </div>
+                </div>
 
                 <p class="referrer underline">
                     Referred by: {{ record.referer }}
                 </p>
-                <table class="report-details">
-                    <tr>
-                        <td class="bold">Diagnosis:</td>
-                        <td v-html="convertToHtml(record.diagnosis)"></td>
-                    </tr>
-                    <tr>
-                        <td class="bold">Indication:</td>
-                        <td v-html="convertToHtml(record.indication)"></td>
-                    </tr>
+                <div class="report-details">
+                    <div>
+                        <div class="bold">Diagnosis:</div>
+                        <div v-html="convertToHtml(record.diagnosis)"></div>
+                    </div>
+                    <div>
+                        <div class="bold">Indication:</div>
+                        <div v-html="convertToHtml(record.indication)"></div>
+                    </div>
                     <template v-if="record.type === 'histo'">
-                        <tr>
-                            <td class="bold">Anatomical source:</td>
-                            <td
+                        <div>
+                            <div class="bold">Anatomical source:</div>
+                            <div
                                 v-html="convertToHtml(record.anatomical_source)"
-                            ></td>
-                        </tr>
-                        <tr>
-                            <td class="bold">Gross description:</td>
-                            <td
+                            ></div>
+                        </div>
+                        <div>
+                            <div class="bold">Gross description:</div>
+                            <div
                                 v-html="convertToHtml(record.gross_description)"
-                            ></td>
-                        </tr>
-                        <tr>
-                            <td class="bold">No of sections embedded:</td>
-                            <td>{{ record.embedded_sections }}</td>
-                        </tr>
-                        <tr>
-                            <td class="bold">No of paraffin blocks:</td>
-                            <td>{{ record.paraffin_blocks }}</td>
-                        </tr>
+                            ></div>
+                        </div>
+                        <div>
+                            <div class="bold">No of sections embedded:</div>
+                            <div>{{ record.embedded_sections }}</div>
+                        </div>
+                        <div>
+                            <div class="bold">No of paraffin blocks:</div>
+                            <div>{{ record.paraffin_blocks }}</div>
+                        </div>
                     </template>
                     <template v-else>
-                        <tr>
-                            <td class="bold">Clinical Information:</td>
-                            <td
+                        <div>
+                            <div class="bold">Clinical Information:</div>
+                            <div
                                 v-html="convertToHtml(record.clinical_info)"
-                            ></td>
-                        </tr>
-                        <tr>
-                            <td class="bold">Aspiration note:</td>
-                            <td v-html="convertToHtml(record.asp_note)"></td>
-                        </tr>
-                        <tr>
-                            <td class="bold">No of slides made:</td>
-                            <td>{{ record.slides_made }}</td>
-                        </tr>
-                        <tr>
-                            <td class="bold">No of slides stained:</td>
-                            <td>{{ record.slides_stained }}</td>
-                        </tr>
+                            ></div>
+                        </div>
+                        <div>
+                            <div class="bold">Aspiration note:</div>
+                            <div v-html="convertToHtml(record.asp_note)"></div>
+                        </div>
+                        <div>
+                            <div class="bold">No of slides made:</div>
+                            <div>{{ record.slides_made }}</div>
+                        </div>
+                        <div>
+                            <div class="bold">No of slides stained:</div>
+                            <div>{{ record.slides_stained }}</div>
+                        </div>
                     </template>
-                    <tr>
-                        <td class="bold">Microscopic description:</td>
-                        <td
+                    <div>
+                        <div class="bold">Microscopic description:</div>
+                        <div
                             v-html="
                                 convertToHtml(record.microscopic_description)
                             "
-                        ></td>
-                    </tr>
-                    <tr>
-                        <td class="bold">Note:</td>
-                        <td v-html="convertToHtml(record.note)"></td>
-                    </tr>
-                    <tr>
-                        <td class="signature">Signature</td>
-                    </tr>
-                </table>
+                        ></div>
+                    </div>
+                    <div>
+                        <div class="bold">Note:</div>
+                        <div v-html="convertToHtml(record.note)"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </template>
-    <div v-else class="f-scr">
+    <div v-else class="loading-indicator">
         <Loading v-if="isLoading" size="100" />
         <p v-else>{{ error }}</p>
     </div>
 </template>
 
 <style lang="scss">
-.f-scr {
+.loading-indicator {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -176,71 +182,74 @@ const convertToHtml = (data: string) => {
     }
 }
 
-.report {
-    height: 210mm;
-    /* DIN A4 standard paper size */
-    width: 297mm;
-    margin: auto;
-    font-size: 1.5rem;
-}
-
 @media print {
     .buttons {
         display: none;
     }
+
+    .page {
+        width: 7.3in;
+    }
 }
 
-.page {
-    margin: 1in 1in 1.2in 1in;
-    padding: 1rem;
+@media screen {
+    .page {
+        width: 8.35in;
+        padding: 1.31in 0.5in 3.4in 0.5in;
+        margin-inline: auto;
+    }
+}
+
+.report {
+    font-size: 11pt;
+    font-family: "Times New Roman";
+
+    * {
+        font-family: "Times New Roman";
+    }
 }
 
 .bold {
     font-weight: 700;
 }
 
-.large {
-    font-size: 1.75rem;
-}
-
-.underline::after {
-    display: block;
-    position: absolute;
-    content: "";
-    height: 1px;
-    width: 930px;
-    background-color: black;
+.underline {
+    border-bottom: 1px solid black;
 }
 
 .referrer {
-    padding-inline: 3px;
-    margin-block: 2rem;
+    margin-block: 0.75rem 1rem;
 }
 
-table.patient-details {
-    width: 100%;
+h1 {
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 0.3in;
+    font-size: 18pt;
+}
 
-    td:nth-of-type(2) {
-        text-align: right;
+.patient-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.right-align {
+    text-align: right;
+}
+
+.report-details {
+    display: grid;
+    gap: 0.2in;
+
+    & > div {
+        display: grid;
+        grid-template-columns: 1in 1fr;
+
+        break-inside: avoid;
     }
 }
 
-table.report-details {
-    td:nth-of-type(1) {
-        vertical-align: top;
-        width: 320px;
-    }
-
-    td:nth-of-type(2) {
-        vertical-align: bottom;
-    }
-
-    border-collapse: separate;
-    border-spacing: 0 0.5rem;
-
-    .signature {
-        padding-top: 600px;
-        padding-bottom: 50px;
-    }
+.capitalize {
+    text-transform: capitalize;
 }
 </style>
