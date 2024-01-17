@@ -71,8 +71,8 @@ const tableDescription = {
         label: "Date Added",
         filter: false,
     },
-    delivery_date: {
-        label: "Delivery Date",
+    specimen: {
+        label: "Specimen",
         filter: false,
     },
     status: {
@@ -438,11 +438,7 @@ const goToReport = (patient: Record<string, any>) => {
                             }}
                         </td>
                         <td>
-                            {{
-                                dateToDMY(
-                                    new Date(parseInt(patient.delivery_date))
-                                )
-                            }}
+                            {{ patient.specimen }}
                         </td>
                         <td
                             class="capitalize"
