@@ -70,6 +70,10 @@ const tableDescription = {
         label: "Date Added",
         filter: false,
     },
+    delivery_date: {
+        label: "Delivery Date",
+        filter: false,
+    },
     status: {
         label: "Status",
         filter: false,
@@ -406,7 +410,10 @@ const expandPrintBtn = (evt: any) => {
                     <tr v-for="patient in patients" :key="patient.id">
                         <td>
                             <p v-html="hightlightText(patient.name, 'name')" />
-                            <p class="small-id" v-html="hightlightText(patient.id, 'id')" />
+                            <p
+                                class="small-id"
+                                v-html="hightlightText(patient.id, 'id')"
+                            />
                         </td>
                         <td>{{ patient.contact }}</td>
                         <td>
@@ -416,6 +423,13 @@ const expandPrintBtn = (evt: any) => {
                                           new Date(parseInt(patient.timestamp))
                                       )
                                     : "N/A"
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                dateToDMY(
+                                    new Date(parseInt(patient.delivery_date))
+                                )
                             }}
                         </td>
                         <td
