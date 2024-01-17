@@ -2,7 +2,6 @@
 <script setup lang="ts">
 import Pagination from "@/components/Pagination.vue";
 import Icon from "@/components/base/Icon.vue";
-import SearchFilter from "@/components/SearchFilter.vue";
 import ThActionable from "@/components/base/ThActionable.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { API_BASE } from "@/helpers/config";
@@ -32,10 +31,10 @@ const page = ref({
 });
 const [sortState, doSorting] = useSorter<string>("timestamp", "desc");
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
-const searchVal = ref("");
 const filterRef = ref();
 
-let queryParams: Record<string, string> = {};
+let queryParamsH: Record<string, string> = {};
+let queryParamsF: Record<string, string> = {};
 
 const tableDescription = {
     id: {
@@ -72,21 +71,15 @@ const showFilter = (col: string) => {
     filterRef.value.setCursor(col);
 };
 
-const filterChange = (val: Record<string, string>) => {
-    queryParams.all = val.all;
-    page.value.page = 1;
-    queryResults();
-};
-
 const hightlightText = (data: string, col: string): string => {
     let colH = data;
-    const colStr = queryParams[col];
+    const colStr = queryParamsH[col];
     if (colStr) {
         colH = colH.replace(new RegExp(colStr, "i"), (a) => {
             return `<mark>${a}</mark>`;
         });
     }
-    const allStr = queryParams.all;
+    const allStr = queryParamsH.all;
     if (allStr) {
         colH = colH.replace(new RegExp(allStr, "i"), (a) => {
             return `<mark>${a}</mark>`;
@@ -123,6 +116,7 @@ async function queryResults() {
     }
 
     isLoading.value = true;
+    const queryParams = { ...queryParamsH, ...queryParamsF };
     queryParams.page = page.value.page.toString();
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
@@ -149,7 +143,12 @@ async function queryResults() {
 }
 
 const filterResult = (by: string, value: string) => {
-    queryParams[by] = value;
+    queryParamsF[by] = value;
+    page.value.page = 1;
+    queryResults();
+};
+const filterResultH = (by: string, value: string) => {
+    queryParamsH[by] = value;
     page.value.page = 1;
     queryResults();
 };
@@ -285,12 +284,18 @@ const expandPrintBtn = (evt: any) => {
             >
                 + Add Patient
             </RouterLink>
-            <SearchFilter
-                ref="filterRef"
-                placeholder="Search..."
-                v-model="searchVal"
-                :on-update="filterChange"
-            />
+            <div class="search-filter">
+                <Icon size="16" viewBox="512">
+                    <path
+                        fill="currentColor"
+                        d="M456.69 421.39L362.6 327.3a173.81 173.81 0 0 0 34.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 0 0 327.3 362.6l94.09 94.09a25 25 0 0 0 35.3-35.3ZM97.92 222.72a124.8 124.8 0 1 1 124.8 124.8a124.95 124.95 0 0 1-124.8-124.8Z"
+                    />
+                </Icon>
+                <input
+                    type="search"
+                    @input="(evt: any) => filterResultH('all', evt.target.value)"
+                />
+            </div>
             <div class="query-item">
                 <p>Filter:</p>
                 <select
@@ -617,6 +622,24 @@ const expandPrintBtn = (evt: any) => {
 
     .query-item button:hover {
         color: var(--clr-danger);
+    }
+    .search-filter {
+        position: relative;
+    }
+
+    .search-filter svg {
+        position: absolute;
+        left: 7px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .search-filter input {
+        width: 100%;
+        min-height: 100%;
+        border: 1px solid var(--clr-black);
+        padding: 5px 8px;
+        padding-left: 25px;
     }
 
     table {
