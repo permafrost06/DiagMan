@@ -43,6 +43,7 @@ const tests = ref<Record<string, any>[]>((props.toEdit?.tests as any) ?? []);
 const refererValue = ref<string>("");
 
 onMounted(async () => {
+    window.scrollTo(0, 0);
     if (props.toEdit) {
         advance.value = (props.toEdit.advance as any) / 100;
         discount.value = (props.toEdit.discount as any) / 100;

@@ -456,6 +456,7 @@ const goToReport = (patient: Record<string, any>) => {
                             <div @click.stop class="flex gap-sm row-actions">
                                 <div class="print-btns">
                                     <button
+                                        class="dropdown-button"
                                         type="button"
                                         @click="expandPrintBtn"
                                     >
@@ -735,6 +736,14 @@ const goToReport = (patient: Record<string, any>) => {
         // .report-btn {
         //     padding-left: 10px;
         // }
+
+        .dropdown-button {
+            width: 4.5rem;
+
+            .dropdown .btn {
+                width: 4.5rem;
+            }
+        }
     }
 
     .skeleton.btn {
