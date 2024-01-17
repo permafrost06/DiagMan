@@ -305,6 +305,7 @@ const expandPrintBtn = (evt: any) => {
                     />
                 </Icon>
                 <input
+                    placeholder="Search ID and Name"
                     type="search"
                     @input="(evt: any) => filterResultH('all', evt.target.value)"
                 />
