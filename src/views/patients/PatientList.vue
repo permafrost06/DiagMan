@@ -32,7 +32,7 @@ const page = ref({
 });
 const [sortState, doSorting] = useSorter<string>("timestamp", "desc");
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
-const filters = ref("");
+const searchVal = ref("");
 const filterRef = ref();
 
 let queryParams: Record<string, string> = {};
@@ -130,6 +130,12 @@ async function queryResults() {
         page.value.maxPage = res.pagination!.maxPage;
     }
 }
+
+const filterResult = (by: string, value: string) => {
+    queryParams[by] = value;
+    page.value.page = 1;
+    queryResults();
+};
 
 async function deletePatient() {
     if (!deleteValue.value || isDeleting.value) {
@@ -255,9 +261,20 @@ const unDeliverReport = async (patient: any) => {
             <SearchFilter
                 ref="filterRef"
                 placeholder="Search..."
-                v-model="filters"
+                v-model="searchVal"
                 :on-update="filterChange"
             />
+            <div class="query-item">
+                <p>Filter:</p>
+                <select
+                    class="sort-by-selector"
+                    @input="(evt: any) => filterResult('type', evt.target.value)"
+                >
+                    <option value="">All</option>
+                    <option value="histo">Histopathology</option>
+                    <option value="cyto">Cytopathology</option>
+                </select>
+            </div>
             <div class="query-item">
                 <div style="width: 4rem">Sort by:</div>
                 <select
@@ -525,7 +542,7 @@ const unDeliverReport = async (patient: any) => {
 
 .query-info {
     display: grid;
-    grid-template-columns: max-content auto max-content;
+    grid-template-columns: max-content auto max-content max-content;
     gap: var(--space-sm);
     padding: 15px 10px;
 }
