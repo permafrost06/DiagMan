@@ -657,11 +657,10 @@ const toggleLock = async () => {
             }
 
             .ql-container {
-                height: 120px;
-                overflow-y: auto;
+                min-height: 120px;
 
                 & > .ql-editor {
-                    height: 100%;
+                    min-height: 120px;
                 }
             }
         }
