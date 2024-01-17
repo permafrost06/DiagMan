@@ -36,21 +36,34 @@ const filterRef = ref();
 let queryParamsH: Record<string, string> = {};
 let queryParamsF: Record<string, string> = {};
 
-const tableDescription = {
+const sortableColumns = {
     id: {
         label: "ID",
-        filter: false,
     },
+    name: {
+        label: "Name",
+    },
+    contact: {
+        label: "Contact No",
+    },
+    timestamp: {
+        label: "Date Added (Default)",
+    },
+    type: {
+        label: "Type",
+    },
+    delivery_date: {
+        label: "Delivery Date",
+    },
+};
+
+const tableDescription = {
     name: {
         label: "Name",
         filter: false,
     },
-    type: {
-        label: "Type",
-        filter: false,
-    },
-    delivery_date: {
-        label: "Delivery Date",
+    contact: {
+        label: "Contact No",
         filter: false,
     },
     timestamp: {
@@ -315,7 +328,7 @@ const expandPrintBtn = (evt: any) => {
                     @change="(evt: any) => sortBy(evt.target.value)"
                 >
                     <option
-                        v-for="(col, col_name) in tableDescription"
+                        v-for="(col, col_name) in sortableColumns"
                         :key="col_name"
                         :value="col_name"
                     >
@@ -390,22 +403,11 @@ const expandPrintBtn = (evt: any) => {
                 </tr>
                 <template v-else>
                     <tr v-for="patient in patients" :key="patient.id">
-                        <td v-html="hightlightText(patient.id, 'id')"></td>
-                        <td v-html="hightlightText(patient.name, 'name')"></td>
-                        <td
-                            class="capitalize"
-                            v-html="
-                                hightlightText(patient.type, 'type') +
-                                'pathology'
-                            "
-                        ></td>
                         <td>
-                            {{
-                                dateToDMY(
-                                    new Date(parseInt(patient.delivery_date))
-                                )
-                            }}
+                            <p v-html="hightlightText(patient.name, 'name')" />
+                            <p class="small-id" v-html="hightlightText(patient.id, 'id')" />
                         </td>
+                        <td>{{ patient.contact }}</td>
                         <td>
                             {{
                                 patient.timestamp
@@ -491,7 +493,7 @@ const expandPrintBtn = (evt: any) => {
                                         size="15"
                                         v-if="deliverReqs.has(patient.id as any)"
                                     />
-                                    Mark as delivered
+                                    Deliver
                                 </button>
                                 <button
                                     v-else
@@ -503,7 +505,7 @@ const expandPrintBtn = (evt: any) => {
                                         size="15"
                                         v-if="unDeliverReqs.has(patient.id as any)"
                                     />
-                                    Unmark as delivered
+                                    Undeliver
                                 </button>
                                 <RouterLink
                                     :to="{
@@ -730,6 +732,10 @@ const expandPrintBtn = (evt: any) => {
         color: var(--clr-black);
         background: transparent;
         padding: 0;
+    }
+
+    .small-id {
+        font-size: 0.75rem;
     }
 }
 </style>
