@@ -17,6 +17,7 @@ import { useUser } from "@/stores/user";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
+import { useRouter } from "vue-router";
 
 const user = useUser();
 const isLoading = ref<boolean>(false);
@@ -269,6 +270,11 @@ const expandPrintBtn = (evt: any) => {
     lastExpanded = evt.target.parentElement;
     lastExpanded?.classList.add("expanded");
 };
+
+const router = useRouter();
+const goToReport = (patient: Record<string, any>) => {
+    router.push({ name: "report", params: { id: patient.id } });
+};
 </script>
 <template>
     <div class="patients-page">
@@ -407,7 +413,12 @@ const expandPrintBtn = (evt: any) => {
                     <td colspan="7">{{ error || "No patients added yet!" }}</td>
                 </tr>
                 <template v-else>
-                    <tr v-for="patient in patients" :key="patient.id">
+                    <tr
+                        class="patient-row"
+                        @click="() => goToReport(patient)"
+                        v-for="patient in patients"
+                        :key="patient.id"
+                    >
                         <td>
                             <p v-html="hightlightText(patient.name, 'name')" />
                             <p
@@ -441,7 +452,7 @@ const expandPrintBtn = (evt: any) => {
                             "
                         ></td>
                         <td>
-                            <div class="flex gap-sm row-actions">
+                            <div @click.stop class="flex gap-sm row-actions">
                                 <div class="print-btns">
                                     <button
                                         type="button"
@@ -475,17 +486,6 @@ const expandPrintBtn = (evt: any) => {
                                         </RouterLink>
                                     </div>
                                 </div>
-                                <RouterLink
-                                    :to="{
-                                        name: 'report',
-                                        params: {
-                                            id: patient.id,
-                                        },
-                                    }"
-                                    class="btn report-btn"
-                                >
-                                    Report
-                                </RouterLink>
                                 <button
                                     v-if="user.isAdmin && patient.is_reported"
                                     type="button"
@@ -714,6 +714,8 @@ const expandPrintBtn = (evt: any) => {
     }
 
     .row-actions {
+        cursor: default;
+
         button,
         .btn {
             padding: 5px 15px;
@@ -751,6 +753,14 @@ const expandPrintBtn = (evt: any) => {
 
     .small-id {
         font-size: 0.75rem;
+    }
+
+    .patient-row {
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(89, 89, 89, 0.05);
+        }
     }
 }
 </style>
