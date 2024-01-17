@@ -136,12 +136,15 @@ async function deletePatient() {
         return;
     }
     isDeleting.value = true;
-    const res = await fetchApi(`${API_BASE}/patients/${deleteValue.value.id}`, {
-        method: "DELETE",
-        body: JSON.stringify({
-            id: deleteValue.value?.id,
-        }),
-    });
+    const res = await fetchApi(
+        `${API_BASE}/patients/${encodeURIComponent(deleteValue.value.id)}`,
+        {
+            method: "DELETE",
+            body: JSON.stringify({
+                id: deleteValue.value?.id,
+            }),
+        }
+    );
     isDeleting.value = false;
     if (res.success) {
         error.value = null;
@@ -161,9 +164,12 @@ const toggleLock = async (patient: any) => {
     }
     lockReqs.value.add(patient.id);
 
-    const res = await fetchApi(API_BASE + "/reports/lock/" + patient.id, {
-        method: "POST",
-    });
+    const res = await fetchApi(
+        API_BASE + "/reports/lock/" + encodeURIComponent(patient.id),
+        {
+            method: "POST",
+        }
+    );
     lockReqs.value.delete(patient.id);
     if (!res.success) {
         console.error(res.message || "Toggling report lock failed!");
@@ -178,9 +184,12 @@ const deliverReport = async (patient: any) => {
         return;
     }
     deliverReqs.value.add(patient.id);
-    const res = await fetchApi(API_BASE + "/reports/deliver/" + patient.id, {
-        method: "POST",
-    });
+    const res = await fetchApi(
+        API_BASE + "/reports/deliver/" + encodeURIComponent(patient.id),
+        {
+            method: "POST",
+        }
+    );
     deliverReqs.value.delete(patient.id);
     if (!res.success) {
         console.error(res.message || "Delivering report failed!");
@@ -198,9 +207,12 @@ const unDeliverReport = async (patient: any) => {
         return;
     }
     unDeliverReqs.value.add(patient.id);
-    const res = await fetchApi(API_BASE + "/reports/un-deliver/" + patient.id, {
-        method: "POST",
-    });
+    const res = await fetchApi(
+        API_BASE + "/reports/un-deliver/" + encodeURIComponent(patient.id),
+        {
+            method: "POST",
+        }
+    );
     unDeliverReqs.value.delete(patient.id);
     if (!res.success) {
         console.error(res.message || "Unmarking as delivered failed!");

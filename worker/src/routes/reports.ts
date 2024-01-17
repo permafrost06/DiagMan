@@ -73,9 +73,10 @@ export const getReport: RequestHandler = async ({ env, params, res }) => {
 
 export const toggleReportLock: RequestHandler = async ({ env, params, res }) => {
 	const db = getLibsqlClient(env);
+	const id = decodeURIComponent(params.id);
 	const { rows } = await db.execute({
 		sql: `SELECT p.*, r.locked, r.id AS rid FROM \`patients\` AS p LEFT JOIN \`reports\` AS r ON r.id = p.id WHERE p.id=? LIMIT 1`,
-		args: [params.id],
+		args: [id],
 	});
 	if (rows.length === 0) {
 		res.error('Invalid patient!', 404);
@@ -101,26 +102,28 @@ export const toggleReportLock: RequestHandler = async ({ env, params, res }) => 
 };
 
 export const deliverReport: RequestHandler = async ({ res, env, params }) => {
+	const id = decodeURIComponent(params.id);
 	const db = getLibsqlClient(env);
 	const { rows } = await db.execute({
 		sql: `SELECT * FROM \`patients\` WHERE id=? LIMIT 1`,
-		args: [params.id],
+		args: [id],
 	});
 	if (rows.length === 0) {
 		res.error('Invalid patient!', 404);
 	}
 	await db.execute({
 		sql: 'UPDATE `patients` SET status = "delivered" WHERE id = ?',
-		args: [params.id],
+		args: [id],
 	});
 	res.setMsg(`Report delivered successfully!`);
 };
 
 export const unDeliverReport: RequestHandler = async ({ res, env, params }) => {
+	const id = decodeURIComponent(params.id);
 	const db = getLibsqlClient(env);
 	await db.execute({
 		sql: 'UPDATE `patients` SET status = "complete" WHERE id = ?',
-		args: [params.id],
+		args: [id],
 	});
 	res.setMsg(`Unmarked as delivered successfully!`);
 };
