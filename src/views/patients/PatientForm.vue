@@ -528,7 +528,7 @@ const clearError = (evt: any) => {
                             {{ toEdit ? "Update" : "Add" }} Patient
                         </button>
                     </div>
-                    <CheckBox label="Show invoice on save" v-model="invoice" />
+                    <CheckBox label="Print invoice on save" v-model="invoice" />
                 </div>
                 <div v-else class="all-col headeless-button">
                     <button type="submit" value="add">
