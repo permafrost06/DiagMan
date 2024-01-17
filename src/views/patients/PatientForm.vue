@@ -62,6 +62,7 @@ async function getAllTests() {
     res.rows.forEach((row: any) => {
         try {
             const data = JSON.parse(row.data);
+            data.id = row.id;
             parsed.push(data);
         } catch (_err) {
             console.error("Invalid test data:", row.data);
@@ -193,8 +194,7 @@ const filterRefs = (all: Array<any>, search: string): Array<any> => {
 };
 
 const onSelectionChange = (newValue: any) => {
-    console.log(newValue);
-    total.value = parseInt(selectedTest.value?.price || "0") || 0;
+    total.value = parseInt(newValue?.price || "0") || 0;
 };
 </script>
 <template>

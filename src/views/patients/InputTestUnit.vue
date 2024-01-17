@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { API_BASE } from "@/helpers/config";
+import { fetchApi } from "@/helpers/http";
 import { computed, ref } from "vue";
 
 interface Test {
+    id?: string;
     name: string;
     price: string;
 }
@@ -24,6 +27,30 @@ const current = ref(
           }
         : { name: "", price: "" }
 );
+
+const inputField = ref<HTMLInputElement>();
+
+const rmReqs = ref(new Set<string>());
+const removeTest = async (id: string, all: Record<string, string>[]) => {
+    if (rmReqs.value.has(id)) {
+        return;
+    }
+    rmReqs.value.add(id);
+    const res = await fetchApi(API_BASE + `/misc/remove/` + id, {
+        method: "POST",
+    });
+    rmReqs.value.delete(id);
+    if (!res.success) {
+        console.error(res.message || "Failed to remove test!");
+        return;
+    }
+    const idx = all.findIndex((v) => v.id == id);
+    if (idx > -1) {
+        all.splice(idx, 1);
+    }
+    inputField.value?.focus();
+};
+
 const suggestedTests = ref<Test[]>();
 
 let tOut = 0,
@@ -159,6 +186,13 @@ const suggestedTestsTrimmed = computed(() => {
                 <div class="suggestion-price">
                     {{ (parseInt(test.price) / 100).toFixed(2) }}
                 </div>
+                <button
+                    type="button"
+                    class="remove-test"
+                    @click.stop="() => removeTest(test.id!, suggestedTests as any)"
+                >
+                    {{ rmReqs.has(test.id!) ? "..." : "X" }}
+                </button>
             </button>
         </div>
         <input
@@ -203,7 +237,7 @@ const suggestedTestsTrimmed = computed(() => {
             border-bottom: 1px solid var(--clr-black);
             width: 100%;
             display: grid;
-            grid-template-columns: 1fr 104px;
+            grid-template-columns: 1fr 104px 20px;
             text-align: left;
             padding: 7px 0;
             gap: 0;
@@ -221,6 +255,17 @@ const suggestedTestsTrimmed = computed(() => {
 
             .suggestion-price {
                 padding-left: 8px;
+            }
+            .remove-test {
+                padding: 0;
+                background: none;
+                color: var(--clr-danger);
+                transition: all 300ms;
+
+                &:hover {
+                    font-size: var(--fs-md);
+                    background: var(--clr-white);
+                }
             }
         }
     }
