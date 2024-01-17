@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSorter, type Sorting, type SortType } from "@/helpers/utils";
+import type { SortType } from "@/helpers/utils";
 
 interface ColDetail {
     label: string;
@@ -10,19 +10,12 @@ interface Props {
     description: {
         [column: string]: string | ColDetail;
     };
-    onSort: (sort: Sorting<string>) => void;
+    onSort: (sortBy: string) => void;
     onFilter: (column: string) => void;
     sortBy: string;
     sortOrder: SortType;
 }
-const props = defineProps<Props>();
-
-const [sortState, sortFn] = useSorter(props.sortBy, props.sortOrder);
-
-const doSort = (col: any): Sorting<string> => {
-    sortFn(col);
-    return sortState.value;
-};
+defineProps<Props>();
 </script>
 
 <template>
@@ -32,10 +25,10 @@ const doSort = (col: any): Sorting<string> => {
             <div class="actions">
                 <button
                     v-if="typeof thInfo === 'string' || thInfo.sort !== false"
-                    @click="() => onSort(doSort(colName))"
+                    @click="() => onSort(colName as any)"
                 >
                     <svg
-                        v-if="sortState.by !== colName"
+                        v-if="sortBy !== colName"
                         xmlns="http://www.w3.org/2000/svg"
                         width="10"
                         height="10"
@@ -47,7 +40,7 @@ const doSort = (col: any): Sorting<string> => {
                         />
                     </svg>
                     <svg
-                        v-else-if="sortState.order === 'asc'"
+                        v-else-if="sortOrder === 'asc'"
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
                         height="12"

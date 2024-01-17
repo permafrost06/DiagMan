@@ -13,7 +13,7 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { type Sorting, dateToDMY } from "@/helpers/utils";
+import { type Sorting, dateToDMY, useSorter } from "@/helpers/utils";
 import { useUser } from "@/stores/user";
 import { onMounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
@@ -30,10 +30,7 @@ const page = ref({
     maxPage: 1,
     page: 1,
 });
-const sortState = ref<Sorting>({
-    by: "timestamp",
-    order: "desc",
-});
+const [sortState, doSorting] = useSorter<string>("timestamp", "desc");
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
 const filters = ref("");
 const filterRef = ref();
@@ -67,8 +64,8 @@ const tableDescription = {
     },
 };
 
-const sortBy = (newSortState: Sorting<string>) => {
-    sortState.value = newSortState;
+const sortBy = (sortByCol: string) => {
+    doSorting(sortByCol);
     queryResults();
 };
 const showFilter = (col: string) => {
@@ -223,22 +220,6 @@ const unDeliverReport = async (patient: any) => {
                     <p>{{ user.name }}</p>
                     <p class="h-user-role">{{ user.role }} - The Opinion</p>
                 </div>
-                <!-- <button class="h-icon-btn">
-                    <Icon size="24" viewBox="24">
-                        <path
-                            fill="currentColor"
-                            d="M2 4h1v16h2V10h4v10h2V6h4v14h2v-6h4v7H2V4m16 11v5h2v-5h-2m-6-8v13h2V7h-2m-6 4v9h2v-9H6Z"
-                        />
-                    </Icon>
-                </button>
-                <button class="h-icon-btn">
-                    <Icon size="24" viewBox="24">
-                        <path
-                            fill="currentColor"
-                            d="M10 21h4c0 1.1-.9 2-2 2s-2-.9-2-2m11-2v1H3v-1l2-2v-6c0-3.1 2-5.8 5-6.7V4c0-1.1.9-2 2-2s2 .9 2 2v.3c3 .9 5 3.6 5 6.7v6l2 2m-4-8c0-2.8-2.2-5-5-5s-5 2.2-5 5v7h10v-7Z"
-                        />
-                    </Icon>
-                </button> -->
                 <RouterLink
                     :to="{ name: 'settings' }"
                     class="h-icon-btn flex items-center"
@@ -266,19 +247,41 @@ const unDeliverReport = async (patient: any) => {
                 :on-update="filterChange"
             />
             <div class="query-item">
-                <Icon size="10" viewBox="2048">
-                    <path
-                        fill="currentColor"
-                        d="m1069 499l-90 90l-338-337l-1 1796H512l1-1799l-340 340l-90-90L576 6l493 493zm807 960l91 90l-493 493l-494-493l91-90l338 338l-1-1797h128l1 1798l339-339z"
-                    />
-                </Icon>
-                <p>
-                    Sort: &quot;{{
-                        (tableDescription[sortState.by as TableNames] as any)
-                            .label ||
-                        tableDescription[sortState.by as TableNames]
-                    }}&quot; ({{ sortState.order === "asc" ? "A-Z" : "Z-A" }})
-                </p>
+                <button
+                    type="button"
+                    class="sort-order-button"
+                    @click="() => sortBy(sortState.by)"
+                >
+                    <Icon
+                        size="14"
+                        viewBox="16"
+                        v-if="sortState.order === 'asc'"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M5.205 1.494a.75.75 0 0 0-1.41 0l-2 5.5a.75.75 0 1 0 1.41.512L3.389 7h2.222l.184.506a.75.75 0 1 0 1.41-.512zM3.935 5.5L4.5 3.945L5.066 5.5zM2 9.75A.75.75 0 0 1 2.75 9h3.5a.75.75 0 0 1 .592 1.21L4.284 13.5h1.967a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.592-1.21l2.559-3.29H2.75A.75.75 0 0 1 2 9.75M12.25 1a.75.75 0 0 1 .75.75v10.69l.72-.72a.75.75 0 1 1 1.06 1.06l-2 2a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l.72.72V1.75a.75.75 0 0 1 .75-.75"
+                        />
+                    </Icon>
+                    <Icon size="14" viewBox="24" v-else>
+                        <path
+                            fill="currentColor"
+                            d="M3.75 3a1 1 0 0 1 1-1H10a1 1 0 0 1 .8 1.6L6.75 9H10a1 1 0 1 1 0 2H4.75a1 1 0 0 1-.8-1.6L8 4H4.75a1 1 0 0 1-1-1m4.229 9.673a1 1 0 0 0-1.89 0l-2.793 8.069a1 1 0 0 0 1.89.654l.411-1.189H8.47l.412 1.19a1 1 0 0 0 1.89-.655zm-1.69 5.534l.745-2.15l.744 2.15zM17.5 2a1 1 0 0 1 1 1v15.586l1.793-1.793a1 1 0 0 1 1.414 1.414l-3.5 3.5a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l1.793 1.793V3a1 1 0 0 1 1-1"
+                        />
+                    </Icon>
+                </button>
+                <select
+                    class="sort-by-selector"
+                    :value="sortState.by"
+                    @change="(evt: any) => sortBy(evt.target.value)"
+                >
+                    <option
+                        v-for="(col, col_name) in tableDescription"
+                        :key="col_name"
+                        :value="col_name"
+                    >
+                        {{ col.label }}
+                    </option>
+                </select>
             </div>
         </div>
         <div>
@@ -520,6 +523,23 @@ const unDeliverReport = async (patient: any) => {
     padding: 3px 5px;
     font-size: var(--fs-sm);
     gap: 5px;
+
+    .sort-by-selector {
+        border: none;
+        margin: 0;
+        padding: 4px 0;
+    }
+
+    .sort-order-button {
+        margin: 0;
+        padding: 4px 0;
+        background: var(--clr-white);
+        color: var(--clr-black);
+
+        &:hover {
+            color: var(--clr-accent);
+        }
+    }
 }
 
 .query-item button {
