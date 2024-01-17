@@ -13,9 +13,9 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { type Sorting, dateToDMY, useSorter } from "@/helpers/utils";
+import { dateToDMY, useSorter } from "@/helpers/utils";
 import { useUser } from "@/stores/user";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 
@@ -95,7 +95,24 @@ const hightlightText = (data: string, col: string): string => {
     return colH;
 };
 
-onMounted(queryResults);
+let lastExpanded: HTMLElement | null = null;
+
+const printBtnEvt = (evt: any) => {
+    if (!lastExpanded) {
+        return;
+    }
+    if (evt.target.closest(".print-btns") !== lastExpanded) {
+        lastExpanded?.classList.remove("expanded");
+        lastExpanded = null;
+    }
+};
+onMounted(() => {
+    queryResults();
+    document.addEventListener("click", printBtnEvt);
+});
+onUnmounted(() => {
+    document.removeEventListener("click", printBtnEvt);
+});
 watch(page.value, queryResults);
 watch(hideDelivered, queryResults);
 
@@ -225,6 +242,16 @@ const unDeliverReport = async (patient: any) => {
         return;
     }
     patient.status = res.data.status;
+};
+const expandPrintBtn = (evt: any) => {
+    if (lastExpanded) {
+        lastExpanded.classList.remove("expanded");
+    }
+    if (lastExpanded === evt.target.parentElement) {
+        return;
+    }
+    lastExpanded = evt.target.parentElement;
+    lastExpanded?.classList.add("expanded");
 };
 </script>
 <template>
@@ -393,28 +420,38 @@ const unDeliverReport = async (patient: any) => {
                         ></td>
                         <td>
                             <div class="flex gap-sm row-actions">
-                                <RouterLink
-                                    :to="{
-                                        name: 'report',
-                                        params: {
-                                            id: patient.id,
-                                        },
-                                    }"
-                                    class="btn report-btn"
-                                >
-                                    Report
-                                </RouterLink>
-                                <RouterLink
-                                    :to="{
-                                        name: 'patients.invoice',
-                                        params: {
-                                            id: patient.id,
-                                        },
-                                    }"
-                                    class="btn"
-                                >
-                                    Invoice
-                                </RouterLink>
+                                <div class="print-btns">
+                                    <button
+                                        type="button"
+                                        @click="expandPrintBtn"
+                                    >
+                                        Print
+                                    </button>
+                                    <div class="dropdown">
+                                        <RouterLink
+                                            :to="{
+                                                name: 'report',
+                                                params: {
+                                                    id: patient.id,
+                                                },
+                                            }"
+                                            class="btn report-btn"
+                                        >
+                                            Report
+                                        </RouterLink>
+                                        <RouterLink
+                                            :to="{
+                                                name: 'patients.invoice',
+                                                params: {
+                                                    id: patient.id,
+                                                },
+                                            }"
+                                            class="btn"
+                                        >
+                                            Invoice
+                                        </RouterLink>
+                                    </div>
+                                </div>
                                 <button
                                     v-if="user.isAdmin && patient.is_reported"
                                     type="button"
@@ -505,135 +542,159 @@ const unDeliverReport = async (patient: any) => {
 <style lang="scss">
 .patients-page {
     padding: 20px 30px;
-}
-.patients-page .h-link-btn {
-    background: var(--clr-black);
-    color: var(--clr-white);
-}
-.patients-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-}
-.patients-header .site-name {
-    font-weight: bold;
-    font-size: var(--fs-xl);
-}
-.patients-header .h-icon-btn {
-    background: transparent;
-    color: var(--clr-black);
-    padding: 5px;
-}
-.patients-header .h-icon-btn:hover {
-    color: var(--clr-accent);
-}
-.patients-header .h-user-name {
-    font-weight: bold;
-    margin-right: 10px;
-    font-size: var(--fs-md);
 
-    .h-user-role {
-        font-weight: normal;
-        text-transform: capitalize;
-        font-size: var(--fs-base);
+    .h-link-btn {
+        background: var(--clr-black);
+        color: var(--clr-white);
     }
-}
-
-.query-info {
-    display: grid;
-    grid-template-columns: max-content auto max-content max-content;
-    gap: var(--space-sm);
-    padding: 15px 10px;
-}
-.query-item {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--clr-black);
-    padding: 3px 5px;
-    font-size: var(--fs-sm);
-    gap: 5px;
-
-    .sort-by-selector {
-        border: none;
-        margin: 0;
-        padding: 4px 0;
+    .patients-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
     }
-
-    .sort-order-button {
-        margin: 0;
-        padding: 4px 0;
-        background: var(--clr-white);
+    .patients-header .site-name {
+        font-weight: bold;
+        font-size: var(--fs-xl);
+    }
+    .patients-header .h-icon-btn {
+        background: transparent;
         color: var(--clr-black);
+        padding: 5px;
+    }
+    .patients-header .h-icon-btn:hover {
+        color: var(--clr-accent);
+    }
+    .patients-header .h-user-name {
+        font-weight: bold;
+        margin-right: 10px;
+        font-size: var(--fs-md);
 
-        &:hover {
-            color: var(--clr-accent);
+        .h-user-role {
+            font-weight: normal;
+            text-transform: capitalize;
+            font-size: var(--fs-base);
         }
     }
-}
 
-.query-item button {
-    padding: 0;
-    background: transparent;
-    color: var(--clr-black);
-}
-
-.query-item button:hover {
-    color: var(--clr-danger);
-}
-
-.patients-page table {
-    border-collapse: collapse;
-}
-.patients-page table tr {
-    border-bottom: 1px solid var(--clr-black);
-}
-.patients-page table tr:first-child {
-    border-bottom-width: 2px;
-}
-.patients-page table th {
-    font-size: var(--fs-base);
-}
-
-.patients-page table th,
-.patients-page table td {
-    padding: 8px 15px;
-    text-align: left;
-}
-
-.patients-page .row-actions {
-    button,
-    .btn {
-        padding: 5px 15px;
-        font-weight: 600;
-        gap: 5px;
+    .query-info {
+        display: grid;
+        grid-template-columns: max-content auto max-content max-content;
+        gap: var(--space-sm);
+        padding: 15px 10px;
     }
-    // .report-btn {
-    //     padding-left: 10px;
-    // }
-}
+    .query-item {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--clr-black);
+        padding: 3px 5px;
+        font-size: var(--fs-sm);
+        gap: 5px;
 
-.skeleton.btn {
-    height: 1.5em;
-    width: 100%;
-}
+        .sort-by-selector {
+            border: none;
+            margin: 0;
+            padding: 4px 0;
+        }
 
-.th-actionable {
-    display: flex;
-    align-items: center;
-}
+        .sort-order-button {
+            margin: 0;
+            padding: 4px 0;
+            background: var(--clr-white);
+            color: var(--clr-black);
 
-.th-actionable > p {
-    flex-grow: 1;
-    text-align: left;
-}
+            &:hover {
+                color: var(--clr-accent);
+            }
+        }
+    }
 
-.th-actionable > .actions {
-    display: flex;
-}
-.th-actionable > .actions > button {
-    color: var(--clr-black);
-    background: transparent;
-    padding: 0;
+    .query-item button {
+        padding: 0;
+        background: transparent;
+        color: var(--clr-black);
+    }
+
+    .query-item button:hover {
+        color: var(--clr-danger);
+    }
+
+    table {
+        border-collapse: collapse;
+
+        tr {
+            border-bottom: 1px solid var(--clr-black);
+        }
+        tr:first-child {
+            border-bottom-width: 2px;
+        }
+        th {
+            font-size: var(--fs-base);
+        }
+
+        th,
+        td {
+            padding: 8px 15px;
+            text-align: left;
+        }
+        .print-btns {
+            position: relative;
+            > button {
+                height: 100%;
+            }
+            .dropdown {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                z-index: 1;
+                background: var(--clr-white);
+
+                a {
+                    margin-top: 2px;
+                }
+            }
+
+            &.expanded .dropdown {
+                display: block;
+            }
+        }
+    }
+
+    .row-actions {
+        button,
+        .btn {
+            padding: 5px 15px;
+            font-weight: 600;
+            gap: 5px;
+        }
+        // .report-btn {
+        //     padding-left: 10px;
+        // }
+    }
+
+    .skeleton.btn {
+        height: 1.5em;
+        width: 100%;
+    }
+
+    .th-actionable {
+        display: flex;
+        align-items: center;
+    }
+
+    .th-actionable > p {
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .th-actionable > .actions {
+        display: flex;
+    }
+    .th-actionable > .actions > button {
+        color: var(--clr-black);
+        background: transparent;
+        padding: 0;
+    }
 }
 </style>
