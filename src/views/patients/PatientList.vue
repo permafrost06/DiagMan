@@ -25,7 +25,7 @@ const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
-const hideDelivered = ref<boolean>(false);
+const showDelivered = ref<boolean>(true);
 const page = ref({
     maxPage: 1,
     page: 1,
@@ -125,7 +125,7 @@ onUnmounted(() => {
     document.removeEventListener("click", printBtnEvt);
 });
 watch(page.value, queryResults);
-watch(hideDelivered, queryResults);
+watch(showDelivered, queryResults);
 
 async function queryResults() {
     if (!navigator.onLine) {
@@ -140,7 +140,7 @@ async function queryResults() {
     queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
 
-    if (!hideDelivered.value) {
+    if (showDelivered.value) {
         qs.append("delivered", "1");
     }
 
@@ -236,7 +236,7 @@ const deliverReport = async (patient: any) => {
         return;
     }
     patient.status = "delivered";
-    if (hideDelivered.value) {
+    if (!showDelivered.value) {
         patients.value = patients.value.filter((p) => p.id != patient.id);
     }
 };
@@ -554,7 +554,7 @@ const goToReport = (patient: Record<string, any>) => {
             </table>
         </div>
         <div class="flex items-center justify-between">
-            <CheckBox label="Hide delivered reports" v-model="hideDelivered" />
+            <CheckBox label="Show delivered reports" v-model="showDelivered" />
             <Pagination
                 :pages="page.maxPage"
                 v-model="page.page"
