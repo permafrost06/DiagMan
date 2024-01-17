@@ -259,6 +259,20 @@ const unDeliverReport = async (patient: any) => {
                 :on-update="filterChange"
             />
             <div class="query-item">
+                <div style="width: 4rem">Sort by:</div>
+                <select
+                    class="sort-by-selector"
+                    :value="sortState.by"
+                    @change="(evt: any) => sortBy(evt.target.value)"
+                >
+                    <option
+                        v-for="(col, col_name) in tableDescription"
+                        :key="col_name"
+                        :value="col_name"
+                    >
+                        {{ col.label }}
+                    </option>
+                </select>
                 <button
                     type="button"
                     class="sort-order-button"
@@ -281,19 +295,6 @@ const unDeliverReport = async (patient: any) => {
                         />
                     </Icon>
                 </button>
-                <select
-                    class="sort-by-selector"
-                    :value="sortState.by"
-                    @change="(evt: any) => sortBy(evt.target.value)"
-                >
-                    <option
-                        v-for="(col, col_name) in tableDescription"
-                        :key="col_name"
-                        :value="col_name"
-                    >
-                        {{ col.label }}
-                    </option>
-                </select>
             </div>
         </div>
         <div>
