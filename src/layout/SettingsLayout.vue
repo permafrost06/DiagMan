@@ -11,20 +11,6 @@ import Icon from "@/components/base/Icon.vue";
                 Settings
             </RouterLink>
             <ul>
-                <!-- <li class="group-title">General</li>
-                <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        Appearance
-                    </RouterLink>
-                </li> -->
-                <li>
-                    <RouterLink
-                        :to="{ name: 'settings.tests' }"
-                        class="sidebar-link"
-                    >
-                        Tests
-                    </RouterLink>
-                </li>
                 <li>
                     <RouterLink
                         :to="{ name: 'settings.report-templates' }"
@@ -33,21 +19,6 @@ import Icon from "@/components/base/Icon.vue";
                         Report Templates
                     </RouterLink>
                 </li>
-                <!-- <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        SMS
-                    </RouterLink>
-                </li>
-                <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        Printing
-                    </RouterLink>
-                </li>
-                <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        Charts
-                    </RouterLink>
-		</li> -->
                 <li>
                     <RouterLink
                         :to="{ name: 'settings.account' }"
@@ -56,32 +27,6 @@ import Icon from "@/components/base/Icon.vue";
                         Account
                     </RouterLink>
                 </li>
-                <!-- <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        Notifications
-                    </RouterLink>
-                </li>
-            </ul>
-            <ul>
-                <li class="group-title">Administrative</li>
-                <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        Manage Users
-                    </RouterLink>
-                </li>
-
-                <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        Advanced
-                    </RouterLink>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <RouterLink to="/settings/#" class="sidebar-link">
-                        About
-                    </RouterLink>
-		</li> -->
             </ul>
         </nav>
         <div class="setting-page-area">

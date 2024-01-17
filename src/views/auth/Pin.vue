@@ -45,7 +45,7 @@ const handleForm = async (evt: any) => {
             @submit="handleForm"
             class="space-y-sm"
         >
-            <h1 class="fs-3xl">DiagMan</h1>
+            <h1 class="fs-3xl">The Opinion</h1>
             <p class="sub-title pin-sub font-h">Enter your PIN to unlock</p>
             <p v-if="error" class="alert error">{{ error }}</p>
             <p class="user-name text-center font-h">{{ user.name }}</p>

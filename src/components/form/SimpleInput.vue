@@ -12,6 +12,10 @@ interface InputProps extends InputHTMLAttributes {
     id?: string;
 }
 
+const emit = defineEmits<{
+    (e: "keydown", value: Event): void;
+}>();
+
 const props = withDefaults(defineProps<InputProps>(), {
     type: "text",
     hintType: "error",
@@ -27,6 +31,7 @@ const props = withDefaults(defineProps<InputProps>(), {
                 :class="fieldClass"
                 v-bind="$attrs"
                 autocomplete="off"
+                @keydown="(evt) => emit('keydown', evt)"
             />
 
             <label
@@ -52,6 +57,7 @@ const props = withDefaults(defineProps<InputProps>(), {
                 :class="fieldClass"
                 v-bind="$attrs"
                 autocomplete="off"
+                @keydown="(evt) => emit('keydown', evt)"
             />
 
             <label

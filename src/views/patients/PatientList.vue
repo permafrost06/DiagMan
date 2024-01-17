@@ -2,7 +2,6 @@
 <script setup lang="ts">
 import Pagination from "@/components/Pagination.vue";
 import Icon from "@/components/base/Icon.vue";
-import SearchFilter from "@/components/SearchFilter.vue";
 import ThActionable from "@/components/base/ThActionable.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { API_BASE } from "@/helpers/config";
@@ -13,11 +12,12 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { type Sorting, dateToDMY } from "@/helpers/utils";
+import { dateToDMY, useSorter } from "@/helpers/utils";
 import { useUser } from "@/stores/user";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
+import { useRouter } from "vue-router";
 
 const user = useUser();
 const isLoading = ref<boolean>(false);
@@ -30,27 +30,45 @@ const page = ref({
     maxPage: 1,
     page: 1,
 });
-const sortState = ref<Sorting>({
-    by: "id",
-    order: "desc",
-});
+const [sortState, doSorting] = useSorter<string>("timestamp", "desc");
 type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
-const filters = ref("");
 const filterRef = ref();
 
-let queryParams: Record<string, string> = {};
+let queryParamsH: Record<string, string> = {};
+let queryParamsF: Record<string, string> = {};
 
-const tableDescription = {
+const sortableColumns = {
     id: {
         label: "ID",
-        filter: false,
     },
+    name: {
+        label: "Name",
+    },
+    contact: {
+        label: "Contact No",
+    },
+    timestamp: {
+        label: "Date Added (Default)",
+    },
+    type: {
+        label: "Type",
+    },
+    delivery_date: {
+        label: "Delivery Date",
+    },
+};
+
+const tableDescription = {
     name: {
         label: "Name",
         filter: false,
     },
-    type: {
-        label: "Type",
+    contact: {
+        label: "Contact No",
+        filter: false,
+    },
+    timestamp: {
+        label: "Date Added",
         filter: false,
     },
     delivery_date: {
@@ -63,29 +81,23 @@ const tableDescription = {
     },
 };
 
-const sortBy = (newSortState: Sorting<string>) => {
-    sortState.value = newSortState;
+const sortBy = (sortByCol: string) => {
+    doSorting(sortByCol);
     queryResults();
 };
 const showFilter = (col: string) => {
     filterRef.value.setCursor(col);
 };
 
-const filterChange = (val: Record<string, string>) => {
-    queryParams.all = val.all;
-    page.value.page = 1;
-    queryResults();
-};
-
 const hightlightText = (data: string, col: string): string => {
     let colH = data;
-    const colStr = queryParams[col];
+    const colStr = queryParamsH[col];
     if (colStr) {
         colH = colH.replace(new RegExp(colStr, "i"), (a) => {
             return `<mark>${a}</mark>`;
         });
     }
-    const allStr = queryParams.all;
+    const allStr = queryParamsH.all;
     if (allStr) {
         colH = colH.replace(new RegExp(allStr, "i"), (a) => {
             return `<mark>${a}</mark>`;
@@ -94,7 +106,24 @@ const hightlightText = (data: string, col: string): string => {
     return colH;
 };
 
-onMounted(queryResults);
+let lastExpanded: HTMLElement | null = null;
+
+const printBtnEvt = (evt: any) => {
+    if (!lastExpanded) {
+        return;
+    }
+    if (evt.target.closest(".print-btns") !== lastExpanded) {
+        lastExpanded?.classList.remove("expanded");
+        lastExpanded = null;
+    }
+};
+onMounted(() => {
+    queryResults();
+    document.addEventListener("click", printBtnEvt);
+});
+onUnmounted(() => {
+    document.removeEventListener("click", printBtnEvt);
+});
 watch(page.value, queryResults);
 watch(hideDelivered, queryResults);
 
@@ -105,6 +134,7 @@ async function queryResults() {
     }
 
     isLoading.value = true;
+    const queryParams = { ...queryParamsH, ...queryParamsF };
     queryParams.page = page.value.page.toString();
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
@@ -130,17 +160,31 @@ async function queryResults() {
     }
 }
 
+const filterResult = (by: string, value: string) => {
+    queryParamsF[by] = value;
+    page.value.page = 1;
+    queryResults();
+};
+const filterResultH = (by: string, value: string) => {
+    queryParamsH[by] = value;
+    page.value.page = 1;
+    queryResults();
+};
+
 async function deletePatient() {
     if (!deleteValue.value || isDeleting.value) {
         return;
     }
     isDeleting.value = true;
-    const res = await fetchApi(`${API_BASE}/patients/${deleteValue.value.id}`, {
-        method: "DELETE",
-        body: JSON.stringify({
-            id: deleteValue.value?.id,
-        }),
-    });
+    const res = await fetchApi(
+        `${API_BASE}/patients/${encodeURIComponent(deleteValue.value.id)}`,
+        {
+            method: "DELETE",
+            body: JSON.stringify({
+                id: deleteValue.value?.id,
+            }),
+        }
+    );
     isDeleting.value = false;
     if (res.success) {
         error.value = null;
@@ -160,9 +204,12 @@ const toggleLock = async (patient: any) => {
     }
     lockReqs.value.add(patient.id);
 
-    const res = await fetchApi(API_BASE + "/reports/lock/" + patient.id, {
-        method: "POST",
-    });
+    const res = await fetchApi(
+        API_BASE + "/reports/lock/" + encodeURIComponent(patient.id),
+        {
+            method: "POST",
+        }
+    );
     lockReqs.value.delete(patient.id);
     if (!res.success) {
         console.error(res.message || "Toggling report lock failed!");
@@ -177,9 +224,12 @@ const deliverReport = async (patient: any) => {
         return;
     }
     deliverReqs.value.add(patient.id);
-    const res = await fetchApi(API_BASE + "/reports/deliver/" + patient.id, {
-        method: "POST",
-    });
+    const res = await fetchApi(
+        API_BASE + "/reports/deliver/" + encodeURIComponent(patient.id),
+        {
+            method: "POST",
+        }
+    );
     deliverReqs.value.delete(patient.id);
     if (!res.success) {
         console.error(res.message || "Delivering report failed!");
@@ -189,6 +239,42 @@ const deliverReport = async (patient: any) => {
     if (hideDelivered.value) {
         patients.value = patients.value.filter((p) => p.id != patient.id);
     }
+};
+
+const unDeliverReqs = ref<Set<number>>(new Set());
+const unDeliverReport = async (patient: any) => {
+    if (unDeliverReqs.value.has(patient.id)) {
+        return;
+    }
+    unDeliverReqs.value.add(patient.id);
+    const res = await fetchApi(
+        API_BASE + "/reports/un-deliver/" + encodeURIComponent(patient.id),
+        {
+            method: "POST",
+        }
+    );
+    unDeliverReqs.value.delete(patient.id);
+    if (!res.success) {
+        console.error(res.message || "Unmarking as delivered failed!");
+        return;
+    }
+    patient.status = res.data.status;
+};
+const expandPrintBtn = (evt: any) => {
+    if (lastExpanded) {
+        lastExpanded.classList.remove("expanded");
+    }
+    if (lastExpanded === evt.target.parentElement) {
+        lastExpanded = null;
+        return;
+    }
+    lastExpanded = evt.target.parentElement;
+    lastExpanded?.classList.add("expanded");
+};
+
+const router = useRouter();
+const goToReport = (patient: Record<string, any>) => {
+    router.push({ name: "report", params: { id: patient.id } });
 };
 </script>
 <template>
@@ -202,22 +288,6 @@ const deliverReport = async (patient: any) => {
                     <p>{{ user.name }}</p>
                     <p class="h-user-role">{{ user.role }} - The Opinion</p>
                 </div>
-                <!-- <button class="h-icon-btn">
-                    <Icon size="24" viewBox="24">
-                        <path
-                            fill="currentColor"
-                            d="M2 4h1v16h2V10h4v10h2V6h4v14h2v-6h4v7H2V4m16 11v5h2v-5h-2m-6-8v13h2V7h-2m-6 4v9h2v-9H6Z"
-                        />
-                    </Icon>
-                </button>
-                <button class="h-icon-btn">
-                    <Icon size="24" viewBox="24">
-                        <path
-                            fill="currentColor"
-                            d="M10 21h4c0 1.1-.9 2-2 2s-2-.9-2-2m11-2v1H3v-1l2-2v-6c0-3.1 2-5.8 5-6.7V4c0-1.1.9-2 2-2s2 .9 2 2v.3c3 .9 5 3.6 5 6.7v6l2 2m-4-8c0-2.8-2.2-5-5-5s-5 2.2-5 5v7h10v-7Z"
-                        />
-                    </Icon>
-                </button> -->
                 <RouterLink
                     :to="{ name: 'settings' }"
                     class="h-icon-btn flex items-center"
@@ -238,26 +308,67 @@ const deliverReport = async (patient: any) => {
             >
                 + Add Patient
             </RouterLink>
-            <SearchFilter
-                ref="filterRef"
-                placeholder="Search..."
-                v-model="filters"
-                :on-update="filterChange"
-            />
-            <div class="query-item">
-                <Icon size="10" viewBox="2048">
+            <div class="search-filter">
+                <Icon size="16" viewBox="512">
                     <path
                         fill="currentColor"
-                        d="m1069 499l-90 90l-338-337l-1 1796H512l1-1799l-340 340l-90-90L576 6l493 493zm807 960l91 90l-493 493l-494-493l91-90l338 338l-1-1797h128l1 1798l339-339z"
+                        d="M456.69 421.39L362.6 327.3a173.81 173.81 0 0 0 34.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 0 0 327.3 362.6l94.09 94.09a25 25 0 0 0 35.3-35.3ZM97.92 222.72a124.8 124.8 0 1 1 124.8 124.8a124.95 124.95 0 0 1-124.8-124.8Z"
                     />
                 </Icon>
-                <p>
-                    Sort: &quot;{{
-                        (tableDescription[sortState.by as TableNames] as any)
-                            .label ||
-                        tableDescription[sortState.by as TableNames]
-                    }}&quot; ({{ sortState.order === "asc" ? "A-Z" : "Z-A" }})
-                </p>
+                <input
+                    placeholder="Search ID and Name"
+                    type="search"
+                    @input="(evt: any) => filterResultH('all', evt.target.value)"
+                />
+            </div>
+            <div class="query-item">
+                <p>Filter:</p>
+                <select
+                    class="sort-by-selector"
+                    @input="(evt: any) => filterResult('type', evt.target.value)"
+                >
+                    <option value="">All</option>
+                    <option value="histo">Histopathology</option>
+                    <option value="cyto">Cytopathology</option>
+                </select>
+            </div>
+            <div class="query-item">
+                <div style="width: 4rem">Sort by:</div>
+                <select
+                    class="sort-by-selector"
+                    :value="sortState.by"
+                    @change="(evt: any) => sortBy(evt.target.value)"
+                >
+                    <option
+                        v-for="(col, col_name) in sortableColumns"
+                        :key="col_name"
+                        :value="col_name"
+                    >
+                        {{ col.label }}
+                    </option>
+                </select>
+                <button
+                    type="button"
+                    class="sort-order-button"
+                    @click="() => sortBy(sortState.by)"
+                >
+                    <Icon
+                        size="14"
+                        viewBox="16"
+                        v-if="sortState.order === 'asc'"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M5.205 1.494a.75.75 0 0 0-1.41 0l-2 5.5a.75.75 0 1 0 1.41.512L3.389 7h2.222l.184.506a.75.75 0 1 0 1.41-.512zM3.935 5.5L4.5 3.945L5.066 5.5zM2 9.75A.75.75 0 0 1 2.75 9h3.5a.75.75 0 0 1 .592 1.21L4.284 13.5h1.967a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.592-1.21l2.559-3.29H2.75A.75.75 0 0 1 2 9.75M12.25 1a.75.75 0 0 1 .75.75v10.69l.72-.72a.75.75 0 1 1 1.06 1.06l-2 2a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l.72.72V1.75a.75.75 0 0 1 .75-.75"
+                        />
+                    </Icon>
+                    <Icon size="14" viewBox="24" v-else>
+                        <path
+                            fill="currentColor"
+                            d="M3.75 3a1 1 0 0 1 1-1H10a1 1 0 0 1 .8 1.6L6.75 9H10a1 1 0 1 1 0 2H4.75a1 1 0 0 1-.8-1.6L8 4H4.75a1 1 0 0 1-1-1m4.229 9.673a1 1 0 0 0-1.89 0l-2.793 8.069a1 1 0 0 0 1.89.654l.411-1.189H8.47l.412 1.19a1 1 0 0 0 1.89-.655zm-1.69 5.534l.745-2.15l.744 2.15zM17.5 2a1 1 0 0 1 1 1v15.586l1.793-1.793a1 1 0 0 1 1.414 1.414l-3.5 3.5a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l1.793 1.793V3a1 1 0 0 1 1-1"
+                        />
+                    </Icon>
+                </button>
             </div>
         </div>
         <div>
@@ -267,13 +378,16 @@ const deliverReport = async (patient: any) => {
                         :description="tableDescription"
                         :on-filter="showFilter"
                         :on-sort="sortBy"
-                        sort-by="id"
-                        sort-order="desc"
+                        :sort-by="sortState.by"
+                        :sort-order="sortState.order"
                     />
                     <th>Actions</th>
                 </tr>
                 <template v-if="isLoading">
                     <tr v-for="i in 10" :key="i" :class="'skeleton-' + (i % 4)">
+                        <td>
+                            <div class="skeleton"></div>
+                        </td>
                         <td>
                             <div class="skeleton"></div>
                         </td>
@@ -297,19 +411,32 @@ const deliverReport = async (patient: any) => {
                     </tr>
                 </template>
                 <tr v-else-if="!patients?.length">
-                    <td colspan="6">{{ error || "No patients added yet!" }}</td>
+                    <td colspan="7">{{ error || "No patients added yet!" }}</td>
                 </tr>
                 <template v-else>
-                    <tr v-for="patient in patients" :key="patient.id">
-                        <td v-html="hightlightText(patient.id, 'id')"></td>
-                        <td v-html="hightlightText(patient.name, 'name')"></td>
-                        <td
-                            class="capitalize"
-                            v-html="
-                                hightlightText(patient.type, 'type') +
-                                'pathology'
-                            "
-                        ></td>
+                    <tr
+                        class="patient-row"
+                        @click="() => goToReport(patient)"
+                        v-for="patient in patients"
+                        :key="patient.id"
+                    >
+                        <td>
+                            <p v-html="hightlightText(patient.name, 'name')" />
+                            <p
+                                class="small-id"
+                                v-html="hightlightText(patient.id, 'id')"
+                            />
+                        </td>
+                        <td>{{ patient.contact }}</td>
+                        <td>
+                            {{
+                                patient.timestamp
+                                    ? dateToDMY(
+                                          new Date(parseInt(patient.timestamp))
+                                      )
+                                    : "N/A"
+                            }}
+                        </td>
                         <td>
                             {{
                                 dateToDMY(
@@ -318,7 +445,7 @@ const deliverReport = async (patient: any) => {
                             }}
                         </td>
                         <td
-                            class="flex capitalize items-center"
+                            class="capitalize"
                             v-html="
                                 patient.locked
                                     ? 'Locked'
@@ -326,29 +453,47 @@ const deliverReport = async (patient: any) => {
                             "
                         ></td>
                         <td>
-                            <div class="flex gap-sm row-actions">
-                                <RouterLink
-                                    :to="{
-                                        name: 'report',
-                                        params: {
-                                            id: patient.id,
-                                        },
-                                    }"
-                                    class="btn report-btn"
-                                >
-                                    Report
-                                </RouterLink>
-                                <RouterLink
-                                    :to="{
-                                        name: 'patients.invoice',
-                                        params: {
-                                            id: patient.id,
-                                        },
-                                    }"
-                                    class="btn"
-                                >
-                                    Invoice
-                                </RouterLink>
+                            <div @click.stop class="flex gap-sm row-actions">
+                                <div class="print-btns">
+                                    <button
+                                        class="dropdown-button"
+                                        type="button"
+                                        @click="expandPrintBtn"
+                                    >
+                                        Print
+                                        <Icon size="16" viewBox="1024">
+                                            ><path
+                                                fill="currentColor"
+                                                d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35"
+                                            />
+                                        </Icon>
+                                    </button>
+                                    <div class="dropdown">
+                                        <RouterLink
+                                            v-if="patient.is_reported"
+                                            :to="{
+                                                name: 'report.print',
+                                                params: {
+                                                    id: patient.id,
+                                                },
+                                            }"
+                                            class="btn report-btn"
+                                        >
+                                            Report
+                                        </RouterLink>
+                                        <RouterLink
+                                            :to="{
+                                                name: 'patients.invoice',
+                                                params: {
+                                                    id: patient.id,
+                                                },
+                                            }"
+                                            class="btn"
+                                        >
+                                            Invoice
+                                        </RouterLink>
+                                    </div>
+                                </div>
                                 <button
                                     v-if="user.isAdmin && patient.is_reported"
                                     type="button"
@@ -362,7 +507,7 @@ const deliverReport = async (patient: any) => {
                                     {{ patient.locked ? "Unlock" : "Lock" }}
                                 </button>
                                 <button
-                                    v-if="patient.status === 'complete'"
+                                    v-if="patient.status !== 'delivered'"
                                     type="button"
                                     class="btn-outline"
                                     @click="() => deliverReport(patient)"
@@ -371,7 +516,19 @@ const deliverReport = async (patient: any) => {
                                         size="15"
                                         v-if="deliverReqs.has(patient.id as any)"
                                     />
-                                    Mark as delivered
+                                    Deliver
+                                </button>
+                                <button
+                                    v-else
+                                    type="button"
+                                    class="btn-outline"
+                                    @click="() => unDeliverReport(patient)"
+                                >
+                                    <Loading
+                                        size="15"
+                                        v-if="unDeliverReqs.has(patient.id as any)"
+                                    />
+                                    Undeliver
                                 </button>
                                 <RouterLink
                                     :to="{
@@ -427,118 +584,202 @@ const deliverReport = async (patient: any) => {
 <style lang="scss">
 .patients-page {
     padding: 20px 30px;
-}
-.patients-page .h-link-btn {
-    background: var(--clr-black);
-    color: var(--clr-white);
-}
-.patients-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-}
-.patients-header .site-name {
-    font-weight: bold;
-    font-size: var(--fs-xl);
-}
-.patients-header .h-icon-btn {
-    background: transparent;
-    color: var(--clr-black);
-    padding: 5px;
-}
-.patients-header .h-icon-btn:hover {
-    color: var(--clr-accent);
-}
-.patients-header .h-user-name {
-    font-weight: bold;
-    margin-right: 10px;
-    font-size: var(--fs-md);
 
-    .h-user-role {
-        font-weight: normal;
-        text-transform: capitalize;
-        font-size: var(--fs-base);
+    .h-link-btn {
+        background: var(--clr-black);
+        color: var(--clr-white);
     }
-}
+    .patients-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+    }
+    .patients-header .site-name {
+        font-weight: bold;
+        font-size: var(--fs-xl);
+    }
+    .patients-header .h-icon-btn {
+        background: transparent;
+        color: var(--clr-black);
+        padding: 5px;
+    }
+    .patients-header .h-icon-btn:hover {
+        color: var(--clr-accent);
+    }
+    .patients-header .h-user-name {
+        font-weight: bold;
+        margin-right: 10px;
+        font-size: var(--fs-md);
 
-.query-info {
-    display: grid;
-    grid-template-columns: max-content auto max-content;
-    gap: var(--space-sm);
-    padding: 15px 10px;
-}
-.query-item {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--clr-black);
-    padding: 3px 5px;
-    font-size: var(--fs-sm);
-    gap: 5px;
-}
+        .h-user-role {
+            font-weight: normal;
+            text-transform: capitalize;
+            font-size: var(--fs-base);
+        }
+    }
 
-.query-item button {
-    padding: 0;
-    background: transparent;
-    color: var(--clr-black);
-}
-
-.query-item button:hover {
-    color: var(--clr-danger);
-}
-
-.patients-page table {
-    border-collapse: collapse;
-}
-.patients-page table tr {
-    border-bottom: 1px solid var(--clr-black);
-}
-.patients-page table tr:first-child {
-    border-bottom-width: 2px;
-}
-.patients-page table th {
-    font-size: var(--fs-base);
-}
-
-.patients-page table th,
-.patients-page table td {
-    padding: 8px 15px;
-    text-align: left;
-}
-
-.patients-page .row-actions {
-    button,
-    .btn {
-        padding: 5px 15px;
-        font-weight: 600;
+    .query-info {
+        display: grid;
+        grid-template-columns: max-content auto max-content max-content;
+        gap: var(--space-sm);
+        padding: 15px 10px;
+    }
+    .query-item {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--clr-black);
+        padding: 3px 5px;
+        font-size: var(--fs-sm);
         gap: 5px;
+
+        .sort-by-selector {
+            border: none;
+            margin: 0;
+            padding: 4px 0;
+        }
+
+        .sort-order-button {
+            margin: 0;
+            padding: 4px 0;
+            background: var(--clr-white);
+            color: var(--clr-black);
+
+            &:hover {
+                color: var(--clr-accent);
+            }
+        }
     }
-    // .report-btn {
-    //     padding-left: 10px;
-    // }
-}
 
-.skeleton.btn {
-    height: 1.5em;
-    width: 100%;
-}
+    .query-item button {
+        padding: 0;
+        background: transparent;
+        color: var(--clr-black);
+    }
 
-.th-actionable {
-    display: flex;
-    align-items: center;
-}
+    .query-item button:hover {
+        color: var(--clr-danger);
+    }
+    .search-filter {
+        position: relative;
+    }
 
-.th-actionable > p {
-    flex-grow: 1;
-    text-align: left;
-}
+    .search-filter svg {
+        position: absolute;
+        left: 7px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
-.th-actionable > .actions {
-    display: flex;
-}
-.th-actionable > .actions > button {
-    color: var(--clr-black);
-    background: transparent;
-    padding: 0;
+    .search-filter input {
+        width: 100%;
+        min-height: 100%;
+        border: 1px solid var(--clr-black);
+        padding: 5px 8px;
+        padding-left: 25px;
+    }
+
+    table {
+        border-collapse: collapse;
+
+        tr {
+            border-bottom: 1px solid var(--clr-black);
+        }
+        tr:first-child {
+            border-bottom-width: 2px;
+        }
+        th {
+            font-size: var(--fs-base);
+        }
+
+        th,
+        td {
+            padding: 8px 15px;
+            text-align: left;
+        }
+        .print-btns {
+            position: relative;
+            > button {
+                height: 100%;
+                svg {
+                    pointer-events: none;
+                }
+            }
+            .dropdown {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                z-index: 1;
+                background: var(--clr-white);
+
+                a {
+                    margin-top: 2px;
+                }
+            }
+
+            &.expanded .dropdown {
+                display: block;
+            }
+        }
+    }
+
+    .row-actions {
+        cursor: default;
+
+        button,
+        .btn {
+            padding: 5px 15px;
+            font-weight: 600;
+            gap: 5px;
+        }
+        // .report-btn {
+        //     padding-left: 10px;
+        // }
+
+        .dropdown-button {
+            width: 4.5rem;
+
+            .dropdown .btn {
+                width: 4.5rem;
+            }
+        }
+    }
+
+    .skeleton.btn {
+        height: 1.5em;
+        width: 100%;
+    }
+
+    .th-actionable {
+        display: flex;
+        align-items: center;
+    }
+
+    .th-actionable > p {
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .th-actionable > .actions {
+        display: flex;
+    }
+    .th-actionable > .actions > button {
+        color: var(--clr-black);
+        background: transparent;
+        padding: 0;
+    }
+
+    .small-id {
+        font-size: 0.75rem;
+    }
+
+    .patient-row {
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(89, 89, 89, 0.05);
+        }
+    }
 }
 </style>

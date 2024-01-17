@@ -66,6 +66,7 @@ const templateModalValue = ref<Record<string, any> | false>(false);
 const errors = ref<Record<string, string | undefined>>({});
 
 onMounted(async () => {
+    window.scrollTo(0, 0);
     initEditors();
     loadOrgans();
     loadTemplates();
@@ -657,11 +658,10 @@ const toggleLock = async () => {
             }
 
             .ql-container {
-                height: 120px;
-                overflow-y: auto;
+                min-height: 120px;
 
                 & > .ql-editor {
-                    height: 100%;
+                    min-height: 120px;
                 }
             }
         }
