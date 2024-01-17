@@ -80,6 +80,10 @@ onMounted(() => {
     });
 });
 
+const removeFromCache = (filterFn: (val: any, key: any) => boolean) => {
+    allResults.value = allResults.value.filter(filterFn);
+};
+
 function handleClick(val: string) {
     (document.querySelector(".result-area")! as HTMLDivElement).style.display =
         "none";
@@ -110,7 +114,11 @@ function handleClick(val: string) {
                 @input="handleInput"
             />
             <div class="result-area">
-                <slot :accept="handleClick" :results="results"></slot>
+                <slot
+                    :accept="handleClick"
+                    :results="results"
+                    :filter="removeFromCache"
+                ></slot>
             </div>
 
             <label
@@ -142,7 +150,11 @@ function handleClick(val: string) {
                 @input="handleInput"
             />
             <div class="result-area">
-                <slot :accept="handleClick" :results="results"></slot>
+                <slot
+                    :accept="handleClick"
+                    :results="results"
+                    :filter="removeFromCache"
+                ></slot>
             </div>
 
             <label
