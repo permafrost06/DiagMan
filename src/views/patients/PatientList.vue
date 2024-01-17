@@ -434,8 +434,9 @@ const expandPrintBtn = (evt: any) => {
                                     </button>
                                     <div class="dropdown">
                                         <RouterLink
+                                            v-if="patient.is_reported"
                                             :to="{
-                                                name: 'report',
+                                                name: 'report.print',
                                                 params: {
                                                     id: patient.id,
                                                 },
@@ -457,6 +458,17 @@ const expandPrintBtn = (evt: any) => {
                                         </RouterLink>
                                     </div>
                                 </div>
+                                <RouterLink
+                                    :to="{
+                                        name: 'report',
+                                        params: {
+                                            id: patient.id,
+                                        },
+                                    }"
+                                    class="btn report-btn"
+                                >
+                                    Report
+                                </RouterLink>
                                 <button
                                     v-if="user.isAdmin && patient.is_reported"
                                     type="button"
