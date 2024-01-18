@@ -127,7 +127,15 @@ async function handleFormSubmit(evt: any) {
 const getRefererSearchUrl = () => API_BASE + `/misc?name=referer`;
 
 const rmRefReqs = ref(new Set<string>());
-const removeReferer = async (id: string, all: Record<string, string>[]) => {
+const removeReferer = async (
+    id: string,
+    all: Record<string, string>[],
+    cacheFilter: (filterFn: (val: any, key: any) => boolean) => void
+) => {
+    (document.querySelector(
+        "input[name='referer']"
+    ) as HTMLInputElement)!.focus();
+
     if (rmRefReqs.value.has(id)) {
         return;
     }
@@ -147,6 +155,7 @@ const removeReferer = async (id: string, all: Record<string, string>[]) => {
     (
         document.querySelector("input[name='referer']")! as HTMLInputElement
     ).focus();
+    cacheFilter((val) => val.id !== id);
 };
 
 const onComplementaryChange = (evt: any) => {
@@ -328,11 +337,14 @@ const onTestDelete = (id: string) => {
                     :url="getRefererSearchUrl"
                     :cached-search="filterRefs"
                     v-model="refererValue"
-                    v-slot="{ results, accept }"
+                    v-slot="{ results, accept, filter }"
                 >
                     <button
                         type="button"
-                        class="referer-res-item"
+                        :class="[
+                            'referer-res-item',
+                            { hidden: rmRefReqs.has(item.id) },
+                        ]"
                         @click="() => accept(item.data)"
                         v-for="item in results"
                         :key="item.id"
@@ -340,8 +352,10 @@ const onTestDelete = (id: string) => {
                         <span>{{ item.data }}</span>
                         <span
                             class="remover"
-                            @click.stop="() => removeReferer(item.id, results)"
-                            >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
+                            @click.stop="
+                                () => removeReferer(item.id, results, filter)
+                            "
+                            >{{ rmRefReqs.has(item.id) ? "o" : "x" }}</span
                         >
                     </button>
                 </SInputAutocomplete>
@@ -626,9 +640,14 @@ const onTestDelete = (id: string) => {
         font-size: var(--fs-md);
         padding-right: 15px;
 
+        &.hidden {
+            display: none;
+        }
+
         &:hover {
             color: var(--clr-white);
             background: var(--clr-black);
+            outline: none;
 
             &:has(.remover:hover) {
                 background-color: #ffd4d4;
