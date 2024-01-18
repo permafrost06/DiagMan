@@ -159,7 +159,7 @@ function handleClick(val: string) {
         width: 100%;
         background-color: var(--clr-white);
         border: 1px solid var(--clr-black);
-        font-size: var(--fs-sm);
+        font-size: var(--fs-base);
         border-radius: 0;
         padding: 10px 15px;
     }
