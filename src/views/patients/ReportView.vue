@@ -102,7 +102,7 @@ const convertToHtml = (data: string) => {
                     </div>
                     <template v-if="record.type === 'histo'">
                         <div>
-                            <div class="bold">Anatomical source:</div>
+                            <div class="bold">Specimen:</div>
                             <div
                                 v-html="convertToHtml(record.anatomical_source)"
                             ></div>
@@ -239,11 +239,11 @@ h1 {
 
 .report-details {
     display: grid;
-    gap: 0.2in;
+    gap: 0.1in;
 
     & > div {
         display: grid;
-        grid-template-columns: 1in 1fr;
+        grid-template-columns: 1.7in 1fr;
 
         break-inside: avoid;
     }
@@ -251,5 +251,17 @@ h1 {
 
 .capitalize {
     text-transform: capitalize;
+}
+
+strong {
+    font-size: 11pt;
+}
+
+h2 {
+    font-size: 14pt;
+
+    & > * {
+        font-size: 14pt;
+    }
 }
 </style>
