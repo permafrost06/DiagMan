@@ -13,17 +13,18 @@ const isLoading = ref(true);
 const record = ref();
 const error = ref<string | null>(null);
 const print = () => window.print();
-
+const note = ref<string>("");
 fetchApi(API_BASE + `/reports/${route.params.id}`).then((res) => {
     isLoading.value = false;
     if (res.success) {
         record.value = res.rows[0];
+        note.value = convertToHtml(record.value.note);
     } else {
         error.value = res.message || "Something went wrong";
     }
 });
 
-const convertToHtml = (data: string) => {
+function convertToHtml(data: string): string {
     try {
         const delta = JSON.parse(data).ops;
         if (delta.length <= 1 && delta[0]?.insert === "\n") {
@@ -33,7 +34,7 @@ const convertToHtml = (data: string) => {
     } catch (error) {
         return "";
     }
-};
+}
 </script>
 
 <template>
@@ -150,9 +151,9 @@ const convertToHtml = (data: string) => {
                             "
                         ></div>
                     </div>
-                    <div>
+                    <div v-if="note">
                         <div class="bold">Note:</div>
-                        <div v-html="convertToHtml(record.note)"></div>
+                        <div v-html="note"></div>
                     </div>
                 </div>
             </div>
