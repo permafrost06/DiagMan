@@ -165,7 +165,7 @@ function convertToHtml(data: string): string {
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .loading-indicator {
     height: 100%;
     display: flex;
