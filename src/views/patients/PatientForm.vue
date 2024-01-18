@@ -132,6 +132,10 @@ const removeReferer = async (
     all: Record<string, string>[],
     cacheFilter: (filterFn: (val: any, key: any) => boolean) => void
 ) => {
+    (document.querySelector(
+        "input[name='referer']"
+    ) as HTMLInputElement)!.focus();
+
     if (rmRefReqs.value.has(id)) {
         return;
     }
