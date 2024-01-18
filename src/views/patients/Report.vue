@@ -531,7 +531,7 @@ const toggleLock = async () => {
                             <Loading
                                 v-if="isPosting === true || isPosting === 'add'"
                             />
-                            Add Report
+                            Update Report
                         </button>
                         <button
                             type="button"
