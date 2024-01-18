@@ -647,6 +647,7 @@ const onTestDelete = (id: string) => {
         &:hover {
             color: var(--clr-white);
             background: var(--clr-black);
+            outline: none;
 
             &:has(.remover:hover) {
                 background-color: #ffd4d4;
