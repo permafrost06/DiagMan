@@ -276,6 +276,18 @@ const router = useRouter();
 const goToReport = (patient: Record<string, any>) => {
     router.push({ name: "report", params: { id: patient.id } });
 };
+
+const getStatus = (patient: Record<any, any>) => {
+    if (patient.status === "delivered") {
+        return "Archived";
+    }
+
+    if (patient.locked) {
+        return "Locked";
+    }
+
+    return hightlightText(patient.status, "status");
+};
 </script>
 <template>
     <div class="patients-page">
@@ -440,14 +452,7 @@ const goToReport = (patient: Record<string, any>) => {
                         <td>
                             {{ patient.specimen }}
                         </td>
-                        <td
-                            class="capitalize"
-                            v-html="
-                                patient.locked
-                                    ? 'Locked'
-                                    : hightlightText(patient.status, 'status')
-                            "
-                        ></td>
+                        <td class="capitalize" v-html="getStatus(patient)"></td>
                         <td>
                             <div @click.stop class="flex gap-sm row-actions">
                                 <div class="print-btns">
@@ -491,7 +496,11 @@ const goToReport = (patient: Record<string, any>) => {
                                     </div>
                                 </div>
                                 <button
-                                    v-if="user.isAdmin && patient.is_reported"
+                                    v-if="
+                                        user.isAdmin &&
+                                        patient.is_reported &&
+                                        patient.status !== 'delivered'
+                                    "
                                     type="button"
                                     class="btn-outline"
                                     @click="() => toggleLock(patient)"
@@ -502,30 +511,32 @@ const goToReport = (patient: Record<string, any>) => {
                                     />
                                     {{ patient.locked ? "Unlock" : "Lock" }}
                                 </button>
-                                <button
-                                    v-if="patient.status !== 'delivered'"
-                                    type="button"
-                                    class="btn-outline"
-                                    @click="() => deliverReport(patient)"
-                                >
-                                    <Loading
-                                        size="15"
-                                        v-if="deliverReqs.has(patient.id as any)"
-                                    />
-                                    Deliver
-                                </button>
-                                <button
-                                    v-else
-                                    type="button"
-                                    class="btn-outline"
-                                    @click="() => unDeliverReport(patient)"
-                                >
-                                    <Loading
-                                        size="15"
-                                        v-if="unDeliverReqs.has(patient.id as any)"
-                                    />
-                                    Undeliver
-                                </button>
+                                <template v-if="patient.locked">
+                                    <button
+                                        v-if="patient.status !== 'delivered'"
+                                        type="button"
+                                        class="btn-outline"
+                                        @click="() => deliverReport(patient)"
+                                    >
+                                        <Loading
+                                            size="15"
+                                            v-if="deliverReqs.has(patient.id as any)"
+                                        />
+                                        Archive
+                                    </button>
+                                    <button
+                                        v-else
+                                        type="button"
+                                        class="btn-outline"
+                                        @click="() => unDeliverReport(patient)"
+                                    >
+                                        <Loading
+                                            size="15"
+                                            v-if="unDeliverReqs.has(patient.id as any)"
+                                        />
+                                        Unarchive
+                                    </button>
+                                </template>
                                 <RouterLink
                                     :to="{
                                         name: 'patients.edit',
@@ -550,7 +561,7 @@ const goToReport = (patient: Record<string, any>) => {
             </table>
         </div>
         <div class="flex items-center justify-between">
-            <CheckBox label="Show delivered reports" v-model="showDelivered" />
+            <CheckBox label="Show archived reports" v-model="showDelivered" />
             <Pagination
                 :pages="page.maxPage"
                 v-model="page.page"
