@@ -337,7 +337,10 @@ const onTestDelete = (id: string) => {
                 >
                     <button
                         type="button"
-                        class="referer-res-item"
+                        :class="[
+                            'referer-res-item',
+                            { hidden: rmRefReqs.has(item.id) },
+                        ]"
                         @click="() => accept(item.data)"
                         v-for="item in results"
                         :key="item.id"
@@ -348,7 +351,7 @@ const onTestDelete = (id: string) => {
                             @click.stop="
                                 () => removeReferer(item.id, results, filter)
                             "
-                            >{{ rmRefReqs.has(item.id) ? "." : "x" }}</span
+                            >{{ rmRefReqs.has(item.id) ? "o" : "x" }}</span
                         >
                     </button>
                 </SInputAutocomplete>
@@ -632,6 +635,10 @@ const onTestDelete = (id: string) => {
         border-bottom: 1px solid rgba(var(--clr-grey-rgb), 0.2);
         font-size: var(--fs-md);
         padding-right: 15px;
+
+        &.hidden {
+            display: none;
+        }
 
         &:hover {
             color: var(--clr-white);
