@@ -341,45 +341,6 @@ const toggleLock = async () => {
                 <div v-else>
                     <p class="form-alert error">This patient id is invalid!</p>
                 </div>
-                <div class="submit-area">
-                    <CheckBox
-                        v-if="!patient?.locked"
-                        label="Lock Report"
-                        name="locked"
-                        value="1"
-                        :checked="patient?.locked"
-                    />
-                    <div class="flex gap-sm mt-sm">
-                        <button type="submit">
-                            <Loading
-                                v-if="isPosting === true || isPosting === 'add'"
-                            />
-                            Add Report
-                        </button>
-                        <button
-                            type="button"
-                            class="btn-outline"
-                            v-if="patient?.locked && user.isAdmin"
-                            @click="toggleLock"
-                        >
-                            <Loading v-if="isUnLocking" />
-                            Unlock
-                        </button>
-                        <RouterLink
-                            class="btn btn-outline"
-                            :to="{ name: 'report.print' }"
-                        >
-                            Print Report
-                        </RouterLink>
-                        <button
-                            type="button"
-                            class="btn-outline"
-                            @click="showTemplateSaver"
-                        >
-                            Save As Template
-                        </button>
-                    </div>
-                </div>
             </div>
             <EditPatient
                 v-else
@@ -557,22 +518,38 @@ const toggleLock = async () => {
                         + Add Note
                     </button>
                 </div>
-            </div>
-            <div class="submit-area-2" v-if="editMode">
-                <CheckBox
-                    v-if="!patient?.locked"
-                    label="Lock Report"
-                    name="locked"
-                    value="1"
-                    :checked="patient?.locked"
-                />
-                <div class="flex gap-sm mt-sm">
-                    <button type="submit">
-                        <Loading
-                            v-if="isPosting === true || isPosting === 'add'"
-                        />
-                        Add Report
-                    </button>
+                <div class="submit-area">
+                    <CheckBox
+                        v-if="!patient?.locked"
+                        label="Lock Report"
+                        name="locked"
+                        value="1"
+                        :checked="patient?.locked"
+                    />
+                    <div class="flex gap-sm mt-sm">
+                        <button type="submit">
+                            <Loading
+                                v-if="isPosting === true || isPosting === 'add'"
+                            />
+                            Update Report
+                        </button>
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            v-if="patient?.locked && user.isAdmin"
+                            @click="toggleLock"
+                        >
+                            <Loading v-if="isUnLocking" />
+                            Unlock
+                        </button>
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            @click="showTemplateSaver"
+                        >
+                            Save As Template
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>

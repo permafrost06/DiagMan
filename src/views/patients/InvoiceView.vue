@@ -417,9 +417,9 @@ footer {
     font-family: serif;
     top: 750px;
     left: 450px;
-    font-size: 5rem;
+    font-size: 3rem;
     border-block: 3px double black;
     height: 5rem;
-    padding: 1.3rem;
+    padding: 1.4rem;
 }
 </style>

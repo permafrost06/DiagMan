@@ -346,6 +346,12 @@ const getSearchUrl = (val: string) =>
         & > * {
             margin-bottom: 10px;
         }
+
+        .ic-select select,
+        .ic-input,
+        .auto-complete-input {
+            font-size: var(--fs-base);
+        }
     }
 
     .buttons {
