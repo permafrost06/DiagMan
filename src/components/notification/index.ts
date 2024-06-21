@@ -155,15 +155,12 @@ notificationTypes.forEach((type) => {
     };
 });
 
-
 export function close(
     id: string,
     position: NotificationPosition,
     userOnClose?: (vm: VNode) => void
 ): void {
-    console.log("Closing: ", id);
-    
-    const orientedNotifications = notifications[position];
+    let orientedNotifications = notifications[position];
     const idx = orientedNotifications.findIndex(
         ({ vm }) => vm.component?.props.id === id
     );
@@ -174,10 +171,14 @@ export function close(
 
     const removedHeight = vm.el!.offsetHeight;
     const verticalPos = position.split("-")[0];
-    orientedNotifications.splice(idx, 1);
+    notifications[position] = orientedNotifications.filter(
+        ({ vm }) => vm.component?.props.id !== id
+    );
+    orientedNotifications = notifications[position];
     const len = orientedNotifications.length;
-    
+
     if (len < 1) return;
+
     for (let i = idx; i < len; i++) {
         const { el, component } = orientedNotifications[i].vm;
         const pos =
