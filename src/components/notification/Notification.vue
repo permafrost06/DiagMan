@@ -5,7 +5,6 @@ import { useTimeoutFn } from "@vueuse/core";
 
 import type { CSSProperties } from "vue";
 import type { NotificationProps } from ".";
-import { close as closeOps } from ".";
 interface Props extends NotificationProps {
     id: string;
 }
@@ -48,7 +47,8 @@ function clearTimer() {
 
 function close() {
     visible.value = false;
-    closeOps(props.id, props.position!, props.onClose!);
+    // @ts-ignore
+    props.onClose?.();
 }
 
 onMounted(() => {
