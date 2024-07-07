@@ -5,7 +5,7 @@ import { useTimeoutFn } from "@vueuse/core";
 
 import type { CSSProperties } from "vue";
 import type { NotificationProps } from ".";
-interface Props extends NotificationProps {
+interface Props extends /* @vue-ignore */ NotificationProps {
     id: string;
 }
 
