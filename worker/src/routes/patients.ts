@@ -135,6 +135,27 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 	}
 };
 
+export const getAutoId: RequestHandler = async ({ env, res, query }) => {
+	const db = getLibsqlClient(env);
+	const patientType = query['type']?.toString() === 'cyto' ? 'cyto' : 'histo';
+	const { rows } = await db.execute({
+		sql: 'SELECT MAX(id) AS id FROM `patients` WHERE type = ? AND id REGEXP "^[CH]-[0-9]*$" ORDER BY id DESC LIMIT 1',
+		args: [patientType],
+	});
+
+	let id: string | undefined = rows[0]?.id?.toString();
+
+	if (!id) {
+		id = patientType[0].toUpperCase() + '-00001';
+	} else {
+		id = patientType[0].toUpperCase() + '-' + (parseInt(id.replaceAll(/[^0-9]/g, '')) + 1).toString().padStart(5, '0');
+	}
+
+	res.setData({
+		id,
+	});
+};
+
 export const listPatients: RequestHandler = async ({ env, res, url }) => {
 	const limit = 10;
 	const search = new URL(url).searchParams;
