@@ -139,20 +139,22 @@ export const getAutoId: RequestHandler = async ({ env, res, query }) => {
 	const db = getLibsqlClient(env);
 	const patientType = query['type']?.toString() === 'cyto' ? 'cyto' : 'histo';
 	const { rows } = await db.execute({
-		sql: 'SELECT MAX(id) AS id FROM `patients` WHERE type = ? AND id REGEXP "^[CH]-[0-9]*$" ORDER BY id DESC LIMIT 1',
+		sql: 'SELECT MAX(id) AS id FROM `patients` WHERE type = ? AND id REGEXP "^[CH]-[0-9]{2}-" ORDER BY id DESC LIMIT 1',
 		args: [patientType],
 	});
 
-	let id: string | undefined = rows[0]?.id?.toString();
+	let id: number | string | undefined = rows[0]?.id?.toString();
 
+	const yy = new Date().getFullYear().toString().substring(2, 4);
 	if (!id) {
-		id = patientType[0].toUpperCase() + '-00001';
+		id = '1';
 	} else {
-		id = patientType[0].toUpperCase() + '-' + (parseInt(id.replaceAll(/[^0-9]/g, '')) + 1).toString().padStart(5, '0');
+		const fp = id.split(' ')[0].split('-');
+		id = parseInt(fp[fp.length - 1]) + 1;
 	}
 
 	res.setData({
-		id,
+		id: `${patientType[0].toUpperCase()}-${yy}-${id}`,
 	});
 };
 
