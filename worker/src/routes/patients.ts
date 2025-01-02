@@ -145,8 +145,12 @@ export const getAutoId: RequestHandler = async ({ env, res, query }) => {
 
 	let id: number | string | undefined = rows[0]?.id?.toString();
 
-	const yy = new Date().getFullYear().toString().substring(2, 4);
+	const lastIdYear = id?.split("-")[1];
+	const currentYear = new Date().getFullYear().toString().substring(2, 4);
+
 	if (!id) {
+		id = '1';
+	} else if (lastIdYear && parseInt(currentYear) > parseInt(lastIdYear)) {
 		id = '1';
 	} else {
 		const fp = id.split(' ')[0].split('-');
@@ -154,7 +158,7 @@ export const getAutoId: RequestHandler = async ({ env, res, query }) => {
 	}
 
 	res.setData({
-		id: `${patientType[0].toUpperCase()}-${yy}-${id}`,
+		id: `${patientType[0].toUpperCase()}-${currentYear}-${id}`,
 	});
 };
 
