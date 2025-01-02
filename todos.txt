@@ -1,88 +1,164 @@
-## complete
+[x] Make textarea fields expand on overflow
+[x] Add large font size to textarea
 
-add sync support
-change field names in view and print
-remove edit button, add delete record button
-make sure export is working
-add missing columns to records view
-add discount in payment
-fix test prop warning - string number something something
-remove search from staged
-manual id system
-reimplement rates (changes according to specimen)
-add monthly summary page
-delivery dates
-cyto - 3 days
-histo - 6 days
-add logging
-add debug/test mode
-add random data generation
-back up data periodically
-add sync now button
-prevent null submission on addNew
-sms support
-replace password with hash
+!!!Important!!!
+[x] Error invalid tests selected
+[x] Revert patient form layout
 
-## todo
+[x] Print layout
+    [x] Align dates
+    [x] Print paid/due
+    [x] Bottom gets cut off
 
-fix css fgs / I should really work on the design - it's all over the place
-add all columns to final records view
+[x] Return to patient list on success
+[x] Hide edge autocomplete
+[x] Show invoice on exit should be marked by default
+[x] Show invoice on exit -> show invoice on save
 
-add option: see log
-add option: mail log to dev
-make error dialog
 
-add files sync support
-email support
+[x] Write changelog for 3.4.0
+[x] Don’t print “Note:” if it does not exist
+[x] Decrease size of paid/due in invoice print
+[x] Only show deliver/archive button when locked (are they really going to start using it seriously?)
+[x] Change deliver/undeliver to archive/unarchive
+[x] Uncheck "show delivered reports" by default
+[x] Change “Add report” -> “Update report”
+[x] Referrer shows up in search even after removing
+[x] Some fields in add template are missing - number of…
+[x] Add template modal text size too small
+[x] Add report page: move buttons to right side
+[x] Scroll to top when add report or add patient page loads
+[x] Add contact no column to table
+[x] Make autocomplete component font size bigger
+[x] Hide dropdown on selection
+[x] On delete, referrer gets hidden from dropdown but comes back when re-focused
+[x] Referrer delete selects item
+[x] Status field in patient list alignment wrong
+[x] When patient is unmarked as delivered, it’s status becomes complete even if it doesn’t have report
+    [x] Mark old reports as delivered
 
-add changable settings:
-change password
-change sync interval
+[x] Bracket in search term crashes app
+[x] Report layout problems
+    [x] Make signature position absolute
+    [x] Make left column smaller - keep two column layout
+    [x] Usable space is smaller than initially assumed
+    [x] Add heading histo/cyto report
+    [x] Font size too bin on print, suggested size: 11pt
+    [x] Margin issues all around
+    [x] Add padding to top of report print layout for pad graphic
+    [x] Left margin too big
+    [x] See if irl page size units (inch, mm, pt) are actually applied when printed (test width)
+[x] Make referrer suggestion list cross button a full height box aligned to the end of the item
+[x] Add filter on patient type (patient list)
+[x] +6 days instead of +7 days in delivery date
+[x] change "Show invoice on save" -> "Print invoice on save"
+[x] Net payable breaks down to two lines in invoice print layout
 
-add login to firebase
+To be fixed soon
+[ ] Add columns needed by kaka - add setting in settings to pick and choose columns
+[ ] Change print dropdown button style
+[ ] Refactor invoice view print layout css
+[x] Automatic id generation
+[ ] Add financial statement page
+[ ] Add checkbox beside update button "print report after update"
+[ ] Mark incomplete reports as incomplete (all fields except note MUST be non-empty)
+[ ] Newly added organ not showing up until refresh
+[ ] Remove "add template" modal - just add organ and template name to save it
+[ ] Reorganize add report page
+    [ ] Patient info on top
+    [ ] Templates on right
+        [ ] Pre-select organ that matches patient.specimen the most
+[ ] Add sms functionality
+[ ] Patients list pagination page should persist
 
-+---!!! priority !!!
-|
-| remove firebase user/pass from github
-| add user/pass to env variables?
-| change firebase user/pass
-|
-+---!!! priority !!!
+Less important
+[ ] Hide left column in reports
+[ ] Template view in settings not working
+[ ] Add digit counter to contact no
+[ ] Lock report on delivery?
+[ ] Add setting: auto generate ID
+[ ] Press esc for close button effect
+[ ] Use dknck print technique for diagman
+[ ] The number fields may contain string (fixed?)
+[ ] Move focus to the input element when note is added
+[ ] Add symbols and superscript + subscript to quill
+[ ] Visual indication of locked report
+[ ] Float close button, consider moving to elsewhere/adding a nav
+    [ ] Float whole topbar, add back button and home button, remove close button
+[ ] Disable edge touch gesture go back (css: `touch-action: none`)
+[ ] Hide edge "personal info"? thingy (html attr aria-autocomplete="list")?
+[ ] Pagination changes
+    [ ] Show number of items
+    [ ] Add “go to page” box
+[ ] Show notification on delivered with undo button - persist long time
+[ ] Disable right click context menu
+[x] Remove invoice button, add print dropdown button
+    [x] Print invoice
+    [x] Print report (grey + block cursor icon if n/a) (must be on top)
+[x] Revert the test changes
+[x] Remove test code column from invoice print layout
+[x] Properly up dev server
+    [x] Add option to duplicate prod db
+[x] **Sort by time added**
+[x] Show mark as delivered regardless of status
+[x] Add button unmark as delivered
+[x] Change app name to opinion
+[x] Add “The Opinion” somewhere
+[x] Test selector has similar problems as referrer selector
+    [x] Clicking sometimes clicks through
+    [x] Clicking does not remove the dropdown
+    [x] Make sure tabbing from one field goes to the next
+[x] Add focus style to radio button
+[x] Sort by time added
+[x] Report editor font size too small
+[x] Add bottom padding to add report page
+[x] Add signature to bottom of report print layout
+[x] Fix order of fields in add report
+[x] Remove tests from settings
+[x] Add report page issue - received string
 
-Tip: disable text selection
-.titlebar {
--webkit-user-select: none;
--webkit-app-region: drag;
-}
+[Financials Page]
+[ ] Show current month by default
+[ ] Show a calendar of only months?
+[ ] Ability to select multiple months? range?
+[ ] See income
+    [ ] Breakdown by type: cyto and histo
+    [ ] Breakdown by referrer
+    [ ] Overlay discount?
+[ ] Show chart
+    [ ] Line chart - income over the months/weeks
+    [ ] Pie chart - percentage of income by test
+[ ] Show difference +-
+    [ ] From last month
+    [ ] From average month
 
-fix functions getStaged and getRecords
-fix/remove pagination
+[LATER]
+[ ] Add color themes, dark mode
+[ ] Hide table actions in a dropdown/right click
+[ ] Add setting: table fields to show
+[ ] Add setting: default filter
+[ ] Add setting: default sort
+[ ] Maybe we'll need a full text search
+[ ] Show print preview in a modal (keep in mind the url state problem)
+[ ] Limit search by date range
+[ ] Add setting: keep search until refresh? If true, then search/filter state will be kept until refresh/restart
+[ ] Mark 2023 data as "dirty"
+[ ] Test http printing
+    [ ] Add advanced setting: http print endpoint/url
+    [ ] Add advanced setting: printer preference - http/local
+[ ] Add icons to buttons e.g. Report button on patients list
+[ ] Change buttons to icons with text tooltip
+    [ ] Add setting: icon button/test button
+[ ] Show hint to change type if wrong id
+[ ] Add fuzzy find to search?
+[ ] Maybe remove subtotal?
 
-add support for organ removal
+[ ] Hourly local db backups
+[ ] add logging
+[ ] add option: see log
+[ ] add option: mail log to dev
+[ ] Errors look ugly - need notification component
+[ ] Add button to hide patient details on report page
 
-remove spinners on input[type="number"] fields
-
-id generation format: C-0001-2022
-add id to sms
-edit patient and report
-
-sync on exit
-
-order records by date
-
-v3:
-vuex
-vuefire
-tailwind
-composition api setup script
-typescript
-offline database firestore caching only
-export import database
-
-problems:
-edit reports
-add text formatting support to inputs
-add top padding to prints for watermark
-font size too small on print
-
-**something's wrong with the templating system - probe
+https://stackoverflow.com/questions/69405056/how-do-i-disable-or-prevent-input-text-suggestions-for-form-fields-in-edge
+https://stackoverflow.com/questions/12374442/chrome-ignores-autocomplete-off
