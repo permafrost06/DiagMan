@@ -42,6 +42,8 @@ const tests = ref<Record<string, any>[]>((props.toEdit?.tests as any) ?? []);
 
 const refererValue = ref<string>("");
 
+const patientId = ref<string>(props.toEdit?.id ?? "");
+
 onMounted(async () => {
     window.scrollTo(0, 0);
     if (props.toEdit) {
@@ -49,11 +51,25 @@ onMounted(async () => {
         discount.value = (props.toEdit.discount as any) / 100;
         refererValue.value = props.toEdit.referer;
         complementary.value = !!props.toEdit.complementary;
+        patientId.value = props.toEdit.id;
         // @ts-ignore
         total.value = props.toEdit.tests[0].price;
+    } else {
+        getAutoID({ target: { value: "cyto" } });
     }
     getAllTests();
 });
+
+const getAutoID = async (evt: any) => {
+    const res = await fetchApi(
+        API_BASE + "/patient-autoid?type=" + evt.target.value
+    );
+    if (!res.success) {
+        console.error(res.message);
+        return;
+    }
+    patientId.value = res.data.id;
+};
 
 async function getAllTests() {
     const res = await fetchApi(API_BASE + "/misc?name=test");
@@ -247,7 +263,8 @@ const onTestDelete = (id: string) => {
                     label="Type"
                     :un-wrap="true"
                     :hint="fieldErrors?.type?.[0]"
-                    :value="toEdit?.type"
+                    :value="toEdit?.type || 'cyto'"
+                    @input="getAutoID"
                 >
                     <option value="cyto">Cytopathology</option>
                     <option value="histo">Histopathology</option>
@@ -257,7 +274,7 @@ const onTestDelete = (id: string) => {
                     label="ID"
                     :un-wrap="true"
                     :hint="fieldErrors?.id?.[0]"
-                    :value="toEdit?.id"
+                    :value="patientId"
                 />
 
                 <h4 class="section-title all-col">Patient Information</h4>

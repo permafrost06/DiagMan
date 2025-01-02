@@ -135,6 +135,33 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 	}
 };
 
+export const getAutoId: RequestHandler = async ({ env, res, query }) => {
+	const db = getLibsqlClient(env);
+	const patientType = query['type']?.toString() === 'cyto' ? 'cyto' : 'histo';
+	const { rows } = await db.execute({
+		sql: 'SELECT id FROM `patients` WHERE type = ? AND id REGEXP "^[CH]-[0-9]{2}-" ORDER BY entry_date DESC LIMIT 1;',
+		args: [patientType],
+	});
+
+	let id: number | string | undefined = rows[0]?.id?.toString();
+
+	const lastIdYear = id?.split("-")[1];
+	const currentYear = new Date().getFullYear().toString().substring(2, 4);
+
+	if (!id) {
+		id = '1';
+	} else if (lastIdYear && parseInt(currentYear) > parseInt(lastIdYear)) {
+		id = '1';
+	} else {
+		const fp = id.split(' ')[0].split('-');
+		id = parseInt(fp[fp.length - 1]) + 1;
+	}
+
+	res.setData({
+		id: `${patientType[0].toUpperCase()}-${currentYear}-${id}`,
+	});
+};
+
 export const listPatients: RequestHandler = async ({ env, res, url }) => {
 	const limit = 10;
 	const search = new URL(url).searchParams;
