@@ -70,6 +70,12 @@ To be fixed soon
         [ ] Pre-select organ that matches patient.specimen the most
 [ ] Add sms functionality
 [ ] Patients list pagination page should persist
+[ ] Change app name from "The Opinion" to DiagMan
+[ ] Shows cryptic error on empty email or password/if can't connect to server
+[ ] Allow signing in with password instead of pin
+[ ] Prevent table layout shift while loading
+[ ] Add option  to fit table to screen height (adjust number of rows shown)
+[ ] Don't wrap text inside table unless a ninimum width is reached
 
 Less important
 [ ] Hide left column in reports
