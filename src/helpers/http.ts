@@ -1,27 +1,29 @@
 import { AUTH_TOKEN_KEY } from "./config";
 import { formDataToObj, validateObject } from "./utils";
 
-export type ApiResponse =
-    | {
-          success: true;
-          status: number;
-          message?: string;
-          rows?: any;
-          data?: any;
-          pagination?: {
-              page: number;
-              total: number;
-              maxPage: number;
-          };
-      }
-    | {
-          success: false;
-          status?: number;
-          message: string;
-          form?: string[];
-          field?: Record<string, string[]>;
-          details?: any;
-      };
+export interface ApiResponsePaged {
+    success: true;
+    status: number;
+    message?: string;
+    rows?: any;
+    data?: any;
+    pagination?: {
+        page: number;
+        total: number;
+        maxPage: number;
+    };
+}
+
+export interface ApiResponseSingle {
+    success: false;
+    status?: number;
+    message: string;
+    form?: string[];
+    field?: Record<string, string[]>;
+    details?: any;
+}
+
+export type ApiResponse = ApiResponsePaged | ApiResponseSingle;
 
 export const fetchApi = async (
     resource: RequestInfo | URL,
