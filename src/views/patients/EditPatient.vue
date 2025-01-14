@@ -52,7 +52,7 @@ const onLocalSuccess = (_a: any, _b: any, invoice: boolean) => {
     <div v-else class="add-patient-page">
         <div v-if="!headless">
             <h1 class="fs-2xl">Update Patient</h1>
-            <button type="button" @click="router.back()" class="home-url">
+            <RouterLink :to="{ name: 'home' }" class="home-url">
                 <Icon size="40" view-box="36">
                     <path
                         fill="currentColor"
@@ -60,7 +60,7 @@ const onLocalSuccess = (_a: any, _b: any, invoice: boolean) => {
                         class="clr-i-outline clr-i-outline-path-1"
                     /><path fill="none" d="M0 0h36v36H0z" />
                 </Icon>
-            </button>
+            </RouterLink>
         </div>
         <div class="ap-body">
             <Loading v-if="isLoading" size="60" />

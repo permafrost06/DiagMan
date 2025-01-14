@@ -1,30 +1,55 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { computed } from "vue";
-import { RouterLink, useRoute } from "vue-router";
+import { computed, onMounted } from "vue";
 
-export interface PaginationProps {
-    onEachSide?: number;
-    maxPage: number;
-    itemCount: number;
-    perPage: number;
+export interface PageDetails {
+    size: number;
+    total: number;
 }
 
-const route = useRoute();
-const currentPage = computed(() => {
-    return parseInt(route.query.page as string) || 1;
-});
+export interface PaginationProps {
+    modelValue: number;
+    onEachSide?: number;
+    pageSize?: number;
+    pages?: number;
+    itemCount?: number;
+}
+
+const emit = defineEmits<{
+    (e: "update:modelValue", page: number): void;
+}>();
 
 const props = withDefaults(defineProps<PaginationProps>(), {
     onEachSide: 1,
 });
 
-const pages = computed(() => {
-    const current = currentPage.value;
-    const onEachSide = props.onEachSide;
-    const max = props.maxPage;
+const pageDetails = computed((): PageDetails => {
+    if (typeof props.pages !== "undefined") {
+        return {
+            size: Math.ceil(props.itemCount || 0 / props.pages),
+            total: props.pages,
+        };
+    }
 
-    const pages: number[] = [];
+    if (
+        typeof props.pageSize !== "undefined" &&
+        typeof props.itemCount !== "undefined"
+    ) {
+        return {
+            size: props.pageSize,
+            total: Math.ceil(props.itemCount / props.pageSize),
+        };
+    }
+
+    throw new Error("Either pages or pageCount & itemCount is required!");
+});
+
+const pages = computed(() => {
+    const current = props.modelValue;
+    const onEachSide = props.onEachSide;
+    const max = pageDetails.value.total;
+
+    const pages: Number[] = [];
     const start = Math.max(1, current - onEachSide);
     const end = Math.min(max, current + onEachSide);
 
@@ -49,6 +74,20 @@ const pages = computed(() => {
 
     return pages;
 });
+
+const toPage = (page: number) => {
+    if (page < 1) {
+        page = 1;
+    }
+    if (page > pageDetails.value.total) {
+        page = pageDetails.value.total;
+    }
+    emit("update:modelValue", page);
+};
+
+onMounted(() => {
+    toPage(props.modelValue);
+});
 </script>
 
 <template>
@@ -56,85 +95,69 @@ const pages = computed(() => {
         <p v-if="itemCount">
             Showing
             <span class="items-range">
-                {{ (currentPage - 1) * perPage + 1 }}-{{
-                    currentPage * perPage
+                {{ (modelValue - 1) * pageDetails.size + 1 }}-{{
+                    modelValue * pageDetails.size
                 }}
             </span>
             out of {{ itemCount }}
         </p>
-        <nav class="page_nums">
-            <button
-                v-if="currentPage <= 1"
-                class="disabled page-prev page_item"
-            >
-                <svg
-                    width="9"
-                    height="12"
-                    viewBox="0 0 9 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+        <ul class="page_nums">
+            <li key="prev">
+                <button
+                    @click="toPage(modelValue - 1)"
+                    class="page-prev page_item"
+                    :class="{ disabled: modelValue <= 1 }"
                 >
-                    <path d="M8 1L2 5.5L8 10" stroke="black" stroke-width="2" />
-                </svg>
-            </button>
-            <RouterLink
-                v-else
-                :to="{ query: { ...route.query, page: currentPage - 1 } }"
-                class="page-prev page_item"
-            >
-                <svg
-                    width="9"
-                    height="12"
-                    viewBox="0 0 9 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path d="M8 1L2 5.5L8 10" stroke="black" stroke-width="2" />
-                </svg>
-            </RouterLink>
-            <RouterLink
+                    <svg
+                        width="9"
+                        height="12"
+                        viewBox="0 0 9 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M8 1L2 5.5L8 10"
+                            stroke="black"
+                            stroke-width="2"
+                        />
+                    </svg>
+                </button>
+            </li>
+            <li
                 v-for="(page, idx) in pages"
                 :key="'page-' + idx"
                 :class="{
                     page_item: true,
                     page_num: page !== 0,
                     page_dots: page === 0,
-                    active: page == currentPage,
+                    active: page == modelValue,
                 }"
-                :to="{ query: { ...route.query, page: page } }"
+                @click="toPage(page)"
             >
                 {{ !page ? "..." : page }}
-            </RouterLink>
-            <button
-                v-if="currentPage >= maxPage"
-                class="disabled page-next page_item"
-            >
-                <svg
-                    width="9"
-                    height="12"
-                    viewBox="0 0 9 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+            </li>
+            <li key="next">
+                <button
+                    class="page-next page_item"
+                    :class="{ disabled: modelValue >= pageDetails.total }"
+                    @click="toPage(modelValue + 1)"
                 >
-                    <path d="M1 10L7 5.5L1 1" stroke="black" stroke-width="2" />
-                </svg>
-            </button>
-            <RouterLink
-                v-else
-                :to="{ query: { ...route.query, page: currentPage + 1 } }"
-                class="page-next page_item"
-            >
-                <svg
-                    width="9"
-                    height="12"
-                    viewBox="0 0 9 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path d="M1 10L7 5.5L1 1" stroke="black" stroke-width="2" />
-                </svg>
-            </RouterLink>
-        </nav>
+                    <svg
+                        width="9"
+                        height="12"
+                        viewBox="0 0 9 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M1 10L7 5.5L1 1"
+                            stroke="black"
+                            stroke-width="2"
+                        />
+                    </svg>
+                </button>
+            </li>
+        </ul>
     </div>
 </template>
 <style scoped>

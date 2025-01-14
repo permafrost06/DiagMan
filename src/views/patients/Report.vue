@@ -255,7 +255,7 @@ const toggleLock = async () => {
 <template>
     <div class="report-page">
         <h1 class="fs-2xl bold">Add Report</h1>
-        <button type="button" @click="router.back()" class="home-url">
+        <RouterLink :to="{ name: 'home' }" class="home-url">
             <Icon size="40" view-box="36">
                 <path
                     fill="currentColor"
@@ -264,7 +264,7 @@ const toggleLock = async () => {
                 />
                 <path fill="none" d="M0 0h36v36H0z" />
             </Icon>
-        </button>
+        </RouterLink>
 
         <form
             :action="API_BASE + '/reports'"
@@ -564,13 +564,6 @@ const toggleLock = async () => {
 <style lang="scss">
 .report-page {
     margin: 30px;
-
-    button.home-url {
-        margin: 0;
-        padding: 0;
-        background: transparent;
-        color: black;
-    }
 
     form {
         margin-top: 30px;

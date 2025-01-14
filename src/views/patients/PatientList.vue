@@ -1,10 +1,11 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
 import Pagination from "@/components/Pagination.vue";
 import Icon from "@/components/base/Icon.vue";
 import ThActionable from "@/components/base/ThActionable.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import { API_BASE } from "@/helpers/config";
-import { ApiResponsePaged, fetchApi } from "@/helpers/http";
+import { fetchApi } from "@/helpers/http";
 import {
     TABLES,
     getRowCount,
@@ -16,10 +17,7 @@ import { useUser } from "@/stores/user";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
-import { useRoute, useRouter } from "vue-router";
-
-const router = useRouter();
-const route = useRoute();
+import { useRouter } from "vue-router";
 
 const user = useUser();
 const isLoading = ref<boolean>(false);
@@ -27,22 +25,17 @@ const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
-const showDelivered = ref<boolean>(
-    typeof route.query.delivered !== "undefined"
-);
-const paginationInfo = ref<ApiResponsePaged["pagination"]>({
-    total: 0,
-    page: 1,
+const showDelivered = ref<boolean>(false);
+const page = ref({
     maxPage: 1,
+    page: 1,
 });
-const [sortState, doSorting] = useSorter<string>(
-    (route.query.sort_by as any) || "timestamp",
-    (route.query.order as any) || "desc"
-);
+const [sortState, doSorting] = useSorter<string>("timestamp", "desc");
+type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
 const filterRef = ref();
 
-let search = ref((route.query.search as string)?.trim() || "");
-let filterType = ref((route.query.type as string)?.trim());
+let queryParamsH: Record<string, string> = {};
+let queryParamsF: Record<string, string> = {};
 
 const sortableColumns = {
     id: {
@@ -90,23 +83,23 @@ const tableDescription = {
 
 const sortBy = (sortByCol: string) => {
     doSorting(sortByCol);
-    router.push({
-        query: {
-            ...route.query,
-            sort_by: sortByCol,
-            order: sortState.value.order,
-            page: undefined,
-        },
-    });
+    queryResults();
 };
 const showFilter = (col: string) => {
     filterRef.value.setCursor(col);
 };
 
-const hightlightText = (data: string): string => {
+const hightlightText = (data: string, col: string): string => {
     let colH = data;
-    if (search.value) {
-        colH = colH.replace(new RegExp(search.value, "i"), (a) => {
+    const colStr = queryParamsH[col];
+    if (colStr) {
+        colH = colH.replace(new RegExp(colStr, "i"), (a) => {
+            return `<mark>${a}</mark>`;
+        });
+    }
+    const allStr = queryParamsH.all;
+    if (allStr) {
+        colH = colH.replace(new RegExp(allStr, "i"), (a) => {
             return `<mark>${a}</mark>`;
         });
     }
@@ -131,46 +124,8 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener("click", printBtnEvt);
 });
-watch(() => route.query, queryResults);
-watch(
-    () => showDelivered.value,
-    () => {
-        router.push({
-            query: {
-                ...route.query,
-                delivered: showDelivered.value ? "1" : undefined,
-                page: undefined,
-            },
-        });
-    }
-);
-
-let searchTout: any = null;
-watch(search, (search) => {
-    if (searchTout) {
-        clearTimeout(searchTout);
-    }
-    const q = search.trim();
-    if (!q) {
-        router.push({
-            query: {
-                ...route.query,
-                search: undefined,
-                page: undefined,
-            },
-        });
-        return;
-    }
-    searchTout = setTimeout(() => {
-        router.push({
-            query: {
-                ...route.query,
-                search: q,
-                page: undefined,
-            },
-        });
-    }, 500);
-});
+watch(page.value, queryResults);
+watch(showDelivered, queryResults);
 
 async function queryResults() {
     if (!navigator.onLine) {
@@ -179,11 +134,8 @@ async function queryResults() {
     }
 
     isLoading.value = true;
-    const queryParams: Record<string, string> = {
-        ...(search.value ? { search: search.value } : {}),
-        ...(filterType.value ? { type: filterType.value } : {}),
-    };
-    queryParams.page = (route.query.page as string) || "1";
+    const queryParams = { ...queryParamsH, ...queryParamsF };
+    queryParams.page = page.value.page.toString();
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
@@ -203,29 +155,20 @@ async function queryResults() {
         if (getRowCount(TABLES.patients) === 0) {
             insertRowBulk(TABLES.patients, patients.value);
         }
-        paginationInfo.value = res.pagination!;
+        page.value.page = res.pagination!.page;
+        page.value.maxPage = res.pagination!.maxPage;
     }
 }
 
 const filterResult = (by: string, value: string) => {
-    value = value.trim();
-    if (!value) {
-        router.push({
-            query: {
-                ...route.query,
-                [by]: undefined,
-                page: undefined,
-            },
-        });
-    } else {
-        router.push({
-            query: {
-                ...route.query,
-                [by]: value,
-                page: undefined,
-            },
-        });
-    }
+    queryParamsF[by] = value;
+    page.value.page = 1;
+    queryResults();
+};
+const filterResultH = (by: string, value: string) => {
+    queryParamsH[by] = value;
+    page.value.page = 1;
+    queryResults();
 };
 
 async function deletePatient() {
@@ -329,6 +272,7 @@ const expandPrintBtn = (evt: any) => {
     lastExpanded?.classList.add("expanded");
 };
 
+const router = useRouter();
 const goToReport = (patient: Record<string, any>) => {
     router.push({ name: "report", params: { id: patient.id } });
 };
@@ -342,7 +286,7 @@ const getStatus = (patient: Record<any, any>) => {
         return "Locked";
     }
 
-    return hightlightText(patient.status);
+    return hightlightText(patient.status, "status");
 };
 </script>
 <template>
@@ -386,7 +330,7 @@ const getStatus = (patient: Record<any, any>) => {
                 <input
                     placeholder="Search ID and Name"
                     type="search"
-                    v-model="search"
+                    @input="(evt: any) => filterResultH('all', evt.target.value)"
                 />
             </div>
             <div class="query-item">
@@ -394,7 +338,6 @@ const getStatus = (patient: Record<any, any>) => {
                 <select
                     class="sort-by-selector"
                     @input="(evt: any) => filterResult('type', evt.target.value)"
-                    :value="filterType"
                 >
                     <option value="">All</option>
                     <option value="histo">Histopathology</option>
@@ -490,10 +433,10 @@ const getStatus = (patient: Record<any, any>) => {
                         :key="patient.id"
                     >
                         <td>
-                            <p v-html="hightlightText(patient.name)" />
+                            <p v-html="hightlightText(patient.name, 'name')" />
                             <p
                                 class="small-id"
-                                v-html="hightlightText(patient.id)"
+                                v-html="hightlightText(patient.id, 'id')"
                             />
                         </td>
                         <td>{{ patient.contact }}</td>
@@ -620,9 +563,8 @@ const getStatus = (patient: Record<any, any>) => {
         <div class="flex items-center justify-between">
             <CheckBox label="Show archived reports" v-model="showDelivered" />
             <Pagination
-                :max-page="paginationInfo!.maxPage"
-                :per-page="10"
-                :item-count="paginationInfo!.total"
+                :pages="page.maxPage"
+                v-model="page.page"
                 class="mt-sm"
             />
         </div>

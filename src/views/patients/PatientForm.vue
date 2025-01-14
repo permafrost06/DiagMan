@@ -232,7 +232,7 @@ const onTestDelete = (id: string) => {
     <div class="add-patient-page">
         <div v-if="!headless">
             <h1 class="fs-2xl">{{ toEdit ? "Update" : "Add" }} Patient</h1>
-            <button type="button" @click="router.back()" class="home-url">
+            <RouterLink :to="{ name: 'home' }" class="home-url">
                 <Icon size="40" view-box="36">
                     <path
                         fill="currentColor"
@@ -241,7 +241,7 @@ const onTestDelete = (id: string) => {
                     />
                     <path fill="none" d="M0 0h36v36H0z" />
                 </Icon>
-            </button>
+            </RouterLink>
         </div>
 
         <div v-if="error" class="all-col form-alert error">
@@ -568,13 +568,6 @@ const onTestDelete = (id: string) => {
 
     label {
         margin: 0;
-    }
-
-    button.home-url {
-        margin: 0;
-        padding: 0;
-        background: transparent;
-        color: black;
     }
 
     form.add-patient {

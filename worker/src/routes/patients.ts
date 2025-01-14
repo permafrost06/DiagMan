@@ -145,7 +145,7 @@ export const getAutoId: RequestHandler = async ({ env, res, query }) => {
 
 	let id: number | string | undefined = rows[0]?.id?.toString();
 
-	const lastIdYear = id?.split('-')[1];
+	const lastIdYear = id?.split("-")[1];
 	const currentYear = new Date().getFullYear().toString().substring(2, 4);
 
 	if (!id) {
@@ -219,12 +219,12 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		where += ' AND p.status != "delivered"';
 	}
 
-	const searchTerm = search.get('search');
-	if (searchTerm?.trim()) {
+	const all = search.get('all');
+	if (all?.trim()) {
 		where += ' AND (p.id LIKE CONCAT("%", ?, "%") OR p.name LIKE CONCAT("%", ?, "%") OR p.type LIKE CONCAT("%", ?, "%"))';
-		args.push(searchTerm);
-		args.push(searchTerm);
-		args.push(searchTerm);
+		args.push(all);
+		args.push(all);
+		args.push(all);
 	}
 	if (where) {
 		where = 'WHERE ' + where.substring(5);
