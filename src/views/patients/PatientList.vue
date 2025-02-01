@@ -539,6 +539,7 @@ const getStatus = (patient: Record<any, any>) => {
                                         >
                                             Report
                                         </RouterLink>
+                                        <div class="divider" />
                                         <RouterLink
                                             :to="{
                                                 name: 'patients.invoice',
@@ -773,13 +774,38 @@ const getStatus = (patient: Record<any, any>) => {
             .dropdown {
                 display: none;
                 position: absolute;
-                top: 100%;
-                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                right: calc(100% + 10px);
                 z-index: 1;
-                background: var(--clr-white);
+                background: var(--clr-black);
 
                 a {
-                    margin-top: 2px;
+                    margin: 5px;
+                }
+
+                .divider {
+                    background: var(--clr-white);
+                    height: 1px;
+                    width: calc(100% - 10px);
+                    margin: auto;
+
+                    &:first-child {
+                        display: none;
+                    }
+                }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 100%;
+                    transform: translateY(-50%);
+                    width: 0;
+                    height: 0;
+                    border-top: 10px solid transparent;
+                    border-bottom: 10px solid transparent;
+                    border-left: 10px solid var(--clr-black);
                 }
             }
 
