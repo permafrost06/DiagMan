@@ -10,6 +10,7 @@ export interface MonthSelection {
 interface Props {
     modelValue?: MonthSelection;
     rangeSelect?: boolean;
+    asBlock?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -123,6 +124,7 @@ const selectorPosition = ref({ top: "5px", left: "0px" });
 
 const calculatePosition = () => {
     nextTick(() => {
+        if (props.asBlock) return;
         const selector = selectorRef.value;
         const trigger = triggerRef.value;
 
@@ -181,7 +183,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="month-selector">
+    <div
+        :class="{
+            'month-selector': true,
+            'as-block': props.asBlock,
+        }"
+    >
         <div
             ref="triggerRef"
             class="selected-display"
@@ -191,16 +198,20 @@ onUnmounted(() => {
         </div>
 
         <div
-            v-if="isSelectorOpen"
+            v-if="isSelectorOpen || props.asBlock"
             ref="selectorRef"
             class="month-picker"
             :style="selectorPosition"
             @click.stop
         >
             <div class="year-nav">
-                <button @click="changeYear(-1)">&#9665; Prev</button>
+                <button @click="changeYear(-1)">
+                    &#9665; {{ selectedMonths.year - 1 }}
+                </button>
                 <span>{{ selectedMonths.year }}</span>
-                <button @click="changeYear(1)">Next &#9655;</button>
+                <button @click="changeYear(1)">
+                    {{ selectedMonths.year + 1 }} &#9655;
+                </button>
             </div>
 
             <div class="months-grid">
@@ -223,10 +234,19 @@ onUnmounted(() => {
 .month-selector {
     user-select: none;
     position: relative;
-    background: var(--clr-white);
-    border: 1px solid var(--clr-black);
-    cursor: pointer;
-    padding: 5px 20px;
+
+    .selected-display {
+        background: var(--clr-white);
+        border: 1px solid var(--clr-black);
+        cursor: pointer;
+        padding: 5px 20px;
+    }
+
+    &.as-block {
+        .selected-display {
+            display: none;
+        }
+    }
 
     .month-picker {
         position: absolute;
@@ -235,6 +255,11 @@ onUnmounted(() => {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 10px;
         min-width: 200px;
+    }
+
+    &.as-block .month-picker {
+        position: static;
+        box-shadow: none;
     }
 
     .year-nav {
