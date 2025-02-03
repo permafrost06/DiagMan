@@ -108,8 +108,10 @@ const computeSale = (data?: SaleData) => {
     const last_up = last_growth >= 0;
     return {
         amount: formatNumber(total / 100),
-        last: (last_up ? "+" : "") + last_growth.toFixed(2),
-        avg: (avg_up ? "+" : "") + avg_growth.toFixed(2),
+        last: last_up
+            ? last_growth.toFixed(2)
+            : Math.abs(last_growth.toFixed(2)),
+        avg: avg_up ? avg_growth.toFixed(2) : Math.abs(avg_growth.toFixed(2)),
         avg_up,
         last_up,
     };
@@ -253,7 +255,10 @@ const donutChartData = computed<DonutChartData>(() => {
                             'finance-info-down': !revenue.last_up,
                         }"
                     >
-                        {{ loading ? "" : revenue.last + "% from last month" }}
+                        <span v-if="!loading">
+                            {{ revenue.last + "%" }}
+                        </span>
+                        {{ loading ? "" : "from last month" }}
                     </p>
                     <p
                         :class="{
@@ -262,7 +267,10 @@ const donutChartData = computed<DonutChartData>(() => {
                             'finance-info-down': !revenue.avg_up,
                         }"
                     >
-                        {{ loading ? "" : revenue.avg + "% from average" }}
+                        <span v-if="!loading">
+                            {{ revenue.avg + "%" }}
+                        </span>
+                        {{ loading ? "" : "from average" }}
                     </p>
                 </div>
                 <div class="finance-info">
@@ -278,7 +286,10 @@ const donutChartData = computed<DonutChartData>(() => {
                             'finance-info-down': !discount.last_up,
                         }"
                     >
-                        {{ loading ? "" : discount.last + "% from last month" }}
+                        <span v-if="!loading">
+                            {{ discount.last + "%" }}
+                        </span>
+                        {{ loading ? "" : "from last month" }}
                     </p>
                     <p
                         :class="{
@@ -287,7 +298,10 @@ const donutChartData = computed<DonutChartData>(() => {
                             'finance-info-down': !discount.avg_up,
                         }"
                     >
-                        {{ loading ? "" : discount.avg + "% from average" }}
+                        <span v-if="!loading">
+                            {{ discount.avg + "%" }}
+                        </span>
+                        {{ loading ? "" : "from average" }}
                     </p>
                 </div>
             </div>
@@ -349,13 +363,17 @@ const donutChartData = computed<DonutChartData>(() => {
             margin-bottom: 10px;
         }
         &-up {
-            color: var(--clr-success);
+            span {
+                color: var(--clr-success);
+            }
             &::before {
                 content: "\2B06";
             }
         }
         &-down {
-            color: var(--clr-danger);
+            span {
+                color: var(--clr-danger);
+            }
             &::before {
                 content: "\2B07";
             }
