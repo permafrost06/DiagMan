@@ -54,7 +54,7 @@ export class BarChart {
             .padding(0.2);
 
         const maxYval =
-            d3.max(data.values, (d) => Math.max(...Object.values(d))) || 0;
+            d3.max(data.values, (d) => d3.sum(Object.values(d))) || 0;
 
         this.yScale = d3
             .scaleLinear()
@@ -82,30 +82,30 @@ export class BarChart {
                     `translate(${this.xScale(data.labels[index])}, 0)`
                 );
 
-            const sortedKeys = [...data.keys].reverse();
+            let cumulativeHeight = this.yScale(0);
 
-            sortedKeys.forEach((entry, i) => {
+            data.keys.forEach((entry) => {
                 const key = entry.key;
                 const barHeight = this.yScale(0) - this.yScale(bar[key]);
 
                 barG.append("rect")
                     .attr("x", 0)
-                    .attr("y", this.yScale(bar[key]))
+                    .attr("y", cumulativeHeight - barHeight)
                     .attr("width", this.xScale.bandwidth())
                     .attr("height", barHeight)
-                    .attr("fill", entry.color)
-                    .attr("z-index", i);
+                    .attr("fill", entry.color);
 
                 if (barHeight > 15) {
                     barG.append("text")
                         .attr("x", this.xScale.bandwidth() / 2)
-                        .attr("y", this.yScale(bar[key]) + 12)
+                        .attr("y", cumulativeHeight - barHeight + 12)
                         .attr("text-anchor", "middle")
                         .attr("fill", "white")
                         .attr("font-size", "12px")
-                        .attr("z-index", i + 1)
                         .text(bar[key]);
                 }
+
+                cumulativeHeight -= barHeight;
             });
         });
 
