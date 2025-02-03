@@ -116,6 +116,12 @@ const selectMonth = (month: number, event: MouseEvent): void => {
     selectedMonths.value.start = month;
     selectedMonths.value.end = undefined;
     lastSelectionDirection.value = 0;
+    if (!props.rangeSelect) {
+        selectedMonths.value = {
+            ...selectedMonths.value,
+            formatted: formattedValue(),
+        };
+    }
 };
 
 const selectorPosition = ref({ top: "5px", left: "0px" });
