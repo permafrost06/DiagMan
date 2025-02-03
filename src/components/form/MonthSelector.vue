@@ -5,6 +5,7 @@ export interface MonthSelection {
     year: number;
     start: number;
     end?: number;
+    formatted?: string;
 }
 
 interface Props {
@@ -54,15 +55,12 @@ const selectedMonths = computed<MonthSelection>({
     },
 });
 
-const formattedSelectedMonths = computed(() => {
-    const val = selectedMonths.value;
-    return val.end
-        ? `${val.year}, ${months[val.start]} - ${months[val.end]}`
-        : `${val.year}, ${months[val.start]}`;
-});
-
 const changeYear = (direction: number): void => {
     selectedMonths.value.year += direction;
+    selectedMonths.value = {
+        ...selectedMonths.value,
+        formatted: formattedValue(),
+    };
 };
 
 const isSelected = (month: number): boolean => {
@@ -156,11 +154,21 @@ const calculatePosition = () => {
 const hideOnOutsideClick = () => {
     isSelectorOpen.value = false;
 };
+
+const formattedValue = () => {
+    const val = selectedMonths.value;
+    return val.end
+        ? `${months[val.start]} - ${months[val.end]}, ${val.year}`
+        : `${months[val.start]}, ${val.year}`;
+};
+
 const mouseUp = () => {
     if (!isRangeActive.value) return;
     isRangeActive.value = false;
+
     selectedMonths.value = {
         ...selectedMonths.value,
+        formatted: formattedValue(),
     };
 };
 
@@ -174,6 +182,11 @@ onMounted(() => {
     window.addEventListener("resize", calculatePosition);
     window.addEventListener("click", hideOnOutsideClick);
     window.addEventListener("mouseup", mouseUp);
+
+    selectedMonths.value = {
+        ...selectedMonths.value,
+        formatted: formattedValue(),
+    };
 });
 onUnmounted(() => {
     window.removeEventListener("resize", calculatePosition);
@@ -194,7 +207,7 @@ onUnmounted(() => {
             class="selected-display"
             @click.stop="isSelectorOpen = !isSelectorOpen"
         >
-            {{ formattedSelectedMonths }}
+            {{ selectedMonths.formatted }}
         </div>
 
         <div
