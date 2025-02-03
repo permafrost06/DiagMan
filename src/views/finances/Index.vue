@@ -200,14 +200,6 @@ const donutChartData = computed<DonutChartData>(() => {
         return acc + item.amount;
     }, 0);
 
-    console.log(
-        topTests.map((item, i) => ({
-            label: item.name,
-            value: Math.round((item.amount / total) * 100),
-            color: `hsl(${i * 20}, 50%, 50%)`,
-        }))
-    );
-
     return topTests.map((item, i) => ({
         label: item.name,
         value: Math.round((item.amount / total) * 100),
