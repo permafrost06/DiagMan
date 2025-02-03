@@ -129,3 +129,17 @@ export const dmyToDate = (dmy: string): Date => {
         parseInt(items[0])
     );
 };
+
+export const formatNumber = (num: number, decimals: number = 2): string => {
+    let unit = "";
+
+    if (num >= 10000000) {
+        num /= 10000000;
+        unit = " cr";
+    } else if (num >= 100000) {
+        num /= 100000;
+        unit = " lakh";
+    }
+
+    return num.toFixed(decimals).toLocaleString("en-IN") + unit;
+};

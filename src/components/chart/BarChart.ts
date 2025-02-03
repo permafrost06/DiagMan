@@ -1,3 +1,4 @@
+import { formatNumber } from "@/helpers/utils";
 import * as d3 from "d3";
 
 export interface BarChartData {
@@ -86,7 +87,8 @@ export class BarChart {
 
             data.keys.forEach((entry) => {
                 const key = entry.key;
-                const barHeight = this.yScale(0) - this.yScale(bar[key]);
+                const label = formatNumber(bar[key], 0);
+                const barHeight = this.yScale(0) - this.yScale(label);
                 const barWidth = Math.min(this.xScale.bandwidth(), 50);
                 const barX = (this.xScale.bandwidth() - barWidth) / 2;
 
@@ -104,7 +106,7 @@ export class BarChart {
                         .attr("text-anchor", "middle")
                         .attr("fill", "white")
                         .attr("font-size", "12px")
-                        .text(bar[key]);
+                        .text(label);
                 }
 
                 cumulativeHeight -= barHeight;

@@ -13,6 +13,7 @@ import type { BarChartData } from "@/components/chart/BarChart";
 import { DonutChartData } from "@/components/chart/DonutChart";
 import { fetchApi } from "@/helpers/http";
 import { API_BASE } from "@/helpers/config";
+import { formatNumber } from "@/helpers/utils";
 
 const loading = ref(false);
 const reqCtrl = ref<AbortController | null>(null);
@@ -106,7 +107,7 @@ const computeSale = (data?: SaleData) => {
     const avg_up = avg_growth >= 0;
     const last_up = last_growth >= 0;
     return {
-        amount: (total / 100).toFixed(2),
+        amount: formatNumber(total / 100),
         last: (last_up ? "+" : "") + last_growth.toFixed(2),
         avg: (avg_up ? "+" : "") + avg_growth.toFixed(2),
         avg_up,
@@ -185,7 +186,7 @@ const donutChartData = computed<DonutChartData>(() => {
         values.push({
             label: item.name,
             value: Math.round((item.amount / total) * 100),
-            color: `hsl(${i * 30}, 50%, 50%)`,
+            color: `hsl(${i * 20}, 50%, 50%)`,
         });
     });
     return values;
