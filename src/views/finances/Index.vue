@@ -54,7 +54,9 @@ const fetchData = async () => {
     loading.value = true;
     try {
         const res = await fetchApi(
-            `${API_BASE}/finances?from=${selectedMonths.value.year}-${selectedMonths.value.start}`,
+            `${API_BASE}/finances?from=${selectedMonths.value.year}-${
+                selectedMonths.value.start + 1
+            }`,
             {
                 signal: reqCtrl.value?.signal,
             }

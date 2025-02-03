@@ -1,12 +1,14 @@
 import { getLibsqlClient } from '../db/conn';
 import { RequestHandler } from '../router';
 const getFirstDay = (year: number, month: number): number => {
-	return new Date(`${year}-${String(month).padStart(2, '0')}-01`).getTime();
+	const dateStr = `${year}-${String(month).padStart(2, '0')}-01`;
+	return new Date(dateStr).getTime();
 };
 
 const getLastDay = (year: number, month: number): number => {
 	const lastDay = new Date(year, month, 0).getDate();
-	return new Date(`${year}-${String(month).padStart(2, '0')}-${lastDay}`).getTime();
+	const dateStr = `${year}-${String(month).padStart(2, '0')}-${lastDay}`;
+	return new Date(dateStr).getTime();
 };
 
 const getDateRange = (url: string) => {
@@ -40,11 +42,11 @@ const getDateRange = (url: string) => {
 	let prevFromYear = fromYear;
 	let prevToYear = fromYear;
 	let prevToMonth = fromMonth - 1;
+	let prevFromMonth = prevToMonth - diff;
 	if (prevToMonth < 1) {
 		prevToYear--;
 		prevToMonth += 12;
 	}
-	let prevFromMonth = prevToMonth - diff;
 	if (prevFromMonth < 1) {
 		prevFromYear--;
 		prevFromMonth += 12;
