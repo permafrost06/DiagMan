@@ -1,10 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { HTMLAttributes, onMounted, onUnmounted, ref, watch } from "vue";
 import { initBarChart, BarChart, BarChartData } from "./BarChart";
 import { DonutChart, DonutChartData, initDonutChart } from "./DonutChart";
 
-interface ChartProps {
+interface ChartProps extends /* @vue-ignore */ HTMLAttributes {
     type: "bar" | "donut";
     data: BarChartData | DonutChartData;
 }
@@ -60,20 +60,21 @@ function reInit() {
 }
 </script>
 <template>
-    <div class="chart-wrapper">
-        <svg class="chart-svg" ref="svg"></svg>
+    <div v-bind="$attrs">
+        <svg ref="svg"></svg>
     </div>
 </template>
 
 <style scoped>
-.chart-svg {
+svg {
     display: block;
     overflow: visible;
     color: rgb(175, 175, 175);
-    height: 400px;
+    height: 100%;
 }
-.chart-wrapper {
+div {
     overflow: hidden;
     background: white;
+    height: 100%;
 }
 </style>
