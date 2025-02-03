@@ -87,18 +87,19 @@ export class BarChart {
             data.keys.forEach((entry) => {
                 const key = entry.key;
                 const barHeight = this.yScale(0) - this.yScale(bar[key]);
+                const barWidth = Math.min(this.xScale.bandwidth(), 50);
 
                 barG.append("rect")
                     .attr("x", 0)
                     .attr("y", cumulativeHeight - barHeight)
-                    .attr("width", this.xScale.bandwidth())
+                    .attr("width", barWidth)
                     .attr("height", barHeight)
                     .attr("fill", entry.color);
 
                 if (barHeight > 15) {
                     barG.append("text")
-                        .attr("x", this.xScale.bandwidth() / 2)
-                        .attr("y", cumulativeHeight - barHeight + 12)
+                        .attr("x", barWidth / 2)
+                        .attr("y", cumulativeHeight - barHeight + 20)
                         .attr("text-anchor", "middle")
                         .attr("fill", "white")
                         .attr("font-size", "12px")
