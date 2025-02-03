@@ -176,20 +176,41 @@ const donutChartData = computed<DonutChartData>(() => {
         ];
     }
 
-    const values: DonutChartData = [];
+    const tests = [];
+    apiData.value.tests.forEach((item) => {
+        const index = tests.findIndex((test) => test.name === item.name);
+        let amount = item.amount;
 
-    const total = apiData.value.tests.reduce((acc, item) => {
+        if (index !== -1) {
+            const [existing] = tests.splice(index, 1);
+            amount = existing.amount + item.amount;
+        }
+
+        tests.push({
+            name: item.name,
+            amount,
+        });
+    });
+
+    const topTests = tests.sort((a, z) => z.amount - a.amount).slice(0, 8);
+
+    const total = topTests.reduce((acc, item) => {
         return acc + item.amount;
     }, 0);
 
-    apiData.value.tests.forEach((item, i) => {
-        values.push({
+    console.log(
+        topTests.map((item, i) => ({
             label: item.name,
             value: Math.round((item.amount / total) * 100),
             color: `hsl(${i * 20}, 50%, 50%)`,
-        });
-    });
-    return values;
+        }))
+    );
+
+    return topTests.map((item, i) => ({
+        label: item.name,
+        value: Math.round((item.amount / total) * 100),
+        color: `hsl(${i * 20}, 50%, 50%)`,
+    }));
 });
 </script>
 <template>
