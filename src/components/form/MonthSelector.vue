@@ -112,7 +112,7 @@ const selectMonth = (month: number, event: MouseEvent): void => {
         selectRange(month);
         return;
     }
-    isRangeActive.value = true;
+    isRangeActive.value = props.rangeSelect;
     selectedMonths.value.start = month;
     selectedMonths.value.end = undefined;
     lastSelectionDirection.value = 0;
