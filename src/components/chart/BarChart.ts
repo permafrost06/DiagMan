@@ -82,38 +82,28 @@ export class BarChart {
                     `translate(${this.xScale(data.labels[index])}, 0)`
                 );
 
-            const sortedKeys = [...data.keys].sort(
-                (a, b) => bar[a.key] - bar[b.key]
-            );
+            const sortedKeys = [...data.keys].reverse();
 
             sortedKeys.forEach((entry, i) => {
                 const key = entry.key;
                 const barHeight = this.yScale(0) - this.yScale(bar[key]);
 
                 barG.append("rect")
-                    .attr(
-                        "x",
-                        (this.xScale.bandwidth() / sortedKeys.length) * i
-                    )
+                    .attr("x", 0)
                     .attr("y", this.yScale(bar[key]))
-                    .attr(
-                        "width",
-                        this.xScale.bandwidth() / sortedKeys.length - 2
-                    )
+                    .attr("width", this.xScale.bandwidth())
                     .attr("height", barHeight)
-                    .attr("fill", entry.color);
+                    .attr("fill", entry.color)
+                    .attr("z-index", i);
 
                 if (barHeight > 15) {
                     barG.append("text")
-                        .attr(
-                            "x",
-                            (this.xScale.bandwidth() / sortedKeys.length) * i +
-                                this.xScale.bandwidth() / sortedKeys.length / 2
-                        )
+                        .attr("x", this.xScale.bandwidth() / 2)
                         .attr("y", this.yScale(bar[key]) + 12)
                         .attr("text-anchor", "middle")
                         .attr("fill", "white")
                         .attr("font-size", "12px")
+                        .attr("z-index", i + 1)
                         .text(bar[key]);
                 }
             });

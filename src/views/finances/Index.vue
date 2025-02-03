@@ -17,7 +17,7 @@ const selectedMonths = ref<MonthSelection>({
 });
 
 const dataGroups = ref<BarChartData>({
-    labels: ["Week1", "Week2", "Week3"],
+    labels: ["Week1", "Week2", "Week3", "Week4"],
     keys: [
         { key: "histo", color: "#6C63FF", label: "Histopathology" },
         { key: "cyto", color: "#D3D3D3", label: "Cytopathology" },
@@ -26,6 +26,7 @@ const dataGroups = ref<BarChartData>({
         { histo: 100, cyto: 200 },
         { histo: 150, cyto: 250 },
         { histo: 180, cyto: 300 },
+        { histo: 250, cyto: 200 },
     ],
 });
 
