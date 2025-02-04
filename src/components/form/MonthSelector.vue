@@ -56,6 +56,11 @@ const selectedMonths = computed<MonthSelection>({
 });
 
 const changeYear = (direction: number): void => {
+    if (direction > 0) {
+        selectedMonths.value.start = 0;
+    } else {
+        selectedMonths.value.start = 11;
+    };
     selectedMonths.value.year += direction;
     selectedMonths.value = {
         ...selectedMonths.value,
