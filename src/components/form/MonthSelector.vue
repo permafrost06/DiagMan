@@ -8,10 +8,17 @@ export interface MonthSelection {
     formatted?: string;
 }
 
+interface MonthBound {
+    year: number;
+    month: number;
+}
+
 interface Props {
     modelValue?: MonthSelection;
     rangeSelect?: boolean;
     asBlock?: boolean;
+    max?: MonthBound;
+    min?: MonthBound;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -60,7 +67,7 @@ const changeYear = (direction: number): void => {
         selectedMonths.value.start = 0;
     } else {
         selectedMonths.value.start = 11;
-    };
+    }
     selectedMonths.value.year += direction;
     selectedMonths.value = {
         ...selectedMonths.value,
@@ -84,7 +91,7 @@ const selectRange = (month: number) => {
     const updateSelection = (
         newStart: number,
         newEnd: number,
-        direction: number
+        direction: number,
     ) => {
         selectedMonths.value.start = newStart;
         selectedMonths.value.end = newEnd !== newStart ? newEnd : undefined;
@@ -183,6 +190,20 @@ const mouseUp = () => {
     };
 };
 
+const isDisabled = (month: number): boolean => {
+    const { min, max } = props;
+    const { year } = selectedMonths.value;
+    if (max && (year > max.year || (year === max.year && month > max.month))) {
+        return true;
+    }
+
+    if (min && (year < min.year || (year === min.year && month < min.month))) {
+        return true;
+    }
+
+    return false;
+};
+
 watch(isSelectorOpen, (newVal) => {
     if (newVal) {
         calculatePosition();
@@ -229,26 +250,37 @@ onUnmounted(() => {
             @click.stop
         >
             <div class="year-nav">
-                <button @click="changeYear(-1)">
+                <button
+                    @click="changeYear(-1)"
+                    :disabled="
+                        props.min && selectedMonths.year <= props.min.year
+                    "
+                >
                     &#9665; {{ selectedMonths.year - 1 }}
                 </button>
                 <span>{{ selectedMonths.year }}</span>
-                <button @click="changeYear(1)">
+                <button
+                    @click="changeYear(1)"
+                    :disabled="
+                        props.max && selectedMonths.year >= props.max.year
+                    "
+                >
                     {{ selectedMonths.year + 1 }} &#9655;
                 </button>
             </div>
 
             <div class="months-grid">
-                <div
+                <button
                     v-for="(month, index) in months"
                     :key="index"
                     class="month"
                     :class="{ selected: isSelected(index) }"
                     @mousedown.prevent="selectMonth(index, $event)"
                     @mouseenter.prevent="isRangeActive && selectRange(index)"
+                    :disabled="isDisabled(index)"
                 >
                     {{ month }}
-                </div>
+                </button>
             </div>
         </div>
     </div>
@@ -291,6 +323,19 @@ onUnmounted(() => {
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
+
+        button {
+            border: none;
+            background: var(--clr-black);
+            color: var(--clr-white);
+            padding: 10px 15px;
+            cursor: pointer;
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
     }
 
     .months-grid {
@@ -304,14 +349,22 @@ onUnmounted(() => {
         border: 1px solid var(--clr-black);
         cursor: pointer;
         text-align: center;
+        background: var(--clr-white);
+        color: var(--clr-black);
 
         &:hover {
             background: #ddd;
+            outline: none;
         }
 
         &.selected {
             background: var(--clr-black);
             color: var(--clr-white);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     }
 }

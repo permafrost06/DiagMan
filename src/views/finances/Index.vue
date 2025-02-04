@@ -228,6 +228,14 @@ const isCurrentMonth = computed(
                     :range-select="false"
                     :as-block="true"
                     v-model="selectedMonths"
+                    :max="{
+                        year: today.getFullYear(),
+                        month: today.getMonth(),
+                    }"
+                    :min="{
+                        year: 2024,
+                        month: 1,
+                    }"
                 />
                 <h2 class="finance-months">{{ selectedMonths.formatted }}</h2>
                 <div class="finance-info">
