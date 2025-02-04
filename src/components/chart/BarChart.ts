@@ -103,7 +103,7 @@ export class BarChart {
             data.keys.forEach((entry) => {
                 const key = entry.key;
                 const barHeight = this.yScale(0) - this.yScale(bar[key]);
-                const barWidth = this.xScale.bandwidth();
+                const barWidth = Math.min(this.xScale.bandwidth(), 10);
                 const barX = (this.xScale.bandwidth() - barWidth) / 2;
 
                 barG.append("rect")
@@ -113,10 +113,23 @@ export class BarChart {
                     .attr("height", barHeight)
                     .attr("fill", entry.color)
                     .on("mouseover", () => {
+                        const total = d3.sum(
+                            data.keys.map((entry) => bar[entry.key] || 0),
+                        );
+                        const tooltipContent =
+                            data.keys
+                                .map(
+                                    (entry) =>
+                                        `${entry.label}: ${formatNumber(bar[entry.key] || 0)}/-`,
+                                )
+                                .join("<br>") +
+                            `<br><strong>Total: ${formatNumber(total)}/-</strong>`;
+
                         tooltip
                             .style("visibility", "visible")
-                            .text(`${entry.label}: ${formatNumber(bar[key])}`);
+                            .html(tooltipContent);
                     })
+
                     .on("mousemove", (event) => {
                         tooltip
                             .style("top", `${event.pageY - 30}px`)
@@ -164,7 +177,12 @@ export class BarChart {
     }
 
     protected drawXAxis(remHeight: number) {
-        const xAxis = d3.axisBottom(this.xScale);
+        const xAxis = d3
+            .axisBottom(this.xScale)
+            .tickValues(
+                this.xScale.domain().filter((_: any, i: number) => i % 5 === 0),
+            );
+
         this.d3El
             .append("g")
             .attr("class", "x-axis")

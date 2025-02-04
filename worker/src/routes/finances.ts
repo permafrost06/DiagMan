@@ -142,19 +142,41 @@ export const getFinances: RequestHandler = async ({ env, res, url }) => {
 	});
 
 	const barChartSql = `
-	SELECT
-    type,
-    strftime('%Y-%W', datetime(timestamp/1000, 'unixepoch')) AS week,
-    SUM(total) AS total_sum
-	FROM patients
-	WHERE timestamp BETWEEN ? AND ?
-	GROUP BY type, week
-	ORDER BY week ASC
+	WITH WeeklyEntries AS (
+    SELECT
+      type,
+      strftime('%Y-%W', datetime(timestamp / 1000, 'unixepoch')) AS week,
+      SUM(total) AS total_sum,
+      MIN(timestamp) AS min_timestamp
+    FROM patients
+    GROUP BY type, week
+  ),
+  DistinctWeeks AS (
+    SELECT DISTINCT week, MIN(min_timestamp) AS min_timestamp
+    FROM WeeklyEntries
+    GROUP BY week
+  ),
+  RankedWeeks AS (
+    SELECT
+      week,
+      min_timestamp,
+      CASE
+        WHEN min_timestamp BETWEEN ? AND ? THEN 0
+        ELSE MIN(ABS(min_timestamp - ?), ABS(min_timestamp - ?))
+      END AS distance
+    FROM DistinctWeeks
+    ORDER BY distance ASC, week ASC
+    LIMIT 16
+  )
+  SELECT we.*
+  FROM WeeklyEntries we
+  JOIN RankedWeeks rw ON we.week = rw.week
+  ORDER BY we.week ASC
 	`;
 
 	const { rows: barChartRows } = await db.execute({
 		sql: barChartSql,
-		args: [dateRange.from, dateRange.to],
+		args: [dateRange.from, dateRange.to, dateRange.from, dateRange.to],
 	});
 
 	res.setData({
