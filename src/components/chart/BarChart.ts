@@ -87,12 +87,13 @@ export class BarChart {
 
             data.keys.forEach((entry) => {
                 const key = entry.key;
-                const label = formatNumber(bar[key]);
                 const barHeight =
-                    this.yScale(0) -
-                    this.yScale(parseInt(label.split(",").join("")));
+                this.yScale(0) -
+                this.yScale(bar[key]);
                 const barWidth = Math.min(this.xScale.bandwidth(), 50);
                 const barX = (this.xScale.bandwidth() - barWidth) / 2;
+                
+                const label = formatNumber(bar[key]);
 
                 barG.append("rect")
                     .attr("x", barX)
