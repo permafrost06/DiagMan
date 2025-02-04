@@ -59,9 +59,10 @@ export class BarChart {
         this.yAxisWidth = this.calculateYAxisWidth();
         remWidth -= this.yAxisWidth;
 
+        const uniqueKeys = data.labels.map((label, i) => `${label}-${i}`);
         this.xScale = d3
             .scaleBand()
-            .domain(data.labels)
+            .domain(uniqueKeys)
             .range([0, remWidth])
             .padding(0.2);
 
@@ -91,12 +92,10 @@ export class BarChart {
             .style("pointer-events", "none");
 
         data.values.forEach((bar, index) => {
+            const uniqueKey = `${data.labels[index]}-${index}`;
             const barG = dataLayer
                 .append("g")
-                .attr(
-                    "transform",
-                    `translate(${this.xScale(data.labels[index])}, 0)`,
-                );
+                .attr("transform", `translate(${this.xScale(uniqueKey)}, 0)`);
 
             let cumulativeHeight = this.yScale(0);
 
@@ -143,7 +142,7 @@ export class BarChart {
             });
         });
 
-        this.drawXAxis(remHeight);
+        this.drawXAxis(remHeight, data.labels);
     }
 
     protected calculateYAxisWidth(): number {
@@ -176,12 +175,16 @@ export class BarChart {
             .attr("stroke-dasharray", "4,4");
     }
 
-    protected drawXAxis(remHeight: number) {
+    protected drawXAxis(remHeight: number, originalLabels: string[]) {
+        // Determine which labels to show: every 5th one
+        const tickIndices = originalLabels
+            .map((_, i) => i)
+            .filter((i) => i % 5 === 0);
+
         const xAxis = d3
             .axisBottom(this.xScale)
-            .tickValues(
-                this.xScale.domain().filter((_: any, i: number) => i % 5 === 0),
-            );
+            .tickValues(tickIndices.map((i) => this.xScale.domain()[i])) // Use transformed unique keys
+            .tickFormat((_, i) => originalLabels[tickIndices[i]]); // Show original labels every 5 steps
 
         this.d3El
             .append("g")
@@ -196,7 +199,8 @@ export class BarChart {
             .selectAll("text")
             .attr("text-anchor", "middle")
             .attr("font-size", "12px")
-            .attr("fill", "#666");
+            .attr("fill", "#666")
+            .attr("transform", "rotate(0)"); // Keep horizontal or modify if needed
     }
 
     protected drawLegends(): number {
