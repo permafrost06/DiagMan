@@ -44,15 +44,8 @@ export class BarChart {
         this.legends = data.keys;
 
         this.legendHeight = this.drawLegends();
-
         const remHeight = this.height - this.legendHeight - CHART_LEGEND_GAP;
         let remWidth = this.width;
-
-        this.xScale = d3
-            .scaleBand()
-            .domain(data.labels)
-            .range([0, remWidth])
-            .padding(0.2);
 
         const maxYval =
             d3.max(data.values, (d) => d3.sum(Object.values(d))) || 0;
@@ -66,6 +59,12 @@ export class BarChart {
         this.yAxisWidth = this.calculateYAxisWidth();
         remWidth -= this.yAxisWidth;
 
+        this.xScale = d3
+            .scaleBand()
+            .domain(data.labels)
+            .range([0, remWidth])
+            .padding(0.2);
+
         this.drawYAxis(remWidth);
 
         const dataLayer = this.d3El
@@ -78,7 +77,6 @@ export class BarChart {
             )
             .attr("class", "data-layer");
 
-        // Add tooltip div (only once, outside the loop)
         const tooltip = d3
             .select("body")
             .append("div")
@@ -108,7 +106,6 @@ export class BarChart {
                 const barWidth = this.xScale.bandwidth();
                 const barX = (this.xScale.bandwidth() - barWidth) / 2;
 
-                // Append bar rectangle
                 barG.append("rect")
                     .attr("x", barX)
                     .attr("y", cumulativeHeight - barHeight)
