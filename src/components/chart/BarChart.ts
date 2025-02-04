@@ -7,7 +7,7 @@ export interface BarChartData {
     values: { [key: string]: number }[];
 }
 
-const PADDING = { top: 0, right: 0, bottom: 30, left: 30 };
+const PADDING = { top: 0, right: 0, bottom: 30, left: 0 };
 const LEGEND_COLOR_SIZE = 14;
 const LEGEND_TEXT_SPACING = 10;
 const LEGEND_VERTICAL_SPACING = 20;
@@ -56,61 +56,78 @@ export class BarChart {
 
         const maxYval =
             d3.max(data.values, (d) => d3.sum(Object.values(d))) || 0;
+        const maxYvalAdjusted = maxYval * 1.2;
 
         this.yScale = d3
             .scaleLinear()
-            .domain([0, maxYval])
+            .domain([0, maxYvalAdjusted])
             .range([remHeight, 0]);
 
-        this.drawYAxis(remWidth);
+        this.yAxisWidth = this.calculateYAxisWidth();
         remWidth -= this.yAxisWidth;
+
+        this.drawYAxis(remWidth);
 
         const dataLayer = this.d3El
             .append("g")
             .attr(
                 "transform",
-                `translate(${PADDING.left}, ${
+                `translate(${PADDING.left + this.yAxisWidth}, ${
                     this.legendHeight + CHART_LEGEND_GAP
-                })`
+                })`,
             )
             .attr("class", "data-layer");
+
+        // Add tooltip div (only once, outside the loop)
+        const tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("background", "#333")
+            .style("color", "#fff")
+            .style("padding", "5px 10px")
+            .style("border-radius", "5px")
+            .style("font-size", "12px")
+            .style("visibility", "hidden")
+            .style("pointer-events", "none");
 
         data.values.forEach((bar, index) => {
             const barG = dataLayer
                 .append("g")
                 .attr(
                     "transform",
-                    `translate(${this.xScale(data.labels[index])}, 0)`
+                    `translate(${this.xScale(data.labels[index])}, 0)`,
                 );
 
             let cumulativeHeight = this.yScale(0);
 
             data.keys.forEach((entry) => {
                 const key = entry.key;
-                const barHeight =
-                this.yScale(0) -
-                this.yScale(bar[key]);
-                const barWidth = Math.min(this.xScale.bandwidth(), 50);
+                const barHeight = this.yScale(0) - this.yScale(bar[key]);
+                const barWidth = this.xScale.bandwidth();
                 const barX = (this.xScale.bandwidth() - barWidth) / 2;
-                
-                const label = formatNumber(bar[key]);
 
+                // Append bar rectangle
                 barG.append("rect")
                     .attr("x", barX)
                     .attr("y", cumulativeHeight - barHeight)
                     .attr("width", barWidth)
                     .attr("height", barHeight)
-                    .attr("fill", entry.color);
-
-                if (barHeight > 15) {
-                    barG.append("text")
-                        .attr("x", barWidth / 2 + barX)
-                        .attr("y", cumulativeHeight - barHeight + 20)
-                        .attr("text-anchor", "middle")
-                        .attr("fill", "white")
-                        .attr("font-size", "12px")
-                        .text(label);
-                }
+                    .attr("fill", entry.color)
+                    .on("mouseover", () => {
+                        tooltip
+                            .style("visibility", "visible")
+                            .text(`${entry.label}: ${formatNumber(bar[key])}`);
+                    })
+                    .on("mousemove", (event) => {
+                        tooltip
+                            .style("top", `${event.pageY - 30}px`)
+                            .style("left", `${event.pageX + 10}px`);
+                    })
+                    .on("mouseout", () => {
+                        tooltip.style("visibility", "hidden");
+                    });
 
                 cumulativeHeight -= barHeight;
             });
@@ -119,17 +136,25 @@ export class BarChart {
         this.drawXAxis(remHeight);
     }
 
+    protected calculateYAxisWidth(): number {
+        const maxYAxisVal = Math.max(...this.yScale.ticks(5));
+        return getTextWidth(formatNumber(maxYAxisVal), "12px Arial");
+    }
+
     protected drawYAxis(remWidth: number) {
-        const yAxis = d3.axisLeft(this.yScale).ticks(5);
+        const yAxis = d3
+            .axisLeft(this.yScale)
+            .ticks(5)
+            .tickFormat(formatNumber as any);
 
         const yAxisGroup = this.d3El
             .append("g")
             .attr("class", "y-axis")
             .attr(
                 "transform",
-                `translate(${PADDING.left}, ${
+                `translate(${PADDING.left + this.yAxisWidth}, ${
                     this.legendHeight + CHART_LEGEND_GAP
-                })`
+                })`,
             );
 
         yAxisGroup.call(yAxis);
@@ -148,9 +173,9 @@ export class BarChart {
             .attr("class", "x-axis")
             .attr(
                 "transform",
-                `translate(${PADDING.left}, ${
+                `translate(${PADDING.left + this.yAxisWidth}, ${
                     remHeight + this.legendHeight + CHART_LEGEND_GAP
-                })`
+                })`,
             )
             .call(xAxis)
             .selectAll("text")
