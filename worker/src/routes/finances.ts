@@ -7,7 +7,7 @@ const getFirstDay = (year: number, month: number): number => {
 
 const getLastDay = (year: number, month: number): number => {
 	const lastDay = new Date(year, month, 0).getDate();
-	const dateStr = `${year}-${String(month).padStart(2, '0')}-${lastDay}`;
+	const dateStr = `${year}-${String(month).padStart(2, '0')}-${lastDay} 23:59:59`;
 	return new Date(dateStr).getTime();
 };
 
@@ -69,6 +69,8 @@ const getSaleData = async (db: ReturnType<typeof getLibsqlClient>, { from, to, p
   	  SUM(discount) AS discount_sum
 	FROM patients
 	WHERE timestamp BETWEEN ? AND ?
+  AND timestamp NOT BETWEEN strftime('%s', '2024-01-01') * 1000
+  AND strftime('%s', '2024-01-31 23:59:59') * 1000
 	`;
 	const { rows } = await db.execute({
 		sql,
@@ -89,6 +91,7 @@ const getSaleData = async (db: ReturnType<typeof getLibsqlClient>, { from, to, p
 		        SUM(discount) AS discount_sum
 		    FROM patients
 				WHERE timestamp NOT NULL
+				AND strftime('%Y-%m', datetime(timestamp/1000, 'unixepoch')) != '2024-01'
 		    GROUP BY month
 		)
 		SELECT
@@ -126,12 +129,13 @@ export const getFinances: RequestHandler = async ({ env, res, url }) => {
 	    CAST(json_extract(value, '$.price') AS REAL) AS price,
 	    patients.timestamp
 	  FROM patients, json_each(patients.tests)
+	  WHERE timestamp BETWEEN ? AND ?
+		AND strftime('%Y-%m', datetime(timestamp/1000, 'unixepoch')) != '2024-01'
 	)
 	SELECT
 	  name,
 	  SUM(price) AS amount
 	FROM tests
-	WHERE timestamp BETWEEN ? AND ?
 	GROUP BY name
 	ORDER BY amount DESC LIMIT 8
 	`;
@@ -149,6 +153,7 @@ export const getFinances: RequestHandler = async ({ env, res, url }) => {
       SUM(total) AS total_sum,
       MIN(timestamp) AS min_timestamp
     FROM patients
+		WHERE strftime('%Y-%m', datetime(timestamp/1000, 'unixepoch')) != '2024-01'
     GROUP BY type, week_start
   ),
   DistinctWeeks AS (
