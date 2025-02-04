@@ -13,7 +13,7 @@ import type { BarChartData } from "@/components/chart/BarChart";
 import { DonutChartData } from "@/components/chart/DonutChart";
 import { fetchApi } from "@/helpers/http";
 import { API_BASE } from "@/helpers/config";
-import { convertYearWeekToMonthWeek, formatNumber } from "@/helpers/utils";
+import { dateToMonthWeek, formatNumber } from "@/helpers/utils";
 
 const loading = ref(false);
 const reqCtrl = ref<AbortController | null>(null);
@@ -34,7 +34,7 @@ interface TestItem {
 }
 interface BarItem {
     type: "histo" | "cyto";
-    week: string;
+    week_start: string;
     total_sum: number;
 }
 const apiData = ref<{
@@ -140,17 +140,19 @@ const barChartData = computed<BarChartData>(() => {
     const vals: Record<string, BarChartData["values"][number]> = {};
 
     apiData.value.barChart.forEach((item) => {
-        labels.push(convertYearWeekToMonthWeek(item.week));
-        weeks.push(item.week);
-        let val = vals[item.week];
+        let val = vals[item.week_start];
+        if (weeks.indexOf(item.week_start) === -1) {
+            weeks.push(item.week_start);
+        }
         if (!val) {
             val = { histo: 0, cyto: 0 };
-            vals[item.week] = val;
+            vals[item.week_start] = val;
         }
         val[item.type] = Math.round(item.total_sum / 100);
     });
 
     weeks.forEach((week) => {
+        labels.push(dateToMonthWeek(week));
         values.push({
             histo: vals[week].histo || 0,
             cyto: vals[week].cyto || 0,

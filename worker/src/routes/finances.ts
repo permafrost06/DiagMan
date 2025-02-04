@@ -145,33 +145,33 @@ export const getFinances: RequestHandler = async ({ env, res, url }) => {
 	WITH WeeklyEntries AS (
     SELECT
       type,
-      strftime('%Y-%W', datetime(timestamp / 1000, 'unixepoch')) AS week,
+      date(datetime(timestamp / 1000, 'unixepoch'), 'weekday 0', '-6 days') AS week_start,
       SUM(total) AS total_sum,
       MIN(timestamp) AS min_timestamp
     FROM patients
-    GROUP BY type, week
+    GROUP BY type, week_start
   ),
   DistinctWeeks AS (
-    SELECT DISTINCT week, MIN(min_timestamp) AS min_timestamp
+    SELECT DISTINCT week_start, MIN(min_timestamp) AS min_timestamp
     FROM WeeklyEntries
-    GROUP BY week
+    GROUP BY week_start
   ),
   RankedWeeks AS (
     SELECT
-      week,
+      week_start,
       min_timestamp,
       CASE
         WHEN min_timestamp BETWEEN ? AND ? THEN 0
         ELSE MIN(ABS(min_timestamp - ?), ABS(min_timestamp - ?))
       END AS distance
     FROM DistinctWeeks
-    ORDER BY distance ASC, week ASC
+    ORDER BY distance ASC, week_start ASC
     LIMIT 16
   )
   SELECT we.*
   FROM WeeklyEntries we
-  JOIN RankedWeeks rw ON we.week = rw.week
-  ORDER BY we.week ASC
+  JOIN RankedWeeks rw ON we.week_start = rw.week_start
+  ORDER BY we.week_start ASC;
 	`;
 
 	const { rows: barChartRows } = await db.execute({

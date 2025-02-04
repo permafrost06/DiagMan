@@ -137,52 +137,16 @@ export const formatNumber = (num: number): string => {
     return num.toString().replace(/\B(?=(\d{3})(\d{2})*(?!\d))/g, ",");
 };
 
-export const convertYearWeekToDateRange = (yearWeek: string): string => {
-    let [year, week] = yearWeek.split("-").map(Number);
+export const dateToMonthWeek = (dateStr: string): string => {
+    const date = new Date(dateStr);
+    const options: Intl.DateTimeFormatOptions = { month: "short" };
+    const month = new Intl.DateTimeFormat("en-US", options).format(date);
 
-    if (isNaN(week)) week = Number(yearWeek.split("-W")[1]);
-
-    const firstThursday = new Date(year, 0, 4);
-    const firstWeekStart = new Date(firstThursday);
-    firstWeekStart.setDate(
-        firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7),
+    // Get the week number within the month
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const weekNumber = Math.ceil(
+        (date.getDate() + firstDayOfMonth.getDay()) / 7,
     );
 
-    const weekStart = new Date(firstWeekStart);
-    weekStart.setDate(firstWeekStart.getDate() + (week - 1) * 7);
-
-    const weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekStart.getDate() + 6);
-
-    const monthName = weekStart.toLocaleDateString("en-US", { month: "short" });
-    const startDay = weekStart.getDate();
-    const endDay = weekEnd.getDate();
-
-    return `${monthName} ${startDay} - ${endDay}`;
-};
-
-export const convertYearWeekToMonthWeek = (yearWeek: string): string => {
-    let [year, week] = yearWeek.split("-").map(Number);
-
-    if (isNaN(week)) week = Number(yearWeek.split("-W")[1]);
-
-    const firstThursday = new Date(year, 0, 4);
-    const firstWeekStart = new Date(firstThursday);
-    firstWeekStart.setDate(
-        firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7),
-    );
-
-    const weekStart = new Date(firstWeekStart);
-    weekStart.setDate(firstWeekStart.getDate() + (week - 1) * 7);
-
-    const month = weekStart.getMonth();
-    const monthName = weekStart.toLocaleDateString("en-US", { month: "short" });
-
-    const firstDayOfMonth = new Date(year, month, 1);
-
-    const weekNumberInMonth = Math.ceil(
-        (weekStart.getDate() + firstDayOfMonth.getDay()) / 7,
-    );
-
-    return `${monthName} W${weekNumberInMonth}`;
+    return `${month} W${weekNumber}`;
 };
