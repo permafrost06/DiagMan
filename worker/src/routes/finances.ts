@@ -119,12 +119,21 @@ export const getFinances: RequestHandler = async ({ env, res, url }) => {
 	const saleData = await getSaleData(db, dateRange);
 
 	const saleByTestSql = `
+	WITH tests AS (
+	  SELECT
+	    patients.id AS patient_id,
+	    json_extract(value, '$.name') AS name,
+	    CAST(json_extract(value, '$.price') AS REAL) AS price,
+	    patients.timestamp
+	  FROM patients, json_each(patients.tests)
+	)
 	SELECT
-	  json_extract(value, '$.name') AS name,
-	  SUM(json_extract(value, '$.price')) AS amount
-	FROM patients, json_each(patients.tests)
+	  name,
+	  SUM(price) AS amount
+	FROM tests
 	WHERE timestamp BETWEEN ? AND ?
 	GROUP BY name
+	ORDER BY amount DESC LIMIT 8
 	`;
 
 	const { rows } = await db.execute({
