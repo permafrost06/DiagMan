@@ -110,8 +110,8 @@ const computeSale = (data?: SaleData) => {
         amount: formatNumber(total / 100),
         last: last_up
             ? last_growth.toFixed(2)
-            : Math.abs(last_growth.toFixed(2)),
-        avg: avg_up ? avg_growth.toFixed(2) : Math.abs(avg_growth.toFixed(2)),
+            : Math.abs(last_growth).toFixed(2),
+        avg: avg_up ? avg_growth.toFixed(2) : Math.abs(avg_growth).toFixed(2),
         avg_up,
         last_up,
     };
@@ -178,7 +178,7 @@ const donutChartData = computed<DonutChartData>(() => {
         ];
     }
 
-    const tests = [];
+    const tests: TestItem[] = [];
     apiData.value.tests.forEach((item) => {
         const index = tests.findIndex((test) => test.name === item.name);
         let amount = item.amount;
