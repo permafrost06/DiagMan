@@ -17,9 +17,10 @@ import { dateToMonthWeek, formatNumber } from "@/helpers/utils";
 
 const loading = ref(false);
 const reqCtrl = ref<AbortController | null>(null);
+const today = new Date();
 const selectedMonths = ref<MonthSelection>({
-    year: new Date().getFullYear(),
-    start: new Date().getMonth(),
+    year: today.getFullYear(),
+    start: today.getMonth(),
 });
 
 interface SaleData {
@@ -193,6 +194,12 @@ const donutChartData = computed<DonutChartData>(() => {
     });
     return values;
 });
+
+const isCurrentMonth = computed(
+    () =>
+        today.getFullYear() === selectedMonths.value.year &&
+        today.getMonth() === selectedMonths.value.start,
+);
 </script>
 <template>
     <div class="finances-page">
@@ -227,30 +234,32 @@ const donutChartData = computed<DonutChartData>(() => {
                         <TakaIcon />
                         {{ revenue.amount }}/-
                     </p>
-                    <p
-                        :class="{
-                            'finance-info-loading': loading,
-                            'finance-info-up': revenue.last_up,
-                            'finance-info-down': !revenue.last_up,
-                        }"
-                    >
-                        <span v-if="!loading">
-                            {{ revenue.last + "%" }}
-                        </span>
-                        {{ loading ? "" : "from last month" }}
-                    </p>
-                    <p
-                        :class="{
-                            'finance-info-loading': loading,
-                            'finance-info-up': revenue.avg_up,
-                            'finance-info-down': !revenue.avg_up,
-                        }"
-                    >
-                        <span v-if="!loading">
-                            {{ revenue.avg + "%" }}
-                        </span>
-                        {{ loading ? "" : "from average" }}
-                    </p>
+                    <template v-if="!isCurrentMonth">
+                        <p
+                            :class="{
+                                'finance-info-loading': loading,
+                                'finance-info-up': revenue.last_up,
+                                'finance-info-down': !revenue.last_up,
+                            }"
+                        >
+                            <span v-if="!loading">
+                                {{ revenue.last + "%" }}
+                            </span>
+                            {{ loading ? "" : "from last month" }}
+                        </p>
+                        <p
+                            :class="{
+                                'finance-info-loading': loading,
+                                'finance-info-up': revenue.avg_up,
+                                'finance-info-down': !revenue.avg_up,
+                            }"
+                        >
+                            <span v-if="!loading">
+                                {{ revenue.avg + "%" }}
+                            </span>
+                            {{ loading ? "" : "from average" }}
+                        </p>
+                    </template>
                 </div>
                 <div class="finance-info">
                     <h3>Discount Given</h3>
@@ -258,30 +267,32 @@ const donutChartData = computed<DonutChartData>(() => {
                         <TakaIcon />
                         {{ discount.amount }}/-
                     </p>
-                    <p
-                        :class="{
-                            'finance-info-loading': loading,
-                            'finance-info-up': discount.last_up,
-                            'finance-info-down': !discount.last_up,
-                        }"
-                    >
-                        <span v-if="!loading">
-                            {{ discount.last + "%" }}
-                        </span>
-                        {{ loading ? "" : "from last month" }}
-                    </p>
-                    <p
-                        :class="{
-                            'finance-info-loading': loading,
-                            'finance-info-up': discount.avg_up,
-                            'finance-info-down': !discount.avg_up,
-                        }"
-                    >
-                        <span v-if="!loading">
-                            {{ discount.avg + "%" }}
-                        </span>
-                        {{ loading ? "" : "from average" }}
-                    </p>
+                    <template v-if="!isCurrentMonth">
+                        <p
+                            :class="{
+                                'finance-info-loading': loading,
+                                'finance-info-up': discount.last_up,
+                                'finance-info-down': !discount.last_up,
+                            }"
+                        >
+                            <span v-if="!loading">
+                                {{ discount.last + "%" }}
+                            </span>
+                            {{ loading ? "" : "from last month" }}
+                        </p>
+                        <p
+                            :class="{
+                                'finance-info-loading': loading,
+                                'finance-info-up': discount.avg_up,
+                                'finance-info-down': !discount.avg_up,
+                            }"
+                        >
+                            <span v-if="!loading">
+                                {{ discount.avg + "%" }}
+                            </span>
+                            {{ loading ? "" : "from average" }}
+                        </p>
+                    </template>
                 </div>
             </div>
             <div class="charts-area">
