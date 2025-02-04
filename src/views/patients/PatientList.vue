@@ -29,7 +29,7 @@ const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
 const showDelivered = ref<boolean>(
-    typeof route.query.delivered !== "undefined"
+    typeof route.query.delivered !== "undefined",
 );
 const paginationInfo = ref<ApiResponsePaged["pagination"]>({
     total: 0,
@@ -38,7 +38,7 @@ const paginationInfo = ref<ApiResponsePaged["pagination"]>({
 });
 const [sortState, doSorting] = useSorter<string>(
     (route.query.sort_by as any) || "timestamp",
-    (route.query.order as any) || "desc"
+    (route.query.order as any) || "desc",
 );
 const filterRef = ref();
 
@@ -143,7 +143,7 @@ watch(
                 page: undefined,
             },
         });
-    }
+    },
 );
 
 let searchTout: any = null;
@@ -241,13 +241,13 @@ async function deletePatient() {
             body: JSON.stringify({
                 id: deleteValue.value?.id,
             }),
-        }
+        },
     );
     isDeleting.value = false;
     if (res.success) {
         error.value = null;
         patients.value = patients.value.filter(
-            (p) => p.id != deleteValue.value?.id
+            (p) => p.id != deleteValue.value?.id,
         );
         deleteValue.value = null;
     } else {
@@ -266,7 +266,7 @@ const toggleLock = async (patient: any) => {
         API_BASE + "/reports/lock/" + encodeURIComponent(patient.id),
         {
             method: "POST",
-        }
+        },
     );
     lockReqs.value.delete(patient.id);
     if (!res.success) {
@@ -286,7 +286,7 @@ const deliverReport = async (patient: any) => {
         API_BASE + "/reports/deliver/" + encodeURIComponent(patient.id),
         {
             method: "POST",
-        }
+        },
     );
     deliverReqs.value.delete(patient.id);
     if (!res.success) {
@@ -309,7 +309,7 @@ const unDeliverReport = async (patient: any) => {
         API_BASE + "/reports/un-deliver/" + encodeURIComponent(patient.id),
         {
             method: "POST",
-        }
+        },
     );
     unDeliverReqs.value.delete(patient.id);
     if (!res.success) {
@@ -373,7 +373,9 @@ const getStatus = (patient: Record<any, any>) => {
                 <p>Filter:</p>
                 <select
                     class="sort-by-selector"
-                    @input="(evt: any) => filterResult('type', evt.target.value)"
+                    @input="
+                        (evt: any) => filterResult('type', evt.target.value)
+                    "
                     :value="filterType"
                 >
                     <option value="">All</option>
@@ -422,180 +424,212 @@ const getStatus = (patient: Record<any, any>) => {
         </div>
         <div>
             <table width="100%">
-                <tr class="font-h">
-                    <ThActionable
-                        :description="tableDescription"
-                        :on-filter="showFilter"
-                        :on-sort="sortBy"
-                        :sort-by="sortState.by"
-                        :sort-order="sortState.order"
-                    />
-                    <th>Actions</th>
-                </tr>
-                <template v-if="isLoading">
-                    <tr v-for="i in 10" :key="i" :class="'skeleton-' + (i % 4)">
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td class="flex items-center gap-sm">
-                            <div class="skeleton btn"></div>
-                            <div class="skeleton btn"></div>
-                            <div class="skeleton btn"></div>
+                <tbody>
+                    <tr class="font-h">
+                        <ThActionable
+                            :description="tableDescription"
+                            :on-filter="showFilter"
+                            :on-sort="sortBy"
+                            :sort-by="sortState.by"
+                            :sort-order="sortState.order"
+                        />
+                        <th>Actions</th>
+                    </tr>
+                    <template v-if="isLoading">
+                        <tr
+                            v-for="i in 10"
+                            :key="i"
+                            :class="'skeleton-' + (i % 4)"
+                        >
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton"></div>
+                            </td>
+                            <td class="flex items-center gap-sm">
+                                <div class="skeleton btn"></div>
+                                <div class="skeleton btn"></div>
+                                <div class="skeleton btn"></div>
+                            </td>
+                        </tr>
+                    </template>
+                    <tr v-else-if="!patients?.length">
+                        <td colspan="7">
+                            {{ error || "No patients added yet!" }}
                         </td>
                     </tr>
-                </template>
-                <tr v-else-if="!patients?.length">
-                    <td colspan="7">{{ error || "No patients added yet!" }}</td>
-                </tr>
-                <template v-else>
-                    <tr
-                        class="patient-row"
-                        @click="() => goToReport(patient)"
-                        v-for="patient in patients"
-                        :key="patient.id"
-                    >
-                        <td>
-                            <p v-html="hightlightText(patient.name)" />
-                            <p
-                                class="small-id"
-                                v-html="hightlightText(patient.id)"
-                            />
-                        </td>
-                        <td>{{ patient.contact }}</td>
-                        <td>
-                            {{
-                                patient.timestamp
-                                    ? dateToDMY(
-                                          new Date(parseInt(patient.timestamp))
-                                      )
-                                    : "N/A"
-                            }}
-                        </td>
-                        <td>
-                            {{ patient.specimen }}
-                        </td>
-                        <td class="capitalize" v-html="getStatus(patient)"></td>
-                        <td>
-                            <div @click.stop class="flex gap-sm row-actions">
-                                <div class="print-btns">
-                                    <button
-                                        class="dropdown-button"
-                                        type="button"
-                                        @click="expandPrintBtn"
-                                    >
-                                        Print
-                                        <Icon size="16" viewBox="1024">
-                                            ><path
-                                                fill="currentColor"
-                                                d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35"
-                                            />
-                                        </Icon>
-                                    </button>
-                                    <div class="dropdown">
-                                        <RouterLink
-                                            v-if="patient.is_reported"
-                                            :to="{
-                                                name: 'report.print',
-                                                params: {
-                                                    id: patient.id,
-                                                },
-                                            }"
-                                            class="btn report-btn"
+                    <template v-else>
+                        <tr
+                            class="patient-row"
+                            @click="() => goToReport(patient)"
+                            v-for="patient in patients"
+                            :key="patient.id"
+                        >
+                            <td>
+                                <p v-html="hightlightText(patient.name)" />
+                                <p
+                                    class="small-id"
+                                    v-html="hightlightText(patient.id)"
+                                />
+                            </td>
+                            <td>{{ patient.contact }}</td>
+                            <td>
+                                {{
+                                    patient.timestamp
+                                        ? dateToDMY(
+                                              new Date(
+                                                  parseInt(patient.timestamp),
+                                              ),
+                                          )
+                                        : "N/A"
+                                }}
+                            </td>
+                            <td>
+                                {{ patient.specimen }}
+                            </td>
+                            <td
+                                class="capitalize"
+                                v-html="getStatus(patient)"
+                            ></td>
+                            <td>
+                                <div
+                                    @click.stop
+                                    class="flex gap-sm row-actions"
+                                >
+                                    <div class="print-btns">
+                                        <button
+                                            class="dropdown-button"
+                                            type="button"
+                                            @click="expandPrintBtn"
                                         >
-                                            Report
-                                        </RouterLink>
-                                        <div class="divider" />
-                                        <RouterLink
-                                            :to="{
-                                                name: 'patients.invoice',
-                                                params: {
-                                                    id: patient.id,
-                                                },
-                                            }"
-                                            class="btn"
-                                        >
-                                            Invoice
-                                        </RouterLink>
+                                            Print
+                                            <Icon size="16" viewBox="1024">
+                                                ><path
+                                                    fill="currentColor"
+                                                    d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35"
+                                                />
+                                            </Icon>
+                                        </button>
+                                        <div class="dropdown">
+                                            <RouterLink
+                                                v-if="patient.is_reported"
+                                                :to="{
+                                                    name: 'report.print',
+                                                    params: {
+                                                        id: patient.id,
+                                                    },
+                                                }"
+                                                class="btn report-btn"
+                                            >
+                                                Report
+                                            </RouterLink>
+                                            <div class="divider" />
+                                            <RouterLink
+                                                :to="{
+                                                    name: 'patients.invoice',
+                                                    params: {
+                                                        id: patient.id,
+                                                    },
+                                                }"
+                                                class="btn"
+                                            >
+                                                Invoice
+                                            </RouterLink>
+                                        </div>
                                     </div>
+                                    <button
+                                        v-if="
+                                            user.isAdmin &&
+                                            patient.is_reported &&
+                                            patient.status !== 'delivered'
+                                        "
+                                        type="button"
+                                        class="btn-outline"
+                                        @click="() => toggleLock(patient)"
+                                    >
+                                        <Loading
+                                            size="15"
+                                            v-if="
+                                                lockReqs.has(patient.id as any)
+                                            "
+                                        />
+                                        {{ patient.locked ? "Unlock" : "Lock" }}
+                                    </button>
+                                    <template v-if="patient.locked">
+                                        <button
+                                            v-if="
+                                                patient.status !== 'delivered'
+                                            "
+                                            type="button"
+                                            class="btn-outline"
+                                            @click="
+                                                () => deliverReport(patient)
+                                            "
+                                        >
+                                            <Loading
+                                                size="15"
+                                                v-if="
+                                                    deliverReqs.has(
+                                                        patient.id as any,
+                                                    )
+                                                "
+                                            />
+                                            Archive
+                                        </button>
+                                        <button
+                                            v-else
+                                            type="button"
+                                            class="btn-outline"
+                                            @click="
+                                                () => unDeliverReport(patient)
+                                            "
+                                        >
+                                            <Loading
+                                                size="15"
+                                                v-if="
+                                                    unDeliverReqs.has(
+                                                        patient.id as any,
+                                                    )
+                                                "
+                                            />
+                                            Unarchive
+                                        </button>
+                                    </template>
+                                    <RouterLink
+                                        :to="{
+                                            name: 'patients.edit',
+                                            params: {
+                                                id: patient.id,
+                                            },
+                                        }"
+                                        class="btn btn-outline"
+                                    >
+                                        Edit
+                                    </RouterLink>
+                                    <button
+                                        class="btn-outline danger"
+                                        @click="deleteValue = patient"
+                                    >
+                                        Delete
+                                    </button>
                                 </div>
-                                <button
-                                    v-if="
-                                        user.isAdmin &&
-                                        patient.is_reported &&
-                                        patient.status !== 'delivered'
-                                    "
-                                    type="button"
-                                    class="btn-outline"
-                                    @click="() => toggleLock(patient)"
-                                >
-                                    <Loading
-                                        size="15"
-                                        v-if="lockReqs.has(patient.id as any)"
-                                    />
-                                    {{ patient.locked ? "Unlock" : "Lock" }}
-                                </button>
-                                <template v-if="patient.locked">
-                                    <button
-                                        v-if="patient.status !== 'delivered'"
-                                        type="button"
-                                        class="btn-outline"
-                                        @click="() => deliverReport(patient)"
-                                    >
-                                        <Loading
-                                            size="15"
-                                            v-if="deliverReqs.has(patient.id as any)"
-                                        />
-                                        Archive
-                                    </button>
-                                    <button
-                                        v-else
-                                        type="button"
-                                        class="btn-outline"
-                                        @click="() => unDeliverReport(patient)"
-                                    >
-                                        <Loading
-                                            size="15"
-                                            v-if="unDeliverReqs.has(patient.id as any)"
-                                        />
-                                        Unarchive
-                                    </button>
-                                </template>
-                                <RouterLink
-                                    :to="{
-                                        name: 'patients.edit',
-                                        params: {
-                                            id: patient.id,
-                                        },
-                                    }"
-                                    class="btn btn-outline"
-                                >
-                                    Edit
-                                </RouterLink>
-                                <button
-                                    class="btn-outline danger"
-                                    @click="deleteValue = patient"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </template>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
             </table>
         </div>
         <div class="flex items-center justify-between">
