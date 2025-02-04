@@ -5,6 +5,8 @@ import MonthSelector, {
 } from "@/components/form/MonthSelector.vue";
 
 import TakaIcon from "@/Icons/taka.svg";
+import ArrowUp from "@/Icons/arrow-up.svg";
+import ArrowDown from "@/Icons/arrow-down.svg";
 
 import router from "@/router";
 import { computed, onMounted, ref, watch } from "vue";
@@ -235,30 +237,30 @@ const isCurrentMonth = computed(
                         {{ revenue.amount }}/-
                     </p>
                     <template v-if="!isCurrentMonth">
-                        <p
-                            :class="{
-                                'finance-info-loading': loading,
-                                'finance-info-up': revenue.last_up,
-                                'finance-info-down': !revenue.last_up,
-                            }"
-                        >
-                            <span v-if="!loading">
+                        <div class="finance-info-growth">
+                            <div v-if="!loading">
+                                <ArrowUp
+                                    class="finance-up"
+                                    v-if="revenue.last_up"
+                                />
+                                <ArrowDown class="finance-down" v-else />
                                 {{ revenue.last + "%" }}
-                            </span>
-                            {{ loading ? "" : "from last month" }}
-                        </p>
-                        <p
-                            :class="{
-                                'finance-info-loading': loading,
-                                'finance-info-up': revenue.avg_up,
-                                'finance-info-down': !revenue.avg_up,
-                            }"
-                        >
-                            <span v-if="!loading">
+                            </div>
+                            <div v-else class="skeleton finance-info-loading" />
+                            from last month
+                        </div>
+                        <div class="finance-info-growth">
+                            <div v-if="!loading">
+                                <ArrowUp
+                                    class="finance-up"
+                                    v-if="revenue.avg_up"
+                                />
+                                <ArrowDown class="finance-down" v-else />
                                 {{ revenue.avg + "%" }}
-                            </span>
-                            {{ loading ? "" : "from average" }}
-                        </p>
+                            </div>
+                            <div v-else class="skeleton finance-info-loading" />
+                            from average
+                        </div>
                     </template>
                 </div>
                 <div class="finance-info">
@@ -268,30 +270,30 @@ const isCurrentMonth = computed(
                         {{ discount.amount }}/-
                     </p>
                     <template v-if="!isCurrentMonth">
-                        <p
-                            :class="{
-                                'finance-info-loading': loading,
-                                'finance-info-up': discount.last_up,
-                                'finance-info-down': !discount.last_up,
-                            }"
-                        >
-                            <span v-if="!loading">
+                        <div class="finance-info-growth">
+                            <div v-if="!loading">
+                                <ArrowUp
+                                    class="finance-up"
+                                    v-if="discount.last_up"
+                                />
+                                <ArrowDown class="finance-down" v-else />
                                 {{ discount.last + "%" }}
-                            </span>
-                            {{ loading ? "" : "from last month" }}
-                        </p>
-                        <p
-                            :class="{
-                                'finance-info-loading': loading,
-                                'finance-info-up': discount.avg_up,
-                                'finance-info-down': !discount.avg_up,
-                            }"
-                        >
-                            <span v-if="!loading">
+                            </div>
+                            <div v-else class="skeleton finance-info-loading" />
+                            from last month
+                        </div>
+                        <div class="finance-info-growth">
+                            <div v-if="!loading">
+                                <ArrowUp
+                                    class="finance-up"
+                                    v-if="discount.avg_up"
+                                />
+                                <ArrowDown class="finance-down" v-else />
                                 {{ discount.avg + "%" }}
-                            </span>
-                            {{ loading ? "" : "from average" }}
-                        </p>
+                            </div>
+                            <div v-else class="skeleton finance-info-loading" />
+                            from average
+                        </div>
                     </template>
                 </div>
             </div>
@@ -347,53 +349,37 @@ const isCurrentMonth = computed(
         }
         &-value {
             display: flex;
-            gap: 5px;
+            gap: 2px;
             align-items: center;
             font-size: var(--fs-md);
-            margin-bottom: 10px;
-        }
-        &-up {
-            span {
-                color: var(--clr-success);
-            }
-            &::before {
-                content: "\2B06";
+            margin-bottom: 15px;
+            font-weight: 500;
+
+            svg {
+                opacity: 0.6;
             }
         }
-        &-down {
-            span {
-                color: var(--clr-danger);
-            }
-            &::before {
-                content: "\2B07";
-            }
+
+        &-growth {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            font-size: var(--fs-base);
+            margin-bottom: 5px;
+        }
+
+        div:has(> .finance-up) {
+            color: var(--clr-success);
+        }
+        div:has(> .finance-down) {
+            color: var(--clr-danger);
         }
 
         &-loading {
-            color: var(--clr-black);
             position: relative;
-            height: 10px;
-            &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 100%;
-                width: 15px;
-                background: var(--clr-black);
-                opacity: 0.4;
-            }
-
-            &::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 20px;
-                height: 100%;
-                width: 100px;
-                background: var(--clr-black);
-                opacity: 0.4;
-            }
+            height: 1em;
+            width: 50px;
+            border-radius: 20px;
         }
     }
 
