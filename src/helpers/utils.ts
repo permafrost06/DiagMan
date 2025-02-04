@@ -4,7 +4,7 @@ import { ref, type Ref } from "vue";
 
 export const formDataToObj = (
     formData: FormData,
-    arrays: string[] = []
+    arrays: string[] = [],
 ): Record<string, any> => {
     const body: Record<string, any> = {};
 
@@ -21,7 +21,7 @@ export const formDataToObj = (
 
 export const hasDuplicate = (
     old: Record<string, any>[] | string,
-    newVal: Record<string, any> | FormData | string
+    newVal: Record<string, any> | FormData | string,
 ): boolean => {
     if (typeof old === "string") {
         old = JSON.parse(old) as Record<string, any>[];
@@ -67,7 +67,7 @@ export const getFormError = (err: z.typeToFlattenedError<any, any>): string => {
 
 export const validateObject = <T extends z.ZodRawShape>(
     body: T,
-    schema: z.ZodObject<T>
+    schema: z.ZodObject<T>,
 ): ApiResponse | Record<string, any> => {
     const res = schema.safeParse(body);
 
@@ -92,7 +92,7 @@ export interface Sorting<T extends string = string> {
 
 export function useSorter<T extends string = string>(
     initial: T,
-    order: SortType = "desc"
+    order: SortType = "desc",
 ): [Ref<Sorting<T>>, (by: T) => Sorting<T>] {
     let sort_by = initial;
     let sort_type = order;
@@ -126,7 +126,7 @@ export const dmyToDate = (dmy: string): Date => {
     return new Date(
         parseInt(items[2]),
         parseInt(items[1]) - 1,
-        parseInt(items[0])
+        parseInt(items[0]),
     );
 };
 
@@ -135,4 +135,54 @@ export const formatNumber = (num: number): string => {
         return num.toString();
     }
     return num.toString().replace(/\B(?=(\d{3})(\d{2})*(?!\d))/g, ",");
+};
+
+export const convertYearWeekToDateRange = (yearWeek: string): string => {
+    let [year, week] = yearWeek.split("-").map(Number);
+
+    if (isNaN(week)) week = Number(yearWeek.split("-W")[1]);
+
+    const firstThursday = new Date(year, 0, 4);
+    const firstWeekStart = new Date(firstThursday);
+    firstWeekStart.setDate(
+        firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7),
+    );
+
+    const weekStart = new Date(firstWeekStart);
+    weekStart.setDate(firstWeekStart.getDate() + (week - 1) * 7);
+
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+
+    const monthName = weekStart.toLocaleDateString("en-US", { month: "short" });
+    const startDay = weekStart.getDate();
+    const endDay = weekEnd.getDate();
+
+    return `${monthName} ${startDay} - ${endDay}`;
+};
+
+export const convertYearWeekToMonthWeek = (yearWeek: string): string => {
+    let [year, week] = yearWeek.split("-").map(Number);
+
+    if (isNaN(week)) week = Number(yearWeek.split("-W")[1]);
+
+    const firstThursday = new Date(year, 0, 4);
+    const firstWeekStart = new Date(firstThursday);
+    firstWeekStart.setDate(
+        firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7),
+    );
+
+    const weekStart = new Date(firstWeekStart);
+    weekStart.setDate(firstWeekStart.getDate() + (week - 1) * 7);
+
+    const month = weekStart.getMonth();
+    const monthName = weekStart.toLocaleDateString("en-US", { month: "short" });
+
+    const firstDayOfMonth = new Date(year, month, 1);
+
+    const weekNumberInMonth = Math.ceil(
+        (weekStart.getDate() + firstDayOfMonth.getDay()) / 7,
+    );
+
+    return `${monthName} W${weekNumberInMonth}`;
 };

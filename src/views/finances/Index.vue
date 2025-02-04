@@ -13,7 +13,7 @@ import type { BarChartData } from "@/components/chart/BarChart";
 import { DonutChartData } from "@/components/chart/DonutChart";
 import { fetchApi } from "@/helpers/http";
 import { API_BASE } from "@/helpers/config";
-import { formatNumber } from "@/helpers/utils";
+import { convertYearWeekToMonthWeek, formatNumber } from "@/helpers/utils";
 
 const loading = ref(false);
 const reqCtrl = ref<AbortController | null>(null);
@@ -140,7 +140,7 @@ const barChartData = computed<BarChartData>(() => {
     const vals: Record<string, BarChartData["values"][number]> = {};
 
     apiData.value.barChart.forEach((item) => {
-        labels.push(item.week.split("-")[1]);
+        labels.push(convertYearWeekToMonthWeek(item.week));
         weeks.push(item.week);
         let val = vals[item.week];
         if (!val) {
