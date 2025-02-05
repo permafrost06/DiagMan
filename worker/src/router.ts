@@ -10,6 +10,7 @@ import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
 import { deleteMiscString, listMiscStrings } from './routes/misc-strings';
+import { getFinances } from './routes/finances';
 
 export interface RequestEvent {
 	request: Request;
@@ -73,5 +74,7 @@ export const buildRouter = (router: RouterType) => {
 
 	router.get('/misc', listMiscStrings);
 	router.post('/misc/remove/:id', deleteMiscString);
+
+	router.get('/finances', getFinances);
 };
 export default buildRouter;

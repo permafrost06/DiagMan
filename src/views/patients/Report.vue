@@ -10,7 +10,7 @@ import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { nextTick, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import Quill, { type QuillOptionsStatic } from "quill";
+import Quill, { type QuillOptions } from "quill";
 
 import "quill/dist/quill.snow.css";
 import { dateToDMY } from "@/helpers/utils";
@@ -18,7 +18,7 @@ import EditPatient from "./EditPatient.vue";
 import { useUser } from "@/stores/user";
 import router from "@/router";
 
-const quillOptions: QuillOptionsStatic = {
+const quillOptions: QuillOptions = {
     debug: "error",
     modules: {
         toolbar: [
@@ -231,6 +231,13 @@ const showTemplateSaver = () => {
 const onTemAdded = (tem: any) => {
     templates.value.push(tem);
     templateModalValue.value = false;
+    const organ = tem.organ;
+    const hasOrgan = organs.value.findIndex((o) => o.organ == organ);
+    if (hasOrgan === -1) {
+        organs.value.push({
+            organ,
+        });
+    }
 };
 
 const isUnLocking = ref<boolean>(false);

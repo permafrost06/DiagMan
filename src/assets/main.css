@@ -245,6 +245,7 @@ button, .btn {
   right: 1rem;
   top: 1rem;
   color: var(--clr-black);
+  background: transparent;
 }
 
 .ql-container {

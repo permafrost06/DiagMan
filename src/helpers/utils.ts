@@ -4,7 +4,7 @@ import { ref, type Ref } from "vue";
 
 export const formDataToObj = (
     formData: FormData,
-    arrays: string[] = []
+    arrays: string[] = [],
 ): Record<string, any> => {
     const body: Record<string, any> = {};
 
@@ -21,7 +21,7 @@ export const formDataToObj = (
 
 export const hasDuplicate = (
     old: Record<string, any>[] | string,
-    newVal: Record<string, any> | FormData | string
+    newVal: Record<string, any> | FormData | string,
 ): boolean => {
     if (typeof old === "string") {
         old = JSON.parse(old) as Record<string, any>[];
@@ -67,7 +67,7 @@ export const getFormError = (err: z.typeToFlattenedError<any, any>): string => {
 
 export const validateObject = <T extends z.ZodRawShape>(
     body: T,
-    schema: z.ZodObject<T>
+    schema: z.ZodObject<T>,
 ): ApiResponse | Record<string, any> => {
     const res = schema.safeParse(body);
 
@@ -92,7 +92,7 @@ export interface Sorting<T extends string = string> {
 
 export function useSorter<T extends string = string>(
     initial: T,
-    order: SortType = "desc"
+    order: SortType = "desc",
 ): [Ref<Sorting<T>>, (by: T) => Sorting<T>] {
     let sort_by = initial;
     let sort_type = order;
@@ -126,6 +126,27 @@ export const dmyToDate = (dmy: string): Date => {
     return new Date(
         parseInt(items[2]),
         parseInt(items[1]) - 1,
-        parseInt(items[0])
+        parseInt(items[0]),
     );
+};
+
+export const formatNumber = (num: number): string => {
+    if (num < 10000) {
+        return num.toString();
+    }
+    return num.toString().replace(/\B(?=(\d{3})(\d{2})*(?!\d))/g, ",");
+};
+
+export const dateToMonthWeek = (dateStr: string): string => {
+    const date = new Date(dateStr);
+    const options: Intl.DateTimeFormatOptions = { month: "short" };
+    const month = new Intl.DateTimeFormat("en-US", options).format(date);
+
+    // Get the week number within the month
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const weekNumber = Math.ceil(
+        (date.getDate() + firstDayOfMonth.getDay()) / 7,
+    );
+
+    return `${month} W${weekNumber}`;
 };
