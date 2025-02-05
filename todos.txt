@@ -56,34 +56,39 @@
 
 To be fixed soon
 [ ] Add columns needed by kaka - add setting in settings to pick and choose columns
-[ ] Change print dropdown button style
+[ ] Don't wrap text inside table unless a ninimum width is reached
+[ ] Prevent table layout shift while loading
+[ ] Add option to fit table to screen height (adjust number of rows shown)
+[ ] Add sms functionality
+[ ] Change app name from "The Opinion" to DiagMan
+[ ] Allow signing in with password instead of pin
+[ ] Add digit counter to contact no
+[ ] Press esc for close button effect
+[ ] Pagination changes
+    [ ] Show number of items
+    [ ] Add “go to page” box
+[ ] Disable right click context menu
+[ ] Hide table actions in a dropdown/right click
+[x] Change print dropdown button style
 [ ] Refactor invoice view print layout css
 [x] Automatic id generation
-[ ] Add financial statement page
+[x] Add financial statement page
 [ ] Add checkbox beside update button "print report after update"
 [ ] Mark incomplete reports as incomplete (all fields except note MUST be non-empty)
-[ ] Newly added organ not showing up until refresh
+[x] Newly added organ not showing up until refresh
 [ ] Remove "add template" modal - just add organ and template name to save it
 [ ] Reorganize add report page
     [ ] Patient info on top
     [ ] Templates on right
         [ ] Pre-select organ that matches patient.specimen the most
-[ ] Add sms functionality
-[ ] Patients list pagination page should persist
-[ ] Change app name from "The Opinion" to DiagMan
+[x] Patients list pagination page should persist
 [ ] Shows cryptic error on empty email or password/if can't connect to server
-[ ] Allow signing in with password instead of pin
-[ ] Prevent table layout shift while loading
-[ ] Add option  to fit table to screen height (adjust number of rows shown)
-[ ] Don't wrap text inside table unless a ninimum width is reached
 
 Less important
 [ ] Hide left column in reports
 [ ] Template view in settings not working
-[ ] Add digit counter to contact no
 [ ] Lock report on delivery?
-[ ] Add setting: auto generate ID
-[ ] Press esc for close button effect
+[x] Add setting: auto generate ID
 [ ] Use dknck print technique for diagman
 [ ] The number fields may contain string (fixed?)
 [ ] Move focus to the input element when note is added
@@ -93,11 +98,7 @@ Less important
     [ ] Float whole topbar, add back button and home button, remove close button
 [ ] Disable edge touch gesture go back (css: `touch-action: none`)
 [ ] Hide edge "personal info"? thingy (html attr aria-autocomplete="list")?
-[ ] Pagination changes
-    [ ] Show number of items
-    [ ] Add “go to page” box
 [ ] Show notification on delivered with undo button - persist long time
-[ ] Disable right click context menu
 [x] Remove invoice button, add print dropdown button
     [x] Print invoice
     [x] Print report (grey + block cursor icon if n/a) (must be on top)
@@ -140,7 +141,6 @@ Less important
 
 [LATER]
 [ ] Add color themes, dark mode
-[ ] Hide table actions in a dropdown/right click
 [ ] Add setting: table fields to show
 [ ] Add setting: default filter
 [ ] Add setting: default sort
