@@ -150,38 +150,27 @@ export const getFinances: RequestHandler = async ({ env, res, url }) => {
     SELECT
       type,
       date(datetime(timestamp / 1000, 'unixepoch'), 'weekday 0', '-6 days') AS week_start,
-      SUM(total) AS total_sum,
-      MIN(timestamp) AS min_timestamp
+      SUM(total) AS total_sum
     FROM patients
-		WHERE strftime('%Y-%m', datetime(timestamp/1000, 'unixepoch')) != '2024-01'
+    WHERE strftime('%Y-%m', datetime(timestamp / 1000, 'unixepoch')) != '2024-01'
+    AND timestamp <= ?
     GROUP BY type, week_start
   ),
   DistinctWeeks AS (
-    SELECT DISTINCT week_start, MIN(min_timestamp) AS min_timestamp
+    SELECT DISTINCT week_start
     FROM WeeklyEntries
-    GROUP BY week_start
-  ),
-  RankedWeeks AS (
-    SELECT
-      week_start,
-      min_timestamp,
-      CASE
-        WHEN min_timestamp BETWEEN ? AND ? THEN 0
-        ELSE MIN(ABS(min_timestamp - ?), ABS(min_timestamp - ?))
-      END AS distance
-    FROM DistinctWeeks
-    ORDER BY distance ASC, week_start ASC
+    ORDER BY week_start DESC
     LIMIT 16
   )
   SELECT we.*
   FROM WeeklyEntries we
-  JOIN RankedWeeks rw ON we.week_start = rw.week_start
-  ORDER BY we.week_start ASC;
+  JOIN DistinctWeeks dw ON we.week_start = dw.week_start
+  ORDER BY we.week_start ASC
 	`;
 
 	const { rows: barChartRows } = await db.execute({
 		sql: barChartSql,
-		args: [dateRange.from, dateRange.to, dateRange.from, dateRange.to],
+		args: [dateRange.to],
 	});
 
 	res.setData({
