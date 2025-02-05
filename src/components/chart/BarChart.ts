@@ -147,7 +147,7 @@ export class BarChart {
 
     protected calculateYAxisWidth(): number {
         const maxYAxisVal = Math.max(...this.yScale.ticks(5));
-        return getTextWidth(formatNumber(maxYAxisVal), "12px Arial");
+        return getTextWidth(formatNumber(maxYAxisVal), "12px Arial") + 5;
     }
 
     protected drawYAxis(remWidth: number) {
