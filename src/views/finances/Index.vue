@@ -7,6 +7,8 @@ import MonthSelector, {
 import TakaIcon from "@/Icons/taka.svg";
 import ArrowUp from "@/Icons/arrow-up.svg";
 import ArrowDown from "@/Icons/arrow-down.svg";
+import ArrowLeft from "@/Icons/arrow-left.svg";
+import ArrowRight from "@/Icons/arrow-right.svg";
 
 import router from "@/router";
 import { computed, onMounted, ref, watch } from "vue";
@@ -24,6 +26,21 @@ const selectedMonths = ref<MonthSelection>({
     year: today.getFullYear(),
     start: today.getMonth(),
 });
+
+const MONTH_NAMES: string[] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
 
 interface SaleData {
     total: number;
@@ -202,6 +219,39 @@ const isCurrentMonth = computed(
         today.getFullYear() === selectedMonths.value.year &&
         today.getMonth() === selectedMonths.value.start,
 );
+
+
+const isMonthDisabled = (year: number, month: number) => {
+    return (
+        (year <= 2024 && month <= 1) ||
+        (year >= today.getFullYear() && month > today.getMonth())
+    );
+};
+
+const changeMonth = (change: number) => {
+    let newMonth = selectedMonths.value.start + change;
+    let newYear = selectedMonths.value.year;
+
+    if (newMonth < 0) {
+        newMonth = 11;
+        newYear -= 1;
+    } else if (newMonth > 11) {
+        newMonth = 0;
+        newYear += 1;
+    }
+
+    if (isMonthDisabled(newYear, newMonth)) {
+        return;
+    }
+
+    const formatted = `${MONTH_NAMES[newMonth]}, ${newYear}`;
+
+    selectedMonths.value = {
+        year: newYear,
+        start: newMonth,
+        formatted,
+    };
+};
 </script>
 <template>
     <div class="finances-page">
@@ -237,7 +287,15 @@ const isCurrentMonth = computed(
                         month: 1,
                     }"
                 />
-                <h2 class="finance-months">{{ selectedMonths.formatted }}</h2>
+                <h2 class="finance-months">
+                    <button type="button" @click="changeMonth(-1)" :disabled="isMonthDisabled(selectedMonths.year, selectedMonths.start - 1)">
+                        <ArrowLeft />
+                    </button>
+                    {{ selectedMonths.formatted }}
+                    <button type="button" @click="changeMonth(1)" :disabled="isMonthDisabled(selectedMonths.year, selectedMonths.start + 1)">
+                        <ArrowRight />
+                    </button>
+                </h2>
                 <div class="finance-info">
                     <h3>Revenue</h3>
                     <p class="finance-info-value">
@@ -346,6 +404,29 @@ const isCurrentMonth = computed(
         font-weight: bold;
         margin-top: 20px;
         font-size: var(--fs-xl);
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        button {
+            background: transparent;
+            border: none;
+            color: var(--clr-black);
+            cursor: pointer;
+            padding: 0;
+            font-size: inherit;
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+
+                &:hover {
+                    outline: none;
+                }
+            }
+            
+        }
     }
 
     .finance-info {
