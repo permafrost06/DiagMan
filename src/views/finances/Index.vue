@@ -374,6 +374,12 @@ const isCurrentMonth = computed(
             align-items: center;
             font-size: var(--fs-base);
             margin-bottom: 5px;
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
         }
 
         div:has(> .finance-up) {
