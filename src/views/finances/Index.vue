@@ -217,13 +217,12 @@ const donutChartData = computed<DonutChartData>(() => {
 const isCurrentMonth = computed(
     () =>
         today.getFullYear() === selectedMonths.value.year &&
-        today.getMonth() === selectedMonths.value.start,
+        today.getMonth() === selectedMonths.value.start
 );
-
 
 const isMonthDisabled = (year: number, month: number) => {
     return (
-        (year <= 2024 && month <= 1) ||
+        (year <= 2024 && month < 1) ||
         (year >= today.getFullYear() && month > today.getMonth())
     );
 };
