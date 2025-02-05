@@ -290,7 +290,15 @@ const changeMonth = (change: number) => {
                     <button type="button" @click="changeMonth(-1)" :disabled="isMonthDisabled(selectedMonths.year, selectedMonths.start - 1)">
                         <ArrowLeft />
                     </button>
-                    {{ selectedMonths.formatted }}
+                    <span
+                        style="
+                            display: inline-block;
+                            width: 17rem;
+                            text-align: center;
+                        "
+                    >
+                        {{ selectedMonths.formatted }}
+                    </span>
                     <button type="button" @click="changeMonth(1)" :disabled="isMonthDisabled(selectedMonths.year, selectedMonths.start + 1)">
                         <ArrowRight />
                     </button>
