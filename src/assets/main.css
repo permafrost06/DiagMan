@@ -240,6 +240,24 @@ button, .btn {
   margin-bottom: 10px;
 }
 
+
+.auth-root .pin-to-password {
+  display: block;
+  text-align: center;
+  background: transparent;
+  color: var(--clr-black);
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+  font-weight: normal;
+}
+
+.auth-root .pin-to-password:hover {
+  text-decoration: underline;
+  border: none;
+  outline: none;
+}
+
 .home-url {
   position: absolute;
   right: 1rem;

@@ -37,6 +37,10 @@ const handleForm = async (evt: any) => {
         user.pin = res.data.pin;
     }
 };
+
+const toPassword = () => {
+    user.id = 0;
+};
 </script>
 <template>
     <div class="auth-root">
@@ -70,6 +74,13 @@ const handleForm = async (evt: any) => {
             <div class="mt-md font-h">
                 <button type="submit" :disabled="isPosting">
                     {{ isPosting ? "Please wait..." : "Log In" }}
+                </button>
+                <button
+                    type="button"
+                    class="pin-to-password"
+                    @click="toPassword"
+                >
+                    Login using password instead!
                 </button>
             </div>
             <div class="link-area">
