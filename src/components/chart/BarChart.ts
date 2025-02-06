@@ -116,6 +116,7 @@ export class BarChart {
                             data.keys.map((entry) => bar[entry.key] || 0),
                         );
                         const tooltipContent =
+                        `<h3 style="text-align: center; margin: 0 0 5px 0;">${data.labels[index]}</h3>` +
                             data.keys
                                 .map(
                                     (entry) =>
@@ -176,15 +177,14 @@ export class BarChart {
     }
 
     protected drawXAxis(remHeight: number, originalLabels: string[]) {
-        // Determine which labels to show: every 5th one
         const tickIndices = originalLabels
             .map((_, i) => i)
             .filter((i) => i % 5 === 0);
 
         const xAxis = d3
             .axisBottom(this.xScale)
-            .tickValues(tickIndices.map((i) => this.xScale.domain()[i])) // Use transformed unique keys
-            .tickFormat((_, i) => originalLabels[tickIndices[i]]); // Show original labels every 5 steps
+            .tickValues(tickIndices.map((i) => this.xScale.domain()[i]))
+            .tickFormat((_, i) => originalLabels[tickIndices[i]]);
 
         this.d3El
             .append("g")
@@ -200,7 +200,7 @@ export class BarChart {
             .attr("text-anchor", "middle")
             .attr("font-size", "12px")
             .attr("fill", "#666")
-            .attr("transform", "rotate(0)"); // Keep horizontal or modify if needed
+            .attr("transform", "rotate(0)");
     }
 
     protected drawLegends(): number {
