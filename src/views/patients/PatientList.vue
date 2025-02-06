@@ -635,11 +635,12 @@ const getStatus = (patient: Record<any, any>) => {
         <div class="flex items-center justify-between">
             <CheckBox label="Show archived reports" v-model="showDelivered" />
             <Pagination
+            class="mt-sm"
                 :max-page="paginationInfo!.maxPage"
                 :per-page="10"
                 :item-count="paginationInfo!.total"
-                class="mt-sm"
                 :on-each-side="0"
+                :shown-items="patients.length"
             />
         </div>
     </div>

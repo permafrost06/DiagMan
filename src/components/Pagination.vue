@@ -7,6 +7,7 @@ export interface PaginationProps {
     onEachSide?: number;
     maxPage: number;
     itemCount: number;
+    shownItems?: number;
     perPage: number;
 }
 
@@ -60,6 +61,7 @@ const pages = computed(() => {
                     currentPage * perPage
                 }}
             </span>
+            <template v-if="shownItems"> ({{ shownItems }} rows)</template>
             out of {{ itemCount }}
         </p>
         <nav class="page_nums">
