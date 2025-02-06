@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { computed } from "vue";
-import { RouterLink, useRoute } from "vue-router";
+import { computed, ref } from "vue";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 
 export interface PaginationProps {
     onEachSide?: number;
@@ -12,9 +12,11 @@ export interface PaginationProps {
 }
 
 const route = useRoute();
+const router = useRouter();
 const currentPage = computed(() => {
     return parseInt(route.query.page as string) || 1;
 });
+const pageInput = ref(currentPage.value);
 
 const props = withDefaults(defineProps<PaginationProps>(), {
     onEachSide: 1,
@@ -50,6 +52,20 @@ const pages = computed(() => {
 
     return pages;
 });
+
+const goToPage = () => {
+    const page = pageInput.value;
+    if (page < 1 || page > props.maxPage) {
+        pageInput.value = currentPage.value;
+        return;
+    }
+    router.push(router.resolve({
+        query: {
+            ...route.query,
+            page,
+        },
+    }));
+};
 </script>
 
 <template>
@@ -137,70 +153,117 @@ const pages = computed(() => {
                 </svg>
             </RouterLink>
         </nav>
+        <div class="go-to">
+            <input
+                type="number"
+                v-model="pageInput"
+                :min="1"
+                :max="maxPage"
+                :placeholder="currentPage.toString()"
+                @keydown="(e) => e.key === 'Enter' && goToPage()"
+            />
+            <button type="button" @click="goToPage">
+                GO
+            </button>
+        </div>
     </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .pagination {
     display: flex;
     align-items: center;
     justify-content: end;
     flex-wrap: wrap;
     color: var(--clr-black);
-}
 
-.pagination p {
-    padding: 0 15px;
-    color: var(--clr-black);
-}
+    p {
+        padding: 0 15px;
+        color: var(--clr-black);
+    }
 
-.pagination .items-range {
-    font-weight: bold;
-}
+    .items-range {
+        font-weight: bold;
+    }
 
-.page-next,
-.page-prev {
-    border: 1px solid var(--clr-black);
-}
+    .page-next,
+    .page-prev {
+        border: 1px solid var(--clr-black);
+    }
 
-.page-next.disabled,
-.page-prev.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
+    .page-next.disabled,
+    .page-prev.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 
-.page_nums {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 4px 0;
-}
-.page_item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: var(--clr-black);
-    background: var(--clr-white);
-    user-select: none;
-    padding: 5px 8px;
-}
-.page_dots {
-    padding: 0 4px;
-}
-.page_num {
-    margin: 0 5px;
-    padding: 0px 7px;
-    box-sizing: border-box;
-    font-size: var(--fs-base);
-    text-decoration: underline;
-}
-.page_num:hover {
-    font-weight: 600;
-}
-.page_num.active {
-    border: 1px solid var(--clr-black);
-    text-decoration: none;
+    .page_nums {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 4px 0;
+    }
+    .page_item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: var(--clr-black);
+        background: var(--clr-white);
+        user-select: none;
+        padding: 5px 8px;
+    }
+    .page_dots {
+        padding: 0 4px;
+    }
+    .page_num {
+        margin: 0 5px;
+        padding: 0px 7px;
+        box-sizing: border-box;
+        font-size: var(--fs-base);
+        text-decoration: underline;
+    }
+    .page_num:hover {
+        font-weight: 600;
+    }
+    .page_num.active {
+        border: 1px solid var(--clr-black);
+        text-decoration: none;
+    }
+
+    .go-to {
+        display: flex;
+        align-items: stretch;
+        margin-left: 10px;
+        border: 1px solid var(--clr-black);
+
+        &:has(input:focus) {
+            box-shadow: 0 0 2px var(--clr-accent);
+        }
+
+        input {
+            border: none;
+            padding: 2px 5px;
+            margin: 0;
+            min-width: 40px;
+            field-sizing: content;
+            text-align: center;
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+
+        button {
+            padding: 0 5px;
+
+            &:hover {
+                background: var(--clr-black);
+                color: var(--clr-white);
+            }
+        }
+    }
 }
 </style>
