@@ -17,3 +17,7 @@ app.use(router);
 app.mount("#app");
 
 sync();
+
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+});
