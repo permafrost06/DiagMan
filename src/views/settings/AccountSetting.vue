@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import LoadingVue from "@/Icons/Loading.vue";
 import SimpleInput from "@/components/form/SimpleInput.vue";
+import HeaderSimple from "@/components/view/HeaderSimple.vue";
 import { API_BASE, AUTH_TOKEN_KEY } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { useUser } from "@/stores/user";
@@ -82,7 +83,7 @@ const logout = async () => {
 </script>
 <template>
     <div class="acc-settings">
-        <h1 class="page-title fs-2xl">Account</h1>
+        <HeaderSimple title="Account"/>
         <form
             class="name-form"
             method="POST"
@@ -186,10 +187,6 @@ const logout = async () => {
 
 <style lang="scss">
 .acc-settings {
-    .page-title {
-        border-bottom: 1px solid var(--clr-black);
-    }
-
     input {
         max-width: 250px;
     }

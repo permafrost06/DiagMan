@@ -3,7 +3,6 @@ import SimpleInput from "@/components/form/SimpleInput.vue";
 import SimpleSelect from "@/components/form/SimpleSelect.vue";
 import SimpleBlankInput from "@/components/form/SimpleBlankInput.vue";
 import SInputAutocomplete from "@/components/form/SInputAutocomplete.vue";
-import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import Loading from "@/Icons/Loading.vue";
 import DatePicker from "@/components/form/DatePicker.vue";
@@ -13,6 +12,7 @@ import { fetchApi } from "@/helpers/http";
 import { dmyToDate } from "@/helpers/utils";
 import { onMounted, ref } from "vue";
 import router from "@/router";
+import HeaderSimple from "@/components/view/HeaderSimple.vue";
 
 const props = defineProps<{
     toEdit?: Record<string, string>;
@@ -230,20 +230,7 @@ const onTestDelete = (id: string) => {
 </script>
 <template>
     <div class="add-patient-page">
-        <div v-if="!headless">
-            <h1 class="fs-2xl">{{ toEdit ? "Update" : "Add" }} Patient</h1>
-            <button type="button" @click="router.back()" class="home-url">
-                <Icon size="40" view-box="36">
-                    <path
-                        fill="currentColor"
-                        d="m19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
-                        class="clr-i-outline clr-i-outline-path-1"
-                    />
-                    <path fill="none" d="M0 0h36v36H0z" />
-                </Icon>
-            </button>
-        </div>
-
+        <HeaderSimple v-if="!headless" title="Add Patient"/>
         <div v-if="error" class="all-col form-alert error">
             {{ error }}
         </div>
@@ -568,13 +555,6 @@ const onTestDelete = (id: string) => {
 
     label {
         margin: 0;
-    }
-
-    button.home-url {
-        margin: 0;
-        padding: 0;
-        background: transparent;
-        color: black;
     }
 
     form.add-patient {
