@@ -639,6 +639,7 @@ const getStatus = (patient: Record<any, any>) => {
                 :per-page="10"
                 :item-count="paginationInfo!.total"
                 class="mt-sm"
+                :on-each-side="0"
             />
         </div>
     </div>
