@@ -7,7 +7,7 @@
         "withGlobalTauri": false
     },
     "package": {
-        "productName": "The Opinion",
+        "productName": "DiagMan",
         "version": "3.4.1"
     },
     "tauri": {
@@ -37,7 +37,7 @@
             {
                 "fullscreen": false,
                 "resizable": true,
-                "title": "The Opinion",
+                "title": "DiagMan",
                 "width": 800,
                 "height": 600,
                 "maximized": true

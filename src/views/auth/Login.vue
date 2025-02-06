@@ -35,7 +35,7 @@ const handleForm = async (evt: any) => {
             @submit="handleForm"
             class="space-y-sm"
         >
-            <h1 class="fs-3xl">The Opinion</h1>
+            <h1 class="fs-3xl">DiagMan</h1>
             <p class="sub-title font-h login-sub">Sign in to your account</p>
             <p v-if="error" class="alert error">{{ error }}</p>
             <div class="space-y-sm">
