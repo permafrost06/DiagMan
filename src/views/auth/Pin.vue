@@ -37,10 +37,6 @@ const handleForm = async (evt: any) => {
         user.pin = res.data.pin;
     }
 };
-
-const toPassword = () => {
-    user.id = 0;
-};
 </script>
 <template>
     <div class="auth-root">
@@ -75,17 +71,14 @@ const toPassword = () => {
                 <button type="submit" :disabled="isPosting">
                     {{ isPosting ? "Please wait..." : "Log In" }}
                 </button>
-                <button
-                    type="button"
-                    class="pin-to-password"
-                    @click="toPassword"
-                >
-                    Login using password instead!
-                </button>
             </div>
             <div class="link-area">
                 <RouterLink :to="{ name: 'login' }" class="login-link">
                     Log in to another account
+                </RouterLink>
+                <p style="text-align: center; margin-bottom: 10px">or</p>
+                <RouterLink :to="{ name: 'login' }" class="login-link">
+                    Log in using password
                 </RouterLink>
                 <!-- <a href="#" class="forgot-link">Forgot pin?</a> -->
             </div>
