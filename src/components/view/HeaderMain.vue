@@ -19,7 +19,7 @@ const user = useUser();
         <div class="flex items-center header-links">
             <div class="h-user-name font-h">
                 <p>{{ user.name }}</p>
-                <p class="h-user-role">{{ user.role }} - DiagMan</p>
+                <p class="h-user-role">{{ user.role }} - The Opinion</p>
             </div>
             <RouterLink :to="{ name: 'finances' }" class="finances-link">
                 <FinanceIcon /> Finances

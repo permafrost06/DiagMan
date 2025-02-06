@@ -45,7 +45,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 </div>
                 <header class="cols-2">
                     <div class="header-left">
-                        <p class="logo">DiagMan</p>
+                        <p class="logo">The Opinion</p>
                         <p class="bold">Dr. Md. Saiful Islam</p>
                         <p>Cyto and Histopathology Specialist</p>
                         <p>Associate Professor</p>
