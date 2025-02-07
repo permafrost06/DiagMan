@@ -165,7 +165,7 @@ const goToPage = () => {
                 :placeholder="currentPage.toString()"
                 @keydown="(e) => e.key === 'Enter' && goToPage()"
             />
-            <button type="button" @click="goToPage">GO</button>
+            <button type="button" @click="goToPage">Go to page</button>
         </div>
     </div>
 </template>
@@ -234,8 +234,6 @@ const goToPage = () => {
     }
 
     .go-to {
-        display: flex;
-        align-items: stretch;
         margin-left: 10px;
         border: 1px solid var(--clr-black);
 
@@ -244,12 +242,15 @@ const goToPage = () => {
         }
 
         input {
+            display: inline-block;
+
             border: none;
             padding: 2px 5px;
             margin: 0;
             min-width: 40px;
             field-sizing: content;
             text-align: center;
+            width: auto;
 
             &:focus {
                 outline: none;
@@ -258,7 +259,9 @@ const goToPage = () => {
         }
 
         button {
-            padding: 0 5px;
+            display: inline-block;
+
+            padding: 5px 15px;
 
             &:hover {
                 background: var(--clr-black);
