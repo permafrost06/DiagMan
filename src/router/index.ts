@@ -78,6 +78,12 @@ const router = createRouter({
                             component: () =>
                                 import("@/views/settings/ReportTemplates.vue"),
                         },
+                        {
+                            path: "sms",
+                            name: "settings.sms",
+                            component: () =>
+                                import("@/views/settings/SMSSettings.vue"),
+                        },
                     ],
                 },
             ],

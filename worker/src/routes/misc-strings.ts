@@ -1,5 +1,7 @@
-import { getLibsqlClient } from '../db/conn';
+import { getLibsqlClient, getUpdateQuery, insertRow } from '../db/conn';
+import { miscStringSchema } from '../forms/others';
 import { RequestHandler } from '../router';
+import { validateFormData } from '../utils/helpers';
 
 export const listMiscStrings: RequestHandler = async ({ env, res, query }) => {
 	const db = getLibsqlClient(env);
@@ -35,6 +37,26 @@ export const listMiscStrings: RequestHandler = async ({ env, res, query }) => {
 		args,
 	});
 	res.setRows(qres.rows);
+};
+
+export const addOrUpdateMiscString: RequestHandler = async ({ request, env, res, params }) => {
+	const data = await validateFormData(request, miscStringSchema);
+	const db = getLibsqlClient(env);
+
+	if (params.id) {
+		const { sql, args } = getUpdateQuery('misc_strings', data);
+		args.push(params.id);
+		await db.execute({
+			sql: sql + ' WHERE id = ?',
+			args,
+		});
+		res.setMsg('Misc string updated successfully!');
+	} else {
+		const { lastInsertRowid } = await insertRow(db, 'misc_strings', data);
+		data.id = lastInsertRowid?.toString();
+		res.setMsg('Misc string added successfully!');
+	}
+	res.setData(data);
 };
 
 export const deleteMiscString: RequestHandler = async ({ env, params, res }) => {

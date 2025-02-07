@@ -1,0 +1,1 @@
+ALTER TABLE patients ADD `sms_sent` integer;

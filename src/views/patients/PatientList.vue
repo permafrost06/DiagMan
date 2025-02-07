@@ -24,6 +24,7 @@ const route = useRoute();
 
 const user = useUser();
 const isLoading = ref<boolean>(false);
+const isSmsSending = ref<any>(0);
 const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
@@ -318,6 +319,25 @@ const unDeliverReport = async (patient: any) => {
     }
     patient.status = res.data.status;
 };
+
+const sendSms = async (patient: any) => {
+    if (isSmsSending.value) {
+        return;
+    }
+    isSmsSending.value = patient.id;
+    const res = await fetchApi(
+        API_BASE + "/sms/" + encodeURIComponent(patient.id),
+        {
+            method: "POST",
+        },
+    );
+    isSmsSending.value = 0;
+    if (!res.success) {
+        console.error(res.message || "Sending sms failed!");
+        return;
+    }
+    patient.sms_sent = true;
+}
 const expandPrintBtn = (evt: any) => {
     if (lastExpanded) {
         lastExpanded.classList.remove("expanded");
@@ -619,6 +639,13 @@ const getStatus = (patient: Record<any, any>) => {
                                     >
                                         Edit
                                     </RouterLink>
+                                    <button
+                                        class="btn-outline"
+                                        @click="sendSms(patient)"
+                                    >
+                                        <template v-if="isSmsSending === patient.id">Sending...</template>
+                                        <template v-else>Send SMS</template>
+                                    </button>
                                     <button
                                         class="btn-outline danger"
                                         @click="deleteValue = patient"

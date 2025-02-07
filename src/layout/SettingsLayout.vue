@@ -24,6 +24,14 @@
                         Account
                     </RouterLink>
                 </li>
+                <li>
+                    <RouterLink
+                        :to="{ name: 'settings.sms' }"
+                        class="sidebar-link"
+                    >
+                        SMS
+                    </RouterLink>
+                </li>
             </ul>
         </nav>
         <div class="setting-page-area">

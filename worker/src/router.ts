@@ -9,8 +9,9 @@ import { deliverReport, finalizeReport, getReport, toggleReportLock, unDeliverRe
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
-import { deleteMiscString, listMiscStrings } from './routes/misc-strings';
+import { addOrUpdateMiscString, deleteMiscString, listMiscStrings } from './routes/misc-strings';
 import { getFinances } from './routes/finances';
+import { sendPatientSms } from './routes/sms';
 
 export interface RequestEvent {
 	request: Request;
@@ -73,8 +74,11 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/settings/account/password', ensureUser, changePassword);
 
 	router.get('/misc', listMiscStrings);
-	router.post('/misc/remove/:id', deleteMiscString);
+	router.post('/misc/:id?', ensureUser, addOrUpdateMiscString);
+	router.post('/misc/remove/:id', ensureUser, deleteMiscString);
 
 	router.get('/finances', getFinances);
+
+	router.post('/sms/:id', ensureUser, sendPatientSms);
 };
 export default buildRouter;
