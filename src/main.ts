@@ -19,5 +19,12 @@ app.mount("#app");
 sync();
 
 document.addEventListener("contextmenu", (event) => {
+    if (
+        (event.target as HTMLElement)?.tagName === "INPUT" ||
+        (event.target as HTMLElement)?.closest(".ql-editor")
+    ) {
+        return;
+    }
+
     event.preventDefault();
 });
