@@ -59,12 +59,14 @@ const goToPage = () => {
         pageInput.value = currentPage.value;
         return;
     }
-    router.push(router.resolve({
-        query: {
-            ...route.query,
-            page,
-        },
-    }));
+    router.push(
+        router.resolve({
+            query: {
+                ...route.query,
+                page,
+            },
+        }),
+    );
 };
 </script>
 
@@ -110,19 +112,20 @@ const goToPage = () => {
                     <path d="M8 1L2 5.5L8 10" stroke="black" stroke-width="2" />
                 </svg>
             </RouterLink>
-            <RouterLink
-                v-for="(page, idx) in pages"
-                :key="'page-' + idx"
-                :class="{
-                    page_item: true,
-                    page_num: page !== 0,
-                    page_dots: page === 0,
-                    active: page == currentPage,
-                }"
-                :to="{ query: { ...route.query, page: page } }"
-            >
-                {{ !page ? "..." : page }}
-            </RouterLink>
+            <template v-for="(page, idx) in pages" :key="'page-' + idx">
+                <RouterLink
+                    v-if="page !== 0"
+                    :class="{
+                        page_item: true,
+                        page_num: true,
+                        active: page == currentPage,
+                    }"
+                    :to="{ query: { ...route.query, page: page } }"
+                >
+                    {{ !page ? "..." : page }}
+                </RouterLink>
+                <span v-else class="page_item page_dots">...</span>
+            </template>
             <button
                 v-if="currentPage >= maxPage"
                 class="disabled page-next page_item"
@@ -162,9 +165,7 @@ const goToPage = () => {
                 :placeholder="currentPage.toString()"
                 @keydown="(e) => e.key === 'Enter' && goToPage()"
             />
-            <button type="button" @click="goToPage">
-                GO
-            </button>
+            <button type="button" @click="goToPage">GO</button>
         </div>
     </div>
 </template>
