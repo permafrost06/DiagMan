@@ -67,6 +67,11 @@ const router = createRouter({
                             },
                         },
                         {
+                            path: "patient-list",
+                            name: "settings.patient-list",
+                            component: () =>
+                                import("@/views/settings/PatientListSettings.vue"),
+                        },{
                             path: "account",
                             name: "settings.account",
                             component: () =>

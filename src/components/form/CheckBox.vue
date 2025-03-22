@@ -8,14 +8,21 @@ interface Props extends /* @vue-ignore */ InputHTMLAttributes {
     class?: any;
     type?: "checkbox";
     modelValue?: boolean;
+    checked?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     hintType: "error",
 });
-const emit = defineEmits<{ (e: "update:modelValue", value: boolean): void }>();
+
+const emit = defineEmits<{
+    (e: "update:modelValue", value: boolean): void;
+    (e: "change", value: boolean): void;
+}>();
+
 const onChange = (evt: any) => {
     emit("update:modelValue", evt.target.checked);
+    emit("change", evt.target.checked);
 };
 </script>
 <template>
@@ -25,7 +32,7 @@ const onChange = (evt: any) => {
                 <input
                     type="checkbox"
                     v-bind="$attrs"
-                    :checked="modelValue"
+                    :checked="checked ?? modelValue"
                     @input="onChange"
                 />
                 <span class="checkmark"></span>

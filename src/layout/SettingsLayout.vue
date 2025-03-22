@@ -10,6 +10,14 @@
             <ul>
                 <li>
                     <RouterLink
+                        :to="{ name: 'settings.patient-list' }"
+                        class="sidebar-link"
+                    >
+                        Patient List
+                    </RouterLink>
+                </li>
+                <li>
+                    <RouterLink
                         :to="{ name: 'settings.report-templates' }"
                         class="sidebar-link"
                     >
