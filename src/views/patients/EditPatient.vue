@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import PatientForm from "./PatientForm.vue";
+import PatientForm from "./components/PatientForm.vue";
 import { ref } from "vue";
 import { fetchApi } from "@/helpers/http";
 import { API_BASE } from "@/helpers/config";

@@ -13,7 +13,7 @@ import Quill, { type QuillOptions } from "quill";
 
 import "quill/dist/quill.snow.css";
 import { dateToDMY } from "@/helpers/utils";
-import EditPatient from "./EditPatient.vue";
+import EditPatient from "../EditPatient.vue";
 import { useUser } from "@/stores/user";
 import router from "@/router";
 import HeaderSimple from "@/components/view/HeaderSimple.vue";

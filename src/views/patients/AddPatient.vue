@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from "@/router";
-import PatientForm from "./PatientForm.vue";
+import PatientForm from "./components/PatientForm.vue";
 const onSuccess = (_x: any, _y: any, invoice: boolean) => {
     if (invoice) {
         return;

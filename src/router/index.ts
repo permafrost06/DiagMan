@@ -43,12 +43,14 @@ const router = createRouter({
                 {
                     path: "/report/:id",
                     name: "report",
-                    component: () => import("@/views/patients/Report.vue"),
+                    component: () =>
+                        import("@/views/patients/reports/Report.vue"),
                 },
                 {
                     path: "/report/:id/print",
                     name: "report.print",
-                    component: () => import("@/views/patients/ReportView.vue"),
+                    component: () =>
+                        import("@/views/patients/reports/Report.vue"),
                 },
                 {
                     path: "/finances",
@@ -70,8 +72,11 @@ const router = createRouter({
                             path: "patient-list",
                             name: "settings.patient-list",
                             component: () =>
-                                import("@/views/settings/PatientListSettings.vue"),
-                        },{
+                                import(
+                                    "@/views/settings/PatientListSettings.vue"
+                                ),
+                        },
+                        {
                             path: "account",
                             name: "settings.account",
                             component: () =>
