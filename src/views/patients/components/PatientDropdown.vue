@@ -32,19 +32,25 @@ const handleClickOutside = (evt: MouseEvent) => {
     }
 };
 
+const handleContextMenu = (evt: MouseEvent) => {
+    evt.preventDefault();
+    isOpen.value = true;
+};
+
 onMounted(() => {
     document.addEventListener("click", handleClickOutside);
     if (!dropdownRef.value) {
         return;
     }
-    dropdownRef.value.closest("tr")?.addEventListener("contextmenu", (evt) => {
-        evt.preventDefault();
-        isOpen.value = true;
-    });
+    dropdownRef.value.closest("tr")?.addEventListener("contextmenu", handleContextMenu);
 });
 
 onUnmounted(() => {
     document.removeEventListener("click", handleClickOutside);
+    if (!dropdownRef.value) {
+        return;
+    }
+    dropdownRef.value.closest("tr")?.removeEventListener("contextmenu", handleContextMenu);
 });
 
 const toggleLock = async (patient: any) => {
