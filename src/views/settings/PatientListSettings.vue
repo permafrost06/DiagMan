@@ -14,6 +14,9 @@ const message = ref({
     type: "error",
     text: "",
 });
+
+const DEFAULT_SHOW_ORDER = ["name", "type", "age", "gender", "contact", "timestamp", "specimen", "status"];
+
 const configData = ref({
     limit: 0,
     show: ["name", "contact", "timestamp", "specimen", "status"],
@@ -42,7 +45,18 @@ const handleForm = async (form: HTMLFormElement) => {
     const formData = new FormData();
 
     formData.append("name", "patient_list_config");
-    formData.append("data", JSON.stringify(configData.value));
+    const limit = parseInt(configData.value.limit.toString());
+    const show = [];
+
+    for (const col of DEFAULT_SHOW_ORDER) {
+        if (configData.value.show.includes(col)) {
+            show.push(col);
+        }
+    }
+    formData.append("data", JSON.stringify({
+        limit,
+        show,
+    }));
 
     const res = await fetchApi(form.action, {
         method: "POST",

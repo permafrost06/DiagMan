@@ -12,7 +12,7 @@ import {
 } from "@/helpers/local-db";
 import { dateToDMY, useSorter } from "@/helpers/utils";
 import { useUser } from "@/stores/user";
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch, nextTick } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import { useRoute, useRouter } from "vue-router";
@@ -37,6 +37,7 @@ const config = ref({
         "actions",
     ],
 });
+const limit = ref(0);
 const isSmsSending = ref<any>(0);
 const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
@@ -55,6 +56,7 @@ const [sortState, doSorting] = useSorter<string>(
     (route.query.order as any) || "desc",
 );
 
+const paginationWrapper = ref<HTMLDivElement | null>(null);
 let search = ref((route.query.search as string)?.trim() || "");
 let filterType = ref((route.query.type as string)?.trim());
 
@@ -126,6 +128,20 @@ const printBtnEvt = (evt: any) => {
         lastExpanded = null;
     }
 };
+
+const calculateLimit = () => {
+    const el = paginationWrapper.value;
+    if (limit.value > 0 || !el) {
+        queryResults();
+        return;
+    }
+    const rowHeight = config.value.show.includes("name") ? 65 : 48;
+    const remHeight = window.innerHeight - el.getBoundingClientRect().top - 50;
+    const rows = Math.floor(remHeight / rowHeight);
+    limit.value = rows;
+    queryResults();
+};
+
 onMounted(() => {
     fetchApi(`${API_BASE}/misc/?name=patient_list_config`).then((res) => {
         if (res.success && res.rows.length) {
@@ -133,7 +149,8 @@ onMounted(() => {
             config.value.show.push("actions");
         }
         isLoadingConfig.value = false;
-        queryResults();
+        limit.value = config.value.limit;
+        nextTick(calculateLimit);
     });
     document.addEventListener("click", printBtnEvt);
 });
@@ -193,6 +210,7 @@ async function queryResults() {
         ...(filterType.value ? { type: filterType.value } : {}),
     };
     queryParams.page = (route.query.page as string) || "1";
+    queryParams.limit = limit.value.toString();
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
@@ -453,11 +471,16 @@ const getStatus = (patient: Record<any, any>) => {
                 </button>
             </div>
         </div>
-        <div>
+        <div
+            :class="{
+                'table-has-name': config.show.includes('name'),
+                'table-is-loading': isLoading,
+            }"
+        >
             <TableX
                 width="100%"
                 :data="patients"
-                :rows="10"
+                :rows="limit"
                 :state="isLoading ? 'loading' : 'ok'"
                 :header="tableDescription"
                 :onSort="sortBy"
@@ -647,7 +670,7 @@ const getStatus = (patient: Record<any, any>) => {
                 </template>
             </TableX>
         </div>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between" ref="paginationWrapper">
             <CheckBox label="Show archived reports" v-model="showDelivered" />
             <Pagination
                 class="mt-sm"
@@ -750,6 +773,12 @@ const getStatus = (patient: Record<any, any>) => {
     table {
         border-collapse: collapse;
 
+        * {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         tr {
             border-bottom: 1px solid var(--clr-black);
         }
@@ -813,6 +842,18 @@ const getStatus = (patient: Record<any, any>) => {
 
             &.expanded .dropdown {
                 display: block;
+            }
+        }
+    }
+
+    .table-is-loading {
+        td {
+            height: 46px;
+        }
+
+        &.table-has-name {
+            td {
+                height: 56px;
             }
         }
     }
