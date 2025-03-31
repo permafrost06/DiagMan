@@ -13,7 +13,7 @@ const router = useRouter();
 
 const onCloseClick = () => {
     if (props.onClose) {
-        props.onClose();
+        props.onClose(router);
         return;
     }
     router.back();
@@ -38,7 +38,11 @@ onUnmounted(() => {
 <template>
     <div class="simple-header">
         <h1 class="fs-2xl flex-grow">{{ title }}</h1>
-        <button type="button" @click="onCloseClick" class="simple-close-btn">
+        <button
+            type="button"
+            @click="() => onCloseClick(router)"
+            class="simple-close-btn"
+        >
             <Icon size="40" view-box="36">
                 <path
                     fill="currentColor"

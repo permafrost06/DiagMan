@@ -95,7 +95,10 @@ const selectionChange = (name: string) => {
 </script>
 
 <template>
-    <HeaderSimple title="Patient List" />
+    <HeaderSimple
+        title="Patient List"
+        :onClose="(router) => router.push({ name: 'home' })"
+    />
     <div class="pl-settings">
         <div v-if="isLoading" class="pl-loading">
             <Loading />

@@ -57,7 +57,10 @@ const handleForm = async (form: any) => {
 </script>
 <template>
     <div class="sms-settings">
-        <HeaderSimple title="SMS Settings" />
+        <HeaderSimple
+            title="SMS Settings"
+            :onClose="(router) => router.push({ name: 'home' })"
+        />
         <form
             method="POST"
             :action="`${API_BASE}/misc/${sms_id ? sms_id : ''}`"

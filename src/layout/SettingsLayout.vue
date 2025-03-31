@@ -2,7 +2,7 @@
     <div class="settings-layout">
         <nav class="sidebar font-h">
             <RouterLink
-                :to="{ name: 'settings' }"
+                :to="{ name: 'settings.patient-list' }"
                 class="sidebar-top flex items-center"
             >
                 Settings

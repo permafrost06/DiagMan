@@ -83,7 +83,10 @@ const logout = async () => {
 </script>
 <template>
     <div class="acc-settings">
-        <HeaderSimple title="Account"/>
+        <HeaderSimple
+            title="Account"
+            :onClose="(router) => router.push({ name: 'home' })"
+        />
         <form
             class="name-form"
             method="POST"

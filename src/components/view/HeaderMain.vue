@@ -25,7 +25,7 @@ const user = useUser();
                 <FinanceIcon /> Finances
             </RouterLink>
             <RouterLink
-                :to="{ name: 'settings' }"
+                :to="{ name: 'settings.patient-list' }"
                 class="h-icon-btn flex items-center"
             >
                 <Icon size="24" viewBox="24">
