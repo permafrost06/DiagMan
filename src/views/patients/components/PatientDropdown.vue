@@ -16,6 +16,7 @@ const dropdownRef = ref<HTMLElement | null>(null);
 const isSmsSending = ref<boolean>(false);
 const isLocking = ref<boolean>(false);
 const isDelivering = ref<boolean>(false);
+const dropdownPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 });
 
 const dispatchOpenEvent = () => {
     const event = new CustomEvent("patient-dropdown-open", {
@@ -24,9 +25,17 @@ const dispatchOpenEvent = () => {
     document.dispatchEvent(event);
 };
 
-const toggleDropdown = (evt: Event) => {
+const setDropdownPosition = (evt: MouseEvent) => {
+    dropdownPosition.value = { x: evt.clientX, y: evt.clientY };
+    if (window.innerWidth - evt.clientX < 200) {
+        dropdownPosition.value.x = evt.clientX - 200;
+    }
+};
+
+const toggleDropdown = (evt: MouseEvent) => {
     evt.stopPropagation();
     isOpen.value = !isOpen.value;
+    setDropdownPosition(evt);
     if (isOpen.value) {
         dispatchOpenEvent();
     }
@@ -51,12 +60,16 @@ const handleClickOutside = (evt: MouseEvent) => {
 const handleContextMenu = (evt: MouseEvent) => {
     evt.preventDefault();
     isOpen.value = true;
+    setDropdownPosition(evt);
     dispatchOpenEvent();
 };
 
 onMounted(() => {
     document.addEventListener("click", handleClickOutside);
-    document.addEventListener("patient-dropdown-open", closeDropdown as EventListener);
+    document.addEventListener(
+        "patient-dropdown-open",
+        closeDropdown as EventListener,
+    );
     if (!dropdownRef.value) {
         return;
     }
@@ -67,7 +80,10 @@ onMounted(() => {
 
 onUnmounted(() => {
     document.removeEventListener("click", handleClickOutside);
-    document.removeEventListener("patient-dropdown-open", closeDropdown as EventListener);
+    document.removeEventListener(
+        "patient-dropdown-open",
+        closeDropdown as EventListener,
+    );
     if (!dropdownRef.value) {
         return;
     }
@@ -159,7 +175,14 @@ const sendSms = async (patient: any) => {
             <DotsVertical />
         </button>
 
-        <div v-if="isOpen" class="dropdown-menu">
+        <div
+            v-if="isOpen"
+            class="dropdown-menu"
+            :style="{
+                left: dropdownPosition.x + 'px',
+                top: dropdownPosition.y + 'px',
+            }"
+        >
             <div class="dropdown-section">
                 <RouterLink
                     v-if="patient.is_reported"
@@ -302,10 +325,11 @@ const sendSms = async (patient: any) => {
 }
 
 .dropdown-menu {
-    position: absolute;
+    position: fixed;
     top: 100%;
     right: 0;
     min-width: 200px;
+    width: max-content;
     background: var(--clr-white);
     border: 1px solid var(--clr-black);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
