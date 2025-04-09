@@ -418,7 +418,7 @@ const getStatus = (patient: Record<any, any>) => {
                         <div class="skeleton"></div>
                     </td>
                     <td v-else class="list-one-line">
-                        <p v-html="hightlightText(patient.name)" />
+                        <p v-html="hightlightText(patient.name)" :title="patient.name" />
                         <p
                             class="small-id"
                             v-html="hightlightText(patient.id)"
@@ -429,7 +429,7 @@ const getStatus = (patient: Record<any, any>) => {
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line">{{ cell }}</td>
+                    <td v-else class="list-one-line capitalize">{{ `${cell}pathology` }}</td>
                 </template>
                 <template #col.age="{ cell }">
                     <td v-if="isLoading">
@@ -447,7 +447,7 @@ const getStatus = (patient: Record<any, any>) => {
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line">{{ cell }}</td>
+                    <td v-else class="list-one-line" :title="cell">{{ cell }}</td>
                 </template>
                 
                 <template #col.timestamp="{ cell }">
@@ -462,13 +462,13 @@ const getStatus = (patient: Record<any, any>) => {
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line">{{ cell }}</td>
+                    <td v-else class="list-one-line" :title="cell">{{ cell }}</td>
                 </template>
                 <template #col.referer="{ cell }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line">{{ cell }}</td>
+                    <td v-else class="list-one-line" :title="cell">{{ cell }}</td>
                 </template>
                 <template #col.status="{ row }">
                     <td v-if="isLoading">
