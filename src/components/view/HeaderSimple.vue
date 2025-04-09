@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { Router, useRouter } from "vue-router";
 import Icon from "@/components/base/Icon.vue";
 import { onMounted, onUnmounted } from "vue";
 
 export interface Props {
     title: string;
-    onClose?: () => void;
+    onClose?: (router: Router) => void;
 }
 const props = defineProps<Props>();
 
@@ -40,7 +40,7 @@ onUnmounted(() => {
         <h1 class="fs-2xl flex-grow">{{ title }}</h1>
         <button
             type="button"
-            @click="() => onCloseClick(router)"
+            @click="() => onCloseClick()"
             class="simple-close-btn"
         >
             <Icon size="40" view-box="36">
