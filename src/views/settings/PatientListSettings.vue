@@ -15,7 +15,7 @@ const message = ref({
     text: "",
 });
 
-const DEFAULT_SHOW_ORDER = ["name", "type", "age", "gender", "contact", "timestamp", "specimen", "status"];
+const DEFAULT_SHOW_ORDER = ["name", "type", "age", "gender", "contact", "timestamp", "specimen", "referer", "status"];
 
 const configData = ref({
     limit: 0,
