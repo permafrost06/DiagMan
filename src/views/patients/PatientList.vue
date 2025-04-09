@@ -133,8 +133,9 @@ const calculateLimit = () => {
         queryResults();
         return;
     }
-    const rowHeight = config.value.show.includes("name") ? 65 : 48;
-    const remHeight = window.innerHeight - el.getBoundingClientRect().top - 50;
+    const rowHeight = config.value.show.includes("name") ? 57 : 42;
+    const BOTTOM_ELEMENT_HEIGHT = 45;
+    const remHeight = window.innerHeight - el.getBoundingClientRect().top - BOTTOM_ELEMENT_HEIGHT;
     const rows = Math.floor(remHeight / rowHeight);
     limit.value = rows;
     queryResults();
