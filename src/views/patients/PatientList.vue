@@ -75,6 +75,14 @@ const tableDescription = {
         label: "Type",
         sort: true,
     },
+    age: {
+        label: "Age",
+        sort: true,
+    },
+    gender: {
+        label: "Gender",
+        sort: true,
+    },
     delivery_date: {
         label: "Delivery Date",
         sort: true,
@@ -85,6 +93,10 @@ const tableDescription = {
     },
     status: {
         label: "Status",
+        sort: true,
+    },
+    referer: {
+        label: "Referer",
         sort: true,
     },
     actions: {
@@ -413,12 +425,31 @@ const getStatus = (patient: Record<any, any>) => {
                         />
                     </td>
                 </template>
+                <template #col.type="{ cell }">
+                    <td v-if="isLoading">
+                        <div class="skeleton"></div>
+                    </td>
+                    <td v-else class="list-one-line">{{ cell }}</td>
+                </template>
+                <template #col.age="{ cell }">
+                    <td v-if="isLoading">
+                        <div class="skeleton"></div>
+                    </td>
+                    <td v-else class="list-one-line">{{ cell }}</td>
+                </template>
+                <template #col.gender="{ cell }">
+                    <td v-if="isLoading">
+                        <div class="skeleton"></div>
+                    </td>
+                    <td v-else class="list-one-line capitalize">{{ cell }}</td>
+                </template>
                 <template #col.contact="{ cell }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
                     <td v-else class="list-one-line">{{ cell }}</td>
                 </template>
+                
                 <template #col.timestamp="{ cell }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
@@ -427,21 +458,13 @@ const getStatus = (patient: Record<any, any>) => {
                         {{ cell ? dateToDMY(new Date(parseInt(cell))) : "N/A" }}
                     </td>
                 </template>
-                <template #col.type="{ cell }">
+                <template #col.specimen="{ cell }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
                     <td v-else class="list-one-line">{{ cell }}</td>
                 </template>
-                <template #col.delivery_date="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line">
-                        {{ cell ? dateToDMY(new Date(parseInt(cell))) : "N/A" }}
-                    </td>
-                </template>
-                <template #col.specimen="{ cell }">
+                <template #col.referer="{ cell }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
