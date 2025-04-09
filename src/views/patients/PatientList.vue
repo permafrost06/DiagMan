@@ -19,9 +19,11 @@ import HeaderMain from "@/components/view/HeaderMain.vue";
 import TableX from "@/components/table/TableX.vue";
 import FullPageLoader from "@/components/base/FullPageLoader.vue";
 import PatientDropdown from "@/views/patients/components/PatientDropdown.vue";
+import { useUser } from "@/stores/user";
 
 const router = useRouter();
 const route = useRoute();
+const user = useUser();
 
 const isLoading = ref<boolean>(false);
 const isLoadingConfig = ref<boolean>(true);
@@ -147,22 +149,27 @@ const calculateLimit = () => {
     }
     const rowHeight = config.value.show.includes("name") ? 57 : 42;
     const BOTTOM_ELEMENT_HEIGHT = 45;
-    const remHeight = window.innerHeight - el.getBoundingClientRect().top - BOTTOM_ELEMENT_HEIGHT;
+    const remHeight =
+        window.innerHeight -
+        el.getBoundingClientRect().top -
+        BOTTOM_ELEMENT_HEIGHT;
     const rows = Math.floor(remHeight / rowHeight);
     limit.value = rows;
     queryResults();
 };
 
 onMounted(() => {
-    fetchApi(`${API_BASE}/misc/?name=patient_list_config`).then((res) => {
-        if (res.success && res.rows.length) {
-            config.value = JSON.parse(res.rows[0].data);
-            config.value.show.push("actions");
-        }
-        isLoadingConfig.value = false;
-        limit.value = config.value.limit;
-        nextTick(calculateLimit);
-    });
+    fetchApi(`${API_BASE}/misc/?name=patient_list_config_${user.id}`).then(
+        (res) => {
+            if (res.success && res.rows.length) {
+                config.value = JSON.parse(res.rows[0].data);
+                config.value.show.push("actions");
+            }
+            isLoadingConfig.value = false;
+            limit.value = config.value.limit;
+            nextTick(calculateLimit);
+        },
+    );
     document.addEventListener("click", printBtnEvt);
 });
 onUnmounted(() => {
@@ -292,8 +299,6 @@ async function deletePatient() {
     }
 }
 
-
-
 const goToReport = (patient: Record<string, any>) => {
     router.push({ name: "report", params: { id: patient.id } });
 };
@@ -418,7 +423,10 @@ const getStatus = (patient: Record<any, any>) => {
                         <div class="skeleton"></div>
                     </td>
                     <td v-else class="list-one-line">
-                        <p v-html="hightlightText(patient.name)" :title="patient.name" />
+                        <p
+                            v-html="hightlightText(patient.name)"
+                            :title="patient.name"
+                        />
                         <p
                             class="small-id"
                             v-html="hightlightText(patient.id)"
@@ -429,7 +437,9 @@ const getStatus = (patient: Record<any, any>) => {
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line capitalize">{{ `${cell}pathology` }}</td>
+                    <td v-else class="list-one-line capitalize">
+                        {{ `${cell}pathology` }}
+                    </td>
                 </template>
                 <template #col.age="{ cell }">
                     <td v-if="isLoading">
@@ -447,10 +457,20 @@ const getStatus = (patient: Record<any, any>) => {
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line" :title="cell">{{ cell }}</td>
+                    <td v-else class="list-one-line" :title="cell">
+                        {{ cell }}
+                    </td>
                 </template>
-                
+
                 <template #col.timestamp="{ cell }">
+                    <td v-if="isLoading">
+                        <div class="skeleton"></div>
+                    </td>
+                    <td v-else class="list-one-line">
+                        {{ cell ? dateToDMY(new Date(parseInt(cell))) : "N/A" }}
+                    </td>
+                </template>
+                <template #col.delivery_date="{ cell }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
@@ -462,19 +482,25 @@ const getStatus = (patient: Record<any, any>) => {
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line" :title="cell">{{ cell }}</td>
+                    <td v-else class="list-one-line" :title="cell">
+                        {{ cell }}
+                    </td>
                 </template>
                 <template #col.referer="{ cell }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line" :title="cell">{{ cell }}</td>
+                    <td v-else class="list-one-line" :title="cell">
+                        {{ cell }}
+                    </td>
                 </template>
                 <template #col.status="{ row }">
                     <td v-if="isLoading">
                         <div class="skeleton"></div>
                     </td>
-                    <td v-else class="list-one-line capitalize">{{ getStatus(row) }}</td>
+                    <td v-else class="list-one-line capitalize">
+                        {{ getStatus(row) }}
+                    </td>
                 </template>
                 <template #col.actions="{ row: patient }">
                     <td v-if="isLoading">
@@ -483,7 +509,7 @@ const getStatus = (patient: Record<any, any>) => {
                     <td v-else>
                         <PatientDropdown
                             :patient="patient"
-                            @delete="(p) => deleteValue = p"
+                            @delete="(p) => (deleteValue = p)"
                         />
                     </td>
                 </template>

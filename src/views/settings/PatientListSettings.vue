@@ -6,6 +6,9 @@ import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import Loading from "@/Icons/Loading.vue";
 import { onMounted, ref } from "vue";
+import { useUser } from "@/stores/user";
+
+const user = useUser();
 
 const miscId = ref<number | undefined>(undefined);
 const isSaving = ref(false);
@@ -15,16 +18,16 @@ const message = ref({
     text: "",
 });
 
-const DEFAULT_SHOW_ORDER = ["name", "type", "age", "gender", "contact", "timestamp", "specimen", "referer", "status"];
+const DEFAULT_SHOW_ORDER = ["name", "type", "age", "gender", "contact", "timestamp", "delivery_date", "specimen", "referer", "status"];
 
 const configData = ref({
     limit: 0,
-    show: ["name", "contact", "timestamp", "specimen", "status"],
+    show: ["name", "contact", "timestamp", "delivery_date", "specimen", "status"],
 });
 let tOut: any;
 
 onMounted(async () => {
-    const data = await fetchApi(`${API_BASE}/misc?name=patient_list_config`);
+    const data = await fetchApi(`${API_BASE}/misc?name=patient_list_config_${user.id}`);
     isLoading.value = false;
     if (!data.success || !data.rows.length) {
         return;
@@ -44,7 +47,7 @@ const handleForm = async (form: HTMLFormElement) => {
 
     const formData = new FormData();
 
-    formData.append("name", "patient_list_config");
+    formData.append("name", `patient_list_config_${user.id}`);
     const limit = parseInt(configData.value.limit.toString());
     const show = [];
 
@@ -164,6 +167,12 @@ const selectionChange = (name: string) => {
                         value="timestamp"
                         :checked="configData.show.includes('timestamp')"
                         @change="selectionChange('timestamp')"
+                    />
+                    <CheckBox
+                        label="Delivery Date"
+                        value="delivery_date"
+                        :checked="configData.show.includes('delivery_date')"
+                        @change="selectionChange('delivery_date')"
                     />
                     <CheckBox
                         label="Specimen"
