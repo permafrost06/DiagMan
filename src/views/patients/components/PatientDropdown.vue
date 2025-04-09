@@ -6,7 +6,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 
-defineProps<{
+const props = defineProps<{
     patient: Record<string, any>;
 }>();
 
@@ -17,13 +17,29 @@ const isSmsSending = ref<boolean>(false);
 const isLocking = ref<boolean>(false);
 const isDelivering = ref<boolean>(false);
 
+const dispatchOpenEvent = () => {
+    const event = new CustomEvent("patient-dropdown-open", {
+        detail: props.patient,
+    });
+    document.dispatchEvent(event);
+};
+
 const toggleDropdown = (evt: Event) => {
     evt.stopPropagation();
     isOpen.value = !isOpen.value;
+    if (isOpen.value) {
+        dispatchOpenEvent();
+    }
 };
 
-const closeDropdown = () => {
-    isOpen.value = false;
+const closeDropdown = (evt?: CustomEvent) => {
+    if (!evt) {
+        isOpen.value = false;
+        return;
+    }
+    if (evt.detail.id !== props.patient.id) {
+        isOpen.value = false;
+    }
 };
 
 const handleClickOutside = (evt: MouseEvent) => {
@@ -35,22 +51,29 @@ const handleClickOutside = (evt: MouseEvent) => {
 const handleContextMenu = (evt: MouseEvent) => {
     evt.preventDefault();
     isOpen.value = true;
+    dispatchOpenEvent();
 };
 
 onMounted(() => {
     document.addEventListener("click", handleClickOutside);
+    document.addEventListener("patient-dropdown-open", closeDropdown as EventListener);
     if (!dropdownRef.value) {
         return;
     }
-    dropdownRef.value.closest("tr")?.addEventListener("contextmenu", handleContextMenu);
+    dropdownRef.value
+        .closest("tr")
+        ?.addEventListener("contextmenu", handleContextMenu);
 });
 
 onUnmounted(() => {
     document.removeEventListener("click", handleClickOutside);
+    document.removeEventListener("patient-dropdown-open", closeDropdown as EventListener);
     if (!dropdownRef.value) {
         return;
     }
-    dropdownRef.value.closest("tr")?.removeEventListener("contextmenu", handleContextMenu);
+    dropdownRef.value
+        .closest("tr")
+        ?.removeEventListener("contextmenu", handleContextMenu);
 });
 
 const toggleLock = async (patient: any) => {
@@ -131,10 +154,7 @@ const sendSms = async (patient: any) => {
 </script>
 
 <template>
-    <div
-        ref="dropdownRef"
-        class="dropdown-container"
-    >
+    <div ref="dropdownRef" class="dropdown-container">
         <button class="dropdown-trigger" @click="toggleDropdown">
             <DotsVertical />
         </button>
