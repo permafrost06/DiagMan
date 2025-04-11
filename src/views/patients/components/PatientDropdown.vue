@@ -5,6 +5,10 @@ import { useUser } from "@/stores/user";
 import { ref, onMounted, onUnmounted } from "vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
+import Print from "@/Icons/print.svg";
+import Edit from "@/Icons/edit.svg";
+import Delete from "@/Icons/delete.svg";
+import Send from "@/Icons/send.svg";
 
 const props = defineProps<{
     patient: Record<string, any>;
@@ -182,6 +186,7 @@ const sendSms = async (patient: any) => {
                 left: dropdownPosition.x + 'px',
                 top: dropdownPosition.y + 'px',
             }"
+            @click.stop
         >
             <div class="dropdown-section">
                 <RouterLink
@@ -193,6 +198,7 @@ const sendSms = async (patient: any) => {
                     class="dropdown-item"
                     @click="closeDropdown"
                 >
+                    <Print />
                     Print Report
                 </RouterLink>
                 <RouterLink
@@ -203,6 +209,7 @@ const sendSms = async (patient: any) => {
                     class="dropdown-item"
                     @click="closeDropdown"
                 >
+                    <Print />
                     Print Invoice
                 </RouterLink>
             </div>
@@ -216,6 +223,7 @@ const sendSms = async (patient: any) => {
                     class="dropdown-item"
                     @click="closeDropdown"
                 >
+                    <Edit />
                     Edit Patient
                 </RouterLink>
             </div>
@@ -275,16 +283,20 @@ const sendSms = async (patient: any) => {
                 <button
                     class="dropdown-item"
                     @click="
-                        () => {
+                        (evt) => {
+                            evt.stopPropagation();
                             sendSms(patient);
-                            closeDropdown();
                         }
                     "
                 >
-                    <template v-if="isSmsSending === patient.id"
-                        >Sending...</template
-                    >
-                    <template v-else>Send SMS</template>
+                    <template v-if="isSmsSending">
+                        <Loading size="15" />
+                        Sending...
+                    </template>
+                    <template v-else>
+                        <Send />
+                        Send SMS
+                    </template>
                 </button>
                 <button
                     class="dropdown-item danger"
@@ -295,6 +307,7 @@ const sendSms = async (patient: any) => {
                         }
                     "
                 >
+                    <Delete />
                     Delete
                 </button>
             </div>
@@ -357,9 +370,14 @@ const sendSms = async (patient: any) => {
     padding: 8px 15px;
     color: var(--clr-black);
     background: transparent;
+    text-decoration: none;
+    justify-content: center;
+    font-size: var(--fs-base);
+    font-weight: normal;
 
     &:hover {
         background: rgba(0, 0, 0, 0.05);
+        outline: none;
     }
 
     &.danger {

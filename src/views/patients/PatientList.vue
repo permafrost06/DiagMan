@@ -632,9 +632,10 @@ const getStatus = (patient: Record<any, any>) => {
         tr {
             border-bottom: 1px solid var(--clr-black);
         }
-        tr:first-child {
+        thead tr {
             border-bottom-width: 2px;
         }
+        
         th {
             font-size: var(--fs-base);
         }
