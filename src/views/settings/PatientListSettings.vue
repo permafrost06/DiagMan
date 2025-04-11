@@ -16,6 +16,10 @@ const message = ref({
     text: "",
 });
 
+const preserveOrder = ref(true);
+
+const originalOrder = ref(DEFAULT_SHOW_ORDER);
+
 const configData = ref({
     limit: 0,
     show: [
@@ -39,6 +43,7 @@ onMounted(async () => {
         return;
     }
     configData.value = JSON.parse(data.data);
+    originalOrder.value = configData.value.show;
 });
 
 const handleForm = async () => {
@@ -53,9 +58,22 @@ const handleForm = async () => {
     const limit = parseInt(configData.value.limit.toString());
     const show = [];
 
-    for (const col of DEFAULT_SHOW_ORDER) {
-        if (configData.value.show.includes(col)) {
-            show.push(col);
+    if (!preserveOrder.value) {
+        for (const col of DEFAULT_SHOW_ORDER) {
+            if (configData.value.show.includes(col)) {
+                show.push(col);
+            }
+        }
+    } else {
+        for (const col of originalOrder.value) {
+            if (configData.value.show.includes(col)) {
+                show.push(col);
+            }
+        }
+        for (const col of configData.value.show) {
+            if (!show.includes(col)) {
+                show.push(col);
+            }
         }
     }
 
@@ -121,7 +139,13 @@ const selectionChange = (name: string) => {
             </SimpleSelect>
 
             <div class="visible-columns">
-                <p>Visible Columns</p>
+                <div class="visible-columns-header">
+                    <p>Visible Columns</p>
+                    <label>
+                        <input type="checkbox" v-model="preserveOrder" />
+                        <span>Preserve Order</span>
+                    </label>
+                </div>
                 <div class="visible-columns-items">
                     <CheckBox
                         label="Name & ID"
@@ -211,9 +235,15 @@ const selectionChange = (name: string) => {
     .visible-columns {
         margin: 20px 0 10px;
 
-        p {
-            font-size: var(--fs-md);
-            font-weight: 500;
+        &-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+                font-size: var(--fs-md);
+                font-weight: 500;
+            }
         }
 
         &-items {
