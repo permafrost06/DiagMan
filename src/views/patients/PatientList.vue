@@ -394,7 +394,7 @@ const onConfigChange = (newConfig: any) => {
             :sort-by="sortBy"
             :sort-state="sortState"
             :config="config"
-            :on-delete="deletePatient"
+            :on-delete="(patient) => (deleteValue = patient)"
             :search="search"
             @config="onConfigChange"
         />
