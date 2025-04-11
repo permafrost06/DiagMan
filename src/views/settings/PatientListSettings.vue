@@ -26,6 +26,7 @@ const configData = ref({
         "specimen",
         "status",
     ],
+    sizes: {},
 });
 let tOut: any;
 
@@ -59,6 +60,7 @@ const handleForm = async () => {
     }
 
     const [success, data] = await saveListConfig({
+        ...configData.value,
         limit,
         show,
     });

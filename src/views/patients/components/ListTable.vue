@@ -19,11 +19,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (e: 'config', value: any): void
+    (e: "config", value: any): void;
 }>();
 
 const draggedColumn = ref<string | null>(null);
 const dragOverColumn = ref<string | null>(null);
+const resizingColumn = ref<string | null>(null);
+const startWidth = ref<number | null>(null);
+const startX = ref<number | null>(null);
 
 const handleDragStart = (column: string) => {
     if (column === "actions") {
@@ -43,24 +46,62 @@ const handleDragLeave = () => {
 
 const handleDrop = (e: DragEvent, targetColumn: string) => {
     e.preventDefault();
-    if (!draggedColumn.value || draggedColumn.value === targetColumn || targetColumn === "actions") {
+    if (
+        !draggedColumn.value ||
+        draggedColumn.value === targetColumn ||
+        targetColumn === "actions"
+    ) {
         return;
     }
 
     const newShow = [...props.config.show];
     const draggedIndex = newShow.indexOf(draggedColumn.value);
     const targetIndex = newShow.indexOf(targetColumn);
-    
+
     newShow.splice(draggedIndex, 1);
     newShow.splice(targetIndex, 0, draggedColumn.value);
-    
-    emit('config', {
+
+    emit("config", {
         ...props.config,
-        show: newShow
+        show: newShow,
     });
 
     draggedColumn.value = null;
     dragOverColumn.value = null;
+};
+
+const handleResizeStart = (e: MouseEvent, column: string) => {
+    e.preventDefault();
+    resizingColumn.value = column;
+    startX.value = e.clientX;
+    startWidth.value = parseInt(props.config.sizes[column] || '100px');
+    
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeEnd);
+};
+
+const handleResizeMove = (e: MouseEvent) => {
+    if (!resizingColumn.value || startX.value === null || startWidth.value === null) return;
+    
+    const delta = e.clientX - startX.value;
+    const newWidth = Math.max(50, startWidth.value + delta);
+    
+    emit("config", {
+        ...props.config,
+        sizes: {
+            ...props.config.sizes,
+            [resizingColumn.value]: `${newWidth}px`
+        }
+    });
+};
+
+const handleResizeEnd = () => {
+    resizingColumn.value = null;
+    startX.value = null;
+    startWidth.value = null;
+    
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeEnd);
 };
 
 const hightlightText = (data: string): string => {
@@ -110,9 +151,17 @@ const getStatus = (patient: Record<any, any>) => {
                 })
             "
         >
+            <template #before-header>
+                <colgroup>
+                    <col
+                        v-for="col in config.show"
+                        :style="{ width: config.sizes[col] }"
+                    />
+                </colgroup>
+            </template>
             <template #header="{ info, column }">
-                <th 
-                    class="list-one-line" 
+                <th
+                    class="list-one-line"
                     :title="info.label"
                     draggable="true"
                     @dragstart="handleDragStart(column)"
@@ -171,6 +220,10 @@ const getStatus = (patient: Record<any, any>) => {
                             </button>
                         </div>
                     </div>
+                    <div 
+                        class="resize-handle"
+                        @mousedown="(e) => handleResizeStart(e, column)"
+                    ></div>
                 </th>
             </template>
             <template #col.name="{ row: patient }">
@@ -291,11 +344,11 @@ table {
         font-size: var(--fs-base);
         cursor: move;
         transition: background-color 0.2s ease;
-        
+
         &.drag-over {
             background-color: var(--clr-accent-light);
         }
-        
+
         &:hover {
             background-color: var(--clr-accent-light);
         }
@@ -423,5 +476,25 @@ table {
     &:hover {
         background-color: rgba(89, 89, 89, 0.05);
     }
+}
+
+.resize-handle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+    cursor: col-resize;
+    background: var(--clr-accent-light);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+th {
+    position: relative;
 }
 </style>

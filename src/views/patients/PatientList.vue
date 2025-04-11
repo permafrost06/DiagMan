@@ -36,6 +36,7 @@ const config = ref({
         "delivery_date",
         "actions",
     ],
+    sizes: {},
 });
 const limit = ref(0);
 const deleteValue = ref();
@@ -153,6 +154,7 @@ onMounted(() => {
             if (res.success && res.rows.length) {
                 config.value = JSON.parse(res.rows[0].data);
                 config.value.show.push("actions");
+                config.value.sizes ||= {};
             }
             isLoadingConfig.value = false;
             limit.value = config.value.limit;
@@ -288,15 +290,21 @@ async function deletePatient() {
     }
 }
 
-const onConfigChange = async (newConfig: any) => {
+let tOut: any = null;
+
+const onConfigChange = (newConfig: any) => {
     config.value = newConfig;
     const show = config.value.show.filter((col: string) => col !== "actions");
-    await saveListConfig({
-        ...config.value,
-        show,
-    });
+    if (tOut) {
+        clearTimeout(tOut);
+    }
+    tOut = setTimeout(() => {
+        saveListConfig({
+            ...config.value,
+            show,
+        });
+    }, 1000);
 };
-
 </script>
 <template>
     <FullPageLoader v-if="isLoadingConfig" />
@@ -489,6 +497,5 @@ const onConfigChange = async (newConfig: any) => {
         padding: 5px 8px;
         padding-left: 25px;
     }
-
 }
 </style>

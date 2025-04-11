@@ -22,6 +22,7 @@ useSlots();
 </script>
 <template>
     <table v-bind="$attrs">
+        <slot name="before-header"></slot>
         <thead>
             <tr v-bind="theadAttrs">
                 <template v-for="col in visibleColumns" :key="col">
