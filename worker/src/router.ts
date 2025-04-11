@@ -9,7 +9,7 @@ import { deliverReport, finalizeReport, getReport, toggleReportLock, unDeliverRe
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
-import { addOrUpdateMiscString, deleteMiscString, listMiscStrings } from './routes/misc-strings';
+import { addOrUpdateMiscString, deleteMiscString, getNamedString, listMiscStrings, saveNamedString } from './routes/misc-strings';
 import { getFinances } from './routes/finances';
 import { sendPatientSms } from './routes/sms';
 
@@ -74,8 +74,11 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/settings/account/password', ensureUser, changePassword);
 
 	router.get('/misc', listMiscStrings);
-	router.post('/misc/:id?', ensureUser, addOrUpdateMiscString);
+	router.get('/misc/named/get', assignUser, getNamedString);
+	router.post('/misc/named/save', ensureUser, saveNamedString);
 	router.post('/misc/remove/:id', ensureUser, deleteMiscString);
+	router.post('/misc/:id?', ensureUser, addOrUpdateMiscString);
+
 
 	router.get('/finances', getFinances);
 

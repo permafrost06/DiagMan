@@ -2,7 +2,7 @@
 import Pagination from "@/components/Pagination.vue";
 import Icon from "@/components/base/Icon.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
-import { API_BASE } from "@/helpers/config";
+import { API_BASE, saveListConfig } from "@/helpers/config";
 import { ApiResponsePaged, fetchApi } from "@/helpers/http";
 import {
     TABLES,
@@ -10,16 +10,15 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { dateToDMY, useSorter } from "@/helpers/utils";
+import { useSorter } from "@/helpers/utils";
 import { onMounted, onUnmounted, ref, watch, nextTick } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import { useRoute, useRouter } from "vue-router";
 import HeaderMain from "@/components/view/HeaderMain.vue";
-import TableX from "@/components/table/TableX.vue";
 import FullPageLoader from "@/components/base/FullPageLoader.vue";
-import PatientDropdown from "@/views/patients/components/PatientDropdown.vue";
 import { useUser } from "@/stores/user";
+import ListTable from "./components/ListTable.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -117,16 +116,6 @@ const sortBy = (sortByCol: string) => {
             page: undefined,
         },
     });
-};
-
-const hightlightText = (data: string): string => {
-    let colH = data;
-    if (search.value) {
-        colH = colH.replace(new RegExp(search.value, "i"), (a) => {
-            return `<mark>${a}</mark>`;
-        });
-    }
-    return colH;
 };
 
 let lastExpanded: HTMLElement | null = null;
@@ -299,21 +288,15 @@ async function deletePatient() {
     }
 }
 
-const goToReport = (patient: Record<string, any>) => {
-    router.push({ name: "report", params: { id: patient.id } });
+const onConfigChange = async (newConfig: any) => {
+    config.value = newConfig;
+    const show = config.value.show.filter((col: string) => col !== "actions");
+    await saveListConfig({
+        ...config.value,
+        show,
+    });
 };
 
-const getStatus = (patient: Record<any, any>) => {
-    if (patient.status === "delivered") {
-        return "Archived";
-    }
-
-    if (patient.locked) {
-        return "Locked";
-    }
-
-    return hightlightText(patient.status);
-};
 </script>
 <template>
     <FullPageLoader v-if="isLoadingConfig" />
@@ -395,126 +378,18 @@ const getStatus = (patient: Record<any, any>) => {
                 </button>
             </div>
         </div>
-        <div
-            :class="{
-                'table-has-name': config.show.includes('name'),
-                'table-is-loading': isLoading,
-            }"
-        >
-            <TableX
-                width="100%"
-                :data="patients"
-                :rows="limit"
-                :state="isLoading ? 'loading' : 'ok'"
-                :header="tableDescription"
-                :onSort="sortBy"
-                :sortBy="sortState.by"
-                :sortOrder="sortState.order"
-                :visibleColumns="config.show"
-                :trAttrs="
-                    (patient) => ({
-                        class: 'patient-row',
-                        onClick: () => goToReport(patient),
-                    })
-                "
-            >
-                <template #col.name="{ row: patient }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line">
-                        <p
-                            v-html="hightlightText(patient.name)"
-                            :title="patient.name"
-                        />
-                        <p
-                            class="small-id"
-                            v-html="hightlightText(patient.id)"
-                        />
-                    </td>
-                </template>
-                <template #col.type="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line capitalize">
-                        {{ `${cell}pathology` }}
-                    </td>
-                </template>
-                <template #col.age="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line">{{ cell }}</td>
-                </template>
-                <template #col.gender="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line capitalize">{{ cell }}</td>
-                </template>
-                <template #col.contact="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line" :title="cell">
-                        {{ cell }}
-                    </td>
-                </template>
-
-                <template #col.timestamp="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line">
-                        {{ cell ? dateToDMY(new Date(parseInt(cell))) : "N/A" }}
-                    </td>
-                </template>
-                <template #col.delivery_date="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line">
-                        {{ cell ? dateToDMY(new Date(parseInt(cell))) : "N/A" }}
-                    </td>
-                </template>
-                <template #col.specimen="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line" :title="cell">
-                        {{ cell }}
-                    </td>
-                </template>
-                <template #col.referer="{ cell }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line" :title="cell">
-                        {{ cell }}
-                    </td>
-                </template>
-                <template #col.status="{ row }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else class="list-one-line capitalize">
-                        {{ getStatus(row) }}
-                    </td>
-                </template>
-                <template #col.actions="{ row: patient }">
-                    <td v-if="isLoading">
-                        <div class="skeleton"></div>
-                    </td>
-                    <td v-else>
-                        <PatientDropdown
-                            :patient="patient"
-                            @delete="(p) => (deleteValue = p)"
-                        />
-                    </td>
-                </template>
-            </TableX>
-        </div>
+        <ListTable
+            :is-loading="isLoading"
+            :patients="patients"
+            :limit="limit"
+            :table-description="tableDescription"
+            :sort-by="sortBy"
+            :sort-state="sortState"
+            :config="config"
+            :on-delete="deletePatient"
+            :search="search"
+            @config="onConfigChange"
+        />
         <div class="flex items-center justify-between" ref="paginationWrapper">
             <CheckBox label="Show archived reports" v-model="showDelivered" />
             <Pagination
@@ -615,156 +490,5 @@ const getStatus = (patient: Record<any, any>) => {
         padding-left: 25px;
     }
 
-    table {
-        border-collapse: collapse;
-        table-layout: fixed;
-        max-width: 100%;
-
-        td.list-one-line {
-            &,
-            & * {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-        }
-
-        tr {
-            border-bottom: 1px solid var(--clr-black);
-        }
-        thead tr {
-            border-bottom-width: 2px;
-        }
-        
-        th {
-            font-size: var(--fs-base);
-        }
-
-        th,
-        td {
-            padding: 8px 15px;
-            text-align: left;
-        }
-        .print-btns {
-            position: relative;
-            > button {
-                height: 100%;
-                svg {
-                    pointer-events: none;
-                }
-            }
-            .dropdown {
-                display: none;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                right: calc(100% + 10px);
-                z-index: 1;
-                background: var(--clr-black);
-
-                a {
-                    margin: 5px;
-                }
-
-                .divider {
-                    background: var(--clr-white);
-                    height: 1px;
-                    width: calc(100% - 10px);
-                    margin: auto;
-
-                    &:first-child {
-                        display: none;
-                    }
-                }
-
-                &:after {
-                    content: "";
-                    position: absolute;
-                    top: 50%;
-                    left: 100%;
-                    transform: translateY(-50%);
-                    width: 0;
-                    height: 0;
-                    border-top: 10px solid transparent;
-                    border-bottom: 10px solid transparent;
-                    border-left: 10px solid var(--clr-black);
-                }
-            }
-
-            &.expanded .dropdown {
-                display: block;
-            }
-        }
-    }
-
-    .table-is-loading {
-        td {
-            height: 46px;
-        }
-
-        &.table-has-name {
-            td {
-                height: 56px;
-            }
-        }
-    }
-
-    .row-actions {
-        cursor: default;
-
-        button,
-        .btn {
-            padding: 5px 15px;
-            font-weight: 600;
-            gap: 5px;
-        }
-        // .report-btn {
-        //     padding-left: 10px;
-        // }
-
-        .dropdown-button {
-            width: 4.5rem;
-
-            .dropdown .btn {
-                width: 4.5rem;
-            }
-        }
-    }
-
-    .skeleton.btn {
-        height: 1.5em;
-        width: 100%;
-    }
-
-    .th-actionable {
-        display: flex;
-        align-items: center;
-    }
-
-    .th-actionable > p {
-        flex-grow: 1;
-        text-align: left;
-    }
-
-    .th-actionable > .actions {
-        display: flex;
-    }
-    .th-actionable > .actions > button {
-        color: var(--clr-black);
-        background: transparent;
-        padding: 0;
-    }
-
-    .small-id {
-        font-size: 0.75rem;
-    }
-
-    .patient-row {
-        cursor: pointer;
-
-        &:hover {
-            background-color: rgba(89, 89, 89, 0.05);
-        }
-    }
 }
 </style>

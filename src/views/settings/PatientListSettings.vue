@@ -2,15 +2,13 @@
 import CheckBox from "@/components/form/CheckBox.vue";
 import SimpleSelect from "@/components/form/SimpleSelect.vue";
 import HeaderSimple from "@/components/view/HeaderSimple.vue";
-import { API_BASE } from "@/helpers/config";
+import { API_BASE, saveListConfig } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import Loading from "@/Icons/Loading.vue";
 import { onMounted, ref } from "vue";
-import { useUser } from "@/stores/user";
 
-const user = useUser();
+import { DEFAULT_SHOW_ORDER } from "@/helpers/config";
 
-const miscId = ref<number | undefined>(undefined);
 const isSaving = ref(false);
 const isLoading = ref(true);
 const message = ref({
@@ -18,25 +16,31 @@ const message = ref({
     text: "",
 });
 
-const DEFAULT_SHOW_ORDER = ["name", "type", "age", "gender", "contact", "timestamp", "delivery_date", "specimen", "referer", "status"];
-
 const configData = ref({
     limit: 0,
-    show: ["name", "contact", "timestamp", "delivery_date", "specimen", "status"],
+    show: [
+        "name",
+        "contact",
+        "timestamp",
+        "delivery_date",
+        "specimen",
+        "status",
+    ],
 });
 let tOut: any;
 
 onMounted(async () => {
-    const data = await fetchApi(`${API_BASE}/misc?name=patient_list_config_${user.id}`);
+    const data = await fetchApi(
+        `${API_BASE}/misc/named/get?name=patient_list_config&scope=user`,
+    );
     isLoading.value = false;
-    if (!data.success || !data.rows.length) {
+    if (!data.success || !data.data) {
         return;
     }
-    miscId.value = data.rows[0].id;
-    configData.value = JSON.parse(data.rows[0].data);
+    configData.value = JSON.parse(data.data);
 });
 
-const handleForm = async (form: HTMLFormElement) => {
+const handleForm = async () => {
     if (isSaving.value) {
         return;
     }
@@ -45,9 +49,6 @@ const handleForm = async (form: HTMLFormElement) => {
     }
     isSaving.value = true;
 
-    const formData = new FormData();
-
-    formData.append("name", `patient_list_config_${user.id}`);
     const limit = parseInt(configData.value.limit.toString());
     const show = [];
 
@@ -56,30 +57,23 @@ const handleForm = async (form: HTMLFormElement) => {
             show.push(col);
         }
     }
-    formData.append("data", JSON.stringify({
+
+    const [success, data] = await saveListConfig({
         limit,
         show,
-    }));
-
-    const res = await fetchApi(form.action, {
-        method: "POST",
-        body: formData,
     });
     isSaving.value = false;
 
-    if (!res.success) {
+    if (!success) {
         message.value.type = "error";
-        message.value.text = res.message;
+        message.value.text = data;
         tOut = setTimeout(() => {
             tOut = 0;
             message.value.text = "";
         }, 5000);
     } else {
         message.value.type = "success";
-        message.value.text = res.message || "";
-        if (!miscId.value && res.data.id) {
-            miscId.value = res.data.id;
-        }
+        message.value.text = data;
 
         tOut = setTimeout(() => {
             tOut = 0;
@@ -106,12 +100,7 @@ const selectionChange = (name: string) => {
         <div v-if="isLoading" class="pl-loading">
             <Loading />
         </div>
-        <form
-            v-else
-            method="POST"
-            :action="`${API_BASE}/misc/${miscId ?? ''}`"
-            @submit.prevent="(evt) => handleForm(evt.target as HTMLFormElement)"
-        >
+        <form v-else method="POST" @submit.prevent="handleForm">
             <p
                 v-if="message.text"
                 :class="['form-alert', message.type]"
