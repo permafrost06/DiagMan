@@ -9,7 +9,7 @@ export const patientSchema = z.object({
 	entry_date: z.coerce.date(),
 	age: z.coerce.number().positive(),
 	gender: z.enum(['male', 'female']),
-	contact: z.string().regex(/^\d{11}$/, 'Must be exactly 11 digits'),
+	contact: z.string().regex(/^\d*$/, 'Must only contain numbers'),
 	specimen: z.string(),
 	referer: z.string(),
 	delivery_date: z.coerce.date(),
