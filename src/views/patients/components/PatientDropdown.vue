@@ -298,6 +298,8 @@ const sendSms = async (patient: any) => {
                         Send SMS
                     </template>
                 </button>
+            </div>
+            <div class="dropdown-section">
                 <button
                     class="dropdown-item danger"
                     @click="
@@ -341,7 +343,7 @@ const sendSms = async (patient: any) => {
     position: fixed;
     top: 100%;
     right: 0;
-    min-width: 200px;
+    min-width: 180px;
     width: max-content;
     background: var(--clr-white);
     border: 1px solid var(--clr-black);
@@ -366,12 +368,10 @@ const sendSms = async (patient: any) => {
     display: flex;
     align-items: center;
     gap: 5px;
-    width: 100%;
     padding: 8px 15px;
     color: var(--clr-black);
     background: transparent;
     text-decoration: none;
-    justify-content: center;
     font-size: var(--fs-base);
     font-weight: normal;
 
