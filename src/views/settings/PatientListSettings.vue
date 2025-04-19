@@ -5,9 +5,9 @@ import HeaderSimple from "@/components/view/HeaderSimple.vue";
 import { API_BASE, saveListConfig } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import Loading from "@/Icons/Loading.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
-import { DEFAULT_SHOW_ORDER } from "@/helpers/config";
+import { DEFAULT_SHOW_ORDER, DEFAULT_SHOWN_COLUMNS } from "@/helpers/config";
 
 const isSaving = ref(false);
 const isLoading = ref(true);
@@ -22,14 +22,7 @@ const originalOrder = ref(DEFAULT_SHOW_ORDER);
 
 const configData = ref({
     limit: 0,
-    show: [
-        "name",
-        "contact",
-        "timestamp",
-        "delivery_date",
-        "specimen",
-        "status",
-    ],
+    show: DEFAULT_SHOWN_COLUMNS,
     sizes: {},
 });
 let tOut: any;
@@ -44,6 +37,24 @@ onMounted(async () => {
     }
     configData.value = JSON.parse(data.data);
     originalOrder.value = configData.value.show;
+});
+
+/**
+ * This is a hack to reset the list config for development purposes
+ * Since we don't have a way to reset the list config from the UI
+ * We need to use this hack to reset the list config
+ */
+onMounted(() => {
+    // @ts-ignore
+    window.resetListConfig = () => {
+        configData.value.show = DEFAULT_SHOWN_COLUMNS;
+        configData.value.sizes = {};
+    };
+});
+
+onUnmounted(() => {
+    // @ts-ignore
+    delete window.resetListConfig;
 });
 
 const handleForm = async () => {
