@@ -158,6 +158,8 @@ onMounted(() => {
             }
             isLoadingConfig.value = false;
             limit.value = config.value.limit;
+            // @ts-ignore
+            config.value.sizes.actions = "4.5rem";
             nextTick(calculateLimit);
         },
     );
