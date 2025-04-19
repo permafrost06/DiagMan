@@ -2,7 +2,7 @@
 import DotsVertical from "@/Icons/dots-vertical.svg";
 import Loading from "@/Icons/Loading.vue";
 import { useUser } from "@/stores/user";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import Print from "@/Icons/print.svg";
@@ -21,6 +21,7 @@ const isSmsSending = ref<boolean>(false);
 const isLocking = ref<boolean>(false);
 const isDelivering = ref<boolean>(false);
 const dropdownPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 });
+const dropdownMenuRef = ref<HTMLElement | null>(null);
 
 const dispatchOpenEvent = () => {
     const event = new CustomEvent("patient-dropdown-open", {
@@ -30,10 +31,37 @@ const dispatchOpenEvent = () => {
 };
 
 const setDropdownPosition = (evt: MouseEvent) => {
-    dropdownPosition.value = { x: evt.clientX, y: evt.clientY };
-    if (window.innerWidth - evt.clientX < 200) {
-        dropdownPosition.value.x = evt.clientX - 200;
-    }
+    const MARGIN = 10;
+
+    let x = evt.clientX;
+    let y = evt.clientY;
+
+    nextTick(() => {
+        if (!dropdownMenuRef.value) return;
+
+        const dropdownRect = dropdownMenuRef.value.getBoundingClientRect();
+        const { width, height } = dropdownRect;
+
+        if (window.innerWidth - x < width + MARGIN) {
+            x = x - width;
+        }
+
+        if (x < MARGIN) {
+            x = MARGIN;
+        }
+
+        if (window.innerHeight - y < height + MARGIN) {
+            y = y - height;
+        }
+
+        if (y < MARGIN) {
+            y = MARGIN;
+        }
+
+        dropdownPosition.value = { x, y };
+    });
+
+    dropdownPosition.value = { x, y };
 };
 
 const toggleDropdown = (evt: MouseEvent) => {
@@ -181,6 +209,7 @@ const sendSms = async (patient: any) => {
 
         <div
             v-if="isOpen"
+            ref="dropdownMenuRef"
             class="dropdown-menu"
             :style="{
                 left: dropdownPosition.x + 'px',
