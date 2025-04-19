@@ -3,7 +3,7 @@ import TableX from "@/components/table/TableX.vue";
 import { useRouter } from "vue-router";
 import { dateToDMY, SortType } from "@/helpers/utils";
 import PatientDropdown from "./PatientDropdown.vue";
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const router = useRouter();
 const props = defineProps<{
@@ -28,6 +28,8 @@ const resizingColumn = ref<string | null>(null);
 const startWidth = ref<number | null>(null);
 const startX = ref<number | null>(null);
 const isLeftHandle = ref<boolean>(false);
+
+const hasOpenedDropdown = ref<boolean>(false);
 
 const handleDragStart = (column: string) => {
     if (column === "actions") {
@@ -126,6 +128,9 @@ const hightlightText = (data: string): string => {
 };
 
 const goToReport = (patient: Record<string, any>) => {
+    if (hasOpenedDropdown.value) {
+        return;
+    }
     router.push({ name: "report", params: { id: patient.id } });
 };
 
@@ -140,6 +145,24 @@ const getStatus = (patient: Record<any, any>) => {
 
     return hightlightText(patient.status);
 };
+
+const onOpenDropdown = () => {
+    hasOpenedDropdown.value = true;
+};
+
+const onCloseDropdown = () => {
+    hasOpenedDropdown.value = false;
+};
+
+onMounted(() => {
+    document.addEventListener("click", onCloseDropdown);
+    document.addEventListener("patient-dropdown-open", onOpenDropdown);
+});
+
+onUnmounted(() => {
+    document.removeEventListener("click", onCloseDropdown);
+    document.removeEventListener("patient-dropdown-open", onOpenDropdown);
+});
 </script>
 <template>
     <div
