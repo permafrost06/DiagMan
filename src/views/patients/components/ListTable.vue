@@ -231,14 +231,20 @@ const getStatus = (patient: Record<any, any>) => {
                             </button>
                         </div>
                     </div>
-                    <div
-                        class="resize-handle resize-handle-left"
-                        @mousedown="(e) => handleResizeStart(e, column, true)"
-                    ></div>
-                    <div
-                        class="resize-handle resize-handle-right"
-                        @mousedown="(e) => handleResizeStart(e, column, false)"
-                    ></div>
+                    <template v-if="column !== 'actions'">
+                        <div
+                            class="resize-handle resize-handle-left"
+                            @mousedown="
+                                (e) => handleResizeStart(e, column, true)
+                            "
+                        ></div>
+                        <div
+                            class="resize-handle resize-handle-right"
+                            @mousedown="
+                                (e) => handleResizeStart(e, column, false)
+                            "
+                        ></div>
+                    </template>
                 </th>
             </template>
             <template #col.name="{ row: patient }">

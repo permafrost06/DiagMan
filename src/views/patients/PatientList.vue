@@ -102,7 +102,7 @@ const tableDescription = {
         sort: true,
     },
     actions: {
-        label: "Actions",
+        label: "",
         sort: false,
     },
 };
