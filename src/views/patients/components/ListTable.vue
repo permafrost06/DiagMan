@@ -51,6 +51,8 @@ const handleDrop = (e: DragEvent, targetColumn: string) => {
         draggedColumn.value === targetColumn ||
         targetColumn === "actions"
     ) {
+        draggedColumn.value = null;
+        dragOverColumn.value = null;
         return;
     }
 
@@ -346,11 +348,7 @@ table {
         transition: background-color 0.2s ease;
 
         &.drag-over {
-            background-color: var(--clr-accent-light);
-        }
-
-        &:hover {
-            background-color: var(--clr-accent-light);
+           outline: 2px dashed var(--clr-black);
         }
     }
 
