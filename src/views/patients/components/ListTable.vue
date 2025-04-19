@@ -27,6 +27,7 @@ const dragOverColumn = ref<string | null>(null);
 const resizingColumn = ref<string | null>(null);
 const startWidth = ref<number | null>(null);
 const startX = ref<number | null>(null);
+const isLeftHandle = ref<boolean>(false);
 
 const handleDragStart = (column: string) => {
     if (column === "actions") {
@@ -72,28 +73,35 @@ const handleDrop = (e: DragEvent, targetColumn: string) => {
     dragOverColumn.value = null;
 };
 
-const handleResizeStart = (e: MouseEvent, column: string) => {
+const handleResizeStart = (e: MouseEvent, column: string, isLeft: boolean) => {
     e.preventDefault();
     resizingColumn.value = column;
     startX.value = e.clientX;
-    startWidth.value = parseInt(props.config.sizes[column] || '100px');
-    
-    document.addEventListener('mousemove', handleResizeMove);
-    document.addEventListener('mouseup', handleResizeEnd);
+    startWidth.value = parseInt(props.config.sizes[column] || "100px");
+    isLeftHandle.value = isLeft;
+
+    document.addEventListener("mousemove", handleResizeMove);
+    document.addEventListener("mouseup", handleResizeEnd);
 };
 
 const handleResizeMove = (e: MouseEvent) => {
-    if (!resizingColumn.value || startX.value === null || startWidth.value === null) return;
-    
+    if (
+        !resizingColumn.value ||
+        startX.value === null ||
+        startWidth.value === null
+    )
+        return;
+
     const delta = e.clientX - startX.value;
-    const newWidth = Math.max(50, startWidth.value + delta);
-    
+    const adjustedDelta = isLeftHandle.value ? -delta : delta;
+    const newWidth = Math.max(50, startWidth.value + adjustedDelta);
+
     emit("config", {
         ...props.config,
         sizes: {
             ...props.config.sizes,
-            [resizingColumn.value]: `${newWidth}px`
-        }
+            [resizingColumn.value]: `${newWidth}px`,
+        },
     });
 };
 
@@ -101,9 +109,10 @@ const handleResizeEnd = () => {
     resizingColumn.value = null;
     startX.value = null;
     startWidth.value = null;
-    
-    document.removeEventListener('mousemove', handleResizeMove);
-    document.removeEventListener('mouseup', handleResizeEnd);
+    isLeftHandle.value = false;
+
+    document.removeEventListener("mousemove", handleResizeMove);
+    document.removeEventListener("mouseup", handleResizeEnd);
 };
 
 const hightlightText = (data: string): string => {
@@ -222,9 +231,13 @@ const getStatus = (patient: Record<any, any>) => {
                             </button>
                         </div>
                     </div>
-                    <div 
-                        class="resize-handle"
-                        @mousedown="(e) => handleResizeStart(e, column)"
+                    <div
+                        class="resize-handle resize-handle-left"
+                        @mousedown="(e) => handleResizeStart(e, column, true)"
+                    ></div>
+                    <div
+                        class="resize-handle resize-handle-right"
+                        @mousedown="(e) => handleResizeStart(e, column, false)"
                     ></div>
                 </th>
             </template>
@@ -348,7 +361,7 @@ table {
         transition: background-color 0.2s ease;
 
         &.drag-over {
-           outline: 2px dashed var(--clr-black);
+            outline: 2px dashed var(--clr-black);
         }
     }
 
@@ -478,17 +491,33 @@ table {
 
 .resize-handle {
     position: absolute;
-    right: 0;
     top: 0;
     bottom: 0;
-    width: 12px;
+    width: 4px;
     cursor: col-resize;
     background: var(--clr-accent-light);
-    opacity: 0;
+    opacity: 0.3;
     transition: opacity 0.2s ease;
 
-    &:hover {
-        opacity: 1;
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        height: 20px;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+        border: 1px solid var(--clr-black);
+        border-top: none;
+        border-bottom: none;
+    }
+
+    &.resize-handle-left {
+        left: 2px;
+    }
+
+    &.resize-handle-right {
+        right: 2px;
     }
 }
 
