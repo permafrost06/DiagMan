@@ -27,7 +27,6 @@ const dragOverColumn = ref<string | null>(null);
 const resizingColumn = ref<string | null>(null);
 const startWidth = ref<number | null>(null);
 const startX = ref<number | null>(null);
-const isLeftHandle = ref<boolean>(false);
 
 const hasOpenedDropdown = ref<boolean>(false);
 
@@ -75,12 +74,11 @@ const handleDrop = (e: DragEvent, targetColumn: string) => {
     dragOverColumn.value = null;
 };
 
-const handleResizeStart = (e: MouseEvent, column: string, isLeft: boolean) => {
+const handleResizeStart = (e: MouseEvent, column: string) => {
     e.preventDefault();
     resizingColumn.value = column;
     startX.value = e.clientX;
     startWidth.value = parseInt(props.config.sizes[column] || "100px");
-    isLeftHandle.value = isLeft;
 
     document.addEventListener("mousemove", handleResizeMove);
     document.addEventListener("mouseup", handleResizeEnd);
@@ -95,8 +93,7 @@ const handleResizeMove = (e: MouseEvent) => {
         return;
 
     const delta = e.clientX - startX.value;
-    const adjustedDelta = isLeftHandle.value ? -delta : delta;
-    const newWidth = Math.max(50, startWidth.value + adjustedDelta);
+    const newWidth = Math.max(50, startWidth.value + delta);
 
     emit("config", {
         ...props.config,
@@ -111,7 +108,6 @@ const handleResizeEnd = () => {
     resizingColumn.value = null;
     startX.value = null;
     startWidth.value = null;
-    isLeftHandle.value = false;
 
     document.removeEventListener("mousemove", handleResizeMove);
     document.removeEventListener("mouseup", handleResizeEnd);
@@ -256,16 +252,8 @@ onUnmounted(() => {
                     </div>
                     <template v-if="column !== 'actions'">
                         <div
-                            class="resize-handle resize-handle-left"
-                            @mousedown="
-                                (e) => handleResizeStart(e, column, true)
-                            "
-                        ></div>
-                        <div
                             class="resize-handle resize-handle-right"
-                            @mousedown="
-                                (e) => handleResizeStart(e, column, false)
-                            "
+                            @mousedown="(e) => handleResizeStart(e, column)"
                         ></div>
                     </template>
                 </th>
