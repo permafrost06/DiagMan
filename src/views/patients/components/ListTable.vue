@@ -40,7 +40,7 @@ const startX = ref<number | null>(null);
 
 const hasOpenedDropdown = ref<boolean>(false);
 
-const createColumnGhost = (column: string) => {
+const createColumnGhost = (column: string, currentMousePos: number) => {
     const table = containerRef.value?.querySelector("table");
     if (!table) return;
     const colIndex = props.config.show.indexOf(column);
@@ -66,13 +66,14 @@ const createColumnGhost = (column: string) => {
 
     document.body.appendChild(ghost);
     ghost.style.top = `${table.getBoundingClientRect().top}px`;
+    ghost.style.left = `${currentMousePos - dragStartOffset.value}px`;
     dragGhost.value = ghost;
 };
 
 const handleMove = (e: MouseEvent) => {
     const x = e.clientX;
     if (dragGhost.value) {
-        dragGhost.value.style.left = `${e.clientX + 10}px`;
+        dragGhost.value.style.left = `${e.clientX - dragStartOffset.value}px`;
     }
     if (!draggedColumn.value || !colXPositions.value.length) return;
     let closestIndex = -1;
@@ -103,6 +104,8 @@ const calculateColPositions = () => {
     colXPositions.value = colPositions;
 };
 
+const dragStartOffset = ref<number>(0);
+
 const handleDragStart = (e: MouseEvent) => {
     if (e.target !== e.currentTarget && (e.target as HTMLElement).tagName !== "P") {
         return;
@@ -116,8 +119,10 @@ const handleDragStart = (e: MouseEvent) => {
     dragOverColumn.value = column;
     tmpColOrder.value = props.config.show.slice();
 
+    dragStartOffset.value = e.clientX - (e.target as HTMLElement).getBoundingClientRect().x;
+
     calculateColPositions();
-    createColumnGhost(column);
+    createColumnGhost(column, e.clientX);
 
     window.addEventListener("mousemove", handleMove);
     window.addEventListener("mouseup", handleDrop);
