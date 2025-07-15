@@ -33,7 +33,9 @@ const dragGhost = ref<HTMLElement | null>(null);
 const tmpColOrder = ref<string[] | null>(null);
 
 const resizingColumn = ref<string | null>(null);
+const nextCol = ref<string | null>(null);
 const startWidth = ref<number | null>(null);
+const nextColStartWidth = ref<number | null>(null);
 const startX = ref<number | null>(null);
 
 const hasOpenedDropdown = ref<boolean>(false);
@@ -174,9 +176,16 @@ const handleDrop = (e: MouseEvent) => {
 
 const handleResizeStart = (e: MouseEvent, column: string) => {
     e.preventDefault();
+
+    const currentCols = props.config.show;
+
     resizingColumn.value = column;
     startX.value = e.clientX;
     startWidth.value = (e.currentTarget as HTMLElement).closest('th')!.getBoundingClientRect().width;
+
+    const currentColIndex = currentCols.findIndex(c => c === column);
+    nextCol.value = currentCols[currentColIndex + 1];
+    nextColStartWidth.value = (e.currentTarget as HTMLElement).closest('th')!.nextElementSibling!.getBoundingClientRect().width;
 
     document.addEventListener("mousemove", handleResizeMove);
     document.addEventListener("mouseup", handleResizeEnd);
@@ -186,18 +195,28 @@ const handleResizeMove = (e: MouseEvent) => {
     if (
         !resizingColumn.value ||
         startX.value === null ||
-        startWidth.value === null
+        startWidth.value === null ||
+        nextColStartWidth.value === null ||
+        !nextCol.value
     )
         return;
 
+    const minimumColSize = 100;
+
     const delta = e.clientX - startX.value;
-    const newWidth = Math.max(50, startWidth.value + delta);
+    const newWidth = startWidth.value + delta;
+    const nextColNewWidth = nextColStartWidth.value - delta;
+
+    if (newWidth < minimumColSize || nextColNewWidth < minimumColSize) {
+        return;
+    }
 
     emit("config", {
         ...props.config,
         sizes: {
             ...props.config.sizes,
             [resizingColumn.value]: `${newWidth}px`,
+            [nextCol.value]: `${nextColNewWidth}px`
         },
     });
 };
