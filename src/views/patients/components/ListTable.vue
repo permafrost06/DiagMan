@@ -176,7 +176,7 @@ const handleResizeStart = (e: MouseEvent, column: string) => {
     e.preventDefault();
     resizingColumn.value = column;
     startX.value = e.clientX;
-    startWidth.value = parseInt(props.config.sizes[column] || "100px");
+    startWidth.value = (e.currentTarget as HTMLElement).closest('th')!.getBoundingClientRect().width;
 
     document.addEventListener("mousemove", handleResizeMove);
     document.addEventListener("mouseup", handleResizeEnd);
