@@ -15,6 +15,7 @@ interface TableProps extends /* @vue-ignore */ TableHTMLAttributes {
     visibleColumns: string[];
     trAttrs?: (row: Record<string, any>, index: number) => Record<string, any>;
     theadAttrs?: Record<string, any>;
+    dragging?: string | null;
 }
 defineProps<TableProps>();
 
@@ -23,10 +24,12 @@ useSlots();
 <template>
     <table v-bind="$attrs">
         <slot name="before-header"></slot>
-        <thead>
+        <tbody>
             <tr v-bind="theadAttrs">
                 <template v-for="col in visibleColumns" :key="col">
+                    <th v-if="col === dragging" class="dragging-indicator" :rowspan="data.length + 1"></th>
                     <slot
+                        v-else
                         name="header"
                         :column="col"
                         :info="
@@ -37,8 +40,6 @@ useSlots();
                     ></slot>
                 </template>
             </tr>
-        </thead>
-        <tbody>
             <tr v-if="state === 'error'">
                 <td :colspan="visibleColumns.length" style="text-align: center">
                     <slot name="error" :state="state"></slot>
@@ -69,6 +70,7 @@ useSlots();
             >
                 <template v-for="col in visibleColumns" :key="col">
                     <slot
+                        v-if="col !== dragging"
                         :name="`col.${col}`"
                         :state="state"
                         :cell="item[col]"

@@ -13,7 +13,10 @@ const props = defineProps<{
     tableDescription: any;
     sortBy: (sortByCol: string) => void;
     sortState: { by: string; order: SortType };
-    config: any;
+    config: {
+        show: string[];
+        sizes: Record<string, string>;
+    };
     onDelete: (patient: any) => void;
     search: string;
 }>();
@@ -22,35 +25,131 @@ const emit = defineEmits<{
     (e: "config", value: any): void;
 }>();
 
+const containerRef = ref<HTMLElement | null>(null);
 const draggedColumn = ref<string | null>(null);
 const dragOverColumn = ref<string | null>(null);
+const colXPositions = ref<number[]>([]);
+const dragGhost = ref<HTMLElement | null>(null);
+const tmpColOrder = ref<string[] | null>(null);
+
 const resizingColumn = ref<string | null>(null);
 const startWidth = ref<number | null>(null);
 const startX = ref<number | null>(null);
 
 const hasOpenedDropdown = ref<boolean>(false);
 
+const createColumnGhost = (column: string) => {
+    const table = containerRef.value?.querySelector("table");
+    if (!table) return;
+    const colIndex = props.config.show.indexOf(column);
+    if (colIndex === -1) return;
+
+    const ghost = document.createElement("table");
+    ghost.className = "drag-column-ghost";
+
+    const rows = table.querySelectorAll("tr");
+    rows.forEach((row) => {
+        const cell = row.children[colIndex];
+        if (cell) {
+            const computedStyle = getComputedStyle(cell);
+            const ghostRow = ghost.insertRow();
+            const clone = cell.cloneNode(true) as HTMLElement;
+            clone.style.width = computedStyle.width;
+            clone.style.height = computedStyle.height;
+            clone.style.lineHeight = computedStyle.lineHeight;
+            clone.style.padding = computedStyle.padding;
+            ghostRow.appendChild(clone);
+        }
+    });
+
+    document.body.appendChild(ghost);
+    ghost.style.top = `${table.getBoundingClientRect().top}px`;
+    dragGhost.value = ghost;
+};
+
+const handleMove = (e: MouseEvent) => {
+    const x = e.clientX;
+    if (dragGhost.value) {
+        dragGhost.value.style.left = `${e.clientX + 10}px`;
+    }
+    if (!draggedColumn.value || !colXPositions.value.length) return;
+    let closestIndex = -1;
+    for (let i = colXPositions.value.length - 1; i >= 0; i--) {
+        if (closestIndex < 0 && x > colXPositions.value[i]) {
+            closestIndex = i;
+        }
+    }
+    const targetColumn = props.config.show[closestIndex];
+    if (targetColumn) {
+        const oldTargetColumn = dragOverColumn.value;
+        dragOverColumn.value = targetColumn;
+        if (oldTargetColumn !== targetColumn) {
+            makeTheMove();
+        }
+    }
+};
+
+const calculateColPositions = () => {
+    const tableEl = containerRef.value?.querySelector("table");
+    if (!tableEl) return;
+    const firstRow = tableEl.querySelector("tr");
+    const colPositions: number[] = [];
+    Array.from(firstRow?.children || []).forEach((cell) => {
+        const box = cell.getBoundingClientRect();
+        colPositions.push(box.left);
+    });
+    colXPositions.value = colPositions;
+};
+
 const handleDragStart = (column: string) => {
-    if (column === "actions") {
+    const tableEl = containerRef.value?.querySelector("table");
+    if (column === "actions" || !tableEl) {
         return;
     }
     draggedColumn.value = column;
-};
-
-const handleDragOver = (e: DragEvent, column: string) => {
-    e.preventDefault();
     dragOverColumn.value = column;
+    tmpColOrder.value = props.config.show.slice();
+
+    calculateColPositions();
+    createColumnGhost(column);
+
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseup", handleDrop);
 };
 
-const handleDragLeave = () => {
-    dragOverColumn.value = null;
+const makeTheMove = () => {
+    const targetColumn = dragOverColumn.value;
+    const movingColumn = draggedColumn.value;
+    if (!targetColumn || !movingColumn || targetColumn === "actions") {
+        return;
+    }
+
+    const newShow = [...props.config.show];
+    const draggedIndex = newShow.indexOf(movingColumn);
+    const targetIndex = newShow.indexOf(targetColumn);
+
+    newShow.splice(draggedIndex, 1);
+    newShow.splice(targetIndex, 0, movingColumn);
+
+    tmpColOrder.value = newShow;
 };
 
-const handleDrop = (e: DragEvent, targetColumn: string) => {
+const handleDrop = (e: MouseEvent) => {
     e.preventDefault();
+    window.removeEventListener("mousemove", handleMove);
+    window.removeEventListener("mouseup", handleDrop);
+
+    if (dragGhost.value) {
+        dragGhost.value.remove();
+        dragGhost.value = null;
+    }
+
+    const targetColumn = dragOverColumn.value;
+    const movingColumn = draggedColumn.value;
     if (
-        !draggedColumn.value ||
-        draggedColumn.value === targetColumn ||
+        !targetColumn ||
+        !movingColumn ||
+        targetColumn === movingColumn ||
         targetColumn === "actions"
     ) {
         draggedColumn.value = null;
@@ -58,18 +157,13 @@ const handleDrop = (e: DragEvent, targetColumn: string) => {
         return;
     }
 
-    const newShow = [...props.config.show];
-    const draggedIndex = newShow.indexOf(draggedColumn.value);
-    const targetIndex = newShow.indexOf(targetColumn);
-
-    newShow.splice(draggedIndex, 1);
-    newShow.splice(targetIndex, 0, draggedColumn.value);
-
     emit("config", {
         ...props.config,
-        show: newShow,
+        show: tmpColOrder.value || props.config.show,
     });
 
+    tmpColOrder.value = null;
+    colXPositions.value = [];
     draggedColumn.value = null;
     dragOverColumn.value = null;
 };
@@ -162,6 +256,7 @@ onUnmounted(() => {
 </script>
 <template>
     <div
+        ref="containerRef"
         :class="{
             'table-has-name': config.show.includes('name'),
             'table-is-loading': isLoading,
@@ -173,7 +268,8 @@ onUnmounted(() => {
             :rows="limit"
             :state="isLoading ? 'loading' : 'ok'"
             :header="tableDescription"
-            :visibleColumns="config.show"
+            :visibleColumns="tmpColOrder || config.show"
+            :dragging="draggedColumn"
             :trAttrs="
                 (patient) => ({
                     class: 'patient-row',
@@ -184,8 +280,14 @@ onUnmounted(() => {
             <template #before-header>
                 <colgroup>
                     <col
-                        v-for="col in config.show"
-                        :style="{ width: config.sizes[col] }"
+                        v-for="col in tmpColOrder || config.show"
+                        :style="{
+                            width: config.sizes[col],
+                            border:
+                                draggedColumn === col
+                                    ? '2px dashed var(--clr-black)'
+                                    : undefined,
+                        }"
                     />
                 </colgroup>
             </template>
@@ -193,12 +295,7 @@ onUnmounted(() => {
                 <th
                     class="list-one-line"
                     :title="info.label"
-                    draggable="true"
-                    @dragstart="handleDragStart(column)"
-                    @dragover="(e) => handleDragOver(e, column)"
-                    @dragleave="handleDragLeave"
-                    @drop="(e) => handleDrop(e, column)"
-                    :class="{ 'drag-over': dragOverColumn === column }"
+                    @mousedown.prevent="handleDragStart(column)"
                 >
                     <div class="th-actionable">
                         <p>{{ info.label }}</p>
@@ -367,19 +464,15 @@ table {
 
     tr {
         border-bottom: 1px solid var(--clr-black);
-    }
-    thead tr {
-        border-bottom-width: 2px;
+        &:first-child {
+            border-bottom-width: 2px;
+        }
     }
 
     th {
         font-size: var(--fs-base);
         cursor: move;
         transition: background-color 0.2s ease;
-
-        &.drag-over {
-            outline: 2px dashed var(--clr-black);
-        }
     }
 
     th,
@@ -540,5 +633,13 @@ table {
 
 th {
     position: relative;
+}
+.drag-column-ghost {
+    position: fixed;
+    pointer-events: none;
+    background: white;
+    border: 1px solid black;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
 }
 </style>
