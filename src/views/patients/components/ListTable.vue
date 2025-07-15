@@ -3,7 +3,7 @@ import TableX from "@/components/table/TableX.vue";
 import { useRouter } from "vue-router";
 import { dateToDMY, SortType } from "@/helpers/utils";
 import PatientDropdown from "./PatientDropdown.vue";
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 
 const router = useRouter();
 const props = defineProps<{
@@ -281,6 +281,9 @@ onUnmounted(() => {
     document.removeEventListener("click", onCloseDropdown);
     document.removeEventListener("patient-dropdown-open", onOpenDropdown);
 });
+
+const lastTwoCols = computed(() => props.config.show.slice(-2));
+
 </script>
 <template>
     <div
@@ -376,7 +379,7 @@ onUnmounted(() => {
                             </button>
                         </div>
                     </div>
-                    <template v-if="column !== 'actions'">
+                    <template v-if="!lastTwoCols.includes(column)">
                         <div
                             class="resize-handle resize-handle-right"
                             @mousedown="(e) => handleResizeStart(e, column)"
