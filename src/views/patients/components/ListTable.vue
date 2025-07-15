@@ -101,7 +101,11 @@ const calculateColPositions = () => {
     colXPositions.value = colPositions;
 };
 
-const handleDragStart = (column: string) => {
+const handleDragStart = (e: MouseEvent) => {
+    if (e.target !== e.currentTarget && (e.target as HTMLElement).tagName !== "P") {
+        return;
+    }
+    const column = (e.currentTarget as HTMLElement).dataset.column as string;
     const tableEl = containerRef.value?.querySelector("table");
     if (column === "actions" || !tableEl) {
         return;
@@ -295,7 +299,8 @@ onUnmounted(() => {
                 <th
                     class="list-one-line"
                     :title="info.label"
-                    @mousedown.prevent="handleDragStart(column)"
+                    :data-column="column"
+                    @mousedown.prevent="handleDragStart"
                 >
                     <div class="th-actionable">
                         <p>{{ info.label }}</p>
