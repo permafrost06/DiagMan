@@ -665,5 +665,6 @@ th {
     border: 1px solid black;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
     z-index: 9999;
+    opacity: 50%;
 }
 </style>
