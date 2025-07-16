@@ -32,7 +32,7 @@ const updateTestPrices = async (client: Client, tests: string[], prices: number[
 					  )
 					`,
 					args: { data: JSON.stringify(testObj) },
-				})
+				}),
 			);
 		}
 	});
@@ -163,8 +163,8 @@ export const getAutoId: RequestHandler = async ({ env, res, query }) => {
 };
 
 export const listPatients: RequestHandler = async ({ env, res, url }) => {
-	const limit = 10;
 	const search = new URL(url).searchParams;
+	const limit = Math.max(Math.min(parseInt(search.get('limit') || '10'), 50), 5);
 	const filterSchema = {
 		id: /^([a-zA-Z0-9\s,_-]+)$/,
 		name: /^([a-zA-Z0-9\s_]+)$/,

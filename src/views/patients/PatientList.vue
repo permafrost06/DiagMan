@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import Pagination from "@/components/Pagination.vue";
 import Icon from "@/components/base/Icon.vue";
-import ThActionable from "@/components/base/ThActionable.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
-import { API_BASE } from "@/helpers/config";
+import { API_BASE, saveListConfig } from "@/helpers/config";
 import { ApiResponsePaged, fetchApi } from "@/helpers/http";
 import {
     TABLES,
@@ -11,20 +10,35 @@ import {
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { dateToDMY, useSorter } from "@/helpers/utils";
-import { useUser } from "@/stores/user";
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { useSorter } from "@/helpers/utils";
+import { onMounted, onUnmounted, ref, watch, nextTick } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import { useRoute, useRouter } from "vue-router";
 import HeaderMain from "@/components/view/HeaderMain.vue";
+import FullPageLoader from "@/components/base/FullPageLoader.vue";
+import { useUser } from "@/stores/user";
+import ListTable from "./components/ListTable.vue";
 
 const router = useRouter();
 const route = useRoute();
-
 const user = useUser();
+
 const isLoading = ref<boolean>(false);
-const isSmsSending = ref<any>(0);
+const isLoadingConfig = ref<boolean>(true);
+const config = ref({
+    limit: 0,
+    show: [
+        "name",
+        "contact",
+        "timestamp",
+        "specimen",
+        "delivery_date",
+        "actions",
+    ],
+    sizes: {},
+});
+const limit = ref(0);
 const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
@@ -41,52 +55,55 @@ const [sortState, doSorting] = useSorter<string>(
     (route.query.sort_by as any) || "timestamp",
     (route.query.order as any) || "desc",
 );
-const filterRef = ref();
 
+const paginationWrapper = ref<HTMLDivElement | null>(null);
 let search = ref((route.query.search as string)?.trim() || "");
 let filterType = ref((route.query.type as string)?.trim());
-
-const sortableColumns = {
-    id: {
-        label: "ID",
-    },
-    name: {
-        label: "Name",
-    },
-    contact: {
-        label: "Contact No",
-    },
-    timestamp: {
-        label: "Date Added (Default)",
-    },
-    type: {
-        label: "Type",
-    },
-    delivery_date: {
-        label: "Delivery Date",
-    },
-};
 
 const tableDescription = {
     name: {
         label: "Name",
-        filter: false,
+        sort: true,
     },
     contact: {
         label: "Contact No",
-        filter: false,
+        sort: true,
     },
     timestamp: {
         label: "Date Added",
-        filter: false,
+        sort: true,
+    },
+    type: {
+        label: "Type",
+        sort: true,
+    },
+    age: {
+        label: "Age",
+        sort: true,
+    },
+    gender: {
+        label: "Gender",
+        sort: true,
+    },
+    delivery_date: {
+        label: "Delivery Date",
+        sort: true,
     },
     specimen: {
         label: "Specimen",
-        filter: false,
+        sort: true,
     },
     status: {
         label: "Status",
-        filter: false,
+        sort: true,
+    },
+    referer: {
+        label: "Referer",
+        sort: true,
+    },
+    actions: {
+        label: "",
+        sort: false,
     },
 };
 
@@ -101,19 +118,6 @@ const sortBy = (sortByCol: string) => {
         },
     });
 };
-const showFilter = (col: string) => {
-    filterRef.value.setCursor(col);
-};
-
-const hightlightText = (data: string): string => {
-    let colH = data;
-    if (search.value) {
-        colH = colH.replace(new RegExp(search.value, "i"), (a) => {
-            return `<mark>${a}</mark>`;
-        });
-    }
-    return colH;
-};
 
 let lastExpanded: HTMLElement | null = null;
 
@@ -126,8 +130,39 @@ const printBtnEvt = (evt: any) => {
         lastExpanded = null;
     }
 };
-onMounted(() => {
+
+const calculateLimit = () => {
+    const el = paginationWrapper.value;
+    if (limit.value > 0 || !el) {
+        queryResults();
+        return;
+    }
+    const rowHeight = config.value.show.includes("name") ? 57 : 42;
+    const BOTTOM_ELEMENT_HEIGHT = 45;
+    const remHeight =
+        window.innerHeight -
+        el.getBoundingClientRect().top -
+        BOTTOM_ELEMENT_HEIGHT;
+    const rows = Math.floor(remHeight / rowHeight);
+    limit.value = rows;
     queryResults();
+};
+
+onMounted(() => {
+    fetchApi(`${API_BASE}/misc/?name=patient_list_config_${user.id}`).then(
+        (res) => {
+            if (res.success && res.rows.length) {
+                config.value = JSON.parse(res.rows[0].data);
+                config.value.show.push("actions");
+                config.value.sizes ||= {};
+            }
+            isLoadingConfig.value = false;
+            limit.value = config.value.limit;
+            // @ts-ignore
+            config.value.sizes.actions = "4.5rem";
+            nextTick(calculateLimit);
+        },
+    );
     document.addEventListener("click", printBtnEvt);
 });
 onUnmounted(() => {
@@ -186,6 +221,7 @@ async function queryResults() {
         ...(filterType.value ? { type: filterType.value } : {}),
     };
     queryParams.page = (route.query.page as string) || "1";
+    queryParams.limit = limit.value.toString();
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
@@ -256,118 +292,25 @@ async function deletePatient() {
     }
 }
 
-const lockReqs = ref<Set<number>>(new Set());
-const toggleLock = async (patient: any) => {
-    if (lockReqs.value.has(patient.id)) {
-        return;
-    }
-    lockReqs.value.add(patient.id);
+let tOut: any = null;
 
-    const res = await fetchApi(
-        API_BASE + "/reports/lock/" + encodeURIComponent(patient.id),
-        {
-            method: "POST",
-        },
-    );
-    lockReqs.value.delete(patient.id);
-    if (!res.success) {
-        console.error(res.message || "Toggling report lock failed!");
-        return;
+const onConfigChange = (newConfig: any) => {
+    config.value = newConfig;
+    const show = config.value.show.filter((col: string) => col !== "actions");
+    if (tOut) {
+        clearTimeout(tOut);
     }
-    patient.locked = !patient.locked;
-};
-
-const deliverReqs = ref<Set<number>>(new Set());
-const deliverReport = async (patient: any) => {
-    if (deliverReqs.value.has(patient.id)) {
-        return;
-    }
-    deliverReqs.value.add(patient.id);
-    const res = await fetchApi(
-        API_BASE + "/reports/deliver/" + encodeURIComponent(patient.id),
-        {
-            method: "POST",
-        },
-    );
-    deliverReqs.value.delete(patient.id);
-    if (!res.success) {
-        console.error(res.message || "Delivering report failed!");
-        return;
-    }
-    patient.status = "delivered";
-    if (!showDelivered.value) {
-        patients.value = patients.value.filter((p) => p.id != patient.id);
-    }
-};
-
-const unDeliverReqs = ref<Set<number>>(new Set());
-const unDeliverReport = async (patient: any) => {
-    if (unDeliverReqs.value.has(patient.id)) {
-        return;
-    }
-    unDeliverReqs.value.add(patient.id);
-    const res = await fetchApi(
-        API_BASE + "/reports/un-deliver/" + encodeURIComponent(patient.id),
-        {
-            method: "POST",
-        },
-    );
-    unDeliverReqs.value.delete(patient.id);
-    if (!res.success) {
-        console.error(res.message || "Unmarking as delivered failed!");
-        return;
-    }
-    patient.status = res.data.status;
-};
-
-const sendSms = async (patient: any) => {
-    if (isSmsSending.value) {
-        return;
-    }
-    isSmsSending.value = patient.id;
-    const res = await fetchApi(
-        API_BASE + "/sms/" + encodeURIComponent(patient.id),
-        {
-            method: "POST",
-        },
-    );
-    isSmsSending.value = 0;
-    if (!res.success) {
-        console.error(res.message || "Sending sms failed!");
-        return;
-    }
-    patient.sms_sent = true;
-}
-const expandPrintBtn = (evt: any) => {
-    if (lastExpanded) {
-        lastExpanded.classList.remove("expanded");
-    }
-    if (lastExpanded === evt.target.parentElement) {
-        lastExpanded = null;
-        return;
-    }
-    lastExpanded = evt.target.parentElement;
-    lastExpanded?.classList.add("expanded");
-};
-
-const goToReport = (patient: Record<string, any>) => {
-    router.push({ name: "report", params: { id: patient.id } });
-};
-
-const getStatus = (patient: Record<any, any>) => {
-    if (patient.status === "delivered") {
-        return "Archived";
-    }
-
-    if (patient.locked) {
-        return "Locked";
-    }
-
-    return hightlightText(patient.status);
+    tOut = setTimeout(() => {
+        saveListConfig({
+            ...config.value,
+            show,
+        });
+    }, 1000);
 };
 </script>
 <template>
-    <div class="patients-page">
+    <FullPageLoader v-if="isLoadingConfig" />
+    <div v-else class="patients-page">
         <HeaderMain title="Patients List" />
         <div class="query-info">
             <RouterLink
@@ -410,13 +353,16 @@ const getStatus = (patient: Record<any, any>) => {
                     :value="sortState.by"
                     @change="(evt: any) => sortBy(evt.target.value)"
                 >
-                    <option
-                        v-for="(col, col_name) in sortableColumns"
-                        :key="col_name"
-                        :value="col_name"
-                    >
-                        {{ col.label }}
-                    </option>
+                    <template v-for="col in config.show" :key="col">
+                        <option
+                            :value="col"
+                            v-if="
+                                (tableDescription as any)[col]?.sort !== false
+                            "
+                        >
+                            {{ (tableDescription as any)[col].label }}
+                        </option>
+                    </template>
                 </select>
                 <button
                     type="button"
@@ -442,224 +388,19 @@ const getStatus = (patient: Record<any, any>) => {
                 </button>
             </div>
         </div>
-        <div>
-            <table width="100%">
-                <tbody>
-                    <tr class="font-h">
-                        <ThActionable
-                            :description="tableDescription"
-                            :on-filter="showFilter"
-                            :on-sort="sortBy"
-                            :sort-by="sortState.by"
-                            :sort-order="sortState.order"
-                        />
-                        <th>Actions</th>
-                    </tr>
-                    <template v-if="isLoading">
-                        <tr
-                            v-for="i in 10"
-                            :key="i"
-                            :class="'skeleton-' + (i % 4)"
-                        >
-                            <td>
-                                <div class="skeleton"></div>
-                            </td>
-                            <td>
-                                <div class="skeleton"></div>
-                            </td>
-                            <td>
-                                <div class="skeleton"></div>
-                            </td>
-                            <td>
-                                <div class="skeleton"></div>
-                            </td>
-                            <td>
-                                <div class="skeleton"></div>
-                            </td>
-                            <td>
-                                <div class="skeleton"></div>
-                            </td>
-                            <td class="flex items-center gap-sm">
-                                <div class="skeleton btn"></div>
-                                <div class="skeleton btn"></div>
-                                <div class="skeleton btn"></div>
-                            </td>
-                        </tr>
-                    </template>
-                    <tr v-else-if="!patients?.length">
-                        <td colspan="7">
-                            {{ error || "No patients added yet!" }}
-                        </td>
-                    </tr>
-                    <template v-else>
-                        <tr
-                            class="patient-row"
-                            @click="() => goToReport(patient)"
-                            v-for="patient in patients"
-                            :key="patient.id"
-                        >
-                            <td>
-                                <p v-html="hightlightText(patient.name)" />
-                                <p
-                                    class="small-id"
-                                    v-html="hightlightText(patient.id)"
-                                />
-                            </td>
-                            <td>{{ patient.contact }}</td>
-                            <td>
-                                {{
-                                    patient.timestamp
-                                        ? dateToDMY(
-                                              new Date(
-                                                  parseInt(patient.timestamp),
-                                              ),
-                                          )
-                                        : "N/A"
-                                }}
-                            </td>
-                            <td>
-                                {{ patient.specimen }}
-                            </td>
-                            <td
-                                class="capitalize"
-                                v-html="getStatus(patient)"
-                            ></td>
-                            <td>
-                                <div
-                                    @click.stop
-                                    class="flex gap-sm row-actions"
-                                >
-                                    <div class="print-btns">
-                                        <button
-                                            class="dropdown-button"
-                                            type="button"
-                                            @click="expandPrintBtn"
-                                        >
-                                            Print
-                                            <Icon size="16" viewBox="1024">
-                                                ><path
-                                                    fill="currentColor"
-                                                    d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35"
-                                                />
-                                            </Icon>
-                                        </button>
-                                        <div class="dropdown">
-                                            <RouterLink
-                                                v-if="patient.is_reported"
-                                                :to="{
-                                                    name: 'report.print',
-                                                    params: {
-                                                        id: patient.id,
-                                                    },
-                                                }"
-                                                class="btn report-btn"
-                                            >
-                                                Report
-                                            </RouterLink>
-                                            <div class="divider" />
-                                            <RouterLink
-                                                :to="{
-                                                    name: 'patients.invoice',
-                                                    params: {
-                                                        id: patient.id,
-                                                    },
-                                                }"
-                                                class="btn"
-                                            >
-                                                Invoice
-                                            </RouterLink>
-                                        </div>
-                                    </div>
-                                    <button
-                                        v-if="
-                                            user.isAdmin &&
-                                            patient.is_reported &&
-                                            patient.status !== 'delivered'
-                                        "
-                                        type="button"
-                                        class="btn-outline"
-                                        @click="() => toggleLock(patient)"
-                                    >
-                                        <Loading
-                                            size="15"
-                                            v-if="
-                                                lockReqs.has(patient.id as any)
-                                            "
-                                        />
-                                        {{ patient.locked ? "Unlock" : "Lock" }}
-                                    </button>
-                                    <template v-if="patient.locked">
-                                        <button
-                                            v-if="
-                                                patient.status !== 'delivered'
-                                            "
-                                            type="button"
-                                            class="btn-outline"
-                                            @click="
-                                                () => deliverReport(patient)
-                                            "
-                                        >
-                                            <Loading
-                                                size="15"
-                                                v-if="
-                                                    deliverReqs.has(
-                                                        patient.id as any,
-                                                    )
-                                                "
-                                            />
-                                            Archive
-                                        </button>
-                                        <button
-                                            v-else
-                                            type="button"
-                                            class="btn-outline"
-                                            @click="
-                                                () => unDeliverReport(patient)
-                                            "
-                                        >
-                                            <Loading
-                                                size="15"
-                                                v-if="
-                                                    unDeliverReqs.has(
-                                                        patient.id as any,
-                                                    )
-                                                "
-                                            />
-                                            Unarchive
-                                        </button>
-                                    </template>
-                                    <RouterLink
-                                        :to="{
-                                            name: 'patients.edit',
-                                            params: {
-                                                id: patient.id,
-                                            },
-                                        }"
-                                        class="btn btn-outline"
-                                    >
-                                        Edit
-                                    </RouterLink>
-                                    <button
-                                        class="btn-outline"
-                                        @click="sendSms(patient)"
-                                    >
-                                        <template v-if="isSmsSending === patient.id">Sending...</template>
-                                        <template v-else>Send SMS</template>
-                                    </button>
-                                    <button
-                                        class="btn-outline danger"
-                                        @click="deleteValue = patient"
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
-        </div>
-        <div class="flex items-center justify-between">
+        <ListTable
+            :is-loading="isLoading"
+            :patients="patients"
+            :limit="limit"
+            :table-description="tableDescription"
+            :sort-by="sortBy"
+            :sort-state="sortState"
+            :config="config"
+            :on-delete="(patient) => (deleteValue = patient)"
+            :search="search"
+            @config="onConfigChange"
+        />
+        <div class="flex items-center justify-between" ref="paginationWrapper">
             <CheckBox label="Show archived reports" v-model="showDelivered" />
             <Pagination
                 class="mt-sm"
@@ -757,134 +498,6 @@ const getStatus = (patient: Record<any, any>) => {
         border: 1px solid var(--clr-black);
         padding: 5px 8px;
         padding-left: 25px;
-    }
-
-    table {
-        border-collapse: collapse;
-
-        tr {
-            border-bottom: 1px solid var(--clr-black);
-        }
-        tr:first-child {
-            border-bottom-width: 2px;
-        }
-        th {
-            font-size: var(--fs-base);
-        }
-
-        th,
-        td {
-            padding: 8px 15px;
-            text-align: left;
-        }
-        .print-btns {
-            position: relative;
-            > button {
-                height: 100%;
-                svg {
-                    pointer-events: none;
-                }
-            }
-            .dropdown {
-                display: none;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                right: calc(100% + 10px);
-                z-index: 1;
-                background: var(--clr-black);
-
-                a {
-                    margin: 5px;
-                }
-
-                .divider {
-                    background: var(--clr-white);
-                    height: 1px;
-                    width: calc(100% - 10px);
-                    margin: auto;
-
-                    &:first-child {
-                        display: none;
-                    }
-                }
-
-                &:after {
-                    content: "";
-                    position: absolute;
-                    top: 50%;
-                    left: 100%;
-                    transform: translateY(-50%);
-                    width: 0;
-                    height: 0;
-                    border-top: 10px solid transparent;
-                    border-bottom: 10px solid transparent;
-                    border-left: 10px solid var(--clr-black);
-                }
-            }
-
-            &.expanded .dropdown {
-                display: block;
-            }
-        }
-    }
-
-    .row-actions {
-        cursor: default;
-
-        button,
-        .btn {
-            padding: 5px 15px;
-            font-weight: 600;
-            gap: 5px;
-        }
-        // .report-btn {
-        //     padding-left: 10px;
-        // }
-
-        .dropdown-button {
-            width: 4.5rem;
-
-            .dropdown .btn {
-                width: 4.5rem;
-            }
-        }
-    }
-
-    .skeleton.btn {
-        height: 1.5em;
-        width: 100%;
-    }
-
-    .th-actionable {
-        display: flex;
-        align-items: center;
-    }
-
-    .th-actionable > p {
-        flex-grow: 1;
-        text-align: left;
-    }
-
-    .th-actionable > .actions {
-        display: flex;
-    }
-    .th-actionable > .actions > button {
-        color: var(--clr-black);
-        background: transparent;
-        padding: 0;
-    }
-
-    .small-id {
-        font-size: 0.75rem;
-    }
-
-    .patient-row {
-        cursor: pointer;
-
-        &:hover {
-            background-color: rgba(89, 89, 89, 0.05);
-        }
     }
 }
 </style>

@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "vite",
         "dev:worker": "cd worker && pnpm run start",
+        "dev:tauri": "concurrently \"pnpm run tauri dev\" \"pnpm run dev:worker\"",
         "build": "run-p type-check build-only",
         "preview": "vite preview",
         "test:unit": "vitest --environment jsdom --root src/",

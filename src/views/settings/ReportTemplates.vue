@@ -150,7 +150,10 @@ function showDetails(data?: Record<string, any>) {
 </script>
 <template>
     <div class="report-template-settings">
-        <HeaderSimple title="Report Templates" />
+        <HeaderSimple
+            title="Report Templates"
+            :onClose="(router) => router.push({ name: 'home' })"
+        />
         <div class="flex items-center gap-sm input-area">
             <button class="add-btn" @click="formValue = true">
                 + Add Template

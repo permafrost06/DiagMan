@@ -2,12 +2,20 @@
     <div class="settings-layout">
         <nav class="sidebar font-h">
             <RouterLink
-                :to="{ name: 'settings' }"
+                :to="{ name: 'settings.patient-list' }"
                 class="sidebar-top flex items-center"
             >
                 Settings
             </RouterLink>
             <ul>
+                <li>
+                    <RouterLink
+                        :to="{ name: 'settings.patient-list' }"
+                        class="sidebar-link"
+                    >
+                        Patient List
+                    </RouterLink>
+                </li>
                 <li>
                     <RouterLink
                         :to="{ name: 'settings.report-templates' }"
