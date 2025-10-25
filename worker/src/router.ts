@@ -45,27 +45,27 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/users/update', ensureAdmin, updateUser);
 	router.delete('/users/:id', withParams, ensureAdmin, deleteUser);
 
-	router.post('/tests', addTest);
-	router.get('/tests', listTests);
+	router.post('/tests', ensureUser, addTest);
+	router.get('/tests', ensureUser, listTests);
 	router.post('/tests/sync', ensureUser, syncTests);
 	router.delete('/tests/:id', withParams, ensureUser, deleteTest);
 
-	router.get('/patient-autoid', getAutoId);
+	router.get('/patient-autoid', ensureUser, getAutoId);
 
-	router.post('/patients/sync', syncPatients);
+	router.post('/patients/sync', ensureUser, syncPatients);
 	router.post('/patients/:id?', ensureUser, addOrUpdatePatient);
 	router.delete('/patients/:id', ensureUser, deletePatient);
-	router.get('/patients/:id', getPatient);
-	router.get('/patients', listPatients);
+	router.get('/patients/:id', ensureUser, getPatient);
+	router.get('/patients', ensureUser, listPatients);
 
 	router.post('/reports/deliver/:id', ensureUser, deliverReport);
 	router.post('/reports/un-deliver/:id', ensureUser, unDeliverReport);
 	router.post('/reports/lock/:id', ensureAdmin, toggleReportLock);
-	router.get('/reports/:id', getReport);
+	router.get('/reports/:id', ensureUser, getReport);
 	router.post('/reports', ensureUser, finalizeReport);
 
-	router.get('/settings/report-templates/organs', listOrgans);
-	router.get('/settings/report-templates', listReportTemplates);
+	router.get('/settings/report-templates/organs', ensureUser, listOrgans);
+	router.get('/settings/report-templates', ensureUser, listReportTemplates);
 	router.post('/settings/report-templates', ensureUser, addReportTemplate);
 	router.post('/settings/report-templates/:id', ensureUser, deleteReportTemplate);
 
@@ -73,14 +73,14 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/settings/account/pin', ensureUser, changePin);
 	router.post('/settings/account/password', ensureUser, changePassword);
 
-	router.get('/misc', listMiscStrings);
-	router.get('/misc/named/get', assignUser, getNamedString);
+	router.get('/misc', ensureUser, listMiscStrings);
+	router.get('/misc/named/get', ensureUser, getNamedString);
 	router.post('/misc/named/save', ensureUser, saveNamedString);
 	router.post('/misc/remove/:id', ensureUser, deleteMiscString);
 	router.post('/misc/:id?', ensureUser, addOrUpdateMiscString);
 
 
-	router.get('/finances', getFinances);
+	router.get('/finances', ensureUser, getFinances);
 
 	router.post('/sms/:id', ensureUser, sendPatientSms);
 };
