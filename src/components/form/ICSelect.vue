@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { ref, type SelectHTMLAttributes, watch } from "vue";
 
-interface InputProps extends SelectHTMLAttributes {
+interface InputProps extends /* @vue-ignore */ SelectHTMLAttributes {
     hint?: string;
     hintType?: "error" | "warning" | "success" | "none";
     label?: string;
