@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InputHTMLAttributes } from "vue";
 
-interface Props extends InputHTMLAttributes {
+interface Props extends /* @vue-ignore */ InputHTMLAttributes {
     hint?: string;
     hintType?: "error" | "warning" | "success" | "none";
     label?: string;

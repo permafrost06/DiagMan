@@ -29,7 +29,7 @@ export interface ShortenCol {
     title?: string;
 }
 
-export interface TableProps extends TableHTMLAttributes {
+export interface TableProps extends /* @vue-ignore */ TableHTMLAttributes {
     cols: TableCol[];
     data: any[];
     mobileView?: "moveable" | "collapsed" | "transformed" | "shorten";
