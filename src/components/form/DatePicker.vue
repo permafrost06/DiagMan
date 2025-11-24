@@ -5,7 +5,7 @@ import datepicker from "js-datepicker";
 import "js-datepicker/dist/datepicker.min.css";
 import { dateToDMY } from "@/helpers/utils";
 
-export interface Props extends /* @vue-ignore */ InputHTMLAttributes {
+interface Props extends /* @vue-ignore */ InputHTMLAttributes {
     formatter?: (date: Date) => string;
     parser?: (val: string) => Date;
     modelValue?: Date | string;

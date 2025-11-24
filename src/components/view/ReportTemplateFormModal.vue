@@ -55,6 +55,7 @@ onMounted(() => {
     initEditors();
     if (props.edit) {
         loadContents(props.edit);
+        organVal.value = props.edit.organ;
     }
 });
 
