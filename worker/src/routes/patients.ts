@@ -139,7 +139,7 @@ export const getAutoId: RequestHandler = async ({ env, res, query }) => {
 	const db = getLibsqlClient(env);
 	const patientType = query['type']?.toString() === 'cyto' ? 'cyto' : 'histo';
 	const { rows } = await db.execute({
-		sql: 'SELECT id FROM `patients` WHERE type = ? AND id REGEXP "^[CH]-[0-9]{2}-" ORDER BY entry_date DESC LIMIT 1;',
+		sql: 'SELECT id FROM `patients` WHERE type = ? AND id REGEXP "^[CH]-[0-9]{2}-" ORDER BY timestamp DESC LIMIT 1;',
 		args: [patientType],
 	});
 
