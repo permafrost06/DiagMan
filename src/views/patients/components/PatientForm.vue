@@ -291,6 +291,7 @@ const onTestDelete = (id: string) => {
                             class="age-input arrow-hidden-input"
                             autocomplete="off"
                             :value="toEdit?.age"
+                            step="0.01"
                         />
                         years
                     </div>
