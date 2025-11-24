@@ -101,6 +101,10 @@ const tableDescription = {
         label: "Referer",
         sort: true,
     },
+    due: {
+        label: "Due",
+        sort: false,
+    },
     actions: {
         label: "",
         sort: false,

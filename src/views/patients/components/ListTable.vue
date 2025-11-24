@@ -468,6 +468,14 @@ const lastTwoCols = computed(() => props.config.show.slice(-2));
                     {{ getStatus(row) }}
                 </td>
             </template>
+            <template #col.due="{ row }">
+                <td v-if="isLoading">
+                    <div class="skeleton"></div>
+                </td>
+                <td v-else class="list-one-line capitalize">
+                    {{ (row.total - row.discount - row.advance) / 100 }}
+                </td>
+            </template>
             <template #col.actions="{ row: patient }">
                 <td v-if="isLoading">
                     <div class="skeleton"></div>

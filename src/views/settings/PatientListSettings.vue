@@ -204,6 +204,12 @@ const selectionChange = (name: string) => {
                         :checked="configData.show.includes('status')"
                         @change="selectionChange('status')"
                     />
+                    <CheckBox
+                        label="Due"
+                        value="due"
+                        :checked="configData.show.includes('due')"
+                        @change="selectionChange('due')"
+                    />
                 </div>
             </div>
 
