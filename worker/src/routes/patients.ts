@@ -100,7 +100,7 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 			await insertRow(db, 'patients', data);
 			res.setMsg('Patient added successfully!');
 		} else {
-			if (!rows[0]?.timestamp) {
+			if (!rows[0]?.timestamp && !data.timestamp) {
 				data.timestamp = Date.now();
 			}
 			const { sql, args } = getUpdateQuery('patients', data);

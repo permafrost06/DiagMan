@@ -18,6 +18,7 @@ export const patientSchema = z.object({
 	discount: z.coerce.number().nonnegative(),
 	advance: z.coerce.number().nonnegative(),
 	complementary: z.coerce.boolean(),
+	timestamp: z.coerce.number().nonnegative(),
 });
 
 export const reportSchema = z.object({

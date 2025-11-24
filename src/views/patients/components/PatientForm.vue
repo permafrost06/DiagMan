@@ -264,6 +264,12 @@ const onTestDelete = (id: string) => {
                     :value="patientId"
                 />
 
+                <input
+                    type="hidden"
+                    name="timestamp"
+                    :value="toEdit?.timestamp"
+                />
+
                 <h4 class="section-title all-col">Patient Information</h4>
 
                 <SimpleInput
