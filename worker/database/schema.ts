@@ -63,6 +63,7 @@ export const patients = sqliteTable('patients', {
 	complementary: integer('complementary'),
 	discount: numeric('discount'),
 	advance: numeric('advance'),
+	sms_sent: integer('sms_sent'),
 	timestamp: integer('timestamp', {
 		mode: 'timestamp',
 	}),

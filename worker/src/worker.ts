@@ -10,9 +10,11 @@ const DEFAULT_HEADERS = {
 };
 
 export interface Env {
+	router?: RouterType;
 	TURSO_DB_URL?: string;
 	TURSO_AUTH_TOKEN?: string;
-	router?: RouterType;
+	BULKSMS_API_KEY?: string;
+	BULKSMS_SENDER_ID?: string;
 }
 
 export default {

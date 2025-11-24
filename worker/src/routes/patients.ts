@@ -32,7 +32,7 @@ const updateTestPrices = async (client: Client, tests: string[], prices: number[
 					  )
 					`,
 					args: { data: JSON.stringify(testObj) },
-				})
+				}),
 			);
 		}
 	});
@@ -135,9 +135,36 @@ export const addOrUpdatePatient: RequestHandler = async ({ request, env, res, pa
 	}
 };
 
+export const getAutoId: RequestHandler = async ({ env, res, query }) => {
+	const db = getLibsqlClient(env);
+	const patientType = query['type']?.toString() === 'cyto' ? 'cyto' : 'histo';
+	const { rows } = await db.execute({
+		sql: 'SELECT id FROM `patients` WHERE type = ? AND id REGEXP "^[CH]-[0-9]{2}-" ORDER BY entry_date DESC LIMIT 1;',
+		args: [patientType],
+	});
+
+	let id: number | string | undefined = rows[0]?.id?.toString();
+
+	const lastIdYear = id?.split('-')[1];
+	const currentYear = new Date().getFullYear().toString().substring(2, 4);
+
+	if (!id) {
+		id = '1';
+	} else if (lastIdYear && parseInt(currentYear) > parseInt(lastIdYear)) {
+		id = '1';
+	} else {
+		const fp = id.split(' ')[0].split('-');
+		id = parseInt(fp[fp.length - 1]) + 1;
+	}
+
+	res.setData({
+		id: `${patientType[0].toUpperCase()}-${currentYear}-${id}`,
+	});
+};
+
 export const listPatients: RequestHandler = async ({ env, res, url }) => {
-	const limit = 10;
 	const search = new URL(url).searchParams;
+	const limit = Math.max(Math.min(parseInt(search.get('limit') || '10'), 50), 5);
 	const filterSchema = {
 		id: /^([a-zA-Z0-9\s,_-]+)$/,
 		name: /^([a-zA-Z0-9\s_]+)$/,
@@ -192,12 +219,12 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		where += ' AND p.status != "delivered"';
 	}
 
-	const all = search.get('all');
-	if (all?.trim()) {
+	const searchTerm = search.get('search');
+	if (searchTerm?.trim()) {
 		where += ' AND (p.id LIKE CONCAT("%", ?, "%") OR p.name LIKE CONCAT("%", ?, "%") OR p.type LIKE CONCAT("%", ?, "%"))';
-		args.push(all);
-		args.push(all);
-		args.push(all);
+		args.push(searchTerm);
+		args.push(searchTerm);
+		args.push(searchTerm);
 	}
 	if (where) {
 		where = 'WHERE ' + where.substring(5);

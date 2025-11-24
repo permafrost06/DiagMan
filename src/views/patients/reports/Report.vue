@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import Loading from "@/Icons/Loading.vue";
-import Icon from "@/components/base/Icon.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import SimpleSelect from "@/components/form/SimpleSelect.vue";
 import SimpleInput from "@/components/form/SimpleInput.vue";
@@ -10,15 +9,16 @@ import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { nextTick, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import Quill, { type QuillOptionsStatic } from "quill";
+import Quill, { type QuillOptions } from "quill";
 
 import "quill/dist/quill.snow.css";
 import { dateToDMY } from "@/helpers/utils";
-import EditPatient from "./EditPatient.vue";
+import EditPatient from "../EditPatient.vue";
 import { useUser } from "@/stores/user";
 import router from "@/router";
+import HeaderSimple from "@/components/view/HeaderSimple.vue";
 
-const quillOptions: QuillOptionsStatic = {
+const quillOptions: QuillOptions = {
     debug: "error",
     modules: {
         toolbar: [
@@ -231,6 +231,13 @@ const showTemplateSaver = () => {
 const onTemAdded = (tem: any) => {
     templates.value.push(tem);
     templateModalValue.value = false;
+    const organ = tem.organ;
+    const hasOrgan = organs.value.findIndex((o) => o.organ == organ);
+    if (hasOrgan === -1) {
+        organs.value.push({
+            organ,
+        });
+    }
 };
 
 const isUnLocking = ref<boolean>(false);
@@ -254,18 +261,7 @@ const toggleLock = async () => {
 </script>
 <template>
     <div class="report-page">
-        <h1 class="fs-2xl bold">Add Report</h1>
-        <RouterLink :to="{ name: 'home' }" class="home-url">
-            <Icon size="40" view-box="36">
-                <path
-                    fill="currentColor"
-                    d="m19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
-                    class="clr-i-outline clr-i-outline-path-1"
-                />
-                <path fill="none" d="M0 0h36v36H0z" />
-            </Icon>
-        </RouterLink>
-
+        <HeaderSimple title="Report" />
         <form
             :action="API_BASE + '/reports'"
             method="POST"

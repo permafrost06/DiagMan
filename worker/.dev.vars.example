@@ -1,2 +1,6 @@
 TURSO_AUTH_TOKEN="<your_turso_auth_token>"
 TURSO_DB_URL="<your-db-url>"
+
+# BULK SMS CONFIG
+BULKSMS_API_KEY=""
+BULKSMS_SENDER_ID=""
