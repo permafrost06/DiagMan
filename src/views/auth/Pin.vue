@@ -76,6 +76,10 @@ const handleForm = async (evt: any) => {
                 <RouterLink :to="{ name: 'login' }" class="login-link">
                     Log in to another account
                 </RouterLink>
+                <p style="text-align: center; margin-bottom: 10px">or</p>
+                <RouterLink :to="{ name: 'login' }" class="login-link">
+                    Log in using password
+                </RouterLink>
                 <!-- <a href="#" class="forgot-link">Forgot pin?</a> -->
             </div>
         </form>

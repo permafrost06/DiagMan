@@ -6,7 +6,7 @@ import ICSelect from "../../components/form/ICSelect.vue";
 import InputAutocomplete from "@/components/form/InputAutocomplete.vue";
 import { onMounted, ref } from "vue";
 import { fetchApi } from "@/helpers/http";
-import Quill, { type QuillOptionsStatic } from "quill";
+import Quill, { type QuillOptions } from "quill";
 
 import "quill/dist/quill.snow.css";
 import SimpleInput from "../form/SimpleInput.vue";
@@ -19,7 +19,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const quillInstances: any = {};
-const quillOptions: QuillOptionsStatic = {
+const quillOptions: QuillOptions = {
     debug: "error",
     modules: {
         toolbar: [

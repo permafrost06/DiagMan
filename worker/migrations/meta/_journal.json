@@ -57,6 +57,13 @@
       "when": 1705319575477,
       "tag": "0009_classy_gauntlet",
       "breakpoints": false
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1738905162694,
+      "tag": "0010_wide_ender_wiggin",
+      "breakpoints": false
     }
   ]
 }

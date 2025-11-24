@@ -13,7 +13,7 @@ const props = defineProps<Props>();
 
 const refViewBox = props.viewBox || props.size || 20;
 
-const viewBox: string =
+const viewBoxL: string =
     typeof refViewBox === "number" || refViewBox.indexOf(" ") < 0
         ? `0 0 ${refViewBox} ${refViewBox}`
         : refViewBox;
@@ -26,7 +26,7 @@ const width = props.width || props.size;
     <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
-        :viewBox="viewBox"
+        :viewBox="viewBoxL"
         :height="height"
         :width="width"
         :class="props.class"

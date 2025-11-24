@@ -7,9 +7,6 @@ if (url === undefined) {
 }
 
 const authToken = process.env.TURSO_AUTH_TOKEN?.trim();
-if (authToken === undefined) {
-	throw new Error('TURSO_AUTH_TOKEN env var is not defined');
-}
 
 const db = createClient({ url, authToken });
 

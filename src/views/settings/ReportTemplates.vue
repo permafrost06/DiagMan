@@ -6,6 +6,7 @@ import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import { onMounted, ref } from "vue";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+import HeaderSimple from "@/components/view/HeaderSimple.vue";
 
 let tOut: any = 0;
 const formValue = ref<boolean | Record<string, string>>(false);
@@ -149,8 +150,11 @@ function showDetails(data?: Record<string, any>) {
 </script>
 <template>
     <div class="report-template-settings">
-        <h1 class="page-title fs-2xl">Report Templates</h1>
-        <div class="flex items-center gap-sm">
+        <HeaderSimple
+            title="Report Templates"
+            :onClose="(router) => router.push({ name: 'home' })"
+        />
+        <div class="flex items-center gap-sm input-area">
             <button class="add-btn" @click="formValue = true">
                 + Add Template
             </button>
@@ -293,9 +297,8 @@ function showDetails(data?: Record<string, any>) {
     display: flex;
     flex-flow: column;
 
-    .page-title {
-        border-bottom: 1px solid var(--clr-black);
-        margin-bottom: 30px;
+    .input-area {
+        margin-top: 20px;
     }
 
     .add-btn {

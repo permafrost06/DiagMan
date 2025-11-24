@@ -1,109 +1,122 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
 import Pagination from "@/components/Pagination.vue";
 import Icon from "@/components/base/Icon.vue";
-import ThActionable from "@/components/base/ThActionable.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
-import { API_BASE } from "@/helpers/config";
-import { fetchApi } from "@/helpers/http";
+import { API_BASE, saveListConfig } from "@/helpers/config";
+import { ApiResponsePaged, fetchApi } from "@/helpers/http";
 import {
     TABLES,
     getRowCount,
     getRows,
     insertRowBulk,
 } from "@/helpers/local-db";
-import { dateToDMY, useSorter } from "@/helpers/utils";
-import { useUser } from "@/stores/user";
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { useSorter } from "@/helpers/utils";
+import { onMounted, onUnmounted, ref, watch, nextTick } from "vue";
 import Loading from "@/Icons/Loading.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import HeaderMain from "@/components/view/HeaderMain.vue";
+import FullPageLoader from "@/components/base/FullPageLoader.vue";
+import { useUser } from "@/stores/user";
+import ListTable from "./components/ListTable.vue";
 
+const router = useRouter();
+const route = useRoute();
 const user = useUser();
+
 const isLoading = ref<boolean>(false);
+const isLoadingConfig = ref<boolean>(true);
+const config = ref({
+    limit: 0,
+    show: [
+        "name",
+        "contact",
+        "timestamp",
+        "specimen",
+        "delivery_date",
+        "actions",
+    ],
+    sizes: {},
+});
+const limit = ref(0);
 const deleteValue = ref();
 const isDeleting = ref<boolean>(false);
 const error = ref<string | null>(null);
 const patients = ref<Array<Record<string, string>>>([]);
-const showDelivered = ref<boolean>(false);
-const page = ref({
-    maxPage: 1,
+const showDelivered = ref<boolean>(
+    typeof route.query.delivered !== "undefined",
+);
+const paginationInfo = ref<ApiResponsePaged["pagination"]>({
+    total: 0,
     page: 1,
+    maxPage: 1,
 });
-const [sortState, doSorting] = useSorter<string>("timestamp", "desc");
-type TableNames = "id" | "name" | "type" | "delivery_date" | "status";
-const filterRef = ref();
+const [sortState, doSorting] = useSorter<string>(
+    (route.query.sort_by as any) || "timestamp",
+    (route.query.order as any) || "desc",
+);
 
-let queryParamsH: Record<string, string> = {};
-let queryParamsF: Record<string, string> = {};
-
-const sortableColumns = {
-    id: {
-        label: "ID",
-    },
-    name: {
-        label: "Name",
-    },
-    contact: {
-        label: "Contact No",
-    },
-    timestamp: {
-        label: "Date Added (Default)",
-    },
-    type: {
-        label: "Type",
-    },
-    delivery_date: {
-        label: "Delivery Date",
-    },
-};
+const paginationWrapper = ref<HTMLDivElement | null>(null);
+let search = ref((route.query.search as string)?.trim() || "");
+let filterType = ref((route.query.type as string)?.trim());
 
 const tableDescription = {
     name: {
         label: "Name",
-        filter: false,
+        sort: true,
     },
     contact: {
         label: "Contact No",
-        filter: false,
+        sort: true,
     },
     timestamp: {
         label: "Date Added",
-        filter: false,
+        sort: true,
+    },
+    type: {
+        label: "Type",
+        sort: true,
+    },
+    age: {
+        label: "Age",
+        sort: true,
+    },
+    gender: {
+        label: "Gender",
+        sort: true,
+    },
+    delivery_date: {
+        label: "Delivery Date",
+        sort: true,
     },
     specimen: {
         label: "Specimen",
-        filter: false,
+        sort: true,
     },
     status: {
         label: "Status",
-        filter: false,
+        sort: true,
+    },
+    referer: {
+        label: "Referer",
+        sort: true,
+    },
+    actions: {
+        label: "",
+        sort: false,
     },
 };
 
 const sortBy = (sortByCol: string) => {
     doSorting(sortByCol);
-    queryResults();
-};
-const showFilter = (col: string) => {
-    filterRef.value.setCursor(col);
-};
-
-const hightlightText = (data: string, col: string): string => {
-    let colH = data;
-    const colStr = queryParamsH[col];
-    if (colStr) {
-        colH = colH.replace(new RegExp(colStr, "i"), (a) => {
-            return `<mark>${a}</mark>`;
-        });
-    }
-    const allStr = queryParamsH.all;
-    if (allStr) {
-        colH = colH.replace(new RegExp(allStr, "i"), (a) => {
-            return `<mark>${a}</mark>`;
-        });
-    }
-    return colH;
+    router.push({
+        query: {
+            ...route.query,
+            sort_by: sortByCol,
+            order: sortState.value.order,
+            page: undefined,
+        },
+    });
 };
 
 let lastExpanded: HTMLElement | null = null;
@@ -117,15 +130,84 @@ const printBtnEvt = (evt: any) => {
         lastExpanded = null;
     }
 };
-onMounted(() => {
+
+const calculateLimit = () => {
+    const el = paginationWrapper.value;
+    if (limit.value > 0 || !el) {
+        queryResults();
+        return;
+    }
+    const rowHeight = config.value.show.includes("name") ? 57 : 42;
+    const BOTTOM_ELEMENT_HEIGHT = 45;
+    const remHeight =
+        window.innerHeight -
+        el.getBoundingClientRect().top -
+        BOTTOM_ELEMENT_HEIGHT;
+    const rows = Math.floor(remHeight / rowHeight);
+    limit.value = rows;
     queryResults();
+};
+
+onMounted(() => {
+    fetchApi(`${API_BASE}/misc/?name=patient_list_config_${user.id}`).then(
+        (res) => {
+            if (res.success && res.rows.length) {
+                config.value = JSON.parse(res.rows[0].data);
+                config.value.show.push("actions");
+                config.value.sizes ||= {};
+            }
+            isLoadingConfig.value = false;
+            limit.value = config.value.limit;
+            // @ts-ignore
+            config.value.sizes.actions = "4.5rem";
+            nextTick(calculateLimit);
+        },
+    );
     document.addEventListener("click", printBtnEvt);
 });
 onUnmounted(() => {
     document.removeEventListener("click", printBtnEvt);
 });
-watch(page.value, queryResults);
-watch(showDelivered, queryResults);
+watch(() => route.query, queryResults);
+watch(
+    () => showDelivered.value,
+    () => {
+        router.push({
+            query: {
+                ...route.query,
+                delivered: showDelivered.value ? "1" : undefined,
+                page: undefined,
+            },
+        });
+    },
+);
+
+let searchTout: any = null;
+watch(search, (search) => {
+    if (searchTout) {
+        clearTimeout(searchTout);
+    }
+    const q = search.trim();
+    if (!q) {
+        router.push({
+            query: {
+                ...route.query,
+                search: undefined,
+                page: undefined,
+            },
+        });
+        return;
+    }
+    searchTout = setTimeout(() => {
+        router.push({
+            query: {
+                ...route.query,
+                search: q,
+                page: undefined,
+            },
+        });
+    }, 500);
+});
 
 async function queryResults() {
     if (!navigator.onLine) {
@@ -134,8 +216,12 @@ async function queryResults() {
     }
 
     isLoading.value = true;
-    const queryParams = { ...queryParamsH, ...queryParamsF };
-    queryParams.page = page.value.page.toString();
+    const queryParams: Record<string, string> = {
+        ...(search.value ? { search: search.value } : {}),
+        ...(filterType.value ? { type: filterType.value } : {}),
+    };
+    queryParams.page = (route.query.page as string) || "1";
+    queryParams.limit = limit.value.toString();
     queryParams.order_by = sortState.value.by;
     queryParams.order = sortState.value.order;
     const qs = new URLSearchParams(queryParams);
@@ -155,20 +241,29 @@ async function queryResults() {
         if (getRowCount(TABLES.patients) === 0) {
             insertRowBulk(TABLES.patients, patients.value);
         }
-        page.value.page = res.pagination!.page;
-        page.value.maxPage = res.pagination!.maxPage;
+        paginationInfo.value = res.pagination!;
     }
 }
 
 const filterResult = (by: string, value: string) => {
-    queryParamsF[by] = value;
-    page.value.page = 1;
-    queryResults();
-};
-const filterResultH = (by: string, value: string) => {
-    queryParamsH[by] = value;
-    page.value.page = 1;
-    queryResults();
+    value = value.trim();
+    if (!value) {
+        router.push({
+            query: {
+                ...route.query,
+                [by]: undefined,
+                page: undefined,
+            },
+        });
+    } else {
+        router.push({
+            query: {
+                ...route.query,
+                [by]: value,
+                page: undefined,
+            },
+        });
+    }
 };
 
 async function deletePatient() {
@@ -183,13 +278,13 @@ async function deletePatient() {
             body: JSON.stringify({
                 id: deleteValue.value?.id,
             }),
-        }
+        },
     );
     isDeleting.value = false;
     if (res.success) {
         error.value = null;
         patients.value = patients.value.filter(
-            (p) => p.id != deleteValue.value?.id
+            (p) => p.id != deleteValue.value?.id,
         );
         deleteValue.value = null;
     } else {
@@ -197,122 +292,26 @@ async function deletePatient() {
     }
 }
 
-const lockReqs = ref<Set<number>>(new Set());
-const toggleLock = async (patient: any) => {
-    if (lockReqs.value.has(patient.id)) {
-        return;
-    }
-    lockReqs.value.add(patient.id);
+let tOut: any = null;
 
-    const res = await fetchApi(
-        API_BASE + "/reports/lock/" + encodeURIComponent(patient.id),
-        {
-            method: "POST",
-        }
-    );
-    lockReqs.value.delete(patient.id);
-    if (!res.success) {
-        console.error(res.message || "Toggling report lock failed!");
-        return;
+const onConfigChange = (newConfig: any) => {
+    config.value = newConfig;
+    const show = config.value.show.filter((col: string) => col !== "actions");
+    if (tOut) {
+        clearTimeout(tOut);
     }
-    patient.locked = !patient.locked;
-};
-
-const deliverReqs = ref<Set<number>>(new Set());
-const deliverReport = async (patient: any) => {
-    if (deliverReqs.value.has(patient.id)) {
-        return;
-    }
-    deliverReqs.value.add(patient.id);
-    const res = await fetchApi(
-        API_BASE + "/reports/deliver/" + encodeURIComponent(patient.id),
-        {
-            method: "POST",
-        }
-    );
-    deliverReqs.value.delete(patient.id);
-    if (!res.success) {
-        console.error(res.message || "Delivering report failed!");
-        return;
-    }
-    patient.status = "delivered";
-    if (!showDelivered.value) {
-        patients.value = patients.value.filter((p) => p.id != patient.id);
-    }
-};
-
-const unDeliverReqs = ref<Set<number>>(new Set());
-const unDeliverReport = async (patient: any) => {
-    if (unDeliverReqs.value.has(patient.id)) {
-        return;
-    }
-    unDeliverReqs.value.add(patient.id);
-    const res = await fetchApi(
-        API_BASE + "/reports/un-deliver/" + encodeURIComponent(patient.id),
-        {
-            method: "POST",
-        }
-    );
-    unDeliverReqs.value.delete(patient.id);
-    if (!res.success) {
-        console.error(res.message || "Unmarking as delivered failed!");
-        return;
-    }
-    patient.status = res.data.status;
-};
-const expandPrintBtn = (evt: any) => {
-    if (lastExpanded) {
-        lastExpanded.classList.remove("expanded");
-    }
-    if (lastExpanded === evt.target.parentElement) {
-        lastExpanded = null;
-        return;
-    }
-    lastExpanded = evt.target.parentElement;
-    lastExpanded?.classList.add("expanded");
-};
-
-const router = useRouter();
-const goToReport = (patient: Record<string, any>) => {
-    router.push({ name: "report", params: { id: patient.id } });
-};
-
-const getStatus = (patient: Record<any, any>) => {
-    if (patient.status === "delivered") {
-        return "Archived";
-    }
-
-    if (patient.locked) {
-        return "Locked";
-    }
-
-    return hightlightText(patient.status, "status");
+    tOut = setTimeout(() => {
+        saveListConfig({
+            ...config.value,
+            show,
+        });
+    }, 1000);
 };
 </script>
 <template>
-    <div class="patients-page">
-        <div class="patients-header">
-            <div class="flex items-center">
-                <h1 class="fs-2xl">Patient List</h1>
-            </div>
-            <div class="flex items-center">
-                <div class="h-user-name font-h">
-                    <p>{{ user.name }}</p>
-                    <p class="h-user-role">{{ user.role }} - The Opinion</p>
-                </div>
-                <RouterLink
-                    :to="{ name: 'settings' }"
-                    class="h-icon-btn flex items-center"
-                >
-                    <Icon size="24" viewBox="24">
-                        <path
-                            fill="currentColor"
-                            d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97c0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1c0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"
-                        />
-                    </Icon>
-                </RouterLink>
-            </div>
-        </div>
+    <FullPageLoader v-if="isLoadingConfig" />
+    <div v-else class="patients-page">
+        <HeaderMain title="Patients List" />
         <div class="query-info">
             <RouterLink
                 :to="{ name: 'patients.add' }"
@@ -330,14 +329,17 @@ const getStatus = (patient: Record<any, any>) => {
                 <input
                     placeholder="Search ID and Name"
                     type="search"
-                    @input="(evt: any) => filterResultH('all', evt.target.value)"
+                    v-model="search"
                 />
             </div>
             <div class="query-item">
                 <p>Filter:</p>
                 <select
                     class="sort-by-selector"
-                    @input="(evt: any) => filterResult('type', evt.target.value)"
+                    @input="
+                        (evt: any) => filterResult('type', evt.target.value)
+                    "
+                    :value="filterType"
                 >
                     <option value="">All</option>
                     <option value="histo">Histopathology</option>
@@ -351,13 +353,16 @@ const getStatus = (patient: Record<any, any>) => {
                     :value="sortState.by"
                     @change="(evt: any) => sortBy(evt.target.value)"
                 >
-                    <option
-                        v-for="(col, col_name) in sortableColumns"
-                        :key="col_name"
-                        :value="col_name"
-                    >
-                        {{ col.label }}
-                    </option>
+                    <template v-for="col in config.show" :key="col">
+                        <option
+                            :value="col"
+                            v-if="
+                                (tableDescription as any)[col]?.sort !== false
+                            "
+                        >
+                            {{ (tableDescription as any)[col].label }}
+                        </option>
+                    </template>
                 </select>
                 <button
                     type="button"
@@ -383,189 +388,27 @@ const getStatus = (patient: Record<any, any>) => {
                 </button>
             </div>
         </div>
-        <div>
-            <table width="100%">
-                <tr class="font-h">
-                    <ThActionable
-                        :description="tableDescription"
-                        :on-filter="showFilter"
-                        :on-sort="sortBy"
-                        :sort-by="sortState.by"
-                        :sort-order="sortState.order"
-                    />
-                    <th>Actions</th>
-                </tr>
-                <template v-if="isLoading">
-                    <tr v-for="i in 10" :key="i" :class="'skeleton-' + (i % 4)">
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td>
-                            <div class="skeleton"></div>
-                        </td>
-                        <td class="flex items-center gap-sm">
-                            <div class="skeleton btn"></div>
-                            <div class="skeleton btn"></div>
-                            <div class="skeleton btn"></div>
-                        </td>
-                    </tr>
-                </template>
-                <tr v-else-if="!patients?.length">
-                    <td colspan="7">{{ error || "No patients added yet!" }}</td>
-                </tr>
-                <template v-else>
-                    <tr
-                        class="patient-row"
-                        @click="() => goToReport(patient)"
-                        v-for="patient in patients"
-                        :key="patient.id"
-                    >
-                        <td>
-                            <p v-html="hightlightText(patient.name, 'name')" />
-                            <p
-                                class="small-id"
-                                v-html="hightlightText(patient.id, 'id')"
-                            />
-                        </td>
-                        <td>{{ patient.contact }}</td>
-                        <td>
-                            {{
-                                patient.timestamp
-                                    ? dateToDMY(
-                                          new Date(parseInt(patient.timestamp))
-                                      )
-                                    : "N/A"
-                            }}
-                        </td>
-                        <td>
-                            {{ patient.specimen }}
-                        </td>
-                        <td class="capitalize" v-html="getStatus(patient)"></td>
-                        <td>
-                            <div @click.stop class="flex gap-sm row-actions">
-                                <div class="print-btns">
-                                    <button
-                                        class="dropdown-button"
-                                        type="button"
-                                        @click="expandPrintBtn"
-                                    >
-                                        Print
-                                        <Icon size="16" viewBox="1024">
-                                            ><path
-                                                fill="currentColor"
-                                                d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35"
-                                            />
-                                        </Icon>
-                                    </button>
-                                    <div class="dropdown">
-                                        <RouterLink
-                                            v-if="patient.is_reported"
-                                            :to="{
-                                                name: 'report.print',
-                                                params: {
-                                                    id: patient.id,
-                                                },
-                                            }"
-                                            class="btn report-btn"
-                                        >
-                                            Report
-                                        </RouterLink>
-                                        <RouterLink
-                                            :to="{
-                                                name: 'patients.invoice',
-                                                params: {
-                                                    id: patient.id,
-                                                },
-                                            }"
-                                            class="btn"
-                                        >
-                                            Invoice
-                                        </RouterLink>
-                                    </div>
-                                </div>
-                                <button
-                                    v-if="
-                                        user.isAdmin &&
-                                        patient.is_reported &&
-                                        patient.status !== 'delivered'
-                                    "
-                                    type="button"
-                                    class="btn-outline"
-                                    @click="() => toggleLock(patient)"
-                                >
-                                    <Loading
-                                        size="15"
-                                        v-if="lockReqs.has(patient.id as any)"
-                                    />
-                                    {{ patient.locked ? "Unlock" : "Lock" }}
-                                </button>
-                                <template v-if="patient.locked">
-                                    <button
-                                        v-if="patient.status !== 'delivered'"
-                                        type="button"
-                                        class="btn-outline"
-                                        @click="() => deliverReport(patient)"
-                                    >
-                                        <Loading
-                                            size="15"
-                                            v-if="deliverReqs.has(patient.id as any)"
-                                        />
-                                        Archive
-                                    </button>
-                                    <button
-                                        v-else
-                                        type="button"
-                                        class="btn-outline"
-                                        @click="() => unDeliverReport(patient)"
-                                    >
-                                        <Loading
-                                            size="15"
-                                            v-if="unDeliverReqs.has(patient.id as any)"
-                                        />
-                                        Unarchive
-                                    </button>
-                                </template>
-                                <RouterLink
-                                    :to="{
-                                        name: 'patients.edit',
-                                        params: {
-                                            id: patient.id,
-                                        },
-                                    }"
-                                    class="btn btn-outline"
-                                >
-                                    Edit
-                                </RouterLink>
-                                <button
-                                    class="btn-outline danger"
-                                    @click="deleteValue = patient"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </template>
-            </table>
-        </div>
-        <div class="flex items-center justify-between">
+        <ListTable
+            :is-loading="isLoading"
+            :patients="patients"
+            :limit="limit"
+            :table-description="tableDescription"
+            :sort-by="sortBy"
+            :sort-state="sortState"
+            :config="config"
+            :on-delete="(patient) => (deleteValue = patient)"
+            :search="search"
+            @config="onConfigChange"
+        />
+        <div class="flex items-center justify-between" ref="paginationWrapper">
             <CheckBox label="Show archived reports" v-model="showDelivered" />
             <Pagination
-                :pages="page.maxPage"
-                v-model="page.page"
                 class="mt-sm"
+                :max-page="paginationInfo!.maxPage"
+                :per-page="10"
+                :item-count="paginationInfo!.total"
+                :on-each-side="0"
+                :shown-items="patients.length"
             />
         </div>
     </div>
@@ -595,35 +438,6 @@ const getStatus = (patient: Record<any, any>) => {
     .h-link-btn {
         background: var(--clr-black);
         color: var(--clr-white);
-    }
-    .patients-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 10px;
-    }
-    .patients-header .site-name {
-        font-weight: bold;
-        font-size: var(--fs-xl);
-    }
-    .patients-header .h-icon-btn {
-        background: transparent;
-        color: var(--clr-black);
-        padding: 5px;
-    }
-    .patients-header .h-icon-btn:hover {
-        color: var(--clr-accent);
-    }
-    .patients-header .h-user-name {
-        font-weight: bold;
-        margin-right: 10px;
-        font-size: var(--fs-md);
-
-        .h-user-role {
-            font-weight: normal;
-            text-transform: capitalize;
-            font-size: var(--fs-base);
-        }
     }
 
     .query-info {
@@ -684,109 +498,6 @@ const getStatus = (patient: Record<any, any>) => {
         border: 1px solid var(--clr-black);
         padding: 5px 8px;
         padding-left: 25px;
-    }
-
-    table {
-        border-collapse: collapse;
-
-        tr {
-            border-bottom: 1px solid var(--clr-black);
-        }
-        tr:first-child {
-            border-bottom-width: 2px;
-        }
-        th {
-            font-size: var(--fs-base);
-        }
-
-        th,
-        td {
-            padding: 8px 15px;
-            text-align: left;
-        }
-        .print-btns {
-            position: relative;
-            > button {
-                height: 100%;
-                svg {
-                    pointer-events: none;
-                }
-            }
-            .dropdown {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                z-index: 1;
-                background: var(--clr-white);
-
-                a {
-                    margin-top: 2px;
-                }
-            }
-
-            &.expanded .dropdown {
-                display: block;
-            }
-        }
-    }
-
-    .row-actions {
-        cursor: default;
-
-        button,
-        .btn {
-            padding: 5px 15px;
-            font-weight: 600;
-            gap: 5px;
-        }
-        // .report-btn {
-        //     padding-left: 10px;
-        // }
-
-        .dropdown-button {
-            width: 4.5rem;
-
-            .dropdown .btn {
-                width: 4.5rem;
-            }
-        }
-    }
-
-    .skeleton.btn {
-        height: 1.5em;
-        width: 100%;
-    }
-
-    .th-actionable {
-        display: flex;
-        align-items: center;
-    }
-
-    .th-actionable > p {
-        flex-grow: 1;
-        text-align: left;
-    }
-
-    .th-actionable > .actions {
-        display: flex;
-    }
-    .th-actionable > .actions > button {
-        color: var(--clr-black);
-        background: transparent;
-        padding: 0;
-    }
-
-    .small-id {
-        font-size: 0.75rem;
-    }
-
-    .patient-row {
-        cursor: pointer;
-
-        &:hover {
-            background-color: rgba(89, 89, 89, 0.05);
-        }
     }
 }
 </style>

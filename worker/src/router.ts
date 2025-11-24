@@ -4,12 +4,14 @@ import JSONResponse from './utils/Response';
 import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { getUser, logOut, login, register, verifyPin } from './routes/auth';
 import { assignToken, assignUser, ensureAdmin, ensureUser } from './middlewares/auth';
-import { addOrUpdatePatient, deletePatient, getPatient, listPatients, syncPatients } from './routes/patients';
+import { addOrUpdatePatient, deletePatient, getAutoId, getPatient, listPatients, syncPatients } from './routes/patients';
 import { deliverReport, finalizeReport, getReport, toggleReportLock, unDeliverReport } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
-import { deleteMiscString, listMiscStrings } from './routes/misc-strings';
+import { addOrUpdateMiscString, deleteMiscString, getNamedString, listMiscStrings, saveNamedString } from './routes/misc-strings';
+import { getFinances } from './routes/finances';
+import { sendPatientSms } from './routes/sms';
 
 export interface RequestEvent {
 	request: Request;
@@ -48,6 +50,8 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/tests/sync', ensureUser, syncTests);
 	router.delete('/tests/:id', withParams, ensureUser, deleteTest);
 
+	router.get('/patient-autoid', ensureUser, getAutoId);
+
 	router.post('/patients/sync', ensureUser, syncPatients);
 	router.post('/patients/:id?', ensureUser, addOrUpdatePatient);
 	router.delete('/patients/:id', ensureUser, deletePatient);
@@ -70,6 +74,14 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/settings/account/password', ensureUser, changePassword);
 
 	router.get('/misc', ensureUser, listMiscStrings);
+	router.get('/misc/named/get', ensureUser, getNamedString);
+	router.post('/misc/named/save', ensureUser, saveNamedString);
 	router.post('/misc/remove/:id', ensureUser, deleteMiscString);
+	router.post('/misc/:id?', ensureUser, addOrUpdateMiscString);
+
+
+	router.get('/finances', ensureUser, getFinances);
+
+	router.post('/sms/:id', ensureUser, sendPatientSms);
 };
 export default buildRouter;
