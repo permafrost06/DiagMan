@@ -250,6 +250,7 @@ async function queryResults() {
 }
 
 const filterResult = (by: string, value: string) => {
+    filterType.value = value;
     value = value.trim();
     if (!value) {
         router.push({
@@ -343,7 +344,6 @@ const onConfigChange = (newConfig: any) => {
                     @input="
                         (evt: any) => filterResult('type', evt.target.value)
                     "
-                    :value="filterType"
                 >
                     <option value="">All</option>
                     <option value="histo">Histopathology</option>
