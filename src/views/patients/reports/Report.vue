@@ -203,9 +203,21 @@ const handleFormSubmit = async (evt: any) => {
     }
 };
 
-const onPatientUpdate = (_row: any, msg: string) => {
+const onPatientUpdate = async (_row: any, msg: string) => {
     editMode.value = false;
     message.value = msg;
+
+    const id = _row.id;
+    isLoading.value = true;
+    const res = await fetchApi(API_BASE + `/reports/${id}`);
+    if (res.success) {
+        patient.value = res.rows[0];
+        const p = res.rows[0];
+        setEditorContent(p);
+        noteFieldVisible.value = quillInstances.note.getLength() > 1;
+        reCheckEditors();
+    }
+    isLoading.value = false;
 };
 
 const onTemplateChange = (evt: any) => {
