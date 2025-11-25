@@ -108,6 +108,10 @@ async function handleFormSubmit(evt: any) {
     error.value = null;
     message.value = null;
 
+    if (data.has("id")) {
+        data.set("id", data.get("id").trim());
+    }
+
     const res = await fetchApi(evt.target.action, {
         method: "POST",
         body: data,
