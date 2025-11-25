@@ -336,6 +336,10 @@ h3 {
 
     border-collapse: collapse;
 
+    tr {
+        border-bottom: none;
+    }
+
     thead th {
         border-bottom: 1px solid black;
     }
