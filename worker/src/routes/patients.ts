@@ -178,11 +178,7 @@ export const listPatients: RequestHandler = async ({ env, res, url }) => {
 		page = 1;
 	}
 	const offset = (page - 1) * limit;
-	let orderBy = search.get('order_by') || 'id';
-	// @ts-ignore
-	if (!filterSchema[orderBy]) {
-		orderBy = 'timestamp';
-	}
+	let orderBy = search.get('order_by') || 'timestamp';
 	let order = search.get('order') || 'desc';
 	if (order !== 'desc' && order !== 'asc') {
 		order = 'desc';

@@ -52,7 +52,7 @@ const paginationInfo = ref<ApiResponsePaged["pagination"]>({
     maxPage: 1,
 });
 const [sortState, doSorting] = useSorter<string>(
-    (route.query.sort_by as any) || "timestamp",
+    (route.query.order_by as any) || "timestamp",
     (route.query.order as any) || "desc",
 );
 
@@ -116,7 +116,7 @@ const sortBy = (sortByCol: string) => {
     router.push({
         query: {
             ...route.query,
-            sort_by: sortByCol,
+            order_by: sortByCol,
             order: sortState.value.order,
             page: undefined,
         },
