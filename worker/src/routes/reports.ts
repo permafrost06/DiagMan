@@ -48,16 +48,10 @@ export const getReport: RequestHandler = async ({ env, params, res }) => {
 	const { rows } = await db.execute({
 		sql: `
 		  SELECT *,
-		    (
-			  SELECT
-				GROUP_CONCAT(tests.name, ', ')
-			  FROM tests
-			  WHERE EXISTS (
-				SELECT *
+			(
+				SELECT GROUP_CONCAT(json_extract(value, '$.name'), ', ')
 				FROM json_each(p.tests)
-				WHERE json_each.value = tests.id
-			  )
-		    ) as test_names
+			) as test_names
 		  FROM \`patients\` AS p
 		  LEFT JOIN \`reports\` AS r ON r.id = p.id
 		  WHERE p.id=? LIMIT 1
