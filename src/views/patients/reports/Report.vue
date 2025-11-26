@@ -36,8 +36,6 @@ const quillInstances: any = {};
 const route = useRoute();
 const user = useUser();
 
-const editMode = ref(false);
-
 const organs = ref<Record<string, any>[]>([]);
 const templates = ref<Record<string, any>[]>([]);
 const isLoadingOrgans = ref<boolean>(true);
@@ -204,7 +202,6 @@ const handleFormSubmit = async (evt: any) => {
 };
 
 const onPatientUpdate = async (_row: any, msg: string) => {
-    editMode.value = false;
     message.value = msg;
 
     const id = _row.id;
@@ -280,14 +277,17 @@ const toggleLock = async () => {
             @submit.prevent="handleFormSubmit"
             class="grid"
         >
-            <div class="left" v-if="!editMode">
-                <div class="flex-grow" v-if="patient">
+            <div class="left">
+                <div v-if="isLoading" class="flex justify-center">
+                    <Loading size="60" />
+                </div>
+                <div v-else-if="patient" class="flex-grow">
                     <div class="patient-info fs-md">
                         <div class="id-area">
                             <p>Patient ID:</p>
                             <p class="bold">{{ patient.id }}</p>
                         </div>
-                        <button @click="editMode = true">Edit Patient</button>
+                        <div></div>
 
                         <p>Type</p>
                         <p class="capitalize">{{ patient.type }}pathology</p>
@@ -343,22 +343,10 @@ const toggleLock = async () => {
                         </p>
                     </div>
                 </div>
-                <div v-else-if="isLoading" class="flex justify-center">
-                    <Loading size="60" />
-                </div>
                 <div v-else>
                     <p class="form-alert error">This patient id is invalid!</p>
                 </div>
             </div>
-            <EditPatient
-                v-else
-                :headless="true"
-                :on-success="onPatientUpdate"
-                style="
-                    padding-right: 0.5rem;
-                    border-right: 1px solid var(--clr-black);
-                "
-            />
             <div class="right">
                 <p class="form-alert error" v-if="error">{{ error }}</p>
                 <p class="form-alert success" v-if="message">{{ message }}</p>
