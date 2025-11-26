@@ -50,7 +50,7 @@ const router = createRouter({
                     path: "/report/:id/print",
                     name: "report.print",
                     component: () =>
-                        import("@/views/patients/reports/Report.vue"),
+                        import("@/views/patients/reports/ReportView.vue"),
                 },
                 {
                     path: "/finances",
