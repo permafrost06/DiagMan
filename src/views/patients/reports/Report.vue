@@ -63,6 +63,8 @@ const templateModalValue = ref<Record<string, any> | false>(false);
 
 const errors = ref<Record<string, string | undefined>>({});
 
+const patientInfoExpanded = ref<boolean>(false);
+
 onMounted(async () => {
     window.scrollTo(0, 0);
     initEditors();
@@ -87,7 +89,7 @@ watch(noteFieldVisible, async () => {
     if (noteFieldVisible.value) {
         if (patient.value?.note) {
             quillInstances.note.setContents(
-                JSON.parse(patient.value.note || "{}").ops
+                JSON.parse(patient.value.note || "{}").ops,
             );
         }
     }
@@ -109,12 +111,12 @@ async function initEditors() {
     quillInstances.indication = new Quill(indicationField.value!, quillOptions);
     quillInstances.microscopic_description = new Quill(
         microField.value!,
-        quillOptions
+        quillOptions,
     );
     quillInstances.anatomical_source = new Quill(srcField.value!, quillOptions);
     quillInstances.gross_description = new Quill(
         grossField.value!,
-        quillOptions
+        quillOptions,
     );
     quillInstances.clinical_info = new Quill(clinicField.value!, quillOptions);
     quillInstances.asp_note = new Quill(aspField.value!, quillOptions);
@@ -146,7 +148,7 @@ async function loadTemplates(organ: string = "") {
             }`,
         {
             signal: temAbort?.signal,
-        }
+        },
     );
     isLoadingTemplates.value = false;
     if (!res.success) {
@@ -230,7 +232,7 @@ const showTemplateSaver = () => {
     const newTemplate: any = {};
     for (const fName in quillInstances) {
         newTemplate[fName] = JSON.stringify(
-            quillInstances[fName].getContents()
+            quillInstances[fName].getContents(),
         );
     }
     newTemplate["type"] = patient.value?.type === "cyto" ? "cyto" : "histo";
@@ -277,275 +279,251 @@ const toggleLock = async () => {
             @submit.prevent="handleFormSubmit"
             class="grid"
         >
-            <div class="left">
+            <div class="top">
                 <div v-if="isLoading" class="flex justify-center">
                     <Loading size="60" />
                 </div>
                 <div v-else-if="patient" class="flex-grow">
-                    <div class="patient-info fs-md">
-                        <div class="id-area">
-                            <p>Patient ID:</p>
-                            <p class="bold">{{ patient.id }}</p>
+                    <div class="patient-info-section">
+                        <div class="patient-info-header" @click="patientInfoExpanded = !patientInfoExpanded">
+                            <div class="header-content">
+                                <div class="header-row">
+                                    <span>Patient ID:</span>
+                                    <span class="value bold">{{ patient.id }}</span>
+                                </div>
+                                <div class="header-row">
+                                    <span>Name:</span>
+                                    <span class="value">{{ patient.name }}</span>
+                                </div>
+                                <div class="header-row">
+                                    <span>Specimen:</span>
+                                    <span class="value bold">{{ patient.specimen }}</span>
+                                </div>
+                                <div class="header-row">
+                                    <span>Tests:</span>
+                                    <span class="value bold">{{ patient.test_names }}</span>
+                                </div>
+                            </div>
+                            <div class="collapse-icon" :class="{ expanded: patientInfoExpanded }">
+                                ▶
+                            </div>
                         </div>
-                        <div></div>
 
-                        <p>Type</p>
-                        <p class="capitalize">{{ patient.type }}pathology</p>
+                        <div v-if="patientInfoExpanded" class="patient-info fs-md">
+                            <div class="header-row">
+                                <span>Type:</span>
+                                <span class="value capitalize">{{ patient.type }}pathology</span>
+                            </div>
 
-                        <p>Name</p>
-                        <p>{{ patient.name }}</p>
+                            <div class="header-row">
+                                <span>Age:</span>
+                                <span class="value">{{ patient.age }}</span>
+                            </div>
 
-                        <p>Age</p>
-                        <p>{{ patient.age }}</p>
+                            <div class="header-row">
+                                <span>Gender:</span>
+                                <span class="value capitalize">{{ patient.gender }}</span>
+                            </div>
 
-                        <p>Gender</p>
-                        <p class="capitalize">{{ patient.gender }}</p>
+                            <div class="header-row">
+                                <span>Contact:</span>
+                                <span class="value">{{ patient.contact }}</span>
+                            </div>
 
-                        <p>Contact</p>
-                        <p>{{ patient.contact }}</p>
+                            <div class="header-row">
+                                <span>Referer:</span>
+                                <span class="value">{{ patient.referer }}</span>
+                            </div>
 
-                        <p>Referer</p>
-                        <p>{{ patient.referer }}</p>
+                            <div class="header-row">
+                                <span>Specimen collection date:</span>
+                                <span class="value">
+                                    {{
+                                        dateToDMY(
+                                            new Date(
+                                                parseInt(patient.sample_collection_date)
+                                            )
+                                        )
+                                    }}
+                                </span>
+                            </div>
 
-                        <p>Specimen</p>
-                        <p class="bold">{{ patient.specimen }}</p>
+                            <div class="header-row">
+                                <span>Specimen receiving date:</span>
+                                <span class="value">
+                                    {{
+                                        dateToDMY(
+                                            new Date(parseInt(patient.entry_date))
+                                        )
+                                    }}
+                                </span>
+                            </div>
 
-                        <p>Specimen collection date</p>
-                        <p>
-                            {{
-                                dateToDMY(
-                                    new Date(
-                                        parseInt(patient.sample_collection_date)
-                                    )
-                                )
-                            }}
-                        </p>
-
-                        <p>Specimen receiving date</p>
-                        <p>
-                            {{
-                                dateToDMY(
-                                    new Date(parseInt(patient.entry_date))
-                                )
-                            }}
-                        </p>
-
-                        <p>Tests</p>
-                        <p class="bold">{{ patient.test_names }}</p>
-
-                        <p>Report delivery date</p>
-                        <p>
-                            {{
-                                dateToDMY(
-                                    new Date(parseInt(patient.delivery_date))
-                                )
-                            }}
-                        </p>
+                            <div class="header-row">
+                                <span>Report delivery date:</span>
+                                <span class="value">
+                                    {{
+                                        dateToDMY(
+                                            new Date(parseInt(patient.delivery_date))
+                                        )
+                                    }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div v-else>
                     <p class="form-alert error">This patient id is invalid!</p>
                 </div>
             </div>
-            <div class="right">
+            <div class="bottom">
                 <p class="form-alert error" v-if="error">{{ error }}</p>
                 <p class="form-alert success" v-if="message">{{ message }}</p>
 
-                <input type="hidden" name="id" :value="patient?.id" />
-                <div :class="['template-selector', { open: templatePaneOpen }]">
-                    <div
-                        class="opener"
-                        @click="templatePaneOpen = !templatePaneOpen"
-                    >
-                        <h3>
-                            {{ templatePaneOpen ? "Close" : "Templates" }}
-                        </h3>
-                    </div>
-                    <h2>Template</h2>
-                    <div class="tem-sel-inputs">
-                        <SimpleSelect
-                            label="Organ"
-                            :un-wrap="true"
-                            @input="(evt) => loadTemplates(evt.target.value)"
-                        >
-                            <option value="">
-                                {{
-                                    isLoadingTemplates
-                                        ? "Please wait..."
-                                        : "All"
-                                }}
-                            </option>
-                            <option
-                                v-for="item in organs"
-                                :key="item.organ"
-                                :value="item.organ"
-                            >
-                                {{ item.organ }}
-                            </option>
-                        </SimpleSelect>
-                        <SimpleSelect
-                            label="Template"
-                            :un-wrap="true"
-                            @input="onTemplateChange"
-                        >
-                            <option value="">
-                                {{
-                                    isLoadingTemplates
-                                        ? "Loading..."
-                                        : "Select Template"
-                                }}
-                            </option>
-                            <option
-                                v-for="(item, idx) in templates"
-                                :key="item.id"
-                                :value="idx"
-                            >
-                                {{ item.name }}
-                            </option>
-                        </SimpleSelect>
-                    </div>
-                </div>
-                <div class="editor-unit">
-                    <label>Diagnosis</label>
-                    <div ref="diagField"></div>
-                    <p v-if="errors.diagnosis" class="hint error">
+                <div class="form-container">
+                    <input type="hidden" name="id" :value="patient?.id" />
+                    <div class="editor-unit">
+                        <label>Diagnosis</label>
+                        <div ref="diagField"></div>
+                        <p v-if="errors.diagnosis" class="hint error">
                         {{ errors.diagnosis }}
-                    </p>
-                </div>
+                        </p>
+                    </div>
 
-                <div class="editor-unit">
-                    <label>Indication</label>
-                    <div ref="indicationField"></div>
-                    <p v-if="errors.indication" class="hint error">
+                    <div class="editor-unit">
+                        <label>Indication</label>
+                        <div ref="indicationField"></div>
+                        <p v-if="errors.indication" class="hint error">
                         {{ errors.indication }}
-                    </p>
-                </div>
+                        </p>
+                    </div>
 
-                <div :class="{ hidden: patient?.type !== 'cyto' }">
-                    <div class="editor-unit">
-                        <label>Clinical Info</label>
-                        <div ref="clinicField"></div>
-                        <p v-if="errors.clinical_info" class="hint error">
+                    <div :class="{ hidden: patient?.type !== 'cyto' }">
+                        <div class="editor-unit">
+                            <label>Clinical Info</label>
+                            <div ref="clinicField"></div>
+                            <p v-if="errors.clinical_info" class="hint error">
                             {{ errors.clinical_info }}
-                        </p>
-                    </div>
-                    <div class="editor-unit">
-                        <label>Aspiration Note</label>
-                        <div ref="aspField"></div>
-                        <p v-if="errors.asp_note" class="hint error">
+                            </p>
+                        </div>
+                        <div class="editor-unit">
+                            <label>Aspiration Note</label>
+                            <div ref="aspField"></div>
+                            <p v-if="errors.asp_note" class="hint error">
                             {{ errors.asp_note }}
-                        </p>
-                    </div>
-                    <div class="text-inputs">
-                        <SimpleInput
+                            </p>
+                        </div>
+                        <div class="text-inputs">
+                            <SimpleInput
                             :un-wrap="true"
                             label="No of slides made:"
                             name="slides_made"
                             :value="patient?.slides_made"
                             :hint="errors.slides_made"
-                        />
-                        <SimpleInput
+                            />
+                            <SimpleInput
                             :un-wrap="true"
                             label="No of slides stained:"
                             name="slides_stained"
                             :value="patient?.slides_stained"
                             :hint="errors.slides_stained"
-                        />
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <div :class="{ hidden: patient?.type === 'cyto' }">
-                    <div class="editor-unit">
-                        <label>Anatomical Source</label>
-                        <div ref="srcField"></div>
-                        <p v-if="errors.anatomical_source" class="hint error">
+                    <div :class="{ hidden: patient?.type === 'cyto' }">
+                        <div class="editor-unit">
+                            <label>Anatomical Source</label>
+                            <div ref="srcField"></div>
+                            <p v-if="errors.anatomical_source" class="hint error">
                             {{ errors.anatomical_source }}
-                        </p>
-                    </div>
-                    <div class="editor-unit">
-                        <label>Gross Description</label>
-                        <div ref="grossField"></div>
-                        <p v-if="errors.gross_description" class="hint error">
+                            </p>
+                        </div>
+                        <div class="editor-unit">
+                            <label>Gross Description</label>
+                            <div ref="grossField"></div>
+                            <p v-if="errors.gross_description" class="hint error">
                             {{ errors.gross_description }}
-                        </p>
-                    </div>
-                    <div class="text-inputs">
-                        <SimpleInput
+                            </p>
+                        </div>
+                        <div class="text-inputs">
+                            <SimpleInput
                             :un-wrap="true"
                             label="No of sections embedded:"
                             name="embedded_sections"
                             :value="patient?.embedded_sections"
                             :hint="errors.embedded_sections"
-                        />
-                        <SimpleInput
+                            />
+                            <SimpleInput
                             :un-wrap="true"
                             label="No of paraffin blocks:"
                             name="paraffin_blocks"
                             :value="patient?.paraffin_blocks"
                             :hint="errors.paraffin_blocks"
-                        />
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <div class="editor-unit">
-                    <label>Microscopic Description</label>
-                    <div ref="microField"></div>
-                    <p v-if="errors.microscopic_description" class="hint error">
+                    <div class="editor-unit">
+                        <label>Microscopic Description</label>
+                        <div ref="microField"></div>
+                        <p v-if="errors.microscopic_description" class="hint error">
                         {{ errors.microscopic_description }}
-                    </p>
-                </div>
+                        </p>
+                    </div>
 
-                <div class="editor-unit" :class="{ hidden: !noteFieldVisible }">
-                    <label>Note</label>
-                    <div ref="noteField"></div>
-                </div>
-                <div
-                    class="justify-end"
-                    :class="{
+                    <div class="editor-unit" :class="{ hidden: !noteFieldVisible }">
+                        <label>Note</label>
+                        <div ref="noteField"></div>
+                    </div>
+                    <div
+                        class="justify-end"
+                        :class="{
                         hidden: noteFieldVisible,
                         flex: !noteFieldVisible,
-                    }"
-                >
-                    <button
-                        type="button"
-                        class="btn-outline"
-                        @click="noteFieldVisible = true"
-                    >
-                        + Add Note
-                    </button>
-                </div>
-                <div class="submit-area">
-                    <CheckBox
-                        v-if="!patient?.locked"
-                        label="Lock Report"
-                        name="locked"
-                        value="1"
-                        :checked="patient?.locked"
-                    />
-                    <div class="flex gap-sm mt-sm">
-                        <button type="submit">
-                            <Loading
-                                v-if="isPosting === true || isPosting === 'add'"
-                            />
-                            Update Report
-                        </button>
+                        }"
+                        >
                         <button
                             type="button"
                             class="btn-outline"
-                            v-if="patient?.locked && user.isAdmin"
-                            @click="toggleLock"
-                        >
-                            <Loading v-if="isUnLocking" />
-                            Unlock
-                        </button>
-                        <button
-                            type="button"
-                            class="btn-outline"
-                            @click="showTemplateSaver"
-                        >
-                            Save As Template
+                            @click="noteFieldVisible = true"
+                            >
+                            + Add Note
                         </button>
                     </div>
+                        <div class="submit-area">
+                            <CheckBox
+                            v-if="!patient?.locked"
+                            label="Lock Report"
+                            name="locked"
+                            value="1"
+                            :checked="patient?.locked"
+                            />
+                            <div class="flex gap-sm mt-sm">
+                                <button type="submit">
+                                    <Loading
+                                    v-if="isPosting === true || isPosting === 'add'"
+                                    />
+                                    Update Report
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn-outline"
+                                    v-if="patient?.locked && user.isAdmin"
+                                    @click="toggleLock"
+                                    >
+                                    <Loading v-if="isUnLocking" />
+                                    Unlock
+                                </button>
+                                    <button
+                                        type="button"
+                                        class="btn-outline"
+                                        @click="showTemplateSaver"
+                                        >
+                                        Save As Template
+                                    </button>
+                            </div>
+                        </div>
                 </div>
             </div>
         </form>
@@ -565,25 +543,71 @@ const toggleLock = async () => {
         margin-top: 30px;
 
         &.grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
             padding-bottom: 50px;
         }
     }
 
-    .left {
-        border-right: 1px solid var(--clr-black);
+    .top {
         position: relative;
-        padding-right: 10px;
+        padding-bottom: 20px;
         display: flex;
         flex-flow: column;
+
+        .patient-info-section {
+            border: 1px solid var(--clr-black);
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .value {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        .patient-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px;
+            background-color: var(--clr-light-gray);
+            cursor: pointer;
+            user-select: none;
+
+            .header-content {
+                flex: 1;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px 20px;
+                font-size: var(--fs-md);
+            }
+
+            .collapse-icon {
+                margin-left: 10px;
+                font-size: 30px;
+                transition: transform 0.2s ease;
+                flex-shrink: 0;
+
+                &.expanded {
+                    transform: rotate(90deg);
+                }
+            }
+        }
 
         .patient-info {
             display: grid;
             grid-template-columns: auto auto;
             grid-template-rows: min-content;
             gap: 10px;
-            padding-bottom: 20px;
+            padding: 12px;
 
             p {
                 margin-top: 10px;
@@ -592,12 +616,6 @@ const toggleLock = async () => {
                 &:nth-child(2) {
                     margin-top: 0;
                 }
-            }
-
-            .id-area {
-                display: flex;
-                align-items: center;
-                gap: 5px;
             }
 
             button {
@@ -616,93 +634,55 @@ const toggleLock = async () => {
         }
     }
 
-    .right {
-        .text-inputs {
-            display: grid;
-            grid-template-columns: max-content auto;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .editor-unit {
-            margin-bottom: 20px;
-
-            label {
-                font-weight: 500;
-            }
-
-            .ql-container {
-                min-height: 120px;
-
-                & > .ql-editor {
-                    min-height: 120px;
-                }
-            }
-        }
-
+    .bottom {
         .form-alert {
             margin-bottom: 20px;
         }
 
-        .submit-area-2 {
-            padding: 20px 0;
-        }
+        .form-container {
+            .text-inputs {
+                display: grid;
+                grid-template-columns: max-content auto;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            .editor-unit {
+                margin-bottom: 20px;
 
-        .editor-n-template-grid {
-            display: grid;
-            grid-template-columns: 1fr max-content;
-            gap: 10px;
-        }
-    }
+                label {
+                    font-weight: 500;
+                }
 
-    .template-selector {
-        position: fixed;
-        width: 30rem;
-        background-color: white;
-        z-index: 999;
-        padding: 2rem;
-        padding-left: 4rem;
-        right: 0;
-        transform: translateX(93%);
-        border: 1px solid black;
+                .ql-container {
+                    min-height: 120px;
 
-        h2 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: var(--fs-lg);
-        }
+                    & > .ql-editor {
+                        min-height: 120px;
+                    }
+                }
+            }
 
-        .tem-sel-inputs {
-            display: grid;
-            grid-template-columns: max-content 1fr;
-            gap: 10px;
-        }
+            .submit-area-2 {
+                padding: 20px 0;
+            }
 
-        .opener {
-            height: 1.5rem;
-            width: 11.5rem;
-            text-align: center;
-            position: absolute;
-            left: 0;
-            top: 0;
-            transform-origin: 0 0;
-            rotate: -90deg;
-            transform: translate(-100%, 20%);
-            cursor: pointer;
+            .editor-n-template-grid {
+                display: grid;
+                grid-template-columns: 1fr max-content;
+                gap: 10px;
+            }
         }
     }
 
-    .template-selector.open {
-        transform: translateX(0);
-    }
-
-    .grid .right {
-        padding-left: 30px;
+    .grid .bottom {
+        padding: 0;
+        width: 100%;
     }
 
     .add-patient-page {
         padding: 0;
 
-        .left {
+        .top {
             border-right: none;
         }
 
