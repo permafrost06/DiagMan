@@ -223,32 +223,15 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 };
 
 function isReportComplete(report: Record<string, any>): boolean {
-	const quillFields = [
-		'diagnosis',
-		'indication',
-		'microscopic_description',
-		'anatomical_source',
-		'gross_description',
-		'clinical_info',
-		'asp_note',
-		'note',
-	];
-	try {
-		for (const colName of quillFields) {
-			const ops = JSON.parse((report[colName] as any) || '{}')?.ops;
-			if (ops.length > 1 || ops[0]?.insert !== '\n') {
-				return true;
-			}
-		}
-	} catch (_) {
-		// Empty
+	const aspOrGrossExists = (report.asp_note != null) || (report.gross_description != null);
+
+	if (
+		aspOrGrossExists &&
+		report.microscopic_description != null &&
+		report.diagnosis != null
+	) {
+		return true;
 	}
 
-	const numFields = ['embedded_sections', 'paraffin_blocks', 'slides_made', 'slides_stained'];
-	for (const colName of numFields) {
-		if (parseInt(report[colName] as any) > 0) {
-			return true;
-		}
-	}
 	return false;
 }
