@@ -129,6 +129,25 @@ function reCheckEditors() {
     }
 }
 
+const extractTextFromQuillContent = (content: any): string => {
+    try {
+        if (!content.ops || !Array.isArray(content.ops)) {
+            return "";
+        }
+        return content.ops
+            .map((op: any) => {
+                if (typeof op.insert === "string") {
+                    return op.insert;
+                }
+                return "";
+            })
+            .join("")
+            .trim();
+    } catch (e) {
+        return "";
+    }
+};
+
 const handleFormSubmit = async (evt: any) => {
     if (isPosting.value || !patient.value?.id) {
         return;
@@ -142,7 +161,15 @@ const handleFormSubmit = async (evt: any) => {
     message.value = null;
 
     for (const fName in quillInstances) {
-        data.append(fName, JSON.stringify(quillInstances[fName].getContents()));
+        const content = quillInstances[fName].getContents();
+        const text = extractTextFromQuillContent(content);
+
+        // Set to empty string if field is empty after trimming
+        if (text === "" || text.trim() === "") {
+            data.set(fName, "");
+        } else {
+            data.set(fName, JSON.stringify(content));
+        }
     }
 
     // Set fields to empty based on patient type to ensure they remain null in DB

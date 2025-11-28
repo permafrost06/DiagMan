@@ -16,10 +16,35 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 
 	const patient = rows[0];
 
-	// Convert empty strings to null for type-specific fields
-	if (patient.type === 'histo' && (data.asp_note === '' || data.asp_note === undefined)) {
+	// Convert empty or whitespace-only strings to null for all fields
+	const fieldsToCheck = [
+		'diagnosis',
+		'indication',
+		'microscopic_description',
+		'anatomical_source',
+		'gross_description',
+		'embedded_sections',
+		'paraffin_blocks',
+		'clinical_info',
+		'asp_note',
+		'slides_made',
+		'slides_stained',
+		'note',
+	];
+
+	for (const field of fieldsToCheck) {
+		if (data[field] !== undefined && data[field] !== null) {
+			const value = String(data[field]).trim();
+			if (value === '' || value === '{}') {
+				data[field] = null as any;
+			}
+		}
+	}
+
+	// Additionally, ensure type-specific fields are null
+	if (patient.type === 'histo') {
 		data.asp_note = null as any;
-	} else if (patient.type === 'cyto' && (data.gross_description === '' || data.gross_description === undefined)) {
+	} else if (patient.type === 'cyto') {
 		data.gross_description = null as any;
 	}
 
