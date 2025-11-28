@@ -15,6 +15,14 @@ export const finalizeReport: RequestHandler = async ({ request, env, res, user }
 	}
 
 	const patient = rows[0];
+
+	// Convert empty strings to null for type-specific fields
+	if (patient.type === 'histo' && (data.asp_note === '' || data.asp_note === undefined)) {
+		data.asp_note = null as any;
+	} else if (patient.type === 'cyto' && (data.gross_description === '' || data.gross_description === undefined)) {
+		data.gross_description = null as any;
+	}
+
 	const isComplete = isReportComplete(data);
 
 	if (patient.rid) {

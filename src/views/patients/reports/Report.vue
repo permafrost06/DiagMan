@@ -145,6 +145,15 @@ const handleFormSubmit = async (evt: any) => {
         data.append(fName, JSON.stringify(quillInstances[fName].getContents()));
     }
 
+    // Set fields to empty based on patient type to ensure they remain null in DB
+    if (patient.value?.type === "histo") {
+        // For histo reports, asp_note should be null
+        data.set("asp_note", "");
+    } else if (patient.value?.type === "cyto") {
+        // For cyto reports, gross_description should be null
+        data.set("gross_description", "");
+    }
+
     const res = await fetchApi(evt.target.action, {
         method: "POST",
         body: data,
