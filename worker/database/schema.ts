@@ -90,6 +90,9 @@ export const reports = sqliteTable('reports', {
 
 	note: text('note'),
 	locked: numeric('locked'),
+
+	autogen: integer('autogen').default(0),
+	hidden: integer('hidden').default(0),
 });
 
 export const reportTemplates = sqliteTable('report_templates', {
