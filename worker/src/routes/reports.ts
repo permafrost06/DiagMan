@@ -130,6 +130,55 @@ export const unDeliverReport: RequestHandler = async ({ res, env, params }) => {
 	res.setData({ status });
 };
 
+export const listReportTemplatesFromReports: RequestHandler = async ({ env, res, url }) => {
+	const search = new URL(url).searchParams;
+	const limit = Math.max(Math.min(parseInt(search.get('limit') || '10'), 50), 5);
+	const filterSchema = {
+		diagnosis: /^([a-zA-Z0-9\s_]+)$/,
+	};
+
+	let page = parseInt(search.get('page') || '1');
+	if (page < 1) {
+		page = 1;
+	}
+	const offset = (page - 1) * limit;
+	let orderBy = search.get('order_by') || 'id';
+	let order = search.get('order') || 'desc';
+	if (order !== 'desc' && order !== 'asc') {
+		order = 'desc';
+	}
+
+	let where = '';
+	const args: any[] = [];
+
+	const diagnosis = search.get('diagnosis');
+	if (diagnosis && filterSchema.diagnosis.test(diagnosis)) {
+		where += ' AND r.diagnosis LIKE CONCAT("%", ?, "%")';
+		args.push(diagnosis);
+	}
+
+	if (where) {
+		where = 'WHERE ' + where.substring(5);
+	}
+
+	const db = getLibsqlClient(env);
+	const qres = await db.execute({
+		sql: `
+			SELECT r.* FROM \`reports\` AS r
+			${where}
+			ORDER BY r.${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
+		`,
+		args,
+	});
+
+	const { rows: info } = await db.execute({
+		sql: `SELECT COUNT(id) AS total FROM \`reports\` AS r ${where}`,
+		args,
+	});
+	res.setRows(qres.rows);
+	res.pageParams(page, info[0].total || (0 as any), limit);
+};
+
 function isReportComplete(report: Record<string, any>): boolean {
 	const quillFields = [
 		'diagnosis',

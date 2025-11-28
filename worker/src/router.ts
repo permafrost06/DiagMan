@@ -5,7 +5,7 @@ import { addTest, deleteTest, listTests, syncTests } from './routes/med-test';
 import { getUser, logOut, login, register, verifyPin } from './routes/auth';
 import { assignToken, assignUser, ensureAdmin, ensureUser } from './middlewares/auth';
 import { addOrUpdatePatient, deletePatient, getAutoId, getPatient, listPatients, syncPatients } from './routes/patients';
-import { deliverReport, finalizeReport, getReport, toggleReportLock, unDeliverReport } from './routes/reports';
+import { deliverReport, finalizeReport, getReport, toggleReportLock, unDeliverReport, listReportTemplatesFromReports } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
 import { addReportTemplate, deleteReportTemplate, listOrgans, listReportTemplates } from './routes/settings/report-templates';
@@ -79,6 +79,7 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/misc/remove/:id', ensureUser, deleteMiscString);
 	router.post('/misc/:id?', ensureUser, addOrUpdateMiscString);
 
+	router.get('/report-templates', ensureUser, listReportTemplatesFromReports);
 
 	router.get('/finances', ensureUser, getFinances);
 
