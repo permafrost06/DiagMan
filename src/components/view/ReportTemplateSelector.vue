@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import Loading from "@/Icons/Loading.vue";
@@ -8,19 +8,19 @@ function extractTextFromQuillDelta(quillJson: string): string {
     try {
         const delta = JSON.parse(quillJson);
         if (!delta.ops || !Array.isArray(delta.ops)) {
-            return '';
+            return "";
         }
         return delta.ops
             .map((op: any) => {
-                if (typeof op.insert === 'string') {
+                if (typeof op.insert === "string") {
                     return op.insert;
                 }
-                return '';
+                return "";
             })
-            .join('')
+            .join("")
             .trim();
     } catch (e) {
-        return '';
+        return "";
     }
 }
 
@@ -31,13 +31,13 @@ interface Template {
 }
 
 interface Props {
+    patientType?: "cyto" | "histo" | "";
     onSelectTemplate?: (template: Template) => void;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const templates = ref<Template[]>([]);
-console.log(templates);
 const isLoading = ref(false);
 const searchQuery = ref("");
 const currentPage = ref(1);
@@ -45,14 +45,33 @@ const totalPages = ref(1);
 const limit = 20;
 
 onMounted(async () => {
-    await loadTemplates();
+    if (props.patientType) {
+        await loadTemplates();
+    }
 });
+
+watch(
+    () => props.patientType,
+    async (newType) => {
+        if (newType) {
+            currentPage.value = 1;
+            await loadTemplates();
+        }
+    },
+);
 
 const loadTemplates = async () => {
     isLoading.value = true;
-    const query = searchQuery.value
-        ? `&diagnosis=${encodeURIComponent(searchQuery.value)}`
-        : "";
+    let query = "";
+
+    if (searchQuery.value) {
+        query += `&diagnosis=${encodeURIComponent(searchQuery.value)}`;
+    }
+
+    if (props.patientType) {
+        query += `&type=${props.patientType}`;
+    }
+
     const res = await fetchApi(
         `${API_BASE}/report-templates?page=${currentPage.value}&limit=${limit}${query}`,
     );
@@ -121,7 +140,10 @@ const goToPage = async (page: number) => {
                 @click="selectTemplate(template)"
             >
                 <div class="diagnosis">
-                    {{ extractTextFromQuillDelta(template.diagnosis) || "Untitled" }}
+                    {{
+                        extractTextFromQuillDelta(template.diagnosis) ||
+                        "Untitled"
+                    }}
                 </div>
             </div>
         </div>

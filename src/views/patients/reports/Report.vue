@@ -356,6 +356,13 @@ const toggleLock = async () => {
 
                 <div class="form-area">
                     <ReportTemplateSelector
+                        :patient-type="
+                            patient?.type
+                                ? patient.type === 'cyto'
+                                    ? 'cyto'
+                                    : 'histo'
+                                : ''
+                        "
                         @select-template="onTemplateSelected"
                     />
                     <div class="form-container">
