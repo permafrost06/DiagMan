@@ -10,6 +10,7 @@ import {
 	finalizeReport,
 	getReport,
 	toggleReportLock,
+	lockReportOn,
 	unDeliverReport,
 	listReportTemplatesFromReports,
 	hideReportTemplate,
@@ -69,6 +70,7 @@ export const buildRouter = (router: RouterType) => {
 	router.post('/reports/deliver/:id', ensureUser, deliverReport);
 	router.post('/reports/un-deliver/:id', ensureUser, unDeliverReport);
 	router.post('/reports/lock/:id', ensureAdmin, toggleReportLock);
+	router.post('/reports/lock/on/:id', ensureAdmin, lockReportOn);
 	router.get('/reports/:id', ensureUser, getReport);
 	router.post('/reports', ensureUser, finalizeReport);
 

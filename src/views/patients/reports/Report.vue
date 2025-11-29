@@ -78,6 +78,8 @@ const errors = ref<Record<string, string | undefined>>({});
 const patientInfoExpanded = ref<boolean>(false);
 const hoveredTemplate = ref<Record<string, any> | null>(null);
 
+const toBeLocked = ref<boolean>(false);
+
 function extractTextFromQuillDelta(quillJson: string): string {
     try {
         const delta = JSON.parse(quillJson);
@@ -223,7 +225,9 @@ const handleFormSubmit = async (evt: any) => {
         method: "POST",
         body: data,
     });
-    setPatientLock(patient.value.locked);
+    if (toBeLocked.value === true) {
+        lockPatient();
+    }
     isPosting.value = false;
     if (res.success) {
         error.value = null;
@@ -259,36 +263,26 @@ const onTemplateSelected = (template: Record<string, any>) => {
 };
 
 const isUnLocking = ref<boolean>(false);
-const setPatientLock = async (lock: boolean = true) => {
-    if (lock && patient.value.locked === true) {
-        return;
-    }
-
-    if (!lock && patient.value.locked === false) {
-        return;
-    }
-
+const lockPatient = async () => {
     if (isUnLocking.value || !patient.value) {
         return;
     }
     isUnLocking.value = true;
 
-    const res = await fetchApi(API_BASE + "/reports/lock/" + patient.value.id, {
+    const res = await fetchApi(API_BASE + "/reports/lock/on/" + patient.value.id, {
         method: "POST",
     });
     isUnLocking.value = false;
     if (!res.success) {
-        console.error(res.message || "Toggling report lock failed!");
+        console.error(res.message || "Locking report failed!");
         return;
     }
-    patient.value.locked = !patient.value.locked;
+    patient.value.locked = true;
     reCheckEditors();
 };
 
 const setAsLocked = () => {
-    if (patient.value) {
-        patient.locked = true;
-    }
+    toBeLocked.value = true;
 }
 </script>
 <template>

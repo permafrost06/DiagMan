@@ -127,6 +127,35 @@ export const toggleReportLock: RequestHandler = async ({ env, params, res }) => 
 	res.setMsg(`Report ${data.locked ? 'locked' : 'unlocked'} successfully!`);
 };
 
+export const lockReportOn: RequestHandler = async ({ env, params, res }) => {
+	const db = getLibsqlClient(env);
+	const id = decodeURIComponent(params.id);
+	const { rows } = await db.execute({
+		sql: `SELECT p.*, r.locked, r.id AS rid FROM \`patients\` AS p LEFT JOIN \`reports\` AS r ON r.id = p.id WHERE p.id=? LIMIT 1`,
+		args: [id],
+	});
+	if (rows.length === 0) {
+		res.error('Invalid patient!', 404);
+	}
+
+	const patient = rows[0];
+
+	if (patient.rid) {
+		const data = {
+			locked: 1,
+		};
+		const { sql, args } = getUpdateQuery('reports', data);
+		args.push(patient.id as any);
+		await db.execute({
+			sql: sql + ` WHERE id = ?`,
+			args,
+		});
+		res.setMsg('Report locked successfully!');
+	} else {
+		res.error('Please add the report first!');
+	}
+};
+
 export const deliverReport: RequestHandler = async ({ res, env, params }) => {
 	const id = decodeURIComponent(params.id);
 	const db = getLibsqlClient(env);
