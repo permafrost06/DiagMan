@@ -340,6 +340,10 @@ h3 {
         border-bottom: none;
     }
 
+    table td {
+        padding: 0;
+    }
+
     thead th {
         border-bottom: 1px solid black;
     }
