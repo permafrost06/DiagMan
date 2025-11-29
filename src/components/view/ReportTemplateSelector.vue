@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from "vue";
 import { API_BASE } from "@/helpers/config";
 import { fetchApi } from "@/helpers/http";
 import Loading from "@/Icons/Loading.vue";
+import { useUser } from "@/stores/user";
 
 function extractTextFromQuillDelta(quillJson: string): string {
     try {
@@ -44,6 +45,8 @@ const currentPage = ref(1);
 const totalPages = ref(1);
 const limit = 20;
 const hoveredTemplate = ref<Template | null>(null);
+
+const user = useUser();
 
 onMounted(async () => {
     if (props.patientType) {
@@ -180,6 +183,7 @@ const deleteTemplate = async (e: Event, templateId: string) => {
                     class="delete-btn"
                     @click="deleteTemplate($event, template.id)"
                     title="Hide this template"
+                    v-if="user.role === 'admin'"
                 >
                     ✕
                 </button>
