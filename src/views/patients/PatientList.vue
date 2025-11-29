@@ -405,7 +405,7 @@ const onConfigChange = (newConfig: any) => {
             @config="onConfigChange"
         />
         <div class="flex items-center justify-between" ref="paginationWrapper">
-            <CheckBox label="Show archived reports" v-model="showDelivered" />
+            <CheckBox label="Show delivered reports" v-model="showDelivered" />
             <Pagination
                 class="mt-sm"
                 :max-page="paginationInfo!.maxPage"
