@@ -340,7 +340,7 @@ h3 {
         border-bottom: none;
     }
 
-    table td {
+    td {
         padding: 0;
     }
 
