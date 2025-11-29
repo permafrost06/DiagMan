@@ -182,7 +182,6 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             <p class="large bold">
                                 ফোন: <span class="escape">01883569391</span>
                             </p>
-                            <p>সকাল ১০টা থেকে রাত ০৯টা</p>
                             <p>শুক্রবার বন্ধ</p>
                         </div>
                     </div>
