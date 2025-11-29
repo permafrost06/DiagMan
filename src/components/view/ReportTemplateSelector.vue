@@ -106,6 +106,23 @@ const goToPage = async (page: number) => {
         await loadTemplates();
     }
 };
+
+const deleteTemplate = async (e: Event, templateId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const res = await fetchApi(`${API_BASE}/report-templates/${templateId}`, {
+        method: "DELETE",
+    });
+
+    if (res.success) {
+        // Remove from list
+        templates.value = templates.value.filter((t) => t.id !== templateId);
+        hoveredTemplate.value = null;
+    } else {
+        console.error(res.message || "Failed to delete template!");
+    }
+};
 </script>
 
 <template>
@@ -159,6 +176,13 @@ const goToPage = async (page: number) => {
                         "Untitled"
                     }}
                 </div>
+                <button
+                    class="delete-btn"
+                    @click="deleteTemplate($event, template.id)"
+                    title="Hide this template"
+                >
+                    ✕
+                </button>
             </div>
         </div>
 
@@ -254,6 +278,10 @@ const goToPage = async (page: number) => {
         flex-direction: column;
 
         .template-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
             padding: 12px;
             border: 1px solid var(--clr-border);
             border-radius: 4px;
@@ -264,6 +292,10 @@ const goToPage = async (page: number) => {
                 background-color: var(--clr-black);
                 color: var(--clr-white);
                 border-color: var(--clr-primary);
+
+                .delete-btn {
+                    opacity: 1;
+                }
             }
 
             .diagnosis {
@@ -271,6 +303,27 @@ const goToPage = async (page: number) => {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                flex: 1;
+            }
+
+            .delete-btn {
+                flex-shrink: 0;
+                padding: 4px 8px;
+                background: transparent;
+                border: none;
+                color: inherit;
+                font-size: 16px;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    opacity: 1;
+                    color: #ff4444;
+                }
             }
         }
     }

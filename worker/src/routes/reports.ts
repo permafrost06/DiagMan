@@ -185,6 +185,9 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 	let where = '';
 	const args: any[] = [];
 
+	// Exclude hidden templates
+	where += " AND (r.hidden IS NULL OR r.hidden = 'false' OR r.hidden = 0)";
+
 	const diagnosis = search.get('diagnosis');
 	if (diagnosis && filterSchema.diagnosis.test(diagnosis)) {
 		where += ' AND r.diagnosis LIKE CONCAT("%", ?, "%")';
@@ -222,14 +225,34 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 	res.pageParams(page, info[0].total || (0 as any), limit);
 };
 
-function isReportComplete(report: Record<string, any>): boolean {
-	const aspOrGrossExists = (report.asp_note != null) || (report.gross_description != null);
+export const hideReportTemplate: RequestHandler = async ({ env, res, params }) => {
+	const templateId = decodeURIComponent(params.id);
+	const db = getLibsqlClient(env);
 
-	if (
-		aspOrGrossExists &&
-		report.microscopic_description != null &&
-		report.diagnosis != null
-	) {
+	// Check if template exists
+	const { rows } = await db.execute({
+		sql: 'SELECT id FROM `reports` WHERE id = ? LIMIT 1',
+		args: [templateId],
+	});
+
+	if (rows.length === 0) {
+		res.error('Template not found!', 404);
+		return;
+	}
+
+	// Update the hidden field to 'true'
+	await db.execute({
+		sql: "UPDATE `reports` SET hidden = 'true' WHERE id = ?",
+		args: [templateId],
+	});
+
+	res.setMsg('Template hidden successfully!');
+};
+
+function isReportComplete(report: Record<string, any>): boolean {
+	const aspOrGrossExists = report.asp_note != null || report.gross_description != null;
+
+	if (aspOrGrossExists && report.microscopic_description != null && report.diagnosis != null) {
 		return true;
 	}
 
