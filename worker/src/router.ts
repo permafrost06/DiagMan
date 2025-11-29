@@ -14,6 +14,8 @@ import {
 	unDeliverReport,
 	listReportTemplatesFromReports,
 	hideReportTemplate,
+	favoriteReportTemplate,
+	unfavoriteReportTemplate,
 } from './routes/reports';
 import { addUser, deleteUser, getUsers, updateUser } from './routes/users';
 import { changeName, changePassword, changePin } from './routes/settings/account';
@@ -91,6 +93,8 @@ export const buildRouter = (router: RouterType) => {
 
 	router.get('/report-templates', ensureUser, listReportTemplatesFromReports);
 	router.delete('/report-templates/:id', withParams, ensureUser, hideReportTemplate);
+	router.post('/report-templates/:id/favorite', ensureUser, favoriteReportTemplate);
+	router.delete('/report-templates/:id/favorite', withParams, ensureUser, unfavoriteReportTemplate);
 
 	router.get('/finances', ensureUser, getFinances);
 

@@ -278,6 +278,54 @@ export const hideReportTemplate: RequestHandler = async ({ env, res, params }) =
 	res.setMsg('Template hidden successfully!');
 };
 
+export const favoriteReportTemplate: RequestHandler = async ({ env, res, params }) => {
+	const templateId = decodeURIComponent(params.id);
+	const db = getLibsqlClient(env);
+
+	// Check if template exists
+	const { rows } = await db.execute({
+		sql: 'SELECT id FROM `reports` WHERE id = ? LIMIT 1',
+		args: [templateId],
+	});
+
+	if (rows.length === 0) {
+		res.error('Template not found!', 404);
+		return;
+	}
+
+	// Update the favorite field to true
+	await db.execute({
+		sql: "UPDATE `reports` SET favorite = 'true' WHERE id = ?",
+		args: [templateId],
+	});
+
+	res.setMsg('Template added to favorites successfully!');
+};
+
+export const unfavoriteReportTemplate: RequestHandler = async ({ env, res, params }) => {
+	const templateId = decodeURIComponent(params.id);
+	const db = getLibsqlClient(env);
+
+	// Check if template exists
+	const { rows } = await db.execute({
+		sql: 'SELECT id FROM `reports` WHERE id = ? LIMIT 1',
+		args: [templateId],
+	});
+
+	if (rows.length === 0) {
+		res.error('Template not found!', 404);
+		return;
+	}
+
+	// Update the favorite field to false
+	await db.execute({
+		sql: "UPDATE `reports` SET favorite = 'false' WHERE id = ?",
+		args: [templateId],
+	});
+
+	res.setMsg('Template removed from favorites successfully!');
+};
+
 function isReportComplete(report: Record<string, any>): boolean {
 	const aspOrGrossExists = report.asp_note != null || report.gross_description != null;
 
