@@ -100,11 +100,13 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 </div>
                 <div class="gap-top bold large">
                     <span class="left date">Receiving Date</span>:
-                    {{ dateToDMY(new Date(parseInt(record.entry_date))) }}
+                    {{ (new Intl.DateTimeFormat("bn-BD")).format(parseInt(record.entry_date)) }}
+                    ({{ dateToDMY(new Date(parseInt(record.entry_date))) }})
                 </div>
                 <div class="bold large">
                     <span class="left date">Delivery Date</span>:
-                    {{ dateToDMY(new Date(parseInt(record.delivery_date))) }}
+                    {{ (new Intl.DateTimeFormat("bn-BD")).format(parseInt(record.delivery_date)) }}
+                    ({{ dateToDMY(new Date(parseInt(record.delivery_date))) }})
                 </div>
                 <table class="invoice-table">
                     <thead>
