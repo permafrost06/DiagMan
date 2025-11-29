@@ -396,7 +396,13 @@ const lastTwoCols = computed(() => props.config.show.slice(-2));
                 <td v-if="isLoading">
                     <div class="skeleton"></div>
                 </td>
-                <td v-else class="list-one-line">
+                <td v-else :class="{
+                    'list-one-line': true,
+                    'indicator': patient.status === 'complete' || patient.locked || patient.status === 'delivered',
+                    'complete-indicator': patient.status === 'complete',
+                    'approved-indicator': patient.locked,
+                    'delivered-indicator': patient.status === 'delivered',
+                }">
                     <p
                         v-html="hightlightText(patient.name)"
                         :title="patient.name"
@@ -686,6 +692,31 @@ table {
     &.resize-handle-right {
         right: 2px;
     }
+}
+
+.indicator {
+    position: relative;
+}
+
+.indicator::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+    width: 10px;
+}
+
+.complete-indicator::before {
+    background-color: #ff0000;
+}
+
+.approved-indicator::before {
+    background-color: #00ff00;
+}
+
+.delivered-indicator::before {
+    background-color: #0000ff;
 }
 
 th {
