@@ -42,7 +42,22 @@ const tests = ref<Record<string, any>[]>((props.toEdit?.tests as any) ?? []);
 
 const refererValue = ref<string>("");
 
+const calculateDeliveryDate = (type: string): Date => {
+    const today = new Date();
+    const daysToAdd = type === "histo" ? 6 : 4;
+    return new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() + daysToAdd,
+    );
+};
+
 const patientId = ref<string>(props.toEdit?.id ?? "");
+const deliveryDate = ref<Date>(
+    props.toEdit
+        ? new Date(parseInt(props.toEdit.delivery_date))
+        : calculateDeliveryDate("cyto"),
+);
 
 onMounted(async () => {
     window.scrollTo(0, 0);
@@ -61,14 +76,14 @@ onMounted(async () => {
 });
 
 const getAutoID = async (evt: any) => {
-    const res = await fetchApi(
-        API_BASE + "/patient-autoid?type=" + evt.target.value
-    );
+    const type = evt.target.value;
+    const res = await fetchApi(API_BASE + "/patient-autoid?type=" + type);
     if (!res.success) {
         console.error(res.message);
         return;
     }
     patientId.value = res.data.id;
+    deliveryDate.value = calculateDeliveryDate(type);
 };
 
 async function getAllTests() {
@@ -419,15 +434,7 @@ const onTestDelete = (id: string) => {
                     <DatePicker
                         name="delivery_date"
                         class="date-input"
-                        :value="
-                            toEdit
-                                ? new Date(parseInt(toEdit.delivery_date))
-                                : new Date(
-                                      new Date().getFullYear(),
-                                      new Date().getMonth(),
-                                      new Date().getDate() + 6
-                                  )
-                        "
+                        :value="deliveryDate"
                     />
                 </SimpleBlankInput>
 
