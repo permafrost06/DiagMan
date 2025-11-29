@@ -219,7 +219,7 @@ const sendSms = async (patient: any) => {
         >
             <div class="dropdown-section">
                 <RouterLink
-                    v-if="patient.is_reported"
+                    v-if="patient.locked"
                     :to="{
                         name: 'report.print',
                         params: { id: patient.id },
