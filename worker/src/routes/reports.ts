@@ -205,11 +205,6 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 		page = 1;
 	}
 	const offset = (page - 1) * limit;
-	let orderBy = search.get('order_by') || 'id';
-	let order = search.get('order') || 'desc';
-	if (order !== 'desc' && order !== 'asc') {
-		order = 'desc';
-	}
 
 	let where = '';
 	const args: any[] = [];
@@ -241,7 +236,7 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 		sql: `
 			SELECT r.* FROM \`reports\` AS r
 			${where}
-			ORDER BY r.${orderBy} ${order} LIMIT ${limit} OFFSET ${offset}
+			ORDER BY r.favorite DESC, r.id ASC LIMIT ${limit} OFFSET ${offset}
 		`,
 		args,
 	});
