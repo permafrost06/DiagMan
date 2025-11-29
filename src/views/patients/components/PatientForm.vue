@@ -109,7 +109,7 @@ async function handleFormSubmit(evt: any) {
     const status = evt.submitter?.value === "draft" ? "draft" : "pending";
     isPosting.value = evt.submitter?.value || true;
     const data = new FormData(evt.target);
-    data.append("status", status);
+    data.append("status", props.toEdit?.status ?? status);
 
     ["entry_date", "sample_collection_date", "delivery_date"].forEach((df) => {
         const val = data.get(df)?.toString();
