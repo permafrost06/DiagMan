@@ -261,7 +261,7 @@ const sendSms = async (patient: any) => {
                 class="dropdown-section"
                 v-if="
                     user.isAdmin &&
-                    patient.is_reported &&
+                    patient.locked &&
                     patient.status !== 'delivered'
                 "
             >
@@ -275,9 +275,10 @@ const sendSms = async (patient: any) => {
                     "
                 >
                     <Loading size="15" v-if="isLocking" />
-                    {{ patient.locked ? "Unlock" : "Lock" }}
+                    {{ "Retract approval" }}
                 </button>
-
+            </div>
+            <div class="dropdown-section">
                 <template v-if="patient.locked">
                     <button
                         v-if="patient.status !== 'delivered'"
@@ -290,7 +291,7 @@ const sendSms = async (patient: any) => {
                         "
                     >
                         <Loading size="15" v-if="isDelivering" />
-                        Archive
+                        Mark as delivered
                     </button>
                     <button
                         v-else
@@ -303,7 +304,7 @@ const sendSms = async (patient: any) => {
                         "
                     >
                         <Loading size="15" v-if="isDelivering" />
-                        Unarchive
+                        Mark as undelivered
                     </button>
                 </template>
             </div>
