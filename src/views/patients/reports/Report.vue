@@ -59,6 +59,27 @@ const noteFieldVisible = ref<boolean>(false);
 const errors = ref<Record<string, string | undefined>>({});
 
 const patientInfoExpanded = ref<boolean>(false);
+const hoveredTemplate = ref<Record<string, any> | null>(null);
+
+function extractTextFromQuillDelta(quillJson: string): string {
+    try {
+        const delta = JSON.parse(quillJson);
+        if (!delta.ops || !Array.isArray(delta.ops)) {
+            return "";
+        }
+        return delta.ops
+            .map((op: any) => {
+                if (typeof op.insert === "string") {
+                    return op.insert;
+                }
+                return "";
+            })
+            .join("")
+            .trim();
+    } catch (e) {
+        return "";
+    }
+}
 
 onMounted(async () => {
     window.scrollTo(0, 0);
@@ -400,6 +421,9 @@ const toggleLock = async () => {
                                 : ''
                         "
                         @select-template="onTemplateSelected"
+                        @hover-template="
+                            (template) => (hoveredTemplate = template)
+                        "
                     />
                     <div class="form-container">
                         <input type="hidden" name="id" :value="patient?.id" />
@@ -562,6 +586,112 @@ const toggleLock = async () => {
                                     Save As Template
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="hoveredTemplate" class="template-preview-panel">
+                <div class="preview-content">
+                    <div
+                        v-if="hoveredTemplate.diagnosis"
+                        class="preview-section"
+                    >
+                        <div class="preview-label">Diagnosis:</div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(
+                                    hoveredTemplate.diagnosis,
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div
+                        v-if="hoveredTemplate.indication"
+                        class="preview-section"
+                    >
+                        <div class="preview-label">Indication:</div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(
+                                    hoveredTemplate.indication,
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div
+                        v-if="hoveredTemplate.microscopic_description"
+                        class="preview-section"
+                    >
+                        <div class="preview-label">
+                            Microscopic Description:
+                        </div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(
+                                    hoveredTemplate.microscopic_description,
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div
+                        v-if="hoveredTemplate.anatomical_source"
+                        class="preview-section"
+                    >
+                        <div class="preview-label">Anatomical Source:</div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(
+                                    hoveredTemplate.anatomical_source,
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div
+                        v-if="hoveredTemplate.gross_description"
+                        class="preview-section"
+                    >
+                        <div class="preview-label">Gross Description:</div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(
+                                    hoveredTemplate.gross_description,
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div
+                        v-if="hoveredTemplate.clinical_info"
+                        class="preview-section"
+                    >
+                        <div class="preview-label">Clinical Info:</div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(
+                                    hoveredTemplate.clinical_info,
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div
+                        v-if="hoveredTemplate.asp_note"
+                        class="preview-section"
+                    >
+                        <div class="preview-label">Aspiration Note:</div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(
+                                    hoveredTemplate.asp_note,
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div v-if="hoveredTemplate.note" class="preview-section">
+                        <div class="preview-label">Note:</div>
+                        <div class="preview-text">
+                            {{
+                                extractTextFromQuillDelta(hoveredTemplate.note)
+                            }}
                         </div>
                     </div>
                 </div>
@@ -732,8 +862,51 @@ const toggleLock = async () => {
             border-right: none;
         }
 
-        form.add-patient {
+        .add-patient {
             margin-top: 0;
+        }
+    }
+
+    .template-preview-panel {
+        position: fixed;
+        right: 30px;
+        top: 50%;
+        transform: translate(-30%, -50%);
+        width: 500px;
+        max-height: 80vh;
+        border: 1px solid var(--clr-black);
+        border-radius: 4px;
+        background-color: var(--clr-white);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        z-index: 1000;
+
+        .preview-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+
+            .preview-label {
+                font-weight: 600;
+                font-size: 18px;
+                color: var(--clr-text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .preview-text {
+                font-size: 16px;
+                line-height: 1.5;
+                word-break: break-word;
+                white-space: pre-wrap;
+            }
         }
     }
 }

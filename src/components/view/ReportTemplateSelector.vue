@@ -43,6 +43,7 @@ const searchQuery = ref("");
 const currentPage = ref(1);
 const totalPages = ref(1);
 const limit = 20;
+const hoveredTemplate = ref<Template | null>(null);
 
 onMounted(async () => {
     if (props.patientType) {
@@ -92,6 +93,7 @@ const onSearch = async () => {
 
 const emit = defineEmits<{
     selectTemplate: [template: Template];
+    hoverTemplate: [template: Template | null];
 }>();
 
 const selectTemplate = (template: Template) => {
@@ -138,6 +140,18 @@ const goToPage = async (page: number) => {
                 :key="template.id"
                 class="template-item"
                 @click="selectTemplate(template)"
+                @mouseenter="
+                    () => {
+                        hoveredTemplate = template;
+                        emit('hoverTemplate', template);
+                    }
+                "
+                @mouseleave="
+                    () => {
+                        hoveredTemplate = null;
+                        emit('hoverTemplate', null);
+                    }
+                "
             >
                 <div class="diagnosis">
                     {{
@@ -238,7 +252,6 @@ const goToPage = async (page: number) => {
     .templates-list {
         display: flex;
         flex-direction: column;
-        gap: 8px;
 
         .template-item {
             padding: 12px;
@@ -248,7 +261,8 @@ const goToPage = async (page: number) => {
             transition: all 0.2s ease;
 
             &:hover {
-                background-color: var(--clr-light-gray);
+                background-color: var(--clr-black);
+                color: var(--clr-white);
                 border-color: var(--clr-primary);
             }
 
