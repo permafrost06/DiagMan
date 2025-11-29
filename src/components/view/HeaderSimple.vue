@@ -32,12 +32,13 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener("keydown", escEvt);
 });
-
 </script>
 
 <template>
     <div class="simple-header">
-        <h1 class="fs-2xl flex-grow">{{ title }}</h1>
+        <slot>
+            <h1 class="fs-2xl flex-grow">{{ title }}</h1>
+        </slot>
         <button
             type="button"
             @click="() => onCloseClick()"

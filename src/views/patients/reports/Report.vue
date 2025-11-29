@@ -278,7 +278,15 @@ const toggleLock = async () => {
 </script>
 <template>
     <div class="report-page">
-        <HeaderSimple title="Report" />
+        <HeaderSimple>
+            <h1 class="fs-2xl flex-grow">Report</h1>
+            <div
+                v-if="patient?.locked"
+                class="report-approved-notice"
+            >
+                APPROVED
+            </div>
+        </HeaderSimple>
         <form
             :action="API_BASE + '/reports'"
             method="POST"
@@ -890,6 +898,14 @@ const toggleLock = async () => {
                 white-space: pre-wrap;
             }
         }
+    }
+
+    .report-approved-notice {
+        display: inline-block;
+        background-color: #22c55e;
+        color: white;
+        padding: .5rem 1rem;
+        font-weight: 700;
     }
 }
 </style>
