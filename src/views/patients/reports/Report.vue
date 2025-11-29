@@ -223,6 +223,7 @@ const handleFormSubmit = async (evt: any) => {
         method: "POST",
         body: data,
     });
+    setPatientLock(patient.value.locked);
     isPosting.value = false;
     if (res.success) {
         error.value = null;
@@ -258,7 +259,15 @@ const onTemplateSelected = (template: Record<string, any>) => {
 };
 
 const isUnLocking = ref<boolean>(false);
-const toggleLock = async () => {
+const setPatientLock = async (lock: boolean = true) => {
+    if (lock && patient.value.locked === true) {
+        return;
+    }
+
+    if (!lock && patient.value.locked === false) {
+        return;
+    }
+
     if (isUnLocking.value || !patient.value) {
         return;
     }
@@ -275,6 +284,12 @@ const toggleLock = async () => {
     patient.value.locked = !patient.value.locked;
     reCheckEditors();
 };
+
+const setAsLocked = () => {
+    if (patient.value) {
+        patient.locked = true;
+    }
+}
 </script>
 <template>
     <div class="report-page">
@@ -563,7 +578,26 @@ const toggleLock = async () => {
                         </div>
                         <div class="submit-area">
                             <div class="flex gap-sm mt-sm">
-                                <button type="submit">
+                                <button
+                                    v-if="user.role === 'admin' && patient?.locked != true"
+                                    type="submit"
+                                    @click="setAsLocked"
+                                >
+                                    <Loading
+                                        v-if="
+                                            isPosting === true ||
+                                            isPosting === 'add'
+                                        "
+                                    />
+                                    Approve Report
+                                </button>
+                                <button
+                                    type="submit"
+                                    :class="{
+                                        'btn-outline': user.role === 'admin' &&
+                                        (patient?.locked === false || patient?.locked === null)
+                                    }"
+                                >
                                     <Loading
                                         v-if="
                                             isPosting === true ||
@@ -571,15 +605,6 @@ const toggleLock = async () => {
                                         "
                                     />
                                     Update Report
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn-outline"
-                                    v-if="patient?.locked && user.isAdmin"
-                                    @click="toggleLock"
-                                >
-                                    <Loading v-if="isUnLocking" />
-                                    Unlock
                                 </button>
                             </div>
                         </div>
