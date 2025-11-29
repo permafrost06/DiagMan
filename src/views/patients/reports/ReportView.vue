@@ -190,6 +190,7 @@ function convertToHtml(data: string): string {
 
     .page {
         width: 7.3in;
+        padding: 1.31in 0.5in 3.4in 0.5in;
     }
 }
 
