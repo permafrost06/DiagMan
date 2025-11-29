@@ -126,6 +126,33 @@ const deleteTemplate = async (e: Event, templateId: string) => {
         console.error(res.message || "Failed to delete template!");
     }
 };
+
+const toggleFavorite = async (
+    e: Event,
+    templateId: string,
+    isFavorite: boolean,
+) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const method = isFavorite ? "DELETE" : "POST";
+    const res = await fetchApi(
+        `${API_BASE}/report-templates/${templateId}/favorite`,
+        {
+            method,
+        },
+    );
+
+    if (res.success) {
+        // Update the template's favorite status
+        const template = templates.value.find((t) => t.id === templateId);
+        if (template) {
+            template.favorite = !isFavorite ? "true" : "false";
+        }
+    } else {
+        console.error(res.message || "Failed to update favorite status!");
+    }
+};
 </script>
 
 <template>
@@ -179,14 +206,46 @@ const deleteTemplate = async (e: Event, templateId: string) => {
                         "Untitled"
                     }}
                 </div>
-                <button
-                    class="delete-btn"
-                    @click="deleteTemplate($event, template.id)"
-                    title="Hide this template"
-                    v-if="user.role === 'admin'"
-                >
-                    ✕
-                </button>
+                <div class="template-actions">
+                    <button
+                        v-if="user.role === 'admin'"
+                        class="favorite-btn"
+                        @click="
+                            toggleFavorite(
+                                $event,
+                                template.id,
+                                template.favorite === 'true',
+                            )
+                        "
+                        :title="
+                            template.favorite === 'true'
+                                ? 'Remove from favorites'
+                                : 'Add to favorites'
+                        "
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            :class="{ filled: template.favorite === 'true' }"
+                        >
+                            <polygon
+                                points="12 2 15.09 10.26 24 10.35 17.77 16.01 20.16 24.02 12 18.35 3.84 24.02 6.23 16.01 0 10.35 8.91 10.26 12 2"
+                            />
+                        </svg>
+                    </button>
+                    <button
+                        class="delete-btn"
+                        @click="deleteTemplate($event, template.id)"
+                        title="Hide this template"
+                        v-if="user.role === 'admin'"
+                    >
+                        ✕
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -297,7 +356,7 @@ const deleteTemplate = async (e: Event, templateId: string) => {
                 color: var(--clr-white);
                 border-color: var(--clr-primary);
 
-                .delete-btn {
+                .template-actions {
                     opacity: 1;
                 }
             }
@@ -310,6 +369,44 @@ const deleteTemplate = async (e: Event, templateId: string) => {
                 flex: 1;
             }
 
+            .template-actions {
+                display: flex;
+                gap: 4px;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 0.2s ease;
+            }
+
+            .favorite-btn {
+                flex-shrink: 0;
+                padding: 4px 8px;
+                background: transparent;
+                border: none;
+                color: inherit;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 35px;
+                height: 35px;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                    fill: transparent;
+                    stroke: currentColor;
+                    transition: all 0.2s ease;
+
+                    &.filled {
+                        fill: currentColor;
+                    }
+                }
+
+                &:hover {
+                    color: #ffc107;
+                }
+            }
+
             .delete-btn {
                 flex-shrink: 0;
                 padding: 4px 8px;
@@ -318,8 +415,6 @@ const deleteTemplate = async (e: Event, templateId: string) => {
                 color: inherit;
                 font-size: 16px;
                 cursor: pointer;
-                opacity: 0;
-                transition: opacity 0.2s ease;
                 display: flex;
                 align-items: center;
                 justify-content: center;
