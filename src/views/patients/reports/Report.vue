@@ -56,8 +56,6 @@ const quillInstances: any = {};
 const route = useRoute();
 const user = useUser();
 
-const templateModalValue = ref<Record<string, any> | false>(false);
-
 const patient = ref<Record<string, any>>();
 const isLoading = ref<boolean>(false);
 const isPosting = ref<"add" | "draft" | boolean>(false);
@@ -257,21 +255,6 @@ const onPatientUpdate = async (_row: any, msg: string) => {
 const onTemplateSelected = (template: Record<string, any>) => {
     setEditorContent(template);
     noteFieldVisible.value = quillInstances.note.getLength() > 1;
-};
-
-const showTemplateSaver = () => {
-    const newTemplate: any = {};
-    for (const fName in quillInstances) {
-        newTemplate[fName] = JSON.stringify(
-            quillInstances[fName].getContents(),
-        );
-    }
-    newTemplate["type"] = patient.value?.type === "cyto" ? "cyto" : "histo";
-    templateModalValue.value = newTemplate;
-};
-
-const onTemAdded = (tem: any) => {
-    templateModalValue.value = false;
 };
 
 const isUnLocking = ref<boolean>(false);
@@ -597,13 +580,6 @@ const toggleLock = async () => {
                                     <Loading v-if="isUnLocking" />
                                     Unlock
                                 </button>
-                                <button
-                                    type="button"
-                                    class="btn-outline"
-                                    @click="showTemplateSaver"
-                                >
-                                    Save As Template
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -717,12 +693,6 @@ const toggleLock = async () => {
             </div>
         </form>
     </div>
-    <ReportTemplateFormModal
-        v-if="templateModalValue"
-        :edit="templateModalValue"
-        :on-close="() => (templateModalValue = false)"
-        :on-added="onTemAdded"
-    />
 </template>
 <style lang="scss">
 .report-page {
