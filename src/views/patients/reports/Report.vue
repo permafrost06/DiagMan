@@ -595,7 +595,7 @@ const setAsLocked = () => {
                                     type="submit"
                                     :class="{
                                         'btn-outline': user.role === 'admin' &&
-                                        (patient?.locked === false || patient?.locked === null)
+                                        (patient?.locked !== true)
                                     }"
                                 >
                                     <Loading
