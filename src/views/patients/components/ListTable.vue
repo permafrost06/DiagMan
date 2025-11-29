@@ -258,7 +258,7 @@ const getStatus = (patient: Record<any, any>) => {
     }
 
     if (patient.locked) {
-        return "Locked";
+        return "Approved";
     }
 
     return hightlightText(patient.status);
