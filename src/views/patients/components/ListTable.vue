@@ -303,7 +303,12 @@ const lastTwoCols = computed(() => props.config.show.slice(-2));
             :dragging="draggedColumn"
             :trAttrs="
                 (patient) => ({
-                    class: 'patient-row',
+                    class: {
+                        'patient-row': true,
+                        completed: patient.status === 'complete',
+                        approved: patient.locked,
+                        delivered: patient.status === 'delivered',
+                    },
                     onClick: () => goToReport(patient),
                 })
             "
@@ -636,6 +641,18 @@ table {
 
     &:hover {
         background-color: rgba(89, 89, 89, 0.05);
+    }
+
+    &.completed {
+        background-color: #ffbe0b;
+    }
+
+    &.approved {
+        background-color: #9ef01a;
+    }
+
+    &.delivered {
+        background-color: #64b5f6;
     }
 }
 
