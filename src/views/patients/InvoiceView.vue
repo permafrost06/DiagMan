@@ -107,6 +107,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                     <span class="left date">Delivery Date</span>:
                     {{ (new Intl.DateTimeFormat("bn-BD")).format(parseInt(record.delivery_date)) }}
                     ({{ dateToDMY(new Date(parseInt(record.delivery_date))) }})
+                    বিকাল ৫টায়
                 </div>
                 <table class="invoice-table">
                     <thead>
