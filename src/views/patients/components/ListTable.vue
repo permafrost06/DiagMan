@@ -16,6 +16,7 @@ const props = defineProps<{
     config: {
         show: string[];
         sizes: Record<string, string>;
+        statusIndicator: "none" | "rowBG" | "indicator"
     };
     onDelete: (patient: any) => void;
     search: string;
@@ -305,9 +306,9 @@ const lastTwoCols = computed(() => props.config.show.slice(-2));
                 (patient) => ({
                     class: {
                         'patient-row': true,
-                        completed: patient.status === 'complete',
-                        approved: patient.locked,
-                        delivered: patient.status === 'delivered',
+                        completed: config.statusIndicator === 'rowBG' && patient.status === 'complete',
+                        approved: config.statusIndicator === 'rowBG' && patient.locked,
+                        delivered: config.statusIndicator === 'rowBG' && patient.status === 'delivered',
                     },
                     onClick: () => goToReport(patient),
                 })
@@ -398,7 +399,8 @@ const lastTwoCols = computed(() => props.config.show.slice(-2));
                 </td>
                 <td v-else :class="{
                     'list-one-line': true,
-                    'indicator': patient.status === 'complete' || patient.locked || patient.status === 'delivered',
+                    'indicator':
+                        config.statusIndicator === 'indicator' && (patient.status === 'complete' || patient.locked || patient.status === 'delivered'),
                     'complete-indicator': patient.status === 'complete',
                     'approved-indicator': patient.locked,
                     'delivered-indicator': patient.status === 'delivered',

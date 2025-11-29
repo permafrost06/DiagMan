@@ -37,6 +37,7 @@ const config = ref({
         "actions",
     ],
     sizes: {},
+    statusIndicator: "none"
 });
 const limit = ref(0);
 const deleteValue = ref();
