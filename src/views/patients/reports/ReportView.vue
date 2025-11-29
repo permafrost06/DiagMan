@@ -103,7 +103,7 @@ function convertToHtml(data: string): string {
                     </div>
                     <template v-if="record.type === 'histo'">
                         <div>
-                            <div class="bold">Specimen:</div>
+                            <div class="bold">Anatomical source:</div>
                             <div
                                 v-html="convertToHtml(record.anatomical_source)"
                             ></div>
