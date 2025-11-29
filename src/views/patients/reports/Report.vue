@@ -554,13 +554,6 @@ const toggleLock = async () => {
                             </button>
                         </div>
                         <div class="submit-area">
-                            <CheckBox
-                                v-if="!patient?.locked"
-                                label="Lock Report"
-                                name="locked"
-                                value="1"
-                                :checked="patient?.locked"
-                            />
                             <div class="flex gap-sm mt-sm">
                                 <button type="submit">
                                     <Loading
