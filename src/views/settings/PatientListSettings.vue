@@ -22,6 +22,7 @@ const configData = ref({
     limit: 0,
     show: DEFAULT_SHOWN_COLUMNS,
     sizes: {},
+    statusIndicator: "none",
 });
 let tOut: any;
 
@@ -129,15 +130,31 @@ const selectionChange = (name: string) => {
             >
                 {{ message.text }}
             </p>
-            <SimpleSelect
-                label="Number of Rows"
-                @input="(evt: any) => (configData.limit = evt.target.value)"
-                :value="configData.limit"
-            >
-                <option value="0">Dynamic</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-            </SimpleSelect>
+
+            <div class="settings-items-holder">
+                <SimpleSelect
+                    label="Number of Rows"
+                    @input="(evt: any) => (configData.limit = evt.target.value)"
+                    :value="configData.limit"
+                >
+                    <option value="0">Dynamic</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                </SimpleSelect>
+
+                <SimpleSelect
+                    label="Patient status indicator"
+                    @input="
+                        (evt: any) =>
+                            (configData.statusIndicator = evt.target.value)
+                    "
+                    :value="configData.statusIndicator"
+                >
+                    <option value="none">None</option>
+                    <option value="rowBG">Row background</option>
+                    <option value="indicator">Indicator</option>
+                </SimpleSelect>
+            </div>
 
             <div class="visible-columns">
                 <div class="visible-columns-header">
@@ -221,6 +238,12 @@ const selectionChange = (name: string) => {
     </div>
 </template>
 <style lang="scss" scoped>
+.settings-items-holder {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .pl-settings {
     max-width: 500px;
     padding: 20px 0;
