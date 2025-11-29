@@ -19,11 +19,30 @@ import { useUser } from "@/stores/user";
 import router from "@/router";
 import HeaderSimple from "@/components/view/HeaderSimple.vue";
 
+// Configure custom font sizes for Quill
+const fontSizeArr = [
+    "11pt",
+    "8pt",
+    "10pt",
+    "12pt",
+    "14pt",
+    "16pt",
+    "18pt",
+    "20pt",
+    "24pt",
+    "28pt",
+    "32pt",
+    "36pt",
+];
+const Size = Quill.import("attributors/style/size");
+Size.whitelist = fontSizeArr;
+Quill.register(Size, true);
+
 const quillOptions: QuillOptions = {
     debug: "error",
     modules: {
         toolbar: [
-            { header: [1, 2, 3, 4, 5, 6, false] },
+            { size: fontSizeArr },
             "bold",
             "italic",
             "underline",

@@ -252,3 +252,44 @@ button, .btn {
     font-size: 16px !important;
 }
 
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+    content: attr(data-value) !important;
+}
+
+.ql-size-8pt {
+    font-size: 8pt;
+}
+.ql-size-10pt {
+    font-size: 10pt;
+}
+.ql-size-11pt {
+    font-size: 11pt;
+}
+.ql-size-12pt {
+    font-size: 12pt;
+}
+.ql-size-14pt {
+    font-size: 14pt;
+}
+.ql-size-16pt {
+    font-size: 16pt;
+}
+.ql-size-18pt {
+    font-size: 18pt;
+}
+.ql-size-20pt {
+    font-size: 20pt;
+}
+.ql-size-24pt {
+    font-size: 24pt;
+}
+.ql-size-28pt {
+    font-size: 28pt;
+}
+.ql-size-32pt {
+    font-size: 32pt;
+}
+.ql-size-36pt {
+    font-size: 36pt;
+}
