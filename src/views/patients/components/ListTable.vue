@@ -710,15 +710,15 @@ table {
 }
 
 .complete-indicator::before {
-    background-color: #ff0000;
+    background-color: #ffbe0b;
 }
 
 .approved-indicator::before {
-    background-color: #00ff00;
+    background-color: #9ef01a;
 }
 
 .delivered-indicator::before {
-    background-color: #0000ff;
+    background-color: #64b5f6;
 }
 
 th {
