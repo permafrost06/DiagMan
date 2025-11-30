@@ -158,7 +158,7 @@ export const getAutoId: RequestHandler = async ({ env, res, query }) => {
 	}
 
 	res.setData({
-		id: `${patientType[0].toUpperCase()}-${currentYear}-${id}`,
+		id: `${patientType[0].toUpperCase()}-${currentYear}-${id.toString().padStart(2, "0")}`,
 	});
 };
 
