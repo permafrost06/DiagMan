@@ -236,7 +236,7 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 		sql: `
 			SELECT r.* FROM \`reports\` AS r
 			${where}
-			ORDER BY r.favorite DESC, r.id ASC LIMIT ${limit} OFFSET ${offset}
+			ORDER BY r.favorite DESC, r.autogen ASC LIMIT ${limit} OFFSET ${offset}
 		`,
 		args,
 	});
