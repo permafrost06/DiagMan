@@ -290,7 +290,7 @@ export const favoriteReportTemplate: RequestHandler = async ({ env, res, params 
 
 	// Update the favorite field to true
 	await db.execute({
-		sql: "UPDATE `reports` SET favorite = 'true' WHERE id = ?",
+		sql: "UPDATE `reports` SET favorite = 1 WHERE id = ?",
 		args: [templateId],
 	});
 
@@ -314,7 +314,7 @@ export const unfavoriteReportTemplate: RequestHandler = async ({ env, res, param
 
 	// Update the favorite field to false
 	await db.execute({
-		sql: "UPDATE `reports` SET favorite = 'false' WHERE id = ?",
+		sql: "UPDATE `reports` SET favorite = 0 WHERE id = ?",
 		args: [templateId],
 	});
 

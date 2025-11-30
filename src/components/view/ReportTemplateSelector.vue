@@ -147,7 +147,7 @@ const toggleFavorite = async (
         // Update the template's favorite status
         const template = templates.value.find((t) => t.id === templateId);
         if (template) {
-            template.favorite = !isFavorite ? "true" : "false";
+            template.favorite = !isFavorite ? 1 : 0;
         }
     } else {
         console.error(res.message || "Failed to update favorite status!");
@@ -202,7 +202,7 @@ const toggleFavorite = async (
             >
                 <div class="diagnosis">
                     <svg
-                        v-if="template.favorite !== 'true'"
+                        v-if="template.favorite !== 1"
                         width="20px"
                         height="20px"
                         viewBox="0 0 512 512"
@@ -250,11 +250,11 @@ const toggleFavorite = async (
                             toggleFavorite(
                                 $event,
                                 template.id,
-                                template.favorite === 'true',
+                                template.favorite === 1,
                             )
                         "
                         :title="
-                            template.favorite === 'true'
+                            template.favorite === 1
                                 ? 'Remove from favorites'
                                 : 'Add to favorites'
                         "
@@ -266,7 +266,7 @@ const toggleFavorite = async (
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            :class="{ filled: template.favorite === 'true' }"
+                            :class="{ filled: template.favorite === 1 }"
                         >
                             <polygon
                                 points="12 2 15.09 10.26 24 10.35 17.77 16.01 20.16 24.02 12 18.35 3.84 24.02 6.23 16.01 0 10.35 8.91 10.26 12 2"
