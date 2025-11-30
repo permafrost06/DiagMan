@@ -197,6 +197,7 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 	const limit = Math.max(Math.min(parseInt(search.get('limit') || '10'), 50), 5);
 	const filterSchema = {
 		diagnosis: /^([a-zA-Z0-9\s_]+)$/,
+		anatomical_source: /^([a-zA-Z0-9\s_]+)$/,
 		type: /^(cyto|histo)$/,
 	};
 
@@ -216,6 +217,12 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 	if (diagnosis && filterSchema.diagnosis.test(diagnosis)) {
 		where += ' AND r.diagnosis LIKE CONCAT("%", ?, "%")';
 		args.push(diagnosis);
+	}
+
+	const anatomical_source = search.get('anatomical_source');
+	if (anatomical_source && filterSchema.anatomical_source.test(anatomical_source)) {
+		where += ' AND r.anatomical_source LIKE CONCAT("%", ?, "%")';
+		args.push(anatomical_source);
 	}
 
 	const type = search.get('type');

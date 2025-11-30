@@ -41,6 +41,7 @@ const props = defineProps<Props>();
 const templates = ref<Template[]>([]);
 const isLoading = ref(false);
 const searchQuery = ref("");
+const searchAnatomical = ref("");
 const currentPage = ref(1);
 const totalPages = ref(1);
 const limit = 20;
@@ -71,6 +72,10 @@ const loadTemplates = async () => {
 
     if (searchQuery.value) {
         query += `&diagnosis=${encodeURIComponent(searchQuery.value)}`;
+    }
+
+    if (searchAnatomical.value) {
+        query += `&anatomical_source=${encodeURIComponent(searchAnatomical.value)}`;
     }
 
     if (props.patientType) {
@@ -173,6 +178,17 @@ const toggleFavorite = async (
     <div class="template-selector-container">
         <div class="header">
             <h3>Report Templates</h3>
+        </div>
+
+        <div class="search-bar">
+            <input
+                v-model="searchAnatomical"
+                type="text"
+                placeholder="Search by anatomical source..."
+                @keyup.enter.prevent="onSearch"
+                @keydown.enter.prevent
+            />
+            <button @click="onSearch" class="btn-search">Search</button>
         </div>
 
         <div class="search-bar">
