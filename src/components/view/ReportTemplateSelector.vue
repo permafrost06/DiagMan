@@ -135,6 +135,10 @@ const toggleFavorite = async (
     e.preventDefault();
     e.stopPropagation();
 
+    if (user.role !== "admin") {
+        return;
+    }
+
     const method = isFavorite ? "DELETE" : "POST";
     const res = await fetchApi(
         `${API_BASE}/report-templates/${templateId}/favorite`,
@@ -244,7 +248,7 @@ const toggleFavorite = async (
                 </div>
                 <div class="template-actions">
                     <button
-                        v-if="user.role === 'admin'"
+                        v-if="template.favorite === 1 || user.role === 'admin'"
                         class="favorite-btn"
                         @click="
                             toggleFavorite(
@@ -255,7 +259,9 @@ const toggleFavorite = async (
                         "
                         :title="
                             template.favorite === 1
-                                ? 'Remove from favorites'
+                                ? user.role === 'admin'
+                                    ? 'Remove from favorites'
+                                    : 'Favourite'
                                 : 'Add to favorites'
                         "
                     >
