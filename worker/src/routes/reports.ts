@@ -210,7 +210,7 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 	const args: any[] = [];
 
 	// Exclude hidden templates
-	where += " AND (r.hidden IS NULL OR r.hidden = 'false' OR r.hidden = 0)";
+	where += " AND (r.hidden IS NULL OR r.hidden = 0)";
 
 	const diagnosis = search.get('diagnosis');
 	if (diagnosis && filterSchema.diagnosis.test(diagnosis)) {
@@ -266,7 +266,7 @@ export const hideReportTemplate: RequestHandler = async ({ env, res, params }) =
 
 	// Update the hidden field to 'true'
 	await db.execute({
-		sql: "UPDATE `reports` SET hidden = 'true' WHERE id = ?",
+		sql: "UPDATE `reports` SET hidden = 1 WHERE id = ?",
 		args: [templateId],
 	});
 
