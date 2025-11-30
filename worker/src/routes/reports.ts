@@ -210,7 +210,7 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 	const args: any[] = [];
 
 	// Exclude hidden templates
-	where += " AND (r.hidden IS NULL OR r.hidden = 0)";
+	where += ' AND (r.hidden IS NULL OR r.hidden = 0)';
 
 	const diagnosis = search.get('diagnosis');
 	if (diagnosis && filterSchema.diagnosis.test(diagnosis)) {
@@ -225,6 +225,11 @@ export const listReportTemplatesFromReports: RequestHandler = async ({ env, res,
 		} else if (type === 'histo') {
 			where += ' AND r.gross_description IS NOT NULL AND r.gross_description != ""';
 		}
+	}
+
+	const hideAutogen = search.get('hideAutogen');
+	if (hideAutogen === 'true') {
+		where += ' AND (r.autogen IS NULL OR r.autogen = 0 OR r.favorite != 0)';
 	}
 
 	if (where) {
@@ -266,7 +271,7 @@ export const hideReportTemplate: RequestHandler = async ({ env, res, params }) =
 
 	// Update the hidden field to 'true'
 	await db.execute({
-		sql: "UPDATE `reports` SET hidden = 1 WHERE id = ?",
+		sql: 'UPDATE `reports` SET hidden = 1 WHERE id = ?',
 		args: [templateId],
 	});
 
@@ -290,7 +295,7 @@ export const favoriteReportTemplate: RequestHandler = async ({ env, res, params 
 
 	// Update the favorite field to true
 	await db.execute({
-		sql: "UPDATE `reports` SET favorite = 1 WHERE id = ?",
+		sql: 'UPDATE `reports` SET favorite = 1 WHERE id = ?',
 		args: [templateId],
 	});
 
@@ -314,7 +319,7 @@ export const unfavoriteReportTemplate: RequestHandler = async ({ env, res, param
 
 	// Update the favorite field to false
 	await db.execute({
-		sql: "UPDATE `reports` SET favorite = 0 WHERE id = ?",
+		sql: 'UPDATE `reports` SET favorite = 0 WHERE id = ?',
 		args: [templateId],
 	});
 

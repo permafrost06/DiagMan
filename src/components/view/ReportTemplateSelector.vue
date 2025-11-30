@@ -45,6 +45,7 @@ const currentPage = ref(1);
 const totalPages = ref(1);
 const limit = 20;
 const hoveredTemplate = ref<Template | null>(null);
+const hideAutogen = ref(false);
 
 const user = useUser();
 
@@ -76,6 +77,10 @@ const loadTemplates = async () => {
         query += `&type=${props.patientType}`;
     }
 
+    if (hideAutogen.value) {
+        query += `&hideAutogen=true`;
+    }
+
     const res = await fetchApi(
         `${API_BASE}/report-templates?page=${currentPage.value}&limit=${limit}${query}`,
     );
@@ -90,6 +95,11 @@ const loadTemplates = async () => {
 };
 
 const onSearch = async () => {
+    currentPage.value = 1;
+    await loadTemplates();
+};
+
+const onToggleHideAutogen = async () => {
     currentPage.value = 1;
     await loadTemplates();
 };
@@ -174,6 +184,16 @@ const toggleFavorite = async (
                 @keydown.enter.prevent
             />
             <button @click="onSearch" class="btn-search">Search</button>
+        </div>
+
+        <div class="filter-checkbox">
+            <input
+                id="hide-autogen"
+                v-model="hideAutogen"
+                type="checkbox"
+                @change="onToggleHideAutogen"
+            />
+            <label for="hide-autogen">Hide auto-generated reports</label>
         </div>
 
         <div v-if="isLoading" class="loading-state">
@@ -359,6 +379,24 @@ const toggleFavorite = async (
             &:hover {
                 background-color: var(--clr-primary-dark);
             }
+        }
+    }
+
+    .filter-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: var(--fs-md);
+
+        input[type="checkbox"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        label {
+            cursor: pointer;
+            margin: 0;
         }
     }
 
