@@ -202,7 +202,7 @@ const toggleFavorite = async (
             >
                 <div class="diagnosis">
                     <svg
-                        v-if="template.favorite !== 1"
+                        v-if="template.autogen === 1 && template.favorite === 0"
                         width="20px"
                         height="20px"
                         viewBox="0 0 512 512"
