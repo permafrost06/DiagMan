@@ -63,7 +63,9 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 </header>
                 <h1>Invoice</h1>
                 <div class="box bold large">
-                    <div><span class="left">ID No</span>: {{ record.id }}</div>
+                    <div class="inverse large">
+                        <span class="left">ID No</span>: {{ record.id }}
+                    </div>
                 </div>
                 <div>
                     <span class="left">Patient Name</span>: {{ record.name }}
@@ -100,13 +102,11 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 </div>
                 <div class="gap-top bold large">
                     <span class="left date">Receiving Date</span>:
-                    {{ (new Intl.DateTimeFormat("bn-BD")).format(parseInt(record.entry_date)) }}
-                    ({{ dateToDMY(new Date(parseInt(record.entry_date))) }})
+                    {{ dateToDMY(new Date(parseInt(record.entry_date))) }}
                 </div>
                 <div class="bold large">
                     <span class="left date">Delivery Date</span>:
-                    {{ (new Intl.DateTimeFormat("bn-BD")).format(parseInt(record.delivery_date)) }}
-                    ({{ dateToDMY(new Date(parseInt(record.delivery_date))) }})
+                    {{ dateToDMY(new Date(parseInt(record.delivery_date))) }}
                     বিকাল ৫টায়
                 </div>
                 <table class="invoice-table">
@@ -183,14 +183,17 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         <div class="footer-right">
                             <p>রিপোর্টের জন্য যোগাযোগ</p>
                             <p class="large bold">
-                                ফোন: <span class="escape">01883569391</span>
+                                ফোন: <span class="escape larger">01883569391</span>
                             </p>
                             <p>শুক্রবার বন্ধ</p>
                         </div>
                     </div>
-                    <div class="bold large center">
+                    <div class="bold large center invoice-note">
                         বি.দ্র: রিপোর্টের জন্য ফোন করে, মানি রিসিট সাথে নিয়ে
                         আসবেন।
+                    </div>
+                    <div class="bold large center">
+                        যান্ত্রিক গোলযোগ এবং অন্যান্য সমস্যার জন্য রিপোর্ট ডেলিভারি বিলম্ব হতে পারে।
                     </div>
                 </footer>
             </div>
@@ -400,7 +403,7 @@ footer {
     .footer-right {
         text-align: right;
         font-family: "SolaimanLipi";
-        margin-left: 7.8rem;
+        margin-left: 7rem;
     }
 }
 
@@ -418,6 +421,10 @@ footer {
     font-size: 1.35rem;
 }
 
+.larger {
+    font-size: 1.5rem;
+}
+
 .center {
     text-align: center;
 }
@@ -431,5 +438,15 @@ footer {
     border-block: 3px double black;
     height: 5rem;
     padding: 1.4rem;
+}
+
+.inverse {
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+}
+
+.invoice-note {
+    padding-top: 15px;
 }
 </style>
