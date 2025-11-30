@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { InputHTMLAttributes } from "vue";
+import { computed } from "vue";
 
 interface Props extends /* @vue-ignore */ InputHTMLAttributes {
     hint?: string;
@@ -20,9 +21,16 @@ const emit = defineEmits<{
     (e: "change", value: boolean): void;
 }>();
 
+const isChecked = computed({
+    get: () => props.modelValue ?? props.checked ?? false,
+    set: (value: boolean) => {
+        emit("update:modelValue", value);
+        emit("change", value);
+    },
+});
+
 const onChange = (evt: any) => {
-    emit("update:modelValue", evt.target.checked);
-    emit("change", evt.target.checked);
+    isChecked.value = evt.target.checked;
 };
 </script>
 <template>
@@ -32,7 +40,7 @@ const onChange = (evt: any) => {
                 <input
                     type="checkbox"
                     v-bind="$attrs"
-                    :checked="checked ?? modelValue"
+                    :checked="isChecked"
                     @input="onChange"
                 />
                 <span class="checkmark"></span>
