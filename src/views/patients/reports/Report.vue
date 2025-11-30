@@ -337,87 +337,92 @@ const setAsLocked = () => {
                                         patient.test_names
                                     }}</span>
                                 </div>
+                                <template v-if="patientInfoExpanded">
+                                    <div class="header-row">
+                                        <span>Type:</span>
+                                        <span class="value capitalize"
+                                            >{{ patient.type }}pathology</span
+                                        >
+                                    </div>
+
+                                    <div class="header-row">
+                                        <span>Age:</span>
+                                        <span class="value">{{ patient.age }}</span>
+                                    </div>
+
+                                    <div class="header-row">
+                                        <span>Gender:</span>
+                                        <span class="value capitalize">{{
+                                            patient.gender
+                                        }}</span>
+                                    </div>
+
+                                    <div class="header-row">
+                                        <span>Contact:</span>
+                                        <span class="value">{{ patient.contact }}</span>
+                                    </div>
+
+                                    <div class="header-row">
+                                        <span>Referer:</span>
+                                        <span class="value">{{ patient.referer }}</span>
+                                    </div>
+
+                                    <div class="header-row">
+                                        <span>Specimen collection date:</span>
+                                        <span class="value">
+                                            {{
+                                                dateToDMY(
+                                                    new Date(
+                                                        parseInt(
+                                                            patient.sample_collection_date,
+                                                        ),
+                                                    ),
+                                                )
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="header-row">
+                                        <span>Specimen receiving date:</span>
+                                        <span class="value">
+                                            {{
+                                                dateToDMY(
+                                                    new Date(
+                                                        parseInt(patient.entry_date),
+                                                    ),
+                                                )
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="header-row">
+                                        <span>Report delivery date:</span>
+                                        <span class="value">
+                                            {{
+                                                dateToDMY(
+                                                    new Date(
+                                                        parseInt(patient.delivery_date),
+                                                    ),
+                                                )
+                                            }}
+                                        </span>
+                                    </div>
+                                </template>
+                                <RouterLink
+                                    :to="{
+                                        name: 'patients.edit',
+                                        params: { id: patient.id },
+                                    }"
+                                    class="report-page-edit-patient-link"
+                                >
+                                    Edit patient
+                                </RouterLink>
                             </div>
                             <div
                                 class="collapse-icon"
                                 :class="{ expanded: patientInfoExpanded }"
                             >
                                 ▶
-                            </div>
-                        </div>
-
-                        <div
-                            v-if="patientInfoExpanded"
-                            class="patient-info fs-md"
-                        >
-                            <div class="header-row">
-                                <span>Type:</span>
-                                <span class="value capitalize"
-                                    >{{ patient.type }}pathology</span
-                                >
-                            </div>
-
-                            <div class="header-row">
-                                <span>Age:</span>
-                                <span class="value">{{ patient.age }}</span>
-                            </div>
-
-                            <div class="header-row">
-                                <span>Gender:</span>
-                                <span class="value capitalize">{{
-                                    patient.gender
-                                }}</span>
-                            </div>
-
-                            <div class="header-row">
-                                <span>Contact:</span>
-                                <span class="value">{{ patient.contact }}</span>
-                            </div>
-
-                            <div class="header-row">
-                                <span>Referer:</span>
-                                <span class="value">{{ patient.referer }}</span>
-                            </div>
-
-                            <div class="header-row">
-                                <span>Specimen collection date:</span>
-                                <span class="value">
-                                    {{
-                                        dateToDMY(
-                                            new Date(
-                                                parseInt(
-                                                    patient.sample_collection_date,
-                                                ),
-                                            ),
-                                        )
-                                    }}
-                                </span>
-                            </div>
-
-                            <div class="header-row">
-                                <span>Specimen receiving date:</span>
-                                <span class="value">
-                                    {{
-                                        dateToDMY(
-                                            new Date(
-                                                parseInt(patient.entry_date),
-                                            ),
-                                        )
-                                    }}
-                                </span>
-                            </div>
-
-                            <div class="header-row">
-                                <span>Report delivery date:</span>
-                                <span class="value">
-                                    {{
-                                        dateToDMY(
-                                            new Date(
-                                                parseInt(patient.delivery_date),
-                                            ),
-                                        )
-                                    }}
-                                </span>
                             </div>
                         </div>
                     </div>
@@ -778,6 +783,11 @@ const setAsLocked = () => {
                 &.expanded {
                     transform: rotate(90deg);
                 }
+            }
+
+            .report-page-edit-patient-link {
+                color: black;
+                width: fit-content;
             }
         }
 
