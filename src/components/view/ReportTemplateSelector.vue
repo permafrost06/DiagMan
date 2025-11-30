@@ -441,8 +441,8 @@ const toggleFavorite = async (
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 35px;
-                height: 35px;
+                width: 25px;
+                height: 25px;
 
                 svg {
                     width: 100%;
