@@ -93,7 +93,7 @@ const loadTemplates = async () => {
 
     if (res.success) {
         templates.value = res.rows;
-        totalPages.value = Math.ceil((res.total || 0) / limit);
+        totalPages.value = res.pagination.maxPage;
     } else {
         console.error(res.message || "Failed to load templates!");
     }
@@ -222,6 +222,26 @@ const toggleFavorite = async (
         </div>
 
         <div v-else class="templates-list">
+            <div v-if="totalPages > 1" class="pagination">
+                <button
+                    @click.prevent="goToPage(currentPage - 1)"
+                    :disabled="currentPage === 1"
+                    class="btn-pagination"
+                >
+                    &lt;
+                </button>
+                <span class="page-info">
+                    Page {{ currentPage }} of {{ totalPages }}
+                </span>
+                <button
+                    @click.prevent="goToPage(currentPage + 1)"
+                    :disabled="currentPage === totalPages"
+                    class="btn-pagination"
+                >
+                    &gt;
+                </button>
+            </div>
+
             <div
                 v-for="template in templates"
                 :key="template.id"
@@ -329,21 +349,21 @@ const toggleFavorite = async (
 
         <div v-if="totalPages > 1" class="pagination">
             <button
-                @click="goToPage(currentPage - 1)"
+                @click.prevent="goToPage(currentPage - 1)"
                 :disabled="currentPage === 1"
                 class="btn-pagination"
             >
-                Previous
+                &lt;
             </button>
             <span class="page-info">
                 Page {{ currentPage }} of {{ totalPages }}
             </span>
             <button
-                @click="goToPage(currentPage + 1)"
+                @click.prevent="goToPage(currentPage + 1)"
                 :disabled="currentPage === totalPages"
                 class="btn-pagination"
             >
-                Next
+                &gt;
             </button>
         </div>
     </div>
@@ -552,13 +572,7 @@ const toggleFavorite = async (
             padding: 6px 12px;
             border: 1px solid var(--clr-black);
             border-radius: 4px;
-            background-color: white;
             cursor: pointer;
-            font-size: var(--fs-md);
-
-            &:hover:not(:disabled) {
-                background-color: var(--clr-light-gray);
-            }
 
             &:disabled {
                 opacity: 0.5;
