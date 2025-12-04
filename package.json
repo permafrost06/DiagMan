@@ -8,9 +8,7 @@
         "dev:tauri": "concurrently \"pnpm run tauri dev\" \"pnpm run dev:worker\"",
         "build": "run-p build-only",
         "preview": "vite preview",
-        "test:unit": "vitest --environment jsdom --root src/",
         "build-only": "vite build",
-        "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "start": "concurrently \"pnpm run dev\" \"pnpm run dev:worker\"",
         "tauri": "tauri"
     },
@@ -43,7 +41,6 @@
         "typescript": "~5.7.3",
         "vite": "^6.0.11",
         "vite-svg-loader": "^5.1.0",
-        "vitest": "^3.0.5",
         "vue-tsc": "^2.2.0"
     },
     "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"
