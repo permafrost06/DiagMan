@@ -63,7 +63,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 </header>
                 <h1>Invoice</h1>
                 <div class="box bold large">
-                    <div class="inverse large">
+                    <div class="large">
                         <span class="left">ID No</span>: {{ record.id }}
                     </div>
                 </div>
@@ -107,7 +107,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 <div class="bold large">
                     <span class="left date">Delivery Date</span>:
                     {{ dateToDMY(new Date(parseInt(record.delivery_date))) }}
-                    বিকাল ৫টায়
+                    (বিকাল ৫টায়)
                 </div>
                 <table class="invoice-table">
                     <thead>
@@ -438,12 +438,6 @@ footer {
     border-block: 3px double black;
     height: 5rem;
     padding: 1.4rem;
-}
-
-.inverse {
-    background-color: black;
-    color: white;
-    padding: 5px 10px;
 }
 
 .invoice-note {
