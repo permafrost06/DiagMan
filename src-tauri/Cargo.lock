@@ -538,7 +538,7 @@ dependencies = [
 
 [[package]]
 name = "diagman"
-version = "0.0.1"
+version = "3.7.1"
 dependencies = [
  "serde",
  "serde_json",
