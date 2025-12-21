@@ -63,7 +63,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 </header>
                 <h1>Invoice</h1>
                 <div class="box bold large">
-                    <div class="large">
+                    <div class="inverse large">
                         <span class="left">ID No</span>: {{ record.id }}
                     </div>
                 </div>
@@ -438,6 +438,12 @@ footer {
     border-block: 3px double black;
     height: 5rem;
     padding: 1.4rem;
+}
+
+.inverse {
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
 }
 
 .invoice-note {
