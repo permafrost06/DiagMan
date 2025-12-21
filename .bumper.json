@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "path": "package.json",
+      "line": 3,
+      "pattern": "\"version\": \"(.*)\""
+    },
+    {
+      "path": "src-tauri/Cargo.toml",
+      "line": 3,
+      "pattern": "version = \"(.*)\""
+    },
+    {
+      "path": "src-tauri/tauri.conf.json",
+      "line": 11,
+      "pattern": "\"version\": \"(.*)\""
+    }
+  ]
+}
