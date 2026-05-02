@@ -473,14 +473,16 @@ const onTestDelete = (id: string) => {
                 >
                     <div class="flex items-center gap-sm">
                         BDT
-                        <input
-                            type="number"
-                            step="0.01"
-                            class="amount-input arrow-hidden-input"
-                            name="discount"
-                            autocomplete="off"
-                            v-model="discount"
-                        />
+                         <input
+                             type="number"
+                             step="0.01"
+                             class="amount-input arrow-hidden-input"
+                             name="discount"
+                             autocomplete="off"
+                             v-model="discount"
+                             @keydown.up.prevent
+                             @keydown.down.prevent
+                         />
                     </div>
                 </SimpleBlankInput>
                 <SimpleBlankInput label="Payable" :un-wrap="true">
@@ -503,14 +505,16 @@ const onTestDelete = (id: string) => {
                 >
                     <div class="flex items-center gap-sm">
                         BDT
-                        <input
-                            type="number"
-                            step="0.01"
-                            class="amount-input arrow-hidden-input"
-                            name="advance"
-                            autocomplete="off"
-                            v-model="advance"
-                        />
+                         <input
+                             type="number"
+                             step="0.01"
+                             class="amount-input arrow-hidden-input"
+                             name="advance"
+                             autocomplete="off"
+                             v-model="advance"
+                             @keydown.up.prevent
+                             @keydown.down.prevent
+                         />
                     </div>
                 </SimpleBlankInput>
                 <SimpleBlankInput label="Due" :un-wrap="true">
