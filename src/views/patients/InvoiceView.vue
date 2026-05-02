@@ -48,7 +48,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         <p class="logo">The Opinion</p>
                         <p class="bold">Dr. Md. Saiful Islam</p>
                         <p>Cyto and Histopathology Specialist</p>
-                        <p>Associate Professor</p>
+                        <p>Professor</p>
                         <p>Department of Pathology</p>
                         <p>Rangamati Medical College</p>
                     </div>
@@ -56,7 +56,7 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                         <p class="logo">দি অপিনিয়ন</p>
                         <p><strong>ডা. মোঃ সাইফুল ইসলাম</strong></p>
                         <p>সাইটো এবং হিস্টোপ্যাথলজি বিশেষজ্ঞ</p>
-                        <p>সহযোগী অধ্যাপক</p>
+                        <p>অধ্যাপক</p>
                         <p>প্যাথলজি বিভাগ</p>
                         <p>রাঙ্গামাটি মেডিকেল কলেজ</p>
                     </div>
