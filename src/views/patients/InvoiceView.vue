@@ -46,17 +46,15 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                 <header class="cols-2">
                     <div class="header-left">
                         <p class="logo">The Opinion</p>
-                        <p class="bold">Dr. Md. Saiful Islam</p>
+                        <p class="bold">Prof. Dr. Md. Saiful Islam</p>
                         <p>Cyto and Histopathology Specialist</p>
-                        <p>Professor</p>
                         <p>Department of Pathology</p>
                         <p>Rangamati Medical College</p>
                     </div>
                     <div class="header-right">
                         <p class="logo">দি অপিনিয়ন</p>
-                        <p><strong>ডা. মোঃ সাইফুল ইসলাম</strong></p>
+                        <p><strong>অধ্যাপক ডা. মোঃ সাইফুল ইসলাম</strong></p>
                         <p>সাইটো এবং হিস্টোপ্যাথলজি বিশেষজ্ঞ</p>
-                        <p>অধ্যাপক</p>
                         <p>প্যাথলজি বিভাগ</p>
                         <p>রাঙ্গামাটি মেডিকেল কলেজ</p>
                     </div>
