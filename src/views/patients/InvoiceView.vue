@@ -179,11 +179,14 @@ fetchApi(API_BASE + `/patients/${route.params.id}`).then((res) => {
                             <p>(পিপলস হাসপাতাল-এর পাশে)</p>
                         </div>
                         <div class="footer-right">
-                            <p>রিপোর্টের জন্য যোগাযোগ</p>
-                            <p class="large bold">
-                                ফোন: <span class="escape larger">01883569391</span>
+                            <p class="footer-phone bold">
+                                ফোন: <span class="escape">01883569391</span>
                             </p>
-                            <p>শুক্রবার বন্ধ</p>
+                            <p>প্রতিদিন সকাল ১০.০০ হতে রাত ৯.০০ টা পর্যন্ত।</p>
+                            <p>
+                                <strong>শুক্রবার</strong> বিকাল ৩.০০ হতে সন্ধ্যা
+                                ৭.০০ টা পর্যন্ত।
+                            </p>
                         </div>
                     </div>
                     <div class="bold large center invoice-note">
@@ -401,7 +404,12 @@ footer {
     .footer-right {
         text-align: right;
         font-family: "SolaimanLipi";
-        margin-left: 7rem;
+        white-space: nowrap;
+    }
+
+    .footer-phone {
+        font-size: 2rem;
+        line-height: 2.2rem;
     }
 }
 
